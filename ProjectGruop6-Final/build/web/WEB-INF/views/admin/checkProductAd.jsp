@@ -52,6 +52,16 @@
                 text-decoration: none;
                 cursor: pointer;
             } 
+            .button_1{
+                margin-top: 50px;
+            }
+            a{
+                color: white;
+            }
+            .search1 {
+                margin-left: 80%;
+                margin-bottom: 30px;
+            }
         </style>
     </head>
     <body>
@@ -109,7 +119,7 @@
                             <br />
                             <h5>Khu vực</h5>
                             <p>Địa chỉ người bán</p>
-                            <div class="buy d-flex justify-content-around">
+                            <div class="buy d-flex justify-content-around button_1">
                                 <button><a href="<c:url value="#"/>">Approve</a></button>
                                 <button><a href="<c:url value="#"/>">Reject</a></button>
                             </div>

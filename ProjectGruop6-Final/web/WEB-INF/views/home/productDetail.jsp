@@ -27,11 +27,11 @@
             .link {
                 margin-bottom: 30px;
             }
-            
+
             .link a {
                 font-size: 18px;
             }
-            
+
             .product__details {
                 height:700px;
             }
@@ -58,7 +58,10 @@
                 color: #fff;
                 text-decoration: none;
                 cursor: pointer;
-            } 
+            }
+            .button_1{
+                margin-top: 50px;
+            }
         </style>
     </head>
     <body>
@@ -121,13 +124,11 @@
                             <br />
                             <h5>Khu vực</h5>
                             <p>Địa chỉ người bán</p>
-                            <div class="buy d-flex justify-content-around">
+                            <div class="buy d-flex justify-content-around button_1">
                                 <button>Mua</button>
                                 <button>Thêm vào giỏ hàng</button>
                             </div>
                         </div>
-
-
                     </div>
 
 
@@ -146,7 +147,7 @@
                         </div>
                         <div class="col-lg-5 col-md-2"></div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>

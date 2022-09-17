@@ -164,7 +164,7 @@
                                 <td>
                                     <div class="d-flex gap-3 ">
                                         <div class="col">
-                                            <button type="button" class="btn btn-info mb-3"><a href="<c:url value="/admin/checkProductAd.do"/>"/>Chi tiết</a></button>
+                                            <button type="button" class="btn btn-danger mb-3 "><a href="<c:url value="/admin/checkProductAd.do"/>"/>Chi tiết</a></button>
                                         </div>
                                     </div>
                                 </td>
@@ -182,7 +182,7 @@
                                 <td>
                                     <div class="d-flex gap-3 ">
                                         <div class="col">
-                                            <button type="button" class="btn btn-info mb-3"><a href="<c:url value="/admin/checkProductAd.do"/>"/>Chi tiết</a></button>
+                                            <button type="button" class="btn btn-danger mb-3"><a href="<c:url value="/admin/checkProductAd.do"/>"/>Chi tiết</a></button>
                                         </div>
                                     </div>
                                 </td>
@@ -198,7 +198,7 @@
                                 <td>
                                     <div class="d-flex gap-3 ">
                                         <div class="col">
-                                            <button type="button" class="btn btn-info mb-3"><a href="<c:url value="/admin/checkProductAd.do"/>"/>Chi tiết</a></button>
+                                            <button type="button" class="btn btn-danger mb-3"><a href="<c:url value="/admin/checkProductAd.do"/>"/>Chi tiết</a></button>
                                         </div>
                                     </div>
                                 </td>

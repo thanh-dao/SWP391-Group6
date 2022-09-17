@@ -36,6 +36,7 @@
 
             /* Header starts */
             header {
+                margin-top: 20px;
                 padding-right: 0px;
                 background-color: orange;
                 margin-bottom: 50px;

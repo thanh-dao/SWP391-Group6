@@ -35,7 +35,7 @@
         .btn_login{
             margin-left: 10px;          
         }
-         span{
+        .text_1{
             font-size: 20px;          
         }
     </style>
@@ -55,7 +55,7 @@
                             </div>
 
                             <div class="text-center">
-                                <span>Login by FPT Email</span>
+                                <span class="text_1">Login by FPT Email</span>
                                 <button class="btn_login">
                                     <a href="<c:url value="/home/main.do"/>">
 

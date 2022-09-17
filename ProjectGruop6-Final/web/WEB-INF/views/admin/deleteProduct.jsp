@@ -53,6 +53,10 @@
                 width: 200px;
                 height: 200px;
             }
+            .search1 {
+                margin-left: 80%;
+                margin-bottom: 30px;
+            }
         </style>
         <title>Hello, world!</title>
     </head>
@@ -139,7 +143,7 @@
                 <table class="table caption-top table-striped table-bordered over-flow-y table-hover border-dark">
                     <caption>Danh sách người dùng</caption>
                     <thead>
-                        <tr><input type="text" name=""/></tr>
+                        <input class="search1" type="text">
                     <tr>
                         <th scope="col">Id sản phẩm</th>
                         <th scope="col">Tên sản phẩm</th>

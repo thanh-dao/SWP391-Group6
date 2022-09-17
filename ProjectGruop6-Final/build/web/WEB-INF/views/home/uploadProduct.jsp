@@ -77,6 +77,9 @@
                 width: 100%;
                 margin-bottom: 10px;
             }
+            .button_1{
+                margin-top: 20px;
+            }
         </style>
     </head>
     <body>
@@ -102,7 +105,7 @@
                             <br />
                             <h5>Email</h5><input type="text" placeholder="Email" disabled>
                             <h5>Địa chỉ người bán</h5><input type="text">
-                            <div class="buy d-flex justify-content-around">
+                            <div class="buy d-flex justify-content-around button_1">
                                 <button><a href="<c:url value="#"/>">Lưu</a></button>
                                 <button><a href="<c:url value="/home/checkProduct.do"/>">Xem trước</a></button>
                             </div>
