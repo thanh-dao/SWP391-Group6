@@ -31,11 +31,15 @@
             }
 
             .upload__image button {
-                height: 50px;
-                width: 50px;
+                height: 200px;
+                width: 200px;
             }
 
-            input {
+            .upload__image button i {
+                font-size: 100px;
+            }
+
+            .review input {
                 height: 200px;
                 width: 100%;
                 padding-bottom: 170px;
@@ -57,10 +61,12 @@
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                         </div>
-                        <div class="upload__image d-flex justify-content-between">
-                            <button>
-                                <i class="fa-solid fa-camera"></i>
+                        <div class="upload__image row">
+                            <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                            <button class="col-lg-4 col-md-4 col-sm-4">
+                                <i class="fa-solid fa-camera text-center"></i>
                             </button>
+                            <div class="col-lg-4 col-md-4 col-sm-4"></div>
                         </div>
                         <p>Tên Khách Hàng   </p>
                         <p>Ngày đánh giá</p>

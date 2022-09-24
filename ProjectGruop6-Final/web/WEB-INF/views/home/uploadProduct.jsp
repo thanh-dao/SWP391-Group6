@@ -28,6 +28,10 @@
                 margin-bottom: 50px;
             }
             
+            .product__details h1 {
+                margin-bottom: 30px;
+            }
+            
             .buy a {
                 color: white;
             }
@@ -37,16 +41,11 @@
             }
             
             .buy button {
-                background-image: linear-gradient(
-                    to right,
-                    #f55f8d 0%,
-                    #f8ae56 51%,
-                    #f55f8d 100%
-                    );
-                transition: 0.5s;
-                background-size: 200%;
-                color: white;
-                box-shadow: 0 0 20px #eee;
+                background-color: orange;
+                border-radius: 30px;
+                border: #eee;
+                height: 50px;
+                width: 150px;
                 border-radius: 30px;
                 border: #eee;
                 height: 50px;
@@ -54,11 +53,14 @@
             }
 
             .buy button:hover {
-                background-position: right center;
-                color: #fff;
+                background-color: orangered;
                 text-decoration: none;
                 cursor: pointer;
             } 
+            
+            .buy a:hover {
+                text-decoration: none;
+            }
             
             .upload button {
                 height: 200px;
@@ -71,14 +73,12 @@
             
             .describe {
                 height: 200px;
+                padding-bottom: 175px;
             }
             
             input {
                 width: 100%;
                 margin-bottom: 10px;
-            }
-            .button_1{
-                margin-top: 20px;
             }
         </style>
     </head>
@@ -86,7 +86,7 @@
 
         <div class="product__details">
             <div class="container">
-
+                <h1>Đang bán sản phẩm</h1>
                 <div class="product__content">
 
                     <div class="row">
@@ -105,17 +105,12 @@
                             <br />
                             <h5>Email</h5><input type="text" placeholder="Email" disabled>
                             <h5>Địa chỉ người bán</h5><input type="text">
-                            <div class="buy d-flex justify-content-around button_1">
+                            <div class="buy d-flex justify-content-around">
                                 <button><a href="<c:url value="#"/>">Lưu</a></button>
                                 <button><a href="<c:url value="/home/checkProduct.do"/>">Xem trước</a></button>
                             </div>
                         </div>
                     </div>
-
-
-
-                    
-
                 </div>
             </div>
         </div>

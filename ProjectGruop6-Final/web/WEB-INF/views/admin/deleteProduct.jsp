@@ -53,10 +53,6 @@
                 width: 200px;
                 height: 200px;
             }
-            .search1 {
-                margin-left: 80%;
-                margin-bottom: 30px;
-            }
         </style>
         <title>Hello, world!</title>
     </head>
@@ -64,7 +60,7 @@
     <!--Load the AJAX API-->
 
 
-    <body style="height: 2000px;">
+    <body>
         <div class="col d-flex">
             <!--Div that will hold the pie chart-->
             <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
@@ -143,7 +139,7 @@
                 <table class="table caption-top table-striped table-bordered over-flow-y table-hover border-dark">
                     <caption>Danh sách người dùng</caption>
                     <thead>
-                        <input class="search1" type="text">
+                        <tr><input type="text" name=""/></tr>
                     <tr>
                         <th scope="col">Id sản phẩm</th>
                         <th scope="col">Tên sản phẩm</th>

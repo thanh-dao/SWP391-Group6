@@ -79,6 +79,8 @@
                 width: 100%;
                 height: 100%;
                 display: block;
+                margin-top: 30px;
+                margin-bottom: 30px;
             }
 
 
@@ -86,9 +88,6 @@
             .row-custom {
                 display: flex;
                 flex-wrap: wrap;
-                margin-top: calc(var(--bs-gutter-y) * -1);
-                margin-right: calc(var(--bs-gutter-x) * -.5);
-                margin-left: calc(var(--bs-gutter-x) * -.5);
                 justify-content: center;
                 width: 100%;
             }
@@ -182,11 +181,11 @@
             </div>
         </div>
         <div class=" pt-3 container">
-            <div class="row d-flex pb-5 gap-3 w-100 justify-content-center">
+            <div class="row d-flex pb-5 gap-3 w-100 justify-content-around">
                 <div class="card col-sm-12 col-md-6 col-lg-3">
                     <div class="card-body d-flex justify-content-between">
                         <div class="card-body-left">
-                            <h3 class="card-title">123</h3>
+                            <h3 class="card-title counter">123</h3>
                             <p>Người dùng</p>
                         </div>
                         <div class="card-body-right d-flex mb-3 align-items-center">
@@ -197,7 +196,7 @@
                 <div class="card col-sm-12 col-md-6 col-lg-3">
                     <div class="card-body d-flex justify-content-between">
                         <div class="card-body-left">
-                            <h3 class="card-title">123</h3>
+                            <h3 class="card-title counter">123</h3>
                             <p>Đon hàng</p>
                         </div>
                         <div class="card-body-right d-flex mb-3 align-items-center">
@@ -208,7 +207,7 @@
                 <div class="card col-sm-12 col-md-6 col-lg-3">
                     <div class="card-body d-flex justify-content-between">
                         <div class="card-body-left">
-                            <h3 class="card-title">123</h3>
+                            <h3 class="card-title counter">123</h3>
                             <p>Lợi nhuận</p>
                         </div>
                         <div class="card-body-right d-flex mb-3 align-items-center">
@@ -219,7 +218,7 @@
                 <div class="card col-sm-12 col-md-6 col-lg-3">
                     <div class="card-body d-flex justify-content-between">
                         <div class="card-body-left">
-                            <h3 class="card-title">123</h3>
+                            <h3 class="card-title counter">123</h3>
                             <p>Đánh giá</p>
                         </div>
                         <div class="card-body-right d-flex mb-3 align-items-center">
@@ -332,7 +331,25 @@
                     );
         </script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+                integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+        <!-- counting up -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"
+                integrity="sha512-ZKNVEa7gi0Dz4Rq9jXcySgcPiK+5f01CqW+ZoKLLKr9VMXuCsw3RjWiv8ZpIOa0hxO79np7Ec8DDWALM0bDOaQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script src="./Counting-Up-To-Numerical-Values-On-Scroll-jQuery-Countup-js/jquery.countup.js">
+        </script>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            $('.counter').countUp();
+        </script>
     </body>
 
 </html>

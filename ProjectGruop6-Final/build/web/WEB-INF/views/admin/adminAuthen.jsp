@@ -85,7 +85,7 @@
                 <hr>
                 <ul class="nav nav-pills flex-column overflow-hidden mb-auto ">
                     <li class="nav-item">
-                        <a href="<c:url value="/admin/productAuthen.do"/>" class="nav-link  text-white">
+                        <a href="<c:url value="/admin/productAuthen.do"/>" class="nav-link active text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#grid"></use>
                             </svg>
@@ -95,13 +95,13 @@
                     <li class="nav-item">
                         <a href="<c:url value="/admin/deleteProduct.do"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#people-circle"></use>
+                            <use xlink:href="#grid"></use>
                             </svg>
                             Xóa sản phẩm
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link  text-white">
+                        <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#table"></use>
                             </svg>
@@ -118,7 +118,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<c:url value="/admin/adminAuthen.do"/>" class="nav-link active text-white">
+                        <a href="<c:url value="/admin/adminAuthen.do"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#people-circle"></use>
                             </svg>
@@ -133,7 +133,6 @@
                        id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
                         <strong>mdo</strong>
-
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                         <li><a class="dropdown-item" href="<c:url value="/user/userInformaion.do"/>">Trang</a></li>

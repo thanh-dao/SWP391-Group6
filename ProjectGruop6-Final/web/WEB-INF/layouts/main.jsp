@@ -36,16 +36,26 @@
 
             /* Header starts */
             header {
-                margin-top: 20px;
                 padding-right: 0px;
                 background-color: orange;
                 margin-bottom: 50px;
             }
 
-            header img {
-                height: 200px;
-                width: 200px;
+            header .logo a {
+                height: 120px;
+                width: 120px;
+                margin-top: 15px;
+            }
+
+            header .logo img {
+                height: 120px;
+                width: 140px;
                 border-radius: 50%;
+                margin-top: 15px;
+            }
+
+            header header__right {
+                width: 1000px;
             }
 
             .header__content {
@@ -64,15 +74,17 @@
 
             header button {
                 height: 50px;
-                width: 100px;
-                margin-top: 25px;
+                width: 140px;
+                margin-top: 18px;
                 border:none;
                 background-color: orange;
+
             }
 
             header .header__content a{
                 color: black;
                 font-weight: bold;
+                font-size: 17px;
             }
 
             header .header__content a:hover {
@@ -142,93 +154,42 @@
                             <img class="img-fluid" src="<c:url value="/images/FBT.jpg"/>" alt="">
                         </a>
                     </div>
-                    <div class="header__content d-flex justify-content-around">
-                        <button><a href="<c:url value="/home/main.do"/>">Trang chủ</a></button>
-                        <button><a href="<c:url value="/order/stored.do"/>">Quản lý tin</a></button>
-                        <button><a href="<c:url value="/order/history.do"/>">Đơn hàng</a></button>
-                        <button><a href="<c:url value="/user/login.do"/>">Đăng nhập</a></button>
-                        <button><a href="<c:url value="/admin/productAuthen.do"/>">Admin</a></button>
-                        <button><a href="<c:url value="/cart/cart.do"/>"><i class="fa-solid fa-cart-shopping"></i></a></button>
-                        <button id="post" class="btn-grad"><a href="<c:url value="/home/uploadProduct.do"/>">Đăng tin</a></button>
+                    <div class="header__right">
+                        <div class="header__content d-flex justify-content-around">
+                            <button><a href="<c:url value="/home/main.do"/>">Trang chủ</a></button>
+                            <button><a href="<c:url value="/order/stored.do"/>">Quản lý tin</a></button>
+                            <button><a href="<c:url value="/order/history.do"/>">Đơn hàng</a></button>
+                            <button><a href="<c:url value="/user/login.do"/>">Đăng nhập</a></button>
+                            <button><a href="<c:url value="/admin/productAuthen.do"/>">Admin</a></button>
+                            <button><a href="<c:url value="/cart/cart.do"/>"><i class="fa-solid fa-cart-shopping"></i></a></button>
+                            <button id="post" class="btn-grad"><a href="<c:url value="/home/uploadProduct.do"/>">Đăng tin</a></button>
+                        </div>
+                        <div class="search">
+                            <div class="container">
+                                <form action="">
+                                    <input class="search__input" type="text" placeholder="Tìm kiếm"></input>    
+                                </form>
+                            </div>
+                        </div>
                     </div>
+
 
                 </div>
 
-                <div class="search">
-                    <div class="container">
-                        <form action="">
-                            <input class="search__input" type="text" placeholder="Tìm kiếm"></input>    
-                        </form>
-                    </div>
-                </div>
+
 
                 <div class="category">
                     <div class="container">
-                        <ul class="d-flex justify-content-between">
-                            <li>
-                                <a href="<c:url value="/home/productList.do"/>">
-                                    <i class="fa-solid fa-mobile-screen-button"></i>
-                                    <span>Category</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<c:url value="/home/productList.do"/>">
-                                    <i class="fa-solid fa-mobile-screen-button"></i>
-                                    <span>Category</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<c:url value="/home/productList.do"/>">
-                                    <i class="fa-solid fa-mobile-screen-button"></i>
-                                    <span>Category</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<c:url value="/home/productList.do"/>">
-                                    <i class="fa-solid fa-mobile-screen-button"></i>
-                                    <span>Category</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<c:url value="/home/productList.do"/>">
-                                    <i class="fa-solid fa-mobile-screen-button"></i>
-                                    <span>Category</span>
-                                </a>
-                            </li>
+                        <ul class="d-flex justify-content-between flex-wrap">
 
-
-                        </ul>
-                        <ul class="d-flex justify-content-between">
-                            <li>
-                                <a href="<c:url value="/home/productList.do"/>">
-                                    <i class="fa-solid fa-mobile-screen-button"></i>
-                                    <span>Category</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<c:url value="/home/productList.do"/>">
-                                    <i class="fa-solid fa-mobile-screen-button"></i>
-                                    <span>Category</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<c:url value="/home/productList.do"/>">
-                                    <i class="fa-solid fa-mobile-screen-button"></i>
-                                    <span>Category</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<c:url value="/home/productList.do"/>">
-                                    <i class="fa-solid fa-mobile-screen-button"></i>
-                                    <span>Category</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<c:url value="/home/productList.do"/>">
-                                    <i class="fa-solid fa-mobile-screen-button"></i>
-                                    <span>Category</span>
-                                </a>
-                            </li>
+                            <c:forEach items="${cateList}" var="i">
+                                <li>
+                                    <a href="<c:url value="/home/productList.do?cateId=${i.cateId}"/>">
+                                        <i class="fa-solid fa-mobile-screen-button"></i>
+                                        <span>${i.name}</span>
+                                    </a>
+                                </li>
+                            </c:forEach>
 
 
                         </ul>
@@ -260,6 +221,26 @@
             </div>
 
         </footer>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+                integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <!-- counting up -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"
+                integrity="sha512-ZKNVEa7gi0Dz4Rq9jXcySgcPiK+5f01CqW+ZoKLLKr9VMXuCsw3RjWiv8ZpIOa0hxO79np7Ec8DDWALM0bDOaQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script src="./Counting-Up-To-Numerical-Values-On-Scroll-jQuery-Countup-js/jquery.countup.js">
+        </script>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            $('.counter').countUp();
+        </script>
     </body>
 
 </html>

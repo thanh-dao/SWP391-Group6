@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <meta name="google-signin-client_id" content="361981052480-qtmvc9p7svp7ntdd7jcgd4goqu76gt72.apps.googleusercontent.com">
     </head>
     <style>
         .logo_login{
@@ -35,7 +36,7 @@
         .btn_login{
             margin-left: 10px;          
         }
-        .text_1{
+        span{
             font-size: 20px;          
         }
     </style>
@@ -45,33 +46,40 @@
             <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <div class="card my-5">
-                        <form class="card-body cardbody-color p-lg-5">
-                            <div class="text-center">
-                                <img                                   
-                                    class="rounded-circle logo_login"
-                                    src="<c:url value="/images/FBT.jpg"/>"
-                                    alt="Logo"
-                                    />
-                            </div>
+                        <div class="text-center">
+                            <img                                   
+                                class="rounded-circle logo_login"
+                                src="<c:url value="/images/FBT.jpg"/>"
+                                alt="Logo"
+                                />
+                        </div>
 
-                            <div class="text-center">
-                                <span class="text_1">Login by FPT Email</span>
-                                <button class="btn_login">
-                                    <a href="<c:url value="/home/main.do"/>">
-
-                                        <img class="logo_google"                                           
-                                             src="<c:url value="/images/icon_google.png"/>"
-                                             alt=""
-
-                                             />
-                                        Google
-                                    </a>  
-                                </button>
-                            </div>
+                        <div class="text-center">
+                            <span>Login by FPT Email</span>
+                            <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid &redirect_uri=http://localhost:8084/ProjectGroup6/user/googleLoginHandle.do&response_type=code
+                               &client_id=361981052480-8ke1bdjjdl3alh1o3f2mrm4osm4uo8bk.apps.googleusercontent.com&approval_prompt=force">Login With Google</a>
+                            <c:if test="${sessionScope.errorLoginMessage != null}">
+                                <p style="padding-top: 20px;color:blue">${sessionScope.errorLoginMessage}</p>
+                            </c:if>
+                        </div>
                     </div>
-                    </form>
                 </div>
             </div>
         </div>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+        <script src="https://apis.google.com/js/api.js"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script type="text/javascript">
+            function onSignIn(googleUser) {
+                var profile = googleUser.getBasicProfile();
+                alert(profile)
+                console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+                console.log('Name: ' + profile.getName());
+                console.log('Image URL: ' + profile.getImageUrl());
+                console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            }
+        </script>
     </body>
 </html>

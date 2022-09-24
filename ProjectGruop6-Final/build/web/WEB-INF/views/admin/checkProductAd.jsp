@@ -30,16 +30,7 @@
             }
 
             .buy button {
-                background-image: linear-gradient(
-                    to right,
-                    #f55f8d 0%,
-                    #f8ae56 51%,
-                    #f55f8d 100%
-                    );
-                transition: 0.5s;
-                background-size: 200%;
-                color: white;
-                box-shadow: 0 0 20px #eee;
+                background-color: orange;
                 border-radius: 30px;
                 border: #eee;
                 height: 50px;
@@ -47,20 +38,17 @@
             }
 
             .buy button:hover {
-                background-position: right center;
-                color: #fff;
+                background-color: orangered;
                 text-decoration: none;
                 cursor: pointer;
             } 
-            .button_1{
-                margin-top: 50px;
-            }
-            a{
+            
+            .buy a {
                 color: white;
             }
-            .search1 {
-                margin-left: 80%;
-                margin-bottom: 30px;
+            
+            .buy a:hover {
+                text-decoration: none;
             }
         </style>
     </head>
@@ -119,9 +107,9 @@
                             <br />
                             <h5>Khu vực</h5>
                             <p>Địa chỉ người bán</p>
-                            <div class="buy d-flex justify-content-around button_1">
-                                <button><a href="<c:url value="#"/>">Approve</a></button>
-                                <button><a href="<c:url value="#"/>">Reject</a></button>
+                            <div class="buy d-flex justify-content-around">
+                                <button><a href="<c:url value="#"/>">Chấp thuận</a></button>
+                                <button><a href="<c:url value="#"/>">Từ chối</a></button>
                             </div>
                         </div>
                     </div>

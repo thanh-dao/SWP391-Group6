@@ -50,16 +50,13 @@
                 text-decoration: none;
                 cursor: pointer;
             } 
-
+            
             .buy a {
                 color: white;
             }
-
+            
             .buy a:hover {
                 text-decoration: none;
-            }
-            .button_1{
-                margin-top: 50px;
             }
         </style>
     </head>
@@ -118,7 +115,7 @@
                             <br />
                             <h5>Khu vực</h5>
                             <p>Địa chỉ người bán</p>
-                            <div class="buy d-flex justify-content-around button_1">
+                            <div class="buy d-flex justify-content-around">
                                 <button><a href="<c:url value="#"/>">Lưu</a></button>
                                 <button><a href="<c:url value="/home/uploadProduct.do"/>">Sửa</a></button>
                             </div>

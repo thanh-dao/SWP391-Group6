@@ -6,8 +6,16 @@
 package controllers;
 
 import config.Config;
+import dao.CategoryDAO;
+//import jakarta.servlet.ServletException;
+//import jakarta.servlet.annotation.WebServlet;
+//import jakarta.servlet.http.HttpServlet;
+//import jakarta.servlet.http.HttpServletRequest;
+//import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,10 +42,18 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         String action = (String) request.getAttribute("action");
         String controller = (String) request.getAttribute("controller");
-
+        System.out.println(action + " " + controller);
         switch (action) {
-            case "main":
-                break;
+            case "main": {
+                CategoryDAO cateDAO = new CategoryDAO();
+                
+                try {
+                    request.setAttribute("cateList", cateDAO.findAll());
+                } catch(Exception ex ){ 
+                    ex.printStackTrace();
+                }
+            }
+            break;
             case "productDetail":
                 break;
             case "uploadProduct":
