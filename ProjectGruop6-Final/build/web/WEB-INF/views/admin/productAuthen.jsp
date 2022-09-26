@@ -120,6 +120,7 @@
                         </a>
                     </li>
                 </ul>
+                </ul>
                 <hr>
                 <div class="dropdown p-3">
                     <a href="#"

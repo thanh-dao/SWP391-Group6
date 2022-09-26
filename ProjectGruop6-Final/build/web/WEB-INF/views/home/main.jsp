@@ -23,6 +23,7 @@
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
+
             .product .container{
                 margin-top: 50px;
             }
@@ -71,139 +72,140 @@
     </head>
 
     <body>
-        <div class="product">
-            <div class="container">
-                <h3>SẢN PHẨM MỚI</h3>
-                <div class="product__content row">
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
+        <div class="body">
+            <div class="product">
+                <div class="container">
+                    <h3>SẢN PHẨM MỚI</h3>
+                    <div class="product__content row">
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
 
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
 
 
 
+                    </div>
+                </div>
+            </div>
+
+            <div class="top__seller">
+                <div class="container">
+                    <h3>SẢN PHẨM BÁN CHẠY</h3>
+                    <div class="product__content row">
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div><div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do"/>">
+                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
+                            <span>Giá sản phẩm</span>
+                        </div>
+
+
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="top__seller">
-            <div class="container">
-                <h3>SẢN PHẨM BÁN CHẠY</h3>
-                <div class="product__content row">
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div><div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-
         <div class="purpose">
             <div class="container intro">
                 <h1>FBT</h1>

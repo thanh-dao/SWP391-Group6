@@ -60,7 +60,7 @@
     <!--Load the AJAX API-->
 
 
-    <body>
+    <body style="height: 2000px;">
         <div class="col d-flex">
             <!--Div that will hold the pie chart-->
             <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">

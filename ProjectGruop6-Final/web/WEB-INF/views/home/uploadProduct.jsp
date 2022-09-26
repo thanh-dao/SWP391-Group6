@@ -28,10 +28,6 @@
                 margin-bottom: 50px;
             }
             
-            .product__details h1 {
-                margin-bottom: 30px;
-            }
-            
             .buy a {
                 color: white;
             }
@@ -41,11 +37,16 @@
             }
             
             .buy button {
-                background-color: orange;
-                border-radius: 30px;
-                border: #eee;
-                height: 50px;
-                width: 150px;
+                background-image: linear-gradient(
+                    to right,
+                    #f55f8d 0%,
+                    #f8ae56 51%,
+                    #f55f8d 100%
+                    );
+                transition: 0.5s;
+                background-size: 200%;
+                color: white;
+                box-shadow: 0 0 20px #eee;
                 border-radius: 30px;
                 border: #eee;
                 height: 50px;
@@ -53,14 +54,11 @@
             }
 
             .buy button:hover {
-                background-color: orangered;
+                background-position: right center;
+                color: #fff;
                 text-decoration: none;
                 cursor: pointer;
             } 
-            
-            .buy a:hover {
-                text-decoration: none;
-            }
             
             .upload button {
                 height: 200px;
@@ -73,7 +71,6 @@
             
             .describe {
                 height: 200px;
-                padding-bottom: 175px;
             }
             
             input {
@@ -86,7 +83,7 @@
 
         <div class="product__details">
             <div class="container">
-                <h1>Đang bán sản phẩm</h1>
+
                 <div class="product__content">
 
                     <div class="row">
@@ -111,6 +108,11 @@
                             </div>
                         </div>
                     </div>
+
+
+
+                    
+
                 </div>
             </div>
         </div>

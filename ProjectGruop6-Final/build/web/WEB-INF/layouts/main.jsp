@@ -8,6 +8,7 @@
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix = "fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,190 +17,162 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="../layouts/js/main.css" rel="stylesheet" type="text/css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <script src="https://kit.fontawesome.com/1d58ef5eb1.js" crossorigin="anonymous"></script>
+        <style><%@include file="/WEB-INF/layouts/js/main.css"%></style>
 
 
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-              integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-              crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <style>
-            body {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
 
-            /* Header starts */
-            header {
-                padding-right: 0px;
-                background-color: orange;
-                margin-bottom: 50px;
-            }
 
-            header .logo a {
-                height: 120px;
-                width: 120px;
-                margin-top: 15px;
-            }
-
-            header .logo img {
-                height: 120px;
-                width: 140px;
-                border-radius: 50%;
-                margin-top: 15px;
-            }
-
-            header header__right {
-                width: 1000px;
-            }
-
-            .header__content {
-                width: 100%;
-            }
-
-            .header__content ul {
-                width: 100%;
-                padding-right: 80px;
-            }
-
-            header li {
-                list-style: none;
-                padding-top: 10px;
-            }
-
-            header button {
-                height: 50px;
-                width: 140px;
-                margin-top: 18px;
-                border:none;
-                background-color: orange;
-
-            }
-
-            header .header__content a{
-                color: black;
-                font-weight: bold;
-                font-size: 17px;
-            }
-
-            header .header__content a:hover {
-                color: gray;
-                text-decoration: none;
-            }
-
-            .category a {
-                color: black;
-            }
-
-            .category a:hover {
-                color: gray;
-                text-decoration: none;
-            }
-
-            header .search {
-                margin-top: 20px;
-            }
-
-            header .search__input {
-                width: 100%;
-                margin: auto;
-                height:40px;
-            }
-
-            header .category {
-                margin-top: 20px;
-                padding-bottom: 20px;
-            }
-
-            header .category ul {
-                padding-left: 0px;
-            }
-
-            /* Header ends */
-            /* Product starts */
-            .product__item {
-                transition: 0.5s;
-            }
-
-            .product__item:hover {
-                transform: translateY(-5px);
-                transition: 0.5s;
-            }
-
-            footer {
-                background-color: orange;
-                margin-bottom: 0px;
-                padding: 20px;
-                margin-top: 80px; 
-            }
-            .txt_footer{
-                line-height: 28px;
-            }
-        </style>
 
     </head>
     <body>
+        <div style="width: 100%; height: 500px">
+            <!--header-->
+            <div class="top-container">
 
-        <!--header-->
-        <header>
-            <div class="container">
-                <div class="d-flex">
-                    <div class="logo">
-                        <a href="<c:url value="/home/main.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/FBT.jpg"/>" alt="">
-                        </a>
+                <h1>Vector.</h1>
+                <div class="left-top-container">
+                    <div>
+                        <i class="fa fa-check-circle"></i>
+                        <span>Market|</span>
                     </div>
-                    <div class="header__right">
-                        <div class="header__content d-flex justify-content-around">
-                            <button><a href="<c:url value="/home/main.do"/>">Trang chủ</a></button>
-                            <button><a href="<c:url value="/order/stored.do"/>">Quản lý tin</a></button>
-                            <button><a href="<c:url value="/order/history.do"/>">Đơn hàng</a></button>
-                            <button><a href="<c:url value="/user/login.do"/>">Đăng nhập</a></button>
-                            <button><a href="<c:url value="/admin/productAuthen.do"/>">Admin</a></button>
-                            <button><a href="<c:url value="/cart/cart.do"/>"><i class="fa-solid fa-cart-shopping"></i></a></button>
-                            <button id="post" class="btn-grad"><a href="<c:url value="/home/uploadProduct.do"/>">Đăng tin</a></button>
+                    <div>
+                        <i class="fa fa-globe"></i>
+                        <span>Group edition</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="header">
+                <!-- HEADER -->
+                <div class="container">
+                    <div class="top-header">
+                        <div class="row content-header">
+                            <div class="col-md-2 logo-container">
+
+                                <a href="#home">
+                                    <div class="logo-content">
+                                        <img id="myImage" src="<c:url value="/images/logo_goodMarket.png"/>" alt="">
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="col-md">
+
+                                <!-- Các options trên header -->
+                                <div class="options-header">
+                                    <!-- HOME -->
+                                    <div class="style-options-header hover">
+                                        <a href="#home">
+                                            <i class="fas fa-home"></i>
+                                            <span>Trang chủ</span>
+                                        </a>
+                                    </div>
+
+                                    <!-- Quản lí thông tin -->
+                                    <div class="style-options-header hover">
+                                        <a href="#quanLiTin">
+                                            <i class="fas fa-table"></i>
+                                            <span>Quản lí tin</span>
+                                        </a>
+                                    </div>
+
+                                    <!-- Đơn hàng -->
+                                    <div class="style-options-header hover">
+                                        <a href="#DonHang">
+                                            <i class="fas fa-shopping-cart"></i>
+                                            <span>Đơn hàng</span>
+                                        </a>
+                                    </div>
+
+                                    <!-- ADMIN -->
+                                    <div class="style-options-header hover admin-box">
+                                        <a href="#ADMIN">
+                                            <i class="fas fa-user-shield"></i>
+                                            <span class="admin">ADMIN</span>
+                                        </a>
+                                    </div>
+
+                                </div>
+
+                            </div>
                         </div>
-                        <div class="search">
-                            <div class="container">
-                                <form action="">
-                                    <input class="search__input" type="text" placeholder="Tìm kiếm"></input>    
-                                </form>
+                    </div>
+                    <!-- Search, login -->
+                    <div class="sub-header">
+                        <div style="width: 100%;">
+                            <div class="search">
+                                <div class="icon"> </div>
+                                <div class="input">
+                                    <input type="text" placeholder="TÌm kiếm sản phẩm" id="searchInput">
+                                </div>
+                                <span class="close-search"></span>
+                            </div>
+                        </div>
+                        <div class="login-status ">
+                            <div class="login style-options-header hover">
+                                <div class="login-content">
+                                    <a href="#account">
+                                        <i class="far fa-user"></i>
+                                        <span>Login</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="post-status style-options-header hover">
+                                <div class="post-status-content">
+                                    <a href="#post">
+                                        <i class="fas fa-comment-alt"></i>
+                                        <span>Đăng tin
+                                        </span></a>
+
+                                </div>
                             </div>
                         </div>
                     </div>
 
-
-                </div>
-
-
-
-                <div class="category">
-                    <div class="container">
-                        <ul class="d-flex justify-content-between flex-wrap">
-
-                            <c:forEach items="${cateList}" var="i">
-                                <li>
-                                    <a href="<c:url value="/home/productList.do?cateId=${i.cateId}"/>">
-                                        <i class="fa-solid fa-mobile-screen-button"></i>
-                                        <span>${i.name}</span>
-                                    </a>
-                                </li>
-                            </c:forEach>
-
-
-                        </ul>
-
-                    </div>
-
+                    <ul class="nav-list">
+                        <li class="nav-item hover">
+                            <a class="nav-link" href="#"><i class="fas fa-mobile-alt"></i> Điện thoại</a>
+                        </li>
+                        <li class="nav-item hover">
+                            <a class="nav-link" href="#"><i class="fas fa-laptop"></i> Laptop</a>
+                        </li>
+                        <li class="nav-item hover">
+                            <a class="nav-link" href="#"><i class="fas fa-tablet"></i> Tablet</a>
+                        </li>
+                        <li class="nav-item hover">
+                            <a class="nav-link" href="#"><i class="fas fa-microchip"></i> Phụ kiện <i
+                                    class="fas fa-caret-down"></i></a>
+                        </li>
+                        <li class="nav-item hover">
+                            <a class="nav-link" href="#"> <i class="fab fa-algolia"></i> Đồng hồ thông minh</a>
+                        </li>
+                        <li class="nav-item hover">
+                            <a class="nav-link" href="#"><i class="fab fa-battle-net"></i> Đồng hồ thời trang</a>
+                        </li>
+                        <li class="nav-item hover">
+                            <a class="nav-link" href="#"> <i class="fas fa-desktop"></i> PC,máy in <i
+                                    class="fas fa-caret-down"></i></a>
+                        </li>
+                        <li class="nav-item hover">
+                            <a class="nav-link" href="#">Máy cũ, giá rẻ</a>
+                        </li>
+                        <li class="nav-item hover">
+                            <a class="nav-link" href="#">Sim, thẻ cào</a>
+                        </li>
+                        <li class="nav-item hover">
+                            <a class="nav-link" href="#">Trả góp, điện nước</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </header>
-
+        </div>
         <!--content-->
         <div>
 
@@ -222,25 +195,6 @@
 
         </footer>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
-                integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-        <!-- counting up -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"
-                integrity="sha512-ZKNVEa7gi0Dz4Rq9jXcySgcPiK+5f01CqW+ZoKLLKr9VMXuCsw3RjWiv8ZpIOa0hxO79np7Ec8DDWALM0bDOaQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-        <script src="./Counting-Up-To-Numerical-Values-On-Scroll-jQuery-Countup-js/jquery.countup.js">
-        </script>
-
-
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-
-        <script>
-            $('.counter').countUp();
-        </script>
     </body>
-
+    <script><%@include file="/WEB-INF/layouts/js/main.js"%></script>
 </html>
