@@ -6,13 +6,18 @@
 package controllers;
 
 import config.Config;
+import dao.CategoryDAO;
+import dao.ProductDAO;
+import dto.CategoryDTO;
+import dto.ProductDTO;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -34,10 +39,28 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         String action = (String) request.getAttribute("action");
         String controller = (String) request.getAttribute("controller");
-
+        System.out.println(action + " " + controller);
+        HttpSession session = request.getSession();
         switch (action) {
-            case "main":
+            case "main": {
+                CategoryDAO cateDAO = new CategoryDAO();
+                ProductDAO proDAO = new ProductDAO();
+                try {
+                    List<CategoryDTO> cateList = cateDAO.findAll();
+                    cateList.forEach(i -> {
+                        System.out.println(i);
+                    });
+                    session.setAttribute("cateList", cateList);
+                    List<ProductDTO> bestSellers = proDAO.getProductList(0, ProductDAO.SOLD_COUNT, ProductDAO.DESC);
+                    List<ProductDTO> newProducts = proDAO.getProductList(0, ProductDAO.APPROVE_AT, ProductDAO.DESC);
+                    request.setAttribute("bestSellers", bestSellers);
+                    request.setAttribute("newProducts", newProducts);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 break;
+            }
+            
             case "productDetail":
                 break;
             case "uploadProduct":
@@ -45,8 +68,18 @@ public class HomeController extends HttpServlet {
             case "checkProduct":
                 break;
             case "productList":
+                int cateID = Integer.parseInt(request.getParameter("cateId"));
+                ProductDAO proDAO = new ProductDAO();
+                try {
+                    List<ProductDTO> productList = proDAO.getProductList(1, ProductDAO.NAME, ProductDAO.ASC, cateID);
+                    request.setAttribute("productList", productList);
+                } catch(Exception ex) {
+                    ex.printStackTrace();
+                }
+
                 break;
             case "reviewProduct":
+
                 break;
             default:
                 //chuyển đến trang thông báo lổi

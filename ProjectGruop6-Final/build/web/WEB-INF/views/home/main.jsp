@@ -5,24 +5,35 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix = "fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Title</title>
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-              integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-              crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
+            .discount {
+                position: relative;
+            }
+
+            .discount .left, .discount .right {
+                position: absolute;
+                position: fixed;
+            }
+
+            .discount .right {
+                margin-left: 1550px;
+            }
+
+            .discount img {
+                width: 350px;
+            }
+
+            .carousel-item img {
+                width: 100%;
+                height: 550px;
+            }
 
             .product .container{
                 margin-top: 50px;
@@ -70,142 +81,96 @@
 
         </style>
     </head>
-
     <body>
-        <div class="body">
-            <div class="product">
-                <div class="container">
-                    <h3>SẢN PHẨM MỚI</h3>
-                    <div class="product__content row">
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
+        <div class="discount">
+            <img class="left img-fluid" src="<c:url value="/images/discount.jpg"/>"  onclick="window.location.href = '#'">
+            <img class="right img-fluid" src="<c:url value="/images/discount.jpg"/>" onclick="window.location.href = '#'">
+        </div>
 
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
+        <div class="banner">
+            <div class="container">
+                <div id="demo" class="carousel slide" data-ride="carousel">
 
+                    <!-- Indicators -->
+                    <ul class="carousel-indicators">
+                        <li data-target="#demo" data-slide-to="0" class="active"></li>
+                        <li data-target="#demo" data-slide-to="1"></li>
+                        <li data-target="#demo" data-slide-to="2"></li>
+                        <li data-target="#demo" data-slide-to="3"></li>
+                        <li data-target="#demo" data-slide-to="4"></li>
+                    </ul>
 
-
+                    <!-- The slideshow -->
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="img-fluid" src="<c:url value="/images/thuCung.jpg"/>"  onclick="window.location.href = '<c:url value="/home/productList.do?cateId=6"/>'">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="img-fluid" src="<c:url value="/images/nuocHoa.jpg"/>" onclick="window.location.href = '<c:url value="/home/productList.do?cateId=5"/>'">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="img-fluid" src="<c:url value="/images/doGiaDung.jpg"/>" onclick="window.location.href = '<c:url value="/home/productList.do?cateId=3"/>'">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="img-fluid" src="<c:url value="/images/thucAn.jpg"/>" onclick="window.location.href = '<c:url value="/home/productList.do?cateId=1"/>'">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="img-fluid" src="<c:url value="/images/sach.jpg"/>" onclick="window.location.href = '<c:url value="/home/productList.do?cateId=8"/>'">
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="top__seller">
-                <div class="container">
-                    <h3>SẢN PHẨM BÁN CHẠY</h3>
-                    <div class="product__content row">
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div><div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-
-
-                    </div>
+                    <!-- Left and right controls -->
+                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#demo" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
                 </div>
             </div>
         </div>
+
+
+
+
+
+
+        <div class="product">
+            <div class="container">
+                <h3>SẢN PHẨM BÁN CHẠY</h3>
+                <div class="product__content row">
+                    <c:forEach items="${bestSellers}" var="i">
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do?id=${i.productId}"/>">${i.name}</a><br>
+                            <fmt:setLocale value="vi_VN"/>
+                            <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
+                        </div>
+                    </c:forEach>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="top__seller">
+            <div class="container">
+                <h3>SẢN PHẨM BÁN CHẠY</h3>
+                <div class="product__content row">
+                    <c:forEach items="${newProducts}" var="i">
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do?${i.productId}"/>">
+                                <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                            </a>
+                            <a href="<c:url value="/home/productDetail.do"/>">${i.name}</a><br>
+                            <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+
         <div class="purpose">
             <div class="container intro">
                 <h1>FBT</h1>

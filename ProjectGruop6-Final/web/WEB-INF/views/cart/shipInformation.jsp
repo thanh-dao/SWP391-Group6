@@ -10,20 +10,8 @@
 
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Thông tin thanh toán</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-              integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-              crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
             /* reset CSS */
             * {
@@ -74,7 +62,7 @@
                 padding: 7px 12px;
                 width: 60%;
                 border-radius: 10px;
-                border: 1px solid aqua;
+                border: 1px solid #FFA500;
                 font-size: 16px;
             }
 
@@ -82,7 +70,7 @@
                 padding: 7px 12px;
                 width: 100%;
                 border-radius: 10px;
-                border: 1px solid aqua;
+                border: 1px solid #FFA500;
                 font-size: 16px;
             }
 
@@ -118,7 +106,7 @@
             }
 
             .btn-buy {
-                background-color: aqua;
+                background-color: #FFA500;
                 /* margin-top: 20px; */
                 width: 100%;
                 padding: 10px;
@@ -213,12 +201,12 @@
                                 <textarea type="textarea" required="true" name="address"
                                           placeholder="Ví dụ: 193/14/2, đường Đỗ Văn Thi" class="input-form-item"></textarea>
                             </div>
-                            <div class="form-item1 input-form" style="position: relative">
-                                <label style="top: 0;">Điều cần lưu ý</label>
-                                <textarea type="textarea" required="true" name="address"
-                                          placeholder="Ví dụ: Khách hàng có thể nhận hàng vào buổi sáng"
-                                          class="input-form-item"></textarea>
-                            </div>
+                            <!--                            <div class="form-item1 input-form" style="position: relative">
+                                                            <label style="top: 0;">Điều cần lưu ý</label>
+                                                            <textarea type="textarea" required="true" name="address"
+                                                                      placeholder="Ví dụ: Khách hàng có thể nhận hàng vào buổi sáng"
+                                                                      class="input-form-item"></textarea>
+                                                        </div>-->
                         </div>
                     </div>
                 </div>

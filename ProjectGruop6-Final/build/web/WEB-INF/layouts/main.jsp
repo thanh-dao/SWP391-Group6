@@ -8,7 +8,6 @@
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix = "fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,162 +16,397 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Bootstrap CSS -->
-        <link href="../layouts/js/main.css" rel="stylesheet" type="text/css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-        <script src="https://kit.fontawesome.com/1d58ef5eb1.js" crossorigin="anonymous"></script>
-        <style><%@include file="/WEB-INF/layouts/js/main.css"%></style>
+        <link href="D:\FPT\CN5\SWP\ProjectFEP\SWP391-Group6\ProjectGruop6-Final\web\WEB-INF\layouts\main.css" rel="stylesheet" type="text/css">
+        <!--<link href="main.css" rel="stylesheet" type="text/css"/>-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+              integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+              crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            /* Header starts */
+            header {
+                /*margin-top: 20px;*/
+                padding-top: 5px;
+                padding-right: 0px;
+                background-color: orange;
+                margin-bottom: 50px;
+            }
+
+            .logo img {
+                height: 100px;
+                width: 100px;
+                border-radius: 50%;
+            }
+
+            .header__content {
+                /*padding: 5px;*/
+                margin: 10px 0 20px 0;
+                /*width: 100%;*/
+            }
+
+            .header__content ul {
+                width: 100%;
+                /*padding-right: 80px;*/
+            }
+
+            header li {
+                list-style: none;
+                padding-top: 10px;
+            }
+
+            header button {
+                /*height: 50px;*/
+                /*width: 100px;*/
+                /*margin-top: 25px;*/
+                border:none;
+                background-color: orange;
+            }
+
+            header .header__content a{
+                color: black;
+                font-weight: bold;
+            }
+
+            header .header__content a:hover {
+                color: gray;
+                text-decoration: none;
+            }
+
+            i {
+                margin-right: 4px;
+            }
+
+            .category a {
+                color: black;
+            }
+
+            .category a:hover {
+                color: gray;
+                text-decoration: none;
+            }
+
+            header .category {
+                margin-top: 20px;
+                padding-bottom: 20px;
+            }
+
+            header .category ul {
+                padding-left: 0px;
+            }
+
+            /* Header ends */
+            /* Product starts */
+            .product__item {
+                transition: 0.5s;
+            }
+
+            .product__item:hover {
+                transform: translateY(-5px);
+                transition: 0.5s;
+            }
+
+            footer {
+                background-color: orange;
+                margin-bottom: 0px;
+                padding: 20px;
+                margin-top: 80px; 
+            }
+            .txt_footer{
+                line-height: 28px;
+            }
+
+            .search {
+                position: relative;
+                width: 80%;
+                height: 40px;
+                background: #fff;
+                border-radius: 60px;
+                box-shadow: 0 0 0 5px #ffba00;
+                border: none;
+                outline: none;
+                padding-left: 15px;
+            }
+
+            .search .icon {
+                display: flex;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 60px;
+                height: 60px;
+                background: #fff;
+                justify-content: center;
+                align-items: center;
+                border-radius: 60px;
+                z-index: 1;
+                cursor: pointer;
+            }
+
+            .search .icon::before {
+                content: '';
+                position: absolute;
+                width: 15px;
+                height: 15px;
+                border: 3px solid #ffba00;
+                border-radius: 50%;
+                transform: translate(-4px, -4px);
+            }
+
+            .search .icon::after {
+                content: '';
+                position: absolute;
+                width: 3px;
+                height: 12px;
+                background: #ffba00;
+                transform: translate(6px, 6px) rotate(135deg);
+            }
+
+            /*            .search .input {
+                            position: relative;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            left: 60px;
+                            width: 100% - 60px;
+                            height: 60px;
+                        }*/
 
 
 
+            .search input {
+                position: absolute;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                border: none;
+                outline: none;
+                font-size: 18px;
+                padding: 10px 0;
+            }
+            .search-icon
+            {
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
 
+            }
+            /*==============================================================================*/
+            .container-account {
+                display: inline; 
+                position: relative;
+            }
 
+            .user-dropdown {
+                display: none;
+            }
+
+            .container-account:hover .user-dropdown {
+                display: block;
+            }
+
+            .account-link {
+                display: flex;
+                height: 40px;
+                width: 40px;
+                text-decoration: none;
+            }
+
+            .container-cart .cart-btn,
+            .container-account {
+                font-size: 20px;
+                padding: 5px 5px 5px 15px;
+            }
+
+            .account-btn {
+                display: flex;
+            }
+
+            .item-text {
+                white-space: nowrap;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .user-dropdown {
+                position: absolute;
+                border: 1px solid rgb(239, 239, 239);
+                width: auto;
+                border-radius: 3px;
+                box-shadow: rgb(0 0 0 / 18%) 0px 6px 12px 0px;
+                padding: 0;
+                box-shadow: rgb(0 0 0 / 18%) 0px 6px 12px 0px;
+                background: rgb(255, 255, 255);
+                top: 45px;
+                left: -30px;
+            }
+
+            .user-dropdown p:hover {
+                background-color: rgb(245, 244, 245);
+                color: rgb(0, 0, 0);
+                font-size: 12px;
+            }
+
+            .user-dropdown p {
+                cursor: pointer;
+                /* display: flex; */
+                /* align-items: center; */
+                text-align: center;
+                min-width: 200px;
+                margin: 0;
+                padding: 8px 20px;
+                color: rgb(51, 51, 51);
+                font-size: 12px;
+                font-weight: 400;
+                text-decoration: none;
+            }
+
+            .user-dropdown a:hover {
+                opacity: 0.95;
+            }
+
+            .user-dropdown a {
+                text-decoration: none;
+                display: flex;
+                color: rgb(51, 51, 51);
+                font-size: 12px;
+                font-weight: 400;
+                align-items: center;
+                cursor: pointer;
+                padding: 10px 10px;
+            }
+
+            footer {
+                background-color: orange;
+                margin-bottom: 0px;
+                padding: 20px;
+                margin-top: 80px; 
+            }
+
+            .txt_footer{
+                line-height: 28px;
+            }
+
+            footer .footer__right {
+                font-size: 30px;
+                line-height: 100px;
+            }
+
+            footer .footer__right a {
+                height: 30px;
+                width: 30px;
+                cursor: pointer;
+            }
+
+            footer .footer__right i{
+                height: 30px;
+                width: 30px;
+            }
+
+            /*==============================================================================*/
+        </style>
 
     </head>
     <body>
-        <div style="width: 100%; height: 500px">
-            <!--header-->
-            <div class="top-container">
 
-                <h1>Vector.</h1>
-                <div class="left-top-container">
-                    <div>
-                        <i class="fa fa-check-circle"></i>
-                        <span>Market|</span>
+        <!--header-->
+        <header>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <a class="logo" href="<c:url value="/home/main.do"/>">
+                            <img src="<c:url value="/images/FBT.jpg"/>" alt="">
+                        </a>
                     </div>
-                    <div>
-                        <i class="fa fa-globe"></i>
-                        <span>Group edition</span>
+                    <div class="col-md-10">
+                        <div class="header__content d-flex justify-content-around">
+                            <button ><a href="<c:url value="/home/main.do"/>"><i class="fas fa-home icon-header"></i>Trang chủ</a></button>
+                            <button ><a href="<c:url value="/order/stored.do"/>"><i class="fas fa-table"></i>Quản lý tin</a></button>
+                            <button ><a href="<c:url value="/home/uploadProduct.do"/>"><i class="fa-sharp fa-solid fa-file-pen"></i>Đăng tin</a></button>
+                            <button ><a href="<c:url value="/order/history.do"/>"><i class="fa-sharp fa-solid fa-clipboard"></i>Đơn hàng</a></button>
+
+                            <button style="display: ${sessionScope.acc.roleId== 1? "block":"none"}"><a href="<c:url value="/admin/productAuthen.do"/>"><i class="fas fa-user-shield"></i>Duyệt</a></button>
+
+                            <button ><a href="<c:url value="/cart/cart.do"/>"><i class="fa-solid fa-cart-shopping"></i>Giỏ hàng</a></button>
+                            <c:if test ="${sessionScope.acc == null}">
+                                <button ><a href="<c:url value="/user/login.do"/>"><i class="fa-sharp fa-solid fa-right-to-bracket"></i>Đăng nhập</a></button>
+                            </c:if>
+                            <!-- LOGIN -->
+                            <c:if test ="${sessionScope.acc != null}">
+                                <div class="container-account">
+                                    <div class="account-link">
+                                        <a class="account-link" href="#" >
+                                            <img style="border-radius: 50%;" src="<c:url value="${sessionScope.acc.avatarLink}"/>" alt="">
+                                        </a>
+
+                                        <div class="account-btn">
+                                            <div>
+                                                <span class="item-text">
+                                                    <span class="account-title" style="font-size: 80%; padding: 5px;">Tên người dùng</span>
+                                                </span>
+                                            </div>
+                                            <div class="user-dropdown">
+                                                <a href="<c:url value="/user/userInformation.do"/>">
+                                                    <p>Tài khoản của tôi</p
+                                                </a>
+                                                <a href="l#">
+                                                    <p>Đăng xuất</p>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </c:if>
+                        </div>
+                        <div>                            
+                            <div class="input">
+                                <input class="search" type="text" placeholder="TÌm kiếm sản phẩm " id="searchInput">                                
+                            </div>    
+                        </div>
                     </div>
+
                 </div>
 
-            </div>
-
-            <div class="header">
-                <!-- HEADER -->
-                <div class="container">
-                    <div class="top-header">
-                        <div class="row content-header">
-                            <div class="col-md-2 logo-container">
-
-                                <a href="#home">
-                                    <div class="logo-content">
-                                        <img id="myImage" src="<c:url value="/images/logo_goodMarket.png"/>" alt="">
-                                    </div>
-                                </a>
-
-                            </div>
-                            <div class="col-md">
-
-                                <!-- Các options trên header -->
-                                <div class="options-header">
-                                    <!-- HOME -->
-                                    <div class="style-options-header hover">
-                                        <a href="#home">
-                                            <i class="fas fa-home"></i>
-                                            <span>Trang chủ</span>
-                                        </a>
-                                    </div>
-
-                                    <!-- Quản lí thông tin -->
-                                    <div class="style-options-header hover">
-                                        <a href="#quanLiTin">
-                                            <i class="fas fa-table"></i>
-                                            <span>Quản lí tin</span>
-                                        </a>
-                                    </div>
-
-                                    <!-- Đơn hàng -->
-                                    <div class="style-options-header hover">
-                                        <a href="#DonHang">
-                                            <i class="fas fa-shopping-cart"></i>
-                                            <span>Đơn hàng</span>
-                                        </a>
-                                    </div>
-
-                                    <!-- ADMIN -->
-                                    <div class="style-options-header hover admin-box">
-                                        <a href="#ADMIN">
-                                            <i class="fas fa-user-shield"></i>
-                                            <span class="admin">ADMIN</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Search, login -->
-                    <div class="sub-header">
-                        <div style="width: 100%;">
-                            <div class="search">
-                                <div class="icon"> </div>
-                                <div class="input">
-                                    <input type="text" placeholder="TÌm kiếm sản phẩm" id="searchInput">
-                                </div>
-                                <span class="close-search"></span>
-                            </div>
-                        </div>
-                        <div class="login-status ">
-                            <div class="login style-options-header hover">
-                                <div class="login-content">
-                                    <a href="#account">
-                                        <i class="far fa-user"></i>
-                                        <span>Login</span>
+                <div class="category">
+                    <div class="container">
+                        <ul class="d-flex justify-content-between">
+                            <c:forEach items="${sessionScope.cateList}" var="i">
+                                <li>
+                                    <a href="<c:url value="/home/productList.do?cateId=${i.cateId}"/>">
+                                        <i class="fa-solid fa-mobile-screen-button"></i>
+                                        <span>${i.name}</span>
                                     </a>
-                                </div>
-                            </div>
-                            <div class="post-status style-options-header hover">
-                                <div class="post-status-content">
-                                    <a href="#post">
-                                        <i class="fas fa-comment-alt"></i>
-                                        <span>Đăng tin
-                                        </span></a>
+                                </li>
+                            </c:forEach>
+                        </ul>
 
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
-                    <ul class="nav-list">
-                        <li class="nav-item hover">
-                            <a class="nav-link" href="#"><i class="fas fa-mobile-alt"></i> Điện thoại</a>
-                        </li>
-                        <li class="nav-item hover">
-                            <a class="nav-link" href="#"><i class="fas fa-laptop"></i> Laptop</a>
-                        </li>
-                        <li class="nav-item hover">
-                            <a class="nav-link" href="#"><i class="fas fa-tablet"></i> Tablet</a>
-                        </li>
-                        <li class="nav-item hover">
-                            <a class="nav-link" href="#"><i class="fas fa-microchip"></i> Phụ kiện <i
-                                    class="fas fa-caret-down"></i></a>
-                        </li>
-                        <li class="nav-item hover">
-                            <a class="nav-link" href="#"> <i class="fab fa-algolia"></i> Đồng hồ thông minh</a>
-                        </li>
-                        <li class="nav-item hover">
-                            <a class="nav-link" href="#"><i class="fab fa-battle-net"></i> Đồng hồ thời trang</a>
-                        </li>
-                        <li class="nav-item hover">
-                            <a class="nav-link" href="#"> <i class="fas fa-desktop"></i> PC,máy in <i
-                                    class="fas fa-caret-down"></i></a>
-                        </li>
-                        <li class="nav-item hover">
-                            <a class="nav-link" href="#">Máy cũ, giá rẻ</a>
-                        </li>
-                        <li class="nav-item hover">
-                            <a class="nav-link" href="#">Sim, thẻ cào</a>
-                        </li>
-                        <li class="nav-item hover">
-                            <a class="nav-link" href="#">Trả góp, điện nước</a>
-                        </li>
-                    </ul>
                 </div>
             </div>
-        </div>
+        </header>
+
         <!--content-->
         <div>
 
@@ -183,18 +417,27 @@
 
 
         <!--footer-->            
-        <footer class="text-center">
+        <footer>
             <div class="container">
-                <p class="txt_footer">
-                    Công ty TNHH F.E.P<br>
-                    Điện thoại:09999999999<br>
-                    Gmail: chaydeadlinededithuctap@fep.com<br>
-                    Copyrights &copy; by SWP391 Class. All Rights Reserved.
-                </p>
+                <div class="row">
+                    <div class="footer__left col-lg-10 col-md-9 col-sm-8">
+                        <p class="txt_footer">
+                            Công ty TNHH F.E.P<br>
+                            Điện thoại: 09999999999<br>
+                            Copyrights &copy; by SWP391 Class. All Rights Reserved.
+                        </p>
+                    </div>
+
+                    <div style="width: " class="footer__right col-lg-2 col-md-3 col-sm-4">
+                        <a href="<c:url value="https://www.facebook.com/giao.lang.bis"/>" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="<c:url value="https://www.instagram.com/fptuniversityhcm/"/>" target="_blank"><i style="color: pink" class="fa-brands fa-instagram"></i></a>
+                        <a href="<c:url value="https://www.youtube.com/c/FPTUniversityHCM"/>" target="_blank"><i style="color: red" class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
             </div>
 
         </footer>
-
     </body>
-    <script><%@include file="/WEB-INF/layouts/js/main.js"%></script>
+
 </html>

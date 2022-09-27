@@ -8,116 +8,104 @@
 <!DOCTYPE html>
 <html lang="en">
 
-   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            /* CSS */
+            .button-22 {
+                /* display: inline-block; */
+                align-items: center;
+                appearance: button;
+                background-color: #0276FF;
+                border-radius: 8px;
+                border-style: none;
+                box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
+                box-sizing: border-box;
+                color: #fff;
+                cursor: pointer;
+                display: flex;
+                flex-direction: row;
+                flex-shrink: 0;
+                font-family: "RM Neue", sans-serif;
+                font-size: 1;
+                /* line-height: 1.15; */
+                /* padding: 10px 21px; */
+                text-align: center;
+                text-transform: none;
+                transition: color .13s ease-in-out, background .13s ease-in-out, opacity .13s ease-in-out, box-shadow .13s ease-in-out;
+                user-select: none;
+                -webkit-user-select: none;
+                touch-action: manipulation;
+                max-width: 85px;
+                /* height: 20px; */
+                margin: 5px;
+            }
 
+            .button-22:active {
+                background-color: #006AE8;
+            }
 
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+            .button-22:hover {
+                background-color: #1C84FF;
+            }
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-              integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-              crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Document</title>
-    <style>
-        /* CSS */
-        .button-22 {
-            /* display: inline-block; */
-            align-items: center;
-            appearance: button;
-            background-color: #0276FF;
-            border-radius: 8px;
-            border-style: none;
-            box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
-            box-sizing: border-box;
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            flex-direction: row;
-            flex-shrink: 0;
-            font-family: "RM Neue", sans-serif;
-            font-size: 1;
-            /* line-height: 1.15; */
-            /* padding: 10px 21px; */
-            text-align: center;
-            text-transform: none;
-            transition: color .13s ease-in-out, background .13s ease-in-out, opacity .13s ease-in-out, box-shadow .13s ease-in-out;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
-            max-width: 85px;
-            /* height: 20px; */
-            margin: 5px;
-        }
+            .br-form {
+                height: auto;
+                padding: 0;
+                /* padding-bottom: 3%; */
+                background: #F0F0F0;
+                border-radius: 5px;
+            }
 
-        .button-22:active {
-            background-color: #006AE8;
-        }
+            .font-bold {
+                font-weight: 500;
+            }
 
-        .button-22:hover {
-            background-color: #1C84FF;
-        }
+            .product-img {
+                width: 100px;
+                height: 100px;
+                padding: 0;
+                margin: 0;
+            }
 
-        .br-form {
-            height: auto;
-            padding: 0;
-            /* padding-bottom: 3%; */
-            background: #F0F0F0;
-            border-radius: 5px;
-        }
+            .product-img img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
 
-        .font-bold {
-            font-weight: 500;
-        }
+            .style-product-cart {
+                display: flex;
+                align-items: center;
 
-        .product-img {
-            width: 100px;
-            height: 100px;
-            padding: 0;
-            margin: 0;
-        }
+            }
 
-        .product-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+            .product-content {
+                font-weight: 500;
+            }
 
-        .style-product-cart {
-            display: flex;
-            align-items: center;
+            .product-content a {
+                font-weight: 400;
+                text-decoration: none;
+                color: rgb(17, 16, 16);
+            }
 
-        }
+            .product-content:hover a {
+                color: #308DFC;
+            }
 
-        .product-content {
-            font-weight: 500;
-        }
+            .txt-style {
+                padding: 0 0 8px 8px;
+            }
 
-        .product-content a {
-            font-weight: 400;
-            text-decoration: none;
-            color: rgb(17, 16, 16);
-        }
-
-        .product-content:hover a {
-            color: #308DFC;
-        }
-
-        .txt-style {
-            padding: 0 0 8px 8px;
-        }
-
-        .title-style {
-            font-weight: bold;
-            padding: 8px
-        }
-    </style>
-</head>
+            .title-style {
+                font-weight: bold;
+                padding: 8px
+            }
+        </style>
+    </head>
 
     <body>
         <div class="container ">
@@ -169,7 +157,7 @@
                                                 <span>số lượng sản phẩm</span>
                                             </div>
                                             <button type="button"
-                                                   class="button-22">Đánh
+                                                    class="button-22">Đánh
                                                 giá</button>
                                         </div>
                                     </td>
@@ -198,7 +186,7 @@
                                                 <span>số lượng sản phẩm</span>
                                             </div>
                                             <button type="button"
-                                                   class="button-22">Đánh
+                                                    class="button-22">Đánh
                                                 giá</button>
                                         </div>
                                     </td>

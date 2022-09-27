@@ -10,20 +10,8 @@
 
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Thông tin sản phẩm</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-              integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-              crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
             * {
                 padding: 0;
@@ -117,7 +105,7 @@
             }
 
             .btn-buy {
-                background-color: aqua;
+                background-color: #FFA500;
                 margin-top: 20px;
                 width: 100%;
                 padding: 10px;
@@ -204,19 +192,29 @@
                             <div class="block-header" style="padding: 10px;">
                                 <h3>Giỏ hàng</h3>
                             </div>
-
-                            <table class="table table-striped ">
+                            <table style="margin-bottom: 1rem;">
                                 <thead>                                  
                                     <tr row>
-                                        <th></th>
+                                        <th><input type="checkbox" name=""></th>
                                         <th class="col-md-6 col-5">Sản phẩm</th>
                                         <th class="col-md-3 col-3">Đơn giá</th>
                                         <th class="col-md-3 col-4">Số lượng</th>
                                     </tr>
                                 </thead>
+                            </table>
+
+                            <table class="table table-striped ">
+                                <thead>                                  
+                                    <tr row>
+                                        <th><input type="checkbox" name=""></th>
+                                        <th class="col-md-6 col-5">Tên người bán 1</th>
+                                        <th class="col-md-3 col-3"></th>
+                                        <th class="col-md-3 col-4"></th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     <tr>
-                                        <th><input type="checkbox" name="prd1"></th>
+                                        <th><input type="checkbox" name=""></th>
                                         <td style="margin: 0">
                                             <div class="row">
                                                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
@@ -251,7 +249,7 @@
                                 </td>
                                 </tr>
                                 <tr>
-                                    <th><input type="checkbox" name="prd1"></th>
+                                    <th><input type="checkbox" name=""></th>
                                     <td style="margin: 0">
                                         <div class="row">
                                             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
@@ -286,7 +284,7 @@
                                 </td>
                                 </tr>
                                 <tr>
-                                    <th><input type="checkbox" name="prd1"></th>
+                                    <th><input type="checkbox" name=""></th>
                                     <td style="margin: 0">
                                         <div class="row">
                                             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
@@ -322,6 +320,125 @@
                                 </tr>
                                 </tbody>
                             </table>
+<!--l===========================================================================-->
+<table class="table table-striped ">
+                                <thead>                                  
+                                    <tr row>
+                                        <th><input type="checkbox" name=""></th>
+                                        <th class="col-md-6 col-5">Tên người bán 2</th>
+                                        <th class="col-md-3 col-3"></th>
+                                        <th class="col-md-3 col-4"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th><input type="checkbox" name=""></th>
+                                        <td style="margin: 0">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="product-img">
+                                                        <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
+                                                        </picture>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 font-bold">
+                                                    <a href="">Tên Sản Phẩm</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                <fmt:setLocale value="vi_VN" />
+                                <span class="product-real-prices">
+                                    <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
+                                </span>
+                                </td>
+                                <td>
+                                    <div class="quantity-button">
+                                        <button class="btn-style-left">-</button>
+                                        <input class="ip-qua-style" value="1">
+                                        <button class="btn-style-right">+</button>
+                                        <div class=" style-product-cart delete-icon"
+                                             style="justify-content: center">
+                                            <a class="show-cart" style="color: white"><i
+                                                    class="fas fa-trash delete-trash"></i></a>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr>
+                                    <th><input type="checkbox" name=""></th>
+                                    <td style="margin: 0">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                <div class="product-img">
+                                                    <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
+                                                    </picture>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 font-bold">
+                                                <a href="">Tên Sản Phẩm</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                <fmt:setLocale value="vi_VN" />
+                                <span class="product-real-prices">
+                                    <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
+                                </span>
+                                </td>
+                                <td>
+                                    <div class="quantity-button">
+                                        <button class="btn-style-left">-</button>
+                                        <input class="ip-qua-style" value="1">
+                                        <button class="btn-style-right">+</button>
+                                        <div class=" style-product-cart delete-icon"
+                                             style="justify-content: center">
+                                            <a class="show-cart" style="color: white"><i
+                                                    class="fas fa-trash delete-trash"></i></a>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr>
+                                    <th><input type="checkbox" name=""></th>
+                                    <td style="margin: 0">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                <div class="product-img">
+                                                    <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
+                                                    </picture>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 font-bold">
+                                                <a href="">Tên Sản Phẩm</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                <fmt:setLocale value="vi_VN" />
+                                <span class="product-real-prices">
+                                    <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
+                                </span>
+                                </td>
+                                <td>
+                                    <div class="quantity-button">
+                                        <button class="btn-style-left">-</button>
+                                        <input class="ip-qua-style" value="1">
+                                        <button class="btn-style-right">+</button>
+                                        <div class=" style-product-cart delete-icon"
+                                             style="justify-content: center">
+                                            <a class="show-cart" style="color: white"><i
+                                                    class="fas fa-trash delete-trash"></i></a>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                </tbody>
+                                <!--l==================================================-->
+                            </table>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -341,7 +458,7 @@
                                     <div>
                                         <span class="font-bold">Địa chỉ: </span>
                                         <span class="customer-info">
-                                            Địa chỉ người mua
+                                            Địa chỉ nhận hàng
                                         </span>
                                     </div>
                                 </div>

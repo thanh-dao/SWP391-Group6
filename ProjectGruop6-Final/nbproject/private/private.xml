@@ -2,6 +2,44 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/images/icon_google.png</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/images/z3726481183295_a684000248a0e32217b9c2375e8f7b20.jpg</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/user/userInformation.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/src/java/dto/UserDTO.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/order/stored.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/src/java/dao/ProductImageDAO.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/src/java/dao/UserDAO.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/home/checkProduct.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/images/sach.jpg</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/error/index.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/layouts/main.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/images/nuocHoa.jpg</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/cart/billInformation.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/cart/pay.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/admin/checkProductAd.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/home/reviewProduct.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/src/java/controllers/ErrorController.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/src/java/controllers/HomeController.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/user/login.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/admin/adminAuthen.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/home/productList.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/src/java/controllers/GetProductAjax.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/src/java/controllers/AdminController.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/cart/cart.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/images/logo.png</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/images/thucAn.jpg</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/src/java/utils/Constants.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/cart/shipInformation.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/images/logofpt.jpg</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/home/main.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/order/history.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/src/java/dao/ProductDAO.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/home/productDetail.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/images/thuCung.jpg</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/web/WEB-INF/views/home/uploadProduct.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/ProjectGruop6-26-9-19h/src/java/dto/ProductImageDTO.java</file>
+        </group>
     </open-files>
 </project-private>

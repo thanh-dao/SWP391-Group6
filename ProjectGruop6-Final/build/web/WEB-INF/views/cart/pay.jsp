@@ -10,20 +10,8 @@
 
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Thanh Toán</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-              integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-              crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
             * {
                 padding: 0;
@@ -370,14 +358,8 @@
                 text-decoration: none;
             }
 
-            .customer-infor-phone,
-            .customer-infor-name {
-                font-weight: bolder;
-            }
-
-            .customer-address {
-                color: grey;
-                width: auto;
+            .txt-style {
+                padding: 0 0 8px 8px;
             }
 
             .address-container {
@@ -396,7 +378,7 @@
             }
 
             .btn-buy {
-                background-color: aqua;
+                background-color: #FFA500;
                 margin-top: 20px;
                 width: 100%;
                 padding: 10px;
@@ -424,6 +406,10 @@
                 right: -10px;
                 transition: 0.15s linear;
             }
+
+            .font-bold {
+                font-weight: 500;
+            }
         </style>
     </head>
 
@@ -439,14 +425,14 @@
                                 <h3 style="padding: 10px;">Chọn hãng giao hàng</h3>
                                 <div class="row">
                                     <label class="shipper-item col-md-6 col-sm-6">
-                                        <input type="radio" required="">
+                                        <input id="dmt1" name="dmt" type="radio" required="">
                                         <i class="fab fa-shopify"></i>
-                                        <label for="hand">Nhận hàng trực tiếp</label><br>
+                                        <label >Nhận hàng trực tiếp</label><br>
                                     </label>
                                     <label class="shipper-item  col-md-6 col-sm-6">
-                                        <input type="radio" required="">
+                                        <input id="dmt2" name="dmt" type="radio" required="">
                                         <i class="fas fa-shipping-fast"></i>
-                                        <label>Giao hàng tận nhà</label><br>
+                                        <label >Giao hàng tận nhà</label><br>
                                     </label>
                                 </div>
                             </div>
@@ -454,12 +440,12 @@
                                 <h3 style="padding: 10px;">Chọn hình thức thanh toán </h3>
                                 <div class="CardAddingForm">
                                     <div class="card-item">
-                                        <input type="radio" required="">
+                                        <input id="pmt1" name="pmt" type="radio" required="">
                                         <i class="fas fa-hand-holding-usd"></i>
                                         <label for="cod">Thanh toán trực tiếp khi nhận hàng</label><br>
                                     </div>
                                     <div class="card-item">
-                                        <input type="radio" required="">
+                                        <input id="pmt2" name="pmt" type="radio" required="">
                                         <i class="fas fa-credit-card"></i>
                                         <label for="visa">Thanh toán bằng thẻ</label><br>
                                     </div>
@@ -473,13 +459,19 @@
                                         <h3>Giao đến</h3>
                                         <a href="<c:url value="/cart/shipInformation.do"/>">Thay đổi</a>
                                     </div>
-                                    <div class="customer-infor">
-                                        <p class="customer-infor-name">Họ và tên</p>
-                                        <i></i>
-                                        <p class="customer-infor-phone">Số điện thoại</p>
-                                    </div>
-                                    <div class="customer-address">
-                                        Địa chỉ người mua
+                                    <div class="txt-style">
+                                        <div>
+                                            <span class="font-bold">Họ và tên: </span><span>Tên người mua</span>
+                                        </div>
+                                        <div>
+                                            <span class="font-bold">Số điện thoại: </span><span>Số điện thoại</span><br>
+                                        </div>
+                                        <div>
+                                            <span class="font-bold">Địa chỉ: </span>
+                                            <span class="customer-info">
+                                                Địa chỉ nhận hàng
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- thanh toán -->
@@ -494,7 +486,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" name="action" value="step3" class="btn-buy" onclick="window.location.href='<c:url value="/cart/billInformation.do"/>'">Thanh Toán</button>
+                                <button type="button" name="action" value="step3" class="btn-buy" onclick="window.location.href = '<c:url value="/cart/billInformation.do"/>'">Thanh Toán</button>
                             </div>
                         </div>
                     </div>
