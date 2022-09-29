@@ -20,10 +20,10 @@ import lombok.Setter;
 public class CategoryDTO {
     private int cateId;
     private String name;
+    private String icon;
 
     @Override
     public String toString() {
-        return "CategoryDTO{" + "id=" + cateId + ", name=" + name + '}';
+        return "CategoryDTO{" + "cateId=" + cateId + ", name=" + name + ", icon=" + icon + '}';
     }
-    
 }

@@ -10,14 +10,12 @@ import dao.ProductDAO;
 import dto.ProductDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import utils.Constants;
 
 /**
  *
@@ -38,36 +36,9 @@ public class GetProductAjax extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        String function = request.getParameter("func");
-        List<ProductDTO> productResult = null;
-        try {
-            switch (function) {
-                case "getSortedProductList": {
-                    productResult = getSortedProductList(request, response);
-                    break;
-                }
-                case "getSearchResult": {
-                    String productName = request.getParameter("productName");
-                    productResult = getSearchResult(productName, request, response);
-                    break;
-                }
-                default:{
-                    throw new IllegalArgumentException("invalid function name in GetProductAjax");
-                }
-            }
-            Gson gson = new Gson();
-            PrintWriter out = response.getWriter();
-            out.print(gson.toJson(productResult));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public List<ProductDTO> getSortedProductList(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException {
         String sortOption = request.getParameter("option");
         ProductDAO proDAO = new ProductDAO();
-        int cateID = Integer.parseInt(request.getParameter("cateID"));
+        int cateId = Integer.parseInt(request.getParameter("cateId"));
         int pageNumber = Integer.parseInt(request.getParameter("pageNum"));
         int sortBy = 0;
         boolean dataTrend = true;
@@ -100,17 +71,18 @@ public class GetProductAjax extends HttpServlet {
                 }
 
             }
-        } else {
+        }else {
             sortBy = ProductDAO.NAME;
             dataTrend = ProductDAO.ASC;
         }
-        return proDAO.getProductList(pageNumber, sortBy, dataTrend, cateID);
-    }
-
-    public List<ProductDTO> getSearchResult(String productName, HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException {
-        ProductDAO proDAO = new ProductDAO();
-        return proDAO.getProductList(Constants.RESULT_PER_SEARCH, productName);
+        try {
+            List<ProductDTO> sortedProductList = proDAO.getProductList(pageNumber, sortBy, dataTrend, cateId);
+            Gson gson = new Gson();
+            PrintWriter out = response.getWriter();
+            out.print(gson.toJson(sortedProductList));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

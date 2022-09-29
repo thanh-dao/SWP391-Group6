@@ -4,6 +4,8 @@
     Author     : ADmin
 --%>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -60,13 +62,13 @@
                 font-weight: 500;
             }
 
-            a {
+            .font-a a{
                 color: #FFA500;
                 text-decoration: none;
             }
 
             a:hover {
-                color: #4D8FFF;
+                color: none;
                 text-decoration: none;
             }
 
@@ -77,7 +79,7 @@
 
             .br-form {
                 background: #FFFFFF;
-                padding: 5px;
+                padding: 10px;
                 border-radius: 3px;
                 margin-bottom: 20px;
             }
@@ -91,6 +93,7 @@
 
             .avatar img{
                 width: 100%;
+                border-radius: 50%;
             }
 
             .reviewer {
@@ -102,45 +105,90 @@
 
             .reviewer img{
                 width: 100%;
+                border-radius: 50%;
             }
 
             .review {
                 padding: 10px;
                 border-bottom: 1.5px solid rgba(0,0,0,.09);
             }
+
+            .star{
+                color: #FFA500;
+                font-size:40px;
+            }
+
+            .star-s{
+                color: #FFA500;
+                font-size:20px;
+            }
+            
+            .product__item {
+                width: 100%;
+                transition: 0.5s;
+            }
+
+            .product__item a {
+                color: black;
+                font-size: 18px;
+            }
+
+            .product__item img {
+                transition: 0.5s;
+            }
+
+            .product__item img:hover {
+                transform: translateY(-5px);
+                transition: 0.5s;
+            }
+
+            .product__item a:hover {
+                color:blue;
+                text-decoration: none;
+            }
+
+            .product__item img {
+                height: 230px;
+            }
+
+            .product__item span {
+                font-size: 20px;
+                color: red;
+            }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="br-form">
-                <div class="link">
+                <div class="link font-a">
                     <a href="<c:url value="/home/main.do"/>">Trang chủ</a> >>
-                    <a href="<c:url value="/home/productList.do"/>">Loại sản phẩm</a> >>
-                    <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a>
+                    <c:forEach items="${sessionScope.cateList}" var="i">
+                        <c:if test ="${i.cateId == product.cateId}">
+                            <a href="<c:url value="/home/productList.do?cateId=${product.cateId}"/>">
+                                ${i.name}
+                            </a> >>
+                        </c:if>
+                    </c:forEach>
+                    <a href="<c:url value="/home/productDetail.do?productId=${product.productId}"/>">${product.name}</a>
                 </div>
-
                 <div class="product__content">
                     <div class="row">
                         <div id="demo" class="carousel slide col-lg-7 col-md-7 col-sm-7" data-ride="carousel">
 
                             <!-- Indicators -->
-                            <ul class="carousel-indicators">
-                                <li data-target="#demo" data-slide-to="0" class="active"></li>
-                                <li data-target="#demo" data-slide-to="1"></li>
-                                <li data-target="#demo" data-slide-to="2"></li>
-                            </ul>
+                            <!--                            <ul class="carousel-indicators">
+                                                            <li data-target="#demo" data-slide-to="0" class="active"></li>
+                                                            <li data-target="#demo" data-slide-to="1"></li>
+                                                            <li data-target="#demo" data-slide-to="2"></li>
+                                                        </ul>-->
 
                             <!-- The slideshow -->
                             <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                                </div>
-                                <div class="carousel-item">
-                                    <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                                </div>
-                                <div class="carousel-item">
-                                    <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                                </div>
+                                <c:forEach items="${product.imgList}" var="i">
+                                    <div class="carousel-item active">
+                                        <img class="img-fluid" src="<c:url value="${i.url}"/>">
+                                    </div>
+                                </c:forEach>
                             </div>
 
                             <!-- Left and right controls -->
@@ -153,21 +201,36 @@
                         </div>
 
                         <div class="col-lg-5 col-md-5 col-sm-5">
-                            <h2>Tên sản phẩm</h2>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <div style="display: flex;">
-                                <p style="margin-right: 30%">Đã bán: <span class="font-bold">201</span></p>
-                                <p>Đánh giá: <span class="font-bold">190</span></p>
+                            <h2>${product.name}</h2>
+                            <div style="margin: 20px 0;">
+                                ${rating}
+
+                                <c:if test ="${rating == 0}"><span class="fa fa-star-o star"></span></c:if>
+                                <c:if test ="${rating > 0 && rating <= 0.5}"><span class="fa fa-star-half-o star"></span></c:if>
+                                <c:if test ="${rating > 0.5 }"><span class="fa fa-star star"></span></c:if>
+                                <c:if test ="${rating < 1}"><span class="fa fa-star-o star"></span></c:if>
+                                <c:if test ="${rating > 1 && rating <= 1.5}"><span class="fa fa-star-half-o star"></span></c:if>
+                                <c:if test ="${rating > 1.5}"><span class="fa fa-star star"></span></c:if>
+                                <c:if test ="${rating < 2}"><span class="fa fa-star-o star"></span></c:if>
+                                <c:if test ="${rating > 2 && rating <=2.5}"><span class="fa fa-star-half-o star"></span></c:if>
+                                <c:if test ="${rating > 2.5}"><span class="fa fa-star star"></span></c:if>
+                                <c:if test ="${rating < 3}"><span class="fa fa-star-o star"></span></c:if>
+                                <c:if test ="${rating > 3 && rating <= 3.5}"><span class="fa fa-star-half-o star"></span></c:if>
+                                <c:if test ="${rating > 3.5}"><span class="fa fa-star star"></span></c:if>
+                                <c:if test ="${rating < 4}"><span class="fa fa-star-o star"></span></c:if>
+                                <c:if test ="${rating > 4 && rating <= 4.5}"><span class="fa fa-star-half-o star"></span></c:if>
+                                <c:if test ="${rating > 4.5}"><span class="fa fa-star star"></span></c:if>
+                                </div>
+                                <div style="display: flex;">
+                                    <p style="margin-right: 30%">Đã bán: <span class="font-bold">${product.soldCount}</span></p>
+                                <p>Đánh giá: <span class="font-bold">${reviewer.size()}</span></p>
 
                             </div>
-                            <p>Sản phẩm có sẵn: <span class="font-bold">1201</span><p/>
-                            <h2 style="color: #E72425; text-align: right">200.000 VNĐ</h2>
-                            <div class="buy d-flex justify-content-around">
-                                <button type="button" onclick="addCartAjax()">Đặt hàng</button>
+                            <p>Sản phẩm có sẵn: <span class="font-bold">${product.quantity}</span><p/>
+                            <h2 style="color: #E72425; text-align: right; margin-right: 20px;">
+                                <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>
+                            <div class="buy d-flex justify-content-around" style="margin: 50px 0 20px 0;">
+                                <button>Mua</button>
                             </div>
                         </div>
                     </div>
@@ -176,88 +239,56 @@
             <div class="br-form">
                 <h5>Thông tin người bán</h5>
                 <div style="display: flex">
-                    <div class="col-md-5" style="display: flex">
+                    <div class="col-md-5 col-sm-12 font-a" style="display: flex">
                         <a href="<c:url value="/home/main.do"/>" class="avatar">
-                            <img src="<c:url value="/images/FBT.jpg"/>" alt="">
+                            <img src="<c:url value="${seller.avatarLink}"/>" alt="">
                         </a>
-                        <p><a href="#">Tên người bán</a></p>
+                        <p><a href="#">${seller.firstName} ${seller.lastName}</a></p>
                     </div>
-                    <div class="col-md-7">
-                        <p>Số điện thoại: <span>0808</span></p>
-                        <p>Địa chỉ: <span>TP HCM</span></p>
+                    <div class="col-md-7 col-sm-12">
+                        <p>Số điện thoại: <span>${seller.phone}</span></p>
+                        <p>Địa chỉ: <span>${seller.address} ${seller.ward}
+                                ${seller.district} ${seller.city}</span></p>
                     </div>
                 </div>
             </div>
 
             <div class="br-form">
                 <h5>Mô tả chi tiết: </h5>
-                <p style="padding: 10px 0 10px 0;">
-                    Mô tả:
-
-                    Loại dự án: Đồng hồ điện tử LED
-                    Loại móc cài: khóa ghim
-                    Hình dạng trường hợp: hình vuông
-                    Loại hiển thị: số
-                    Phong cách: thể thao
-
-                    Đặc điểm:
-
-                    Kích thước:
-                    Đường kính quay số: 43 mm
-                    Độ dày vỏ: 14 mm
-                    Chiều dài dây đeo: 255 mm
-                    Chiều rộng băng: 22 mm
-
-                    Chất liệu: TPE + ABS + PP
-
-                    Màu sắc: 
-
-                    Gói hàng bao gồm:
-                    1x đồng hồ điện tử
-
-                    Lưu ý:
-                    1. Do màn hình khác nhau, có thể có một số khác biệt về màu sắc, xin vui lòng hiểu
-                    2. Do đo lường thủ công, có thể có một chút lỗi, xin vui lòng thông cảm
-                </p>
+                <p style="padding: 10px 0 10px 0;">${product.description}</p>
             </div>
 
             <div class="br-form">
                 <h5 style="margin-top: 5px;">Đánh giá sản phẩm</h5>
                 <div class="review">
-                    <div style="display: flex">
-                        <a href="<c:url value="/home/main.do"/>" class="reviewer">
-                            <img src="<c:url value="/images/FBT.jpg"/>" alt="">
-                        </a>
-                        <p>
-                            <a href="#">Tên người bán</a>
-                            <br/>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </p>
-                    </div>
-                    <p>Khá đẹp, mặt đồng hồ như gương vậy có thể soi được</p>
+                    <c:forEach items="${reviewer}" var="i">
+                        <div class="font-a" style="display: flex">
+                            <a href="<c:url value="/home/main.do"/>" class="reviewer">
+                                <img src="<c:url value="${i.avatarLink}"/>" alt="">
+                            </a>
+                            <p>
+                                <a href="#" style="margin-right: 20px;">${i.name}</a>
+                                <c:if test ="${i.rating == 0}"><span class="fa fa-star-o star-s"></span></c:if>
+                                <c:if test ="${i.rating > 0 && i.rating <= 0.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
+                                <c:if test ="${i.rating > 0.5 }"><span class="fa fa-star star-s"></span></c:if>
+                                <c:if test ="${i.rating < 1}"><span class="fa fa-star-o star-s"></span></c:if>
+                                <c:if test ="${i.rating > 1 && i.rating <= 1.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
+                                <c:if test ="${i.rating > 1.5}"><span class="fa fa-star star-s"></span></c:if>
+                                <c:if test ="${i.rating < 2}"><span class="fa fa-star-o star-s"></span></c:if>
+                                <c:if test ="${i.rating > 2 && i.rating <=2.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
+                                <c:if test ="${i.rating > 2.5}"><span class="fa fa-star star-s"></span></c:if>
+                                <c:if test ="${i.rating < 3}"><span class="fa fa-star-o star-s"></span></c:if>
+                                <c:if test ="${i.rating > 3 && i.rating <= 3.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
+                                <c:if test ="${i.rating > 3.5}"><span class="fa fa-star star-s"></span></c:if>
+                                <c:if test ="${i.rating < 4}"><span class="fa fa-star-o star-s"></span></c:if>
+                                <c:if test ="${i.rating > 4 && i.rating <= 4.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
+                                <c:if test ="${i.rating > 4.5}"><span class="fa fa-star star-s"></span></c:if>
+                                </p>
+                            </div>
+                            <p>${i.comment}</p>
+                    </c:forEach>
                 </div>
-                <div class="review">
-                    <div style="display: flex">
-                        <a href="<c:url value="/home/main.do"/>" class="reviewer">
-                            <img src="<c:url value="/images/FBT.jpg"/>" alt="">
-                        </a>
-                        <p>
-                            <a href="#">Tên người bán</a>
-                            <br/>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </p>
-                    </div>
-                    <p>Khá đẹp, mặt đồng hồ như gương vậy có thể soi được</p>
-                </div>
-                <nav aria-label="Page navigation example" style="margin-top: 5px;">
+<!--                <nav aria-label="Page navigation example" style="margin-top: 5px;">
                     <ul class="pagination d-flex justify-content-center">
                         <li class="page-item "><a class="page-link" href="#">Previous</a></li>
                         <li class="page-item active"><a class="page-link" href="#">1</a></li>
@@ -265,115 +296,24 @@
                         <li class="page-item"><a class="page-link" href="#">3</a></li>
                         <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
-                </nav>
-
+                </nav>-->
             </div>
 
             <div class="product">
-                <h3>Các sản phẩm khác của <a href="#">Tên người bán</a></h3>
+                <h3 class="font-a">Các sản phẩm khác của <a href="#">${seller.firstName} ${seller.lastName}</a></h3>
                 <div class="product__content row">
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
-                    <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                        <a href="<c:url value="/home/productDetail.do"/>">
-                            <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                        </a>
-                        <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                        <span>Giá sản phẩm</span>
-                    </div>
+                    <c:forEach items="${productList}" var="i">
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                <p>${i.name}</p>
+                                <fmt:setLocale value="vi_VN"/>
+                                <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
+                            </a>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
         </div>
-        <script>let email = ""</script>
-        <h1>${sessionScope.acc.email != null}</h1>
-        <c:if test="${sessionScope.acc.email != null}">
-            <script> 
-                email = '${sessionScope.acc.email}'
-            </script>
-        </c:if>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-        <script>
-            console.log(email)
-                const getProductId = () => {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    return urlParams.get('productId');
-                }
-                const addCartAjax = () => {
-                    if (email == "") {
-                        window.location.href = "/ProjectGroup6/user/login.do"
-                    } else {
-                        $.ajax("/ProjectGroup6/addCartAjax", {
-                            method: "GET",
-                            data: {
-                                
-                                email: email,
-                                productId:  getProductId(),
-                            },
-                            success: function (data) {
-                                console.log(data)
-                            }
-                        })
-                    }
-                }
-//                        fetch("addCartAjax", {
-//                            method: "GET",
-//                            body: {
-//                                email: email,
-//                                productId:  getProductId(),
-//                            }
-//                        })
-//                        .then(res => res.json())
-//                        .then(res => console.log(res))
-//                    }
-
-        </script>
     </body>
 </html>

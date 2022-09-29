@@ -6,9 +6,9 @@
 package utils;
 
 /**
- * 
+ *
  * this class is used for holds the constraint that may be changed in the future
- * 
+ *
  */
 public class Constants {
 
@@ -23,8 +23,8 @@ public class Constants {
     public static final String GOOGLE_LINK_GET_USER_INFO = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=";
 
     public static final String GOOGLE_GRANT_TYPE = "authorization_code";
-    
+
     public static final int ITEM_PER_PAGE = 16;
-    
-    public static final int RESULT_PER_SEARCH = 5;
+
+    public static final int ITEM_PER_PAGE_PRODUCT_DETAIL = 8;
 }

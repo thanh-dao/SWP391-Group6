@@ -82,7 +82,8 @@
             <div class="col d-flex">
                 <!--Div that will hold the pie chart-->
                 <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
-                    <a href="#" class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
+                    <a href="#"
+                       class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
                         <svg class="bi me-2" width="40" height="32">
                         <use xlink:href="#bootstrap"></use>
                         </svg>
@@ -116,8 +117,7 @@
                                 </svg>
                                 Dashboard
                             </a>
-                        </li>
-
+                        </li                     
                         <li class="nav-item">
                             <a href="<c:url value="/admin/reviewAuthen.do"/>" class="nav-link active text-white">
                                 <svg class="bi me-2" width="16" height="16">
@@ -126,18 +126,23 @@
                                 Đánh giá
                             </a>
                         </li>
-                        <li class="nav-item" style="display: ${ sessionScope.acc.roleId== 2 ? "block":"none"}">
-                            <a href="<c:url value="/admin/adminAuthen.do"/>" class="nav-link text-white">
-                                <svg class="bi me-2" width="16" height="16">
-                                <use xlink:href="#people-circle"></use>
-                                </svg>
-                                Admin
-                            </a>
-                        </li>
-                    </ul>
                     </ul>
                     <hr>
-
+                    <div class="dropdown p-3">
+                        <a href="#"
+                           class="d-flex align-items-center overflow-hidden text-white text-decoration-none dropdown-toggle"
+                           id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <strong>mdo</strong>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                            <li><a class="dropdown-item" href="<c:url value="/user/userInformaion.do"/>">Trang</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Đăng Xuất</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="table-responsive container p-3 mt-5 mb-5">
                     <input class="search1" type="text">
