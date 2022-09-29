@@ -77,34 +77,39 @@
             <div class="container">
 
                 <div class="product__content">
+                    <form>
+                        <div class="row">
+                            <div class="upload col-lg-5 col-md-5 col-sm-5">
+                                <button onclick="document.querySelector('.input-image').click()">
+                                    <i class="fa-solid fa-camera"></i>
+                                
+                                </button>
+                                <input class="input-image" type="file" hidden accept="image/*">
+                            </div>
 
-                    <div class="row">
-                        <div class="upload col-lg-5 col-md-5 col-sm-5">
-                            <button>
-                                <i class="fa-solid fa-camera"></i>
-                            </button>
-                        </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7">
 
-                        <div class="col-lg-7 col-md-7 col-sm-7">
-                            <h5>Tiêu đề</h5><input type="text" >
-                            <h5>Tên sản Phẩm</h5><input type="text">
-                            <h5>Giá sản phẩm</h5><input type="number">
-                            <h5>Số lượng sản phẩm</h5><input type="number">
-                            <h5>Mô tả sản phẩm</h5>
-                            <textarea type="textarea"style="width: 100%;" required="true" name="address"
-                                      placeholder="Ví dụ: Khách hàng có thể nhận hàng vào buổi sáng"
-                                      class="input-form-item">
-                            </textarea>
-                            <h5>Số điện thoại</h5><input type="text">
-                            <br />
-                            <h5>Email</h5><input type="text" placeholder="Email" disabled>
-                            <h5>Địa chỉ người bán</h5><input type="text">
-                            <div class="buy d-flex justify-content-around button_1">
-                                <button><a href="<c:url value="#"/>">Lưu</a></button>
-                                <button><a href="<c:url value="/home/checkProduct.do"/>">Xem trước</a></button>
+                                <h5>Tiêu đề</h5><input type="text" >
+                                <h5>Tên sản Phẩm</h5><input type="text">
+                                <h5>Giá sản phẩm</h5><input type="number">
+                                <h5>Số lượng sản phẩm</h5><input type="number">
+                                <h5>Mô tả sản phẩm</h5>
+                                <textarea type="textarea"style="width: 100%;" required="true" name="address"
+                                          placeholder="Ví dụ: Khách hàng có thể nhận hàng vào buổi sáng"
+                                          class="input-form-item"></textarea>
+                                <h5>Số điện thoại</h5>
+                                <input type="text">
+                                <br />
+                                <h5>Email</h5>
+                                <input type="text" placeholder="Email" disabled>
+                                <h5>Địa chỉ người bán</h5><input type="text">
+                                <div class="buy d-flex justify-content-around button_1">
+                                    <button><a href="<c:url value="#"/>">Lưu</a></button>
+                                    <button><a href="<c:url value="/home/checkProduct.do"/>">Xem trước</a></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
 
 
 

@@ -143,13 +143,12 @@
                         <div class="product__item col-lg-3 col-md-4 col-sm-6">
                             <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
                                 <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                <p>${i.name}</p>
+                                <fmt:setLocale value="vi_VN"/>
+                                <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
                             </a>
-                            <a href="<c:url value="/home/productDetail.do?id=${i.productId}"/>">${i.name}</a><br>
-                            <fmt:setLocale value="vi_VN"/>
-                            <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
                         </div>
                     </c:forEach>
-
                 </div>
             </div>
         </div>
@@ -160,11 +159,12 @@
                 <div class="product__content row">
                     <c:forEach items="${newProducts}" var="i">
                         <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do?${i.productId}"/>">
+                            <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
                                 <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                <p>${i.name}</p>
+                                <fmt:setLocale value="vi_VN"/>
+                                <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
                             </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">${i.name}</a><br>
-                            <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
                         </div>
                     </c:forEach>
                 </div>

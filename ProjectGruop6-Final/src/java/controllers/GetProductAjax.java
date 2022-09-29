@@ -38,7 +38,7 @@ public class GetProductAjax extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String sortOption = request.getParameter("option");
         ProductDAO proDAO = new ProductDAO();
-        int cateID = Integer.parseInt(request.getParameter("cateID"));
+        int cateId = Integer.parseInt(request.getParameter("cateId"));
         int pageNumber = Integer.parseInt(request.getParameter("pageNum"));
         int sortBy = 0;
         boolean dataTrend = true;
@@ -76,7 +76,7 @@ public class GetProductAjax extends HttpServlet {
             dataTrend = ProductDAO.ASC;
         }
         try {
-            List<ProductDTO> sortedProductList = proDAO.getProductList(pageNumber, sortBy, dataTrend, cateID);
+            List<ProductDTO> sortedProductList = proDAO.getProductList(pageNumber, sortBy, dataTrend, cateId);
             Gson gson = new Gson();
             PrintWriter out = response.getWriter();
             out.print(gson.toJson(sortedProductList));

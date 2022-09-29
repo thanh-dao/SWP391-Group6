@@ -20,6 +20,7 @@
         <!--<link href="main.css" rel="stylesheet" type="text/css"/>-->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
@@ -105,8 +106,8 @@
             }
 
             header .category {
-                margin-top: 20px;
-                padding-bottom: 20px;
+                margin-top: 10px;
+                padding-bottom: 5px;
             }
 
             header .category ul {
@@ -210,6 +211,12 @@
                 top: 0;
                 bottom: 0;
 
+            }
+            .flex-grow-2{
+                width: 20%;
+            }
+            .flex-wrap{
+                flex-wrap: wrap;
             }
             /*==============================================================================*/
             .container-account {
@@ -390,11 +397,11 @@
 
                 <div class="category">
                     <div class="container">
-                        <ul class="d-flex justify-content-between">
+                        <ul class="d-flex justify-content-between flex-wrap">
                             <c:forEach items="${sessionScope.cateList}" var="i">
-                                <li>
+                                <li class='flex-grow-2'>
                                     <a href="<c:url value="/home/productList.do?cateId=${i.cateId}"/>">
-                                        <i class="fa-solid fa-mobile-screen-button"></i>
+                                        ${i.icon}
                                         <span>${i.name}</span>
                                     </a>
                                 </li>

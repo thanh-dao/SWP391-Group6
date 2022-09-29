@@ -8,8 +8,12 @@ package controllers;
 import config.Config;
 import dao.CategoryDAO;
 import dao.ProductDAO;
+import dao.ReviewDAO;
+import dao.UserDAO;
 import dto.CategoryDTO;
 import dto.ProductDTO;
+import dto.ReviewDTO;
+import dto.UserDTO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -60,20 +64,41 @@ public class HomeController extends HttpServlet {
                 }
                 break;
             }
-            
-            case "productDetail":
-                break;
+
+            case "productDetail": {
+                int productId = Integer.parseInt(request.getParameter("productId"));
+                System.out.println(productId);
+                ProductDAO proDAO = new ProductDAO();
+                UserDAO userDAO = new UserDAO();
+                ReviewDAO review = new ReviewDAO();
+                try {
+                    ProductDTO product = proDAO.getProductById(productId);
+                    UserDTO user = userDAO.getUserByProductId(productId);
+                    List<ReviewDTO> reviewer = review.getReview(productId);
+                    double rating = review.getAVGRatingOfProduct(productId);
+                    List<ProductDTO> productList = proDAO.getProductList(1, proDAO.SOLD_COUNT,
+                            proDAO.DESC, user.getEmail());
+                    request.setAttribute("rating", rating);
+                    request.setAttribute("product", product);
+                    request.setAttribute("seller", user);
+                    request.setAttribute("reviewer", reviewer);
+                    request.setAttribute("productList", productList);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            break;
             case "uploadProduct":
                 break;
             case "checkProduct":
                 break;
             case "productList":
-                int cateID = Integer.parseInt(request.getParameter("cateId"));
+                int cateId = Integer.parseInt(request.getParameter("cateId"));
                 ProductDAO proDAO = new ProductDAO();
                 try {
-                    List<ProductDTO> productList = proDAO.getProductList(1, ProductDAO.NAME, ProductDAO.ASC, cateID);
+                    List<ProductDTO> productList = proDAO.getProductList(1, ProductDAO.NAME, ProductDAO.ASC, cateId);
                     request.setAttribute("productList", productList);
-                } catch(Exception ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
 

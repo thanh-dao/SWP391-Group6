@@ -85,12 +85,12 @@
 
                     <c:forEach items="${productList}" var="i">
                         <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do?${i.productId}"/>">
-                                <img class="img-fluid" src="<c:url value="${i.getMainImage().url}"/>" alt="">
+                            <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                <p>${i.name}</p>
+                                <fmt:setLocale value="vi_VN"/>
+                                <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
                             </a>
-                            <a href="<c:url value="/home/productDetail.do?${i.productId}"/>">${i.name}</a><br>
-                            <fmt:setLocale value="vi_VN"/>
-                            <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
                         </div>
                     </c:forEach>
 
@@ -160,7 +160,7 @@
                 $.ajax("/ProjectGroup6/GetProductAjax", {
                     data: {
                         option: id,
-                        cateID: getCateId(),
+                        cateId: getCateId(),
                         pageNum: getPageNumber(),
                     },
                     success: function (data) {
@@ -196,7 +196,7 @@
                 
                  $.ajax("/ProjectGroup6/GetProductAjax", {
                     data: {
-                        cateID: getCateId(),
+                        cateId: getCateId(),
                         pageNum: currentPageNum,
                     },
                     success: function (data) {

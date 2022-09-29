@@ -47,16 +47,20 @@
                             <div class="text-center">
                                 <span class="text_1">Login by FPT Email</span>
                                 <button class="btn_login">
-                                    <a href="<c:url value="/home/main.do"/>">
-
+                                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid &redirect_uri=http://localhost:8084/ProjectGroup6/user/googleLoginHandle.do&response_type=code
+                                       &client_id=361981052480-8ke1bdjjdl3alh1o3f2mrm4osm4uo8bk.apps.googleusercontent.com&approval_prompt=force">
                                         <img class="logo_google"                                           
                                              src="<c:url value="/images/icon_google.png"/>"
                                              alt=""
 
                                              />
-                                        Google
+                                        Login With Google
                                     </a>  
+
                                 </button>
+                                <c:if test="${sessionScope.errorLoginMessage != null}">
+                                    <p style="padding-top: 20px;color:blue">${sessionScope.errorLoginMessage}</p>
+                                </c:if>
                             </div>
                     </div>
                     </form>
