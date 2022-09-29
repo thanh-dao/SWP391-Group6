@@ -56,9 +56,6 @@ public class UserController extends HttpServlet {
         String redirectUrl = "";
         switch (action) {
             case "login":
-
-//                response.sendRedirect("");
-//                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             case "userInformation":
                 break;
@@ -87,17 +84,25 @@ public class UserController extends HttpServlet {
                         }
                     }
 
-                    session.setAttribute("user", userDTO);
+                    session.setAttribute("acc", userDTO);
                     redirectUrl = "/home/main.do";
                     session.setAttribute("errorLoginMessage", null);
 
                 } else {
                     redirectUrl = "/user/login.do";
-                    session.setAttribute("errorLoginMessage", 
+                    session.setAttribute("errorLoginMessage",
                             "Tài khoản của bạn không được phép đăng nhập vào hệ thống");
                 }
                 break;
+
             }
+            case "logout":
+                session.removeAttribute("acc");
+                request.setAttribute("controller", "home");
+                request.setAttribute("action", "main");
+                
+                break;
+
             default: {
                 request.setAttribute("controller", "error");
                 request.setAttribute("action", "index");
