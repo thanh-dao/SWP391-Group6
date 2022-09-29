@@ -10,15 +10,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
+/**
+ *
+ * @author kanek
+ */
+@Getter @Setter
 @NoArgsConstructor
-public class ReviewImageDTO {
-    private String url;
-    
+@AllArgsConstructor
+public class AddressDTO {
+    private String houseNumber;
+    private String city;
+    private String district;
+    private String ward;
+
     @Override
     public String toString() {
-        return "ReviewImageDTO{" + "url=" + url + '}';
+        return "AddressDTO{" + "houseNumber=" + houseNumber + ", city=" + city + ", district=" + district + ", ward=" + ward + '}';
     }
+    
+    
 }

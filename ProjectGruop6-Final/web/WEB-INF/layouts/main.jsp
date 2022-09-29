@@ -20,7 +20,6 @@
         <!--<link href="main.css" rel="stylesheet" type="text/css"/>-->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
@@ -106,8 +105,8 @@
             }
 
             header .category {
-                margin-top: 10px;
-                padding-bottom: 5px;
+                margin-top: 20px;
+                padding-bottom: 20px;
             }
 
             header .category ul {
@@ -181,18 +180,6 @@
                 transform: translate(6px, 6px) rotate(135deg);
             }
 
-            /*            .search .input {
-                            position: relative;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            left: 60px;
-                            width: 100% - 60px;
-                            height: 60px;
-                        }*/
-
-
-
             .search input {
                 position: absolute;
                 top: 0;
@@ -211,6 +198,20 @@
                 top: 0;
                 bottom: 0;
 
+            }
+
+            .search-result-layer {
+                display: none;
+                background-color: #fff;
+                width: 80%;
+                margin-top: 5px;
+            }
+            .search-result-layer li {
+                cursor: pointer;
+                padding: 5px 10px;
+            }
+            .search-result-layer li:hover {
+                background-color: #fafafa;
             }
             .flex-grow-2{
                 width: 20%;
@@ -352,7 +353,7 @@
                             <button ><a href="<c:url value="/home/uploadProduct.do"/>"><i class="fa-sharp fa-solid fa-file-pen"></i>Đăng tin</a></button>
                             <button ><a href="<c:url value="/order/history.do"/>"><i class="fa-sharp fa-solid fa-clipboard"></i>Đơn hàng</a></button>
 
-                            <button style="display: ${sessionScope.acc.roleId== 1? "block":"none"}"><a href="<c:url value="/admin/productAuthen.do"/>"><i class="fas fa-user-shield"></i>Duyệt</a></button>
+                            <button style="display: ${sessionScope.acc.roleId== 1 or sessionScope.acc.roleId== 2 ? "block":"none"}"><a href="<c:url value="/admin/productAuthen.do"/>"><i class="fas fa-user-shield"></i>Duyệt</a></button>
 
                             <button ><a href="<c:url value="/cart/cart.do"/>"><i class="fa-solid fa-cart-shopping"></i>Giỏ hàng</a></button>
                             <c:if test ="${sessionScope.acc == null}">
@@ -376,7 +377,7 @@
                                                 <a href="<c:url value="/user/userInformation.do"/>">
                                                     <p>Tài khoản của tôi</p
                                                 </a>
-                                                <a href="l#">
+                                                <a href="<c:url value="/user/logout.do"/>">
                                                     <p>Đăng xuất</p>
                                                 </a>
                                             </div>
@@ -388,7 +389,12 @@
                         </div>
                         <div>                            
                             <div class="input">
-                                <input class="search" type="text" placeholder="TÌm kiếm sản phẩm " id="searchInput">                                
+                                <div>
+                                    <input  class="position-relative search" onclick="showLayer()" oninput="searchAjax(this)" type="text" placeholder="TÌm kiếm sản phẩm " id="searchInput">   
+                                    <div class="position-absolute search-result-layer">
+
+                                    </div>
+                                </div>
                             </div>    
                         </div>
                     </div>
@@ -401,7 +407,7 @@
                             <c:forEach items="${sessionScope.cateList}" var="i">
                                 <li class='flex-grow-2'>
                                     <a href="<c:url value="/home/productList.do?cateId=${i.cateId}"/>">
-                                        ${i.icon}
+                                        <i class="fa-solid fa-mobile-screen-button"></i>
                                         <span>${i.name}</span>
                                     </a>
                                 </li>
@@ -436,7 +442,7 @@
                     </div>
 
                     <div style="width: " class="footer__right col-lg-2 col-md-3 col-sm-4">
-                        <a href="<c:url value="https://www.facebook.com/giao.lang.bis"/>" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="<c:url value="https://www.facebook.com/fptaround"/>" target="_blank"><i style="color: blue" class="fa-brands fa-facebook"></i></a>
                         <a href="<c:url value="https://www.instagram.com/fptuniversityhcm/"/>" target="_blank"><i style="color: pink" class="fa-brands fa-instagram"></i></a>
                         <a href="<c:url value="https://www.youtube.com/c/FPTUniversityHCM"/>" target="_blank"><i style="color: red" class="fa-brands fa-youtube"></i></a>
                     </div>
@@ -446,5 +452,39 @@
 
         </footer>
     </body>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+                                    const searchResultLayer = document.querySelector(".search-result-layer");
+                                    const searchBar = document.querySelector(".search");
+                                    const showLayer = () => {
+                                        searchResultLayer.style.display = "block";
+                                        searchResultLayer.offsetWidth = searchBar.offsetWidth;
+                                    }
+                                    window.addEventListener("click", (e) => {
+                                        if (searchResultLayer.style.display == "block" && e.target !== searchBar) {
+                                            searchResultLayer.style.display = "none"
+                                        }
+                                    })
+                                    const searchAjax = (el) => {
+                                        const value = el.value
+                                        $.ajax("/ProjectGroup6/GetProductAjax", {
+                                            data: {
+                                                func: "getSearchResult",
+                                                productName: value
+                                            },
+                                            success: function (data) {
+                                                searchResultLayer.innerHTML = "";
+                                                console.log(data)
+                                                data.forEach(i => {
+                                                    console.log("<li onclick='this.querySelector('a').click()'>" +
+                                                                    '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId +'">' + i.name + '</a>' + 
+                                                                    '</li>')
+                                                    searchResultLayer.innerHTML += "<li onclick='this.querySelector('a').click()'>" +
+                                                                    '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId +'">' + i.name + '</a>' + 
+                                                                    '</li>'
+                                                })
+                                            }
+                                        })
+                                    }
+    </script>
 </html>
