@@ -17,33 +17,35 @@ import utils.DBUtil;
  * @author kanek
  */
 public class AddressDAO {
+
     public final int CITY = 1;
-    
+
     public final int DISTRICT = 2;
-    
+
     public final int WARD = 3;
-    
+
     public AddressDTO getFullAddress(String houseNumber, String cityId, String districtId, String wardId)
             throws ClassNotFoundException, SQLException {
-        String city = get(cityId, CITY);
-        String district = get(districtId, DISTRICT);
-        String ward = get(wardId, WARD);
-        return new AddressDTO(houseNumber, city, district, ward);
+        String cityName = get(cityId, CITY);
+        String districtName = get(districtId, DISTRICT);
+        String wardName = get(wardId, WARD);
+        return new AddressDTO(houseNumber, wardName, districtName, cityName);
     }
 
-    
     public String get(String id, int table) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         String tableName;
         String primaryKey = "";
-        switch(table) {
+        switch (table) {
             case CITY: {
                 tableName = "city";
                 break;
-            }case DISTRICT:{
+            }
+            case DISTRICT: {
                 tableName = "district";
                 break;
-            }case WARD :{
+            }
+            case WARD: {
                 tableName = "ward";
                 break;
             }
@@ -52,26 +54,38 @@ public class AddressDAO {
                         + "please use the constaints in AddressDAO class instead!!!");
             }
         }
-        PreparedStatement stm = conn.prepareStatement("select name from " + tableName
-                + "where "+ primaryKey +" = ?");
+        primaryKey = tableName + "_id";
+        PreparedStatement stm = conn.prepareStatement("SELECT name FROM " + tableName
+                + " WHERE " + primaryKey + " = ?");
         stm.setString(1, id);
         ResultSet rs = stm.executeQuery();
-        while(rs.next()){
+        while (rs.next()) {
             return rs.getString(1);
         }
         return null;
     }
-    
-    
+
     public String getCity(String cityId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select name from city "
                 + "where city_id = ?");
         stm.setString(1, cityId);
         ResultSet rs = stm.executeQuery();
-        while(rs.next()){
+        while (rs.next()) {
             return rs.getString(1);
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        AddressDAO a = new AddressDAO();
+        try {
+            System.out.println(a.get(null, a.CITY));
+            if (a.get(null, a.CITY) == null) {
+                System.out.println("OK");
+            }
+//System.out.println(a.getCity("01"));
+        } catch (Exception e) {
+        }
     }
 }

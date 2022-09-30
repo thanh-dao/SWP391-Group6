@@ -10,20 +10,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- *
- * @author kanek
- */
-@Getter @Setter
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
-public class CategoryDTO {
-    private int cateId;
-    private String name;
-    private String icon;
-
+@NoArgsConstructor
+public class ReviewImageDTO {
+    private String url;
+    
     @Override
     public String toString() {
-        return "CategoryDTO{" + "cateId=" + cateId + ", name=" + name + ", icon=" + icon + '}';
+        return "ReviewImageDTO{" + "url=" + url + '}';
     }
 }

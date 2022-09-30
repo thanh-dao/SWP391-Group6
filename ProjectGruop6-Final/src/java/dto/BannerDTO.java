@@ -7,17 +7,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class ProductImageDTO {
+@AllArgsConstructor
+public class BannerDTO {
 
-    private int imageID;
+    private int bannerId;
     private String url;
-    private boolean isMainImg;
+    private boolean type;
 
     @Override
     public String toString() {
-        return "ProductImageDTO{" + "imageID=" + imageID + ", url=" + url + ", isMainImg=" + isMainImg + '}';
+        return "BannerDTO{" + "bannerId=" + bannerId + ", url=" + url + ", type=" + type + '}';
     }
-
 }

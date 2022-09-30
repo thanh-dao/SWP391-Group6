@@ -67,7 +67,7 @@ public class GetProductAjax extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         String sortOption = request.getParameter("option");
         ProductDAO proDAO = new ProductDAO();
-        int cateID = Integer.parseInt(request.getParameter("cateID"));
+        int cateId = Integer.parseInt(request.getParameter("cateId"));
         int pageNumber = Integer.parseInt(request.getParameter("pageNum"));
         int sortBy = 0;
         boolean dataTrend = true;
@@ -104,7 +104,7 @@ public class GetProductAjax extends HttpServlet {
             sortBy = ProductDAO.NAME;
             dataTrend = ProductDAO.ASC;
         }
-        return proDAO.getProductList(pageNumber, sortBy, dataTrend, cateID);
+        return proDAO.getProductList(pageNumber, sortBy, dataTrend, cateId);
     }
 
     public List<ProductDTO> getSearchResult(String productName, HttpServletRequest request, HttpServletResponse response)

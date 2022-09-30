@@ -85,22 +85,23 @@
 
                     <c:forEach items="${productList}" var="i">
                         <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do?${i.productId}"/>">
-                                <img class="img-fluid" src="<c:url value="${i.getMainImage().url}"/>" alt="">
+                            <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                <p>${i.name}</p>
+                                <fmt:setLocale value="vi_VN"/>
+                                <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
                             </a>
-                            <a href="<c:url value="/home/productDetail.do?${i.productId}"/>">${i.name}</a><br>
-                            <fmt:setLocale value="vi_VN"/>
-                            <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
                         </div>
                     </c:forEach>
 
                 </div>
                 <nav class="next" aria-label="Page navigation example">
                     <ul class="pagination d-flex justify-content-center">
-                        <c:forEach begin="1" end="${pageNum}" var="i">
-                            <li class="page-item ${i == 1 ? "active" : ""}"><button class="page-link" onclick="pagingAjax(this, event)">${i}</button></li>
-                        </c:forEach>
-                        
+                        <li class="page-item"><button class="page-link" onclick="pagingAjax(this, event)">Trước</button></li>
+                        <li class="page-item active"><button class="page-link" onclick="pagingAjax(this, event)">1</button></li>
+                        <li class="page-item"><button class="page-link"  onclick="pagingAjax(this, event)">2</button></li>
+                        <li class="page-item"><button class="page-link" onclick="pagingAjax(this, event)">3</button></li>
+                        <li class="page-item"><button class="page-link" onclick="pagingAjax(this, event)">Sau</button></li>
                     </ul>
                 </nav>
             </div>
@@ -120,7 +121,7 @@
                     else
                         count++;
                 }
-                return count + 1;
+                return count;
             }
             const getCateId = () => {
                 const queryString = window.location.search;
@@ -158,9 +159,8 @@
                 document.querySelector(".btn.btn-primary.dropdown-toggle").innerHTML = el.innerHTML;
                 $.ajax("/ProjectGroup6/GetProductAjax", {
                     data: {
-                        func: 'getSortedProductList',
                         option: id,
-                        cateID: getCateId(),
+                        cateId: getCateId(),
                         pageNum: getPageNumber(),
                     },
                     success: function (data) {
@@ -170,15 +170,34 @@
             }
             const pagingAjax = (el, event) => {
 //                event.preventDefault();
+                let currentPageNum = getPageNumber();
                 removeActiveClass()
-                console.log(el)
-                el.parentElement.classList.add("active")
-                console.log(getPageNumber())
+                if(el.innerHTML === "Trước"){
+                    if(currentPageNum == "1"){
+                         event.preventDefault();
+                         event.stopPropagation();
+                    }else{
+                        currentPageNum--;
+                        pageElements[currentPageNum].classList.add("active")
+                    }
+                }else {
+                    if(el.innerHTML === "Sau"){
+                        if(currentPageNum == pageElements.length){
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }else {
+                            
+                            currentPageNum++;
+                            pageElements[currentPageNum].classList.add("active")
+                        }
+                    }
+                }
+                
+                
                  $.ajax("/ProjectGroup6/GetProductAjax", {
                     data: {
-                        cateID: getCateId(),
-                        func: 'getSortedProductList',
-                        pageNum: getPageNumber() ,
+                        cateId: getCateId(),
+                        pageNum: currentPageNum,
                     },
                     success: function (data) {
                         renderData(data)

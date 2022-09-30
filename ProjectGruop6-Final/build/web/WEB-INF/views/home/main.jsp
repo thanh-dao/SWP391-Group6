@@ -16,6 +16,12 @@
             .discount {
                 position: relative;
             }
+            
+            @media screen and (max-width: 1700px) {
+                div.discount {
+                    display: none;
+                }
+            }
 
             .discount .left, .discount .right {
                 position: absolute;
@@ -83,8 +89,8 @@
     </head>
     <body>
         <div class="discount">
-            <img class="left img-fluid" src="<c:url value="/images/discount.jpg"/>"  onclick="window.location.href = '#'">
-            <img class="right img-fluid" src="<c:url value="/images/discount.jpg"/>" onclick="window.location.href = '#'">
+            <img class="left img-fluid" src="<c:url value="${banner.url}"/>"  onclick="window.location.href = '#'">
+            <img class="right img-fluid" src="<c:url value="${banner.url}"/>" onclick="window.location.href = '#'">
         </div>
 
         <div class="banner">
@@ -143,13 +149,12 @@
                         <div class="product__item col-lg-3 col-md-4 col-sm-6">
                             <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
                                 <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                <p>${i.name}</p>
+                                <fmt:setLocale value="vi_VN"/>
+                                <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
                             </a>
-                            <a href="<c:url value="/home/productDetail.do?id=${i.productId}"/>">${i.name}</a><br>
-                            <fmt:setLocale value="vi_VN"/>
-                            <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
                         </div>
                     </c:forEach>
-
                 </div>
             </div>
         </div>
@@ -160,11 +165,12 @@
                 <div class="product__content row">
                     <c:forEach items="${newProducts}" var="i">
                         <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do?${i.productId}"/>">
+                            <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
                                 <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                <p>${i.name}</p>
+                                <fmt:setLocale value="vi_VN"/>
+                                <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
                             </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">${i.name}</a><br>
-                            <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
                         </div>
                     </c:forEach>
                 </div>

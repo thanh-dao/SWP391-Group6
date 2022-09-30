@@ -32,10 +32,10 @@ public class CategoryDAO {
     public List<CategoryDTO> findAll() throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<CategoryDTO> list = new ArrayList<>();
-        PreparedStatement stm = conn.prepareStatement("select category_id, name from category order by category_id asc");
+        PreparedStatement stm = conn.prepareStatement("select category_id, name, icon from category order by category_id asc");
         ResultSet rs = stm.executeQuery();
         while (rs.next()) 
-            list.add(new CategoryDTO(rs.getInt(1), rs.getString(2)));
+            list.add(new CategoryDTO(rs.getInt(1), rs.getString(2), rs.getString(3)));
         return list;
     }
     public static void main(String[] args) {

@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/FALL2022/GitRepo/ProjectGruop6-27-9-830/ProjectGruop6-27-9-7h/src/java/dto/ProductDTO.java</file>
-            <file>file:/E:/FALL2022/GitRepo/ProjectGruop6-27-9-830/ProjectGruop6-27-9-7h/src/java/dto/CategoryDTO.java</file>
-            <file>file:/E:/FALL2022/GitRepo/ProjectGruop6-27-9-830/ProjectGruop6-27-9-7h/src/java/controllers/HomeController.java</file>
-            <file>file:/E:/FALL2022/GitRepo/ProjectGruop6-27-9-830/ProjectGruop6-27-9-7h/src/java/dto/UserDTO.java</file>
-            <file>file:/E:/FALL2022/GitRepo/ProjectGruop6-27-9-830/ProjectGruop6-27-9-7h/src/java/controllers/AddCartAjax.java</file>
-            <file>file:/E:/FALL2022/GitRepo/ProjectGruop6-27-9-830/ProjectGruop6-27-9-7h/web/WEB-INF/views/home/productDetail.jsp</file>
-            <file>file:/E:/FALL2022/GitRepo/ProjectGruop6-27-9-830/ProjectGruop6-27-9-7h/web/WEB-INF/views/home/productList.jsp</file>
-            <file>file:/E:/FALL2022/GitRepo/ProjectGruop6-27-9-830/ProjectGruop6-27-9-7h/src/java/controllers/GetProductAjax.java</file>
-            <file>file:/E:/FALL2022/GitRepo/ProjectGruop6-27-9-830/ProjectGruop6-27-9-7h/src/java/controllers/UserController.java</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dao/ProductDAO.java</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/CartController.java</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/HomeController.java</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dao/OrderDAO.java</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dao/BannerDAO.java</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/home/main.jsp</file>
         </group>
     </open-files>
 </project-private>

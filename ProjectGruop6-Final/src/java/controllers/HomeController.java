@@ -6,10 +6,16 @@
 package controllers;
 
 import config.Config;
+import dao.BannerDAO;
 import dao.CategoryDAO;
 import dao.ProductDAO;
+import dao.ReviewDAO;
+import dao.UserDAO;
+import dto.BannerDTO;
 import dto.CategoryDTO;
 import dto.ProductDTO;
+import dto.ReviewDTO;
+import dto.UserDTO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -18,8 +24,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.eclipse.jdt.internal.compiler.impl.Constant;
-import utils.Constants;
 
 /**
  *
@@ -47,6 +51,7 @@ public class HomeController extends HttpServlet {
             case "main": {
                 CategoryDAO cateDAO = new CategoryDAO();
                 ProductDAO proDAO = new ProductDAO();
+                BannerDAO b = new BannerDAO();
                 try {
                     List<CategoryDTO> cateList = cateDAO.findAll();
                     cateList.forEach(i -> {
@@ -55,31 +60,52 @@ public class HomeController extends HttpServlet {
                     session.setAttribute("cateList", cateList);
                     List<ProductDTO> bestSellers = proDAO.getProductList(0, ProductDAO.SOLD_COUNT, ProductDAO.DESC);
                     List<ProductDTO> newProducts = proDAO.getProductList(0, ProductDAO.APPROVE_AT, ProductDAO.DESC);
+                    BannerDTO banner = b.get(0);
                     request.setAttribute("bestSellers", bestSellers);
                     request.setAttribute("newProducts", newProducts);
+                    System.out.println(banner);
+                    request.setAttribute("banner", banner);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 break;
             }
-            
-            case "productDetail":
-                break;
+
+            case "productDetail": {
+                int productId = Integer.parseInt(request.getParameter("productId"));
+                System.out.println(productId);
+                ProductDAO proDAO = new ProductDAO();
+                UserDAO userDAO = new UserDAO();
+                ReviewDAO review = new ReviewDAO();
+                try {
+                    ProductDTO product = proDAO.getProductById(productId);
+                    UserDTO user = userDAO.getUserByProductId(productId);
+                    List<ReviewDTO> reviewer = review.getReview(productId);
+                    double rating = review.getAVGRatingOfProduct(productId);
+                    List<ProductDTO> productList = proDAO.getProductList(1, proDAO.SOLD_COUNT,
+                            proDAO.DESC, user.getEmail());
+                    System.out.println(product);
+                    request.setAttribute("rating", rating);
+                    request.setAttribute("product", product);
+                    request.setAttribute("seller", user);
+                    request.setAttribute("reviewer", reviewer);
+                    request.setAttribute("productList", productList);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            break;
             case "uploadProduct":
                 break;
             case "checkProduct":
                 break;
             case "productList":
-                String cateIDStr = request.getParameter("cateId");
-                int cateID = Integer.parseInt(cateIDStr);
+                int cateId = Integer.parseInt(request.getParameter("cateId"));
                 ProductDAO proDAO = new ProductDAO();
                 try {
-                    List<ProductDTO> productList = proDAO.getProductList(1, ProductDAO.NAME, ProductDAO.ASC, cateID);
-                    int totalProduct = proDAO.countProductByCateId(cateIDStr);
-                    int pageNum = totalProduct / Constants.ITEM_PER_PAGE + ( totalProduct % Constants.ITEM_PER_PAGE == 0 ? 0 : 1);
+                    List<ProductDTO> productList = proDAO.getProductList(1, ProductDAO.NAME, ProductDAO.ASC, cateId);
                     request.setAttribute("productList", productList);
-                    request.setAttribute("pageNum", pageNum);
-                } catch(Exception ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
 

@@ -1,29 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dto;
 
 import java.util.Date;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-/**
- *
- * @author kanek
- */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderDTO {
-    private String orderId;
+
+    private int orderId;
     private int deliveryId;
     private int paymentId;
     private String emailBuyer;
     private Date orderDate;
     private boolean status;
     private AddressDTO address;
+//    private List<OrderByShopDTO> OrderByShopList;
 
+    public OrderDTO(int orderId, String emailBuyer) {
+        this.orderId = orderId;
+        this.emailBuyer = emailBuyer;
+    }
+    
     @Override
     public String toString() {
         return "OrderDTO{" + "orderId=" + orderId + ", deliveryId=" + deliveryId + ", paymentId=" + paymentId + ", emailBuyer=" + emailBuyer + ", orderDate=" + orderDate + ", status=" + status + ", address=" + address + '}';
     }
-    
-    
 }
