@@ -15,9 +15,10 @@
         <style>
             .discount {
                 position: relative;
+                margin-top: 0px;
             }
             
-            @media screen and (max-width: 1700px) {
+            @media screen and (max-width: 1500px) {
                 div.discount {
                     display: none;
                 }
@@ -26,14 +27,19 @@
             .discount .left, .discount .right {
                 position: absolute;
                 position: fixed;
+                width: 190px;
+                height: 300px;
+                margin-bottom: 50px;
+                margin-top: 0px;
             }
 
             .discount .right {
-                margin-left: 1550px;
+                margin-left: 1320px;
             }
 
             .discount img {
-                width: 350px;
+                width: 300px;
+                
             }
 
             .carousel-item img {
@@ -47,6 +53,7 @@
 
             .product__item {
                 width: 100%;
+                margin-top: 30px;
                 transition: 0.5s;
             }
 

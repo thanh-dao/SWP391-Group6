@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import jdk.nashorn.internal.runtime.regexp.joni.ast.ConsAltNode;
+import utils.Constants;
 
 /**
  *
@@ -100,12 +102,16 @@ public class HomeController extends HttpServlet {
             case "checkProduct":
                 break;
             case "productList":
-                int cateId = Integer.parseInt(request.getParameter("cateId"));
+                String cateIDStr = request.getParameter("cateId");
+                int cateID = Integer.parseInt(cateIDStr);
                 ProductDAO proDAO = new ProductDAO();
                 try {
-                    List<ProductDTO> productList = proDAO.getProductList(1, ProductDAO.NAME, ProductDAO.ASC, cateId);
+                    List<ProductDTO> productList = proDAO.getProductList(1, ProductDAO.NAME, ProductDAO.ASC, cateID);
+                    int totalProduct = proDAO.countProductByCateId(cateIDStr);
+                    int pageNum = totalProduct / Constants.ITEM_PER_PAGE + ( totalProduct % Constants.ITEM_PER_PAGE == 0 ? 0 : 1);
                     request.setAttribute("productList", productList);
-                } catch (Exception ex) {
+                    request.setAttribute("pageNum", pageNum);
+                } catch(Exception ex) {
                     ex.printStackTrace();
                 }
 

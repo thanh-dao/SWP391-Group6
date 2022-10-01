@@ -97,11 +97,9 @@
                 </div>
                 <nav class="next" aria-label="Page navigation example">
                     <ul class="pagination d-flex justify-content-center">
-                        <li class="page-item"><button class="page-link" onclick="pagingAjax(this, event)">Trước</button></li>
-                        <li class="page-item active"><button class="page-link" onclick="pagingAjax(this, event)">1</button></li>
-                        <li class="page-item"><button class="page-link"  onclick="pagingAjax(this, event)">2</button></li>
-                        <li class="page-item"><button class="page-link" onclick="pagingAjax(this, event)">3</button></li>
-                        <li class="page-item"><button class="page-link" onclick="pagingAjax(this, event)">Sau</button></li>
+                       <c:forEach begin="1" end="${pageNum}" var="i">
+                            <li class="page-item ${i == 1 ? "active" : ""}"><button class="page-link" onclick="pagingAjax(this, event)">${i}</button></li>
+                        </c:forEach> 
                     </ul>
                 </nav>
             </div>
@@ -111,9 +109,10 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
         <script>
             const parrentElement = document.querySelector(".product__content.row");
+//            dom tới thằng container chứa các productlist
             const pageElements = document.querySelector(".pagination.d-flex.justify-content-center").querySelectorAll(".page-item");
+//            DOM tới các button chuyển trang
             let getPageNumber = () => {
-                
                 let count = 0;
                 for (var i = 0; i < pageElements.length; i++) {
                     if (pageElements[i].classList.contains("active"))
@@ -121,83 +120,89 @@
                     else
                         count++;
                 }
-                return count;
+                return count + 1;
             }
+//            ví dụ khi người dùng click vào trang 2
+//            thì cái nút thứ 2 nó sẽ có class active
+//            mình sẽ dùng for loop để đếm và dừng lại khi thấy element có class active 
+//            và trả về count + 1. Tại sao lại là count + 1, vì khi debug mới phát hiện ra 
+
+//            pagination
             const getCateId = () => {
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
+                // url params = các query string của url 
+//                vd: home.do?a=1&b=2&c=3
+//                  thì sau dấu ? nó là query string với các parameter là a, b, c
                 return urlParams.get("cateId");
+                // return giá trị của thằng parameter tên là cateId
             }
             const formatVND = (currency) => {
+            // chuyển int sang vnd 
                 return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(currency);
             }
             const removeActiveClass = () => {
+            // khi người dùng bấm vào các nút trang ( vd trang thứ 1, trang thứ 2)
+            // thì đầu tiên là phải xóa active class đi 
                 document.querySelectorAll(".page-item.active").forEach(i => {
                     i.classList.remove("active")
                 })
             }
             const renderData = (productData) => {
+            // render data thì bỏ data vô html
                 parrentElement.innerHTML = ""
+                // xóa container 
                 let mainImgUrl = ""
-
+                // khai báo cái main img 
+                // productData nó là 1 mảng object json
+                // với 1 phần tử = 1 product
+                // => 1 product nó sẽ có 1 mảng image
                 productData.forEach(i => {
                     i.imgList.forEach(img => {
                         if (img.isMainImg)
                             mainImgUrl = img.url;
                     });
+                    // tìm thằng main image trong cái image list của product
                     parrentElement.innerHTML +=
                             '<div class="product__item col-lg-3 col-md-4 col-sm-6">' +
-                            '<a href="productDetail.do?id=' + i.productId + '">' +
+'<a href="productDetail.do?id=' + i.productId + '">' +
                             '<img class="img-fluid" src="' + mainImgUrl + '" alt="">' +
                             '</a>' +
                             '<a href="productDetail.do?id=' + i.productId + '">' + i.name + '</a><br>' +
                             '<span>' + formatVND(i.price) + '</span>' +
                             '</div>'
+                    // đổ data ra html
                 })
             }
             const sortAjax = (id, el) => {
                 document.querySelector(".btn.btn-primary.dropdown-toggle").innerHTML = el.innerHTML;
+                // thay đổi nội dung bên trong button sort 
                 $.ajax("/ProjectGroup6/GetProductAjax", {
                     data: {
+                        func: 'getSortedProductList',
                         option: id,
                         cateId: getCateId(),
                         pageNum: getPageNumber(),
                     },
                     success: function (data) {
+//                        console.log(data)
                         renderData(data)
                     }
                 })
             }
             const pagingAjax = (el, event) => {
 //                event.preventDefault();
-                let currentPageNum = getPageNumber();
                 removeActiveClass()
-                if(el.innerHTML === "Trước"){
-                    if(currentPageNum == "1"){
-                         event.preventDefault();
-                         event.stopPropagation();
-                    }else{
-                        currentPageNum--;
-                        pageElements[currentPageNum].classList.add("active")
-                    }
-                }else {
-                    if(el.innerHTML === "Sau"){
-                        if(currentPageNum == pageElements.length){
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }else {
-                            
-                            currentPageNum++;
-                            pageElements[currentPageNum].classList.add("active")
-                        }
-                    }
-                }
-                
+                // xóa active class tất cả các nút paging
+                el.parentElement.classList.add("active")
+                // thêm class active vào nút pagin mà mình đã bấm
+                console.log(getPageNumber())
                 
                  $.ajax("/ProjectGroup6/GetProductAjax", {
                     data: {
                         cateId: getCateId(),
-                        pageNum: currentPageNum,
+                        func: 'getSortedProductList',
+                        pageNum: getPageNumber() ,
                     },
                     success: function (data) {
                         renderData(data)
@@ -205,5 +210,6 @@
                 })
             }
         </script>
+
     </body>
 </html>

@@ -93,11 +93,20 @@ public class UserController extends HttpServlet {
 
                 } else {
                     redirectUrl = "/user/login.do";
-                    session.setAttribute("errorLoginMessage", 
+                    session.setAttribute("errorLoginMessage",
                             "Tài khoản của bạn không được phép đăng nhập vào hệ thống");
                 }
+
+            }
+            break;
+            case "logout":
+            {
+                session.removeAttribute("user");
+                redirectUrl = "/";
+                isFowarded = true;
                 break;
             }
+
             default: {
                 request.setAttribute("controller", "error");
                 request.setAttribute("action", "index");

@@ -236,7 +236,7 @@ public class ProductDAO {
     //productDetail khi đã đc duyệt
     public ProductDTO getProductById(int productId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
-        PreparedStatement stm = conn.prepareStatement("select [product_id]\n"
+        PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
                 + "      ,[email_seller]\n"
                 + "      ,[name]\n"
                 + "      ,[price]\n"
@@ -244,7 +244,7 @@ public class ProductDAO {
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
                 + "      ,[sold_count] FROM product "
-                + " where product_id = ? AND status = 1");
+                + " WHERE product_id = ? AND status = 1");
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();

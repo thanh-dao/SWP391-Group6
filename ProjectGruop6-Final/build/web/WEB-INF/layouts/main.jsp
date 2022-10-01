@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-        
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -41,6 +41,12 @@
             }
 
             /* Header starts */
+/*            @media screen and (max-width: 768px) {
+                . {
+                    display: none;
+                }
+            }*/
+            
             header {
                 /*margin-top: 20px;*/
                 padding-top: 5px;
@@ -339,12 +345,12 @@
         <header>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="header__left col-md-2">
                         <a class="logo" href="<c:url value="/home/main.do"/>">
                             <img src="<c:url value="/images/FBT.jpg"/>" alt="">
                         </a>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         <div class="header__content d-flex justify-content-around">
                             <button ><a href="<c:url value="/home/main.do"/>"><i class="fas fa-home icon-header"></i>Trang chủ</a></button>
                             <button ><a href="<c:url value="/order/stored.do"/>"><i class="fas fa-table"></i>Quản lý tin</a></button>
@@ -356,34 +362,7 @@
                             <button ><a href="<c:url value="/cart/cart.do"/>"><i class="fa-solid fa-cart-shopping"></i>Giỏ hàng</a></button>
                             <c:if test ="${sessionScope.user == null}">
                                 <button ><a href="<c:url value="/user/login.do"/>"><i class="fa-sharp fa-solid fa-right-to-bracket"></i>Đăng nhập</a></button>
-                            </c:if>
-                            <!-- LOGIN -->
-                            <c:if test ="${sessionScope.user != null}">
-                                <div class="container-account">
-                                    <div class="account-link">
-                                        <a class="account-link" href="#" >
-                                            <img style="border-radius: 50%;" src="<c:url value="${sessionScope.user.avatarLink}"/>" alt="">
-                                        </a>
-
-                                        <div class="account-btn">
-                                            <div>
-                                                <span class="item-text">
-                                                    <span class="account-title" style="font-size: 80%; padding: 5px;">Tên người dùng</span>
-                                                </span>
-                                            </div>
-                                            <div class="user-dropdown">
-                                                <a href="<c:url value="/user/userInformation.do"/>">
-                                                    <p>Tài khoản của tôi</p
-                                                </a>
-                                                <a href="<c:url value="/user/logout.do"/>">
-                                                    <p>Đăng xuất</p>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </c:if>
+                            </c:if>                            
                         </div>
                         <div>                            
                             <div class="input">
@@ -395,6 +374,34 @@
                                 </div>
                             </div>    
                         </div>
+                    </div>
+                    <div class="col-md-2">
+                        <c:if test ="${sessionScope.user != null}">
+                            <div class="container-account">
+                                <div class="account-link">
+                                    <a class="account-link" href="#" >
+                                        <img style="border-radius: 50%;" src="<c:url value="${sessionScope.user.avatarLink}"/>" alt="">
+                                    </a>
+
+                                    <div class="account-btn">
+                                        <div>
+                                            <span class="item-text">
+                                                <span class="account-title" style="font-size: 80%; padding: 5px;">${sessionScope.user.firstName} ${sessionScope.user.lastName}</span>
+                                            </span>
+                                        </div>
+                                        <div class="user-dropdown">
+                                            <a href="<c:url value="/user/userInformation.do"/>">
+                                                <p>Tài khoản của tôi</p
+                                            </a>
+                                            <a href="<c:url value="/user/logout.do"/>">
+                                                <p>Đăng xuất</p>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </c:if>
                     </div>
 
                 </div>
@@ -451,8 +458,8 @@
         </footer>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
