@@ -1,23 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import config.Config;
+import dao.OrderDAO;
+import dto.UserDTO;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Admin
- */
 @WebServlet(name = "CartController", urlPatterns = {"/cart"})
 public class CartController extends HttpServlet {
 
@@ -34,10 +28,27 @@ public class CartController extends HttpServlet {
             throws ServletException, IOException {
         String action = (String) request.getAttribute("action");
         String controller = (String) request.getAttribute("controller");
-
+        System.out.println(action + " " + controller);
+        HttpSession session = request.getSession();
         switch (action) {
-            case "cart":
-                break;
+            case "cart": {
+                try {
+                    if (session.getAttribute("user") == null) {
+                        request.setAttribute("controller", "user");
+                        request.setAttribute("action", "login");
+                    } else {
+                        if (request.getParameter("productId") != null) {
+                            int productId = Integer.parseInt(request.getParameter("productId"));
+                            UserDTO user = (UserDTO) session.getAttribute("user");
+                            OrderDAO od = new OrderDAO();
+                            od.addCart(user.getEmail(), productId);
+                        }
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            break;
             case "pay":
                 break;
             case "shipInformation":

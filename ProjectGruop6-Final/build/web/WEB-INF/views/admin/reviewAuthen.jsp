@@ -10,19 +10,7 @@
 
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-              integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-              crossorigin="anonymous" referrerpolicy="no-referrer" />
         <title>Reviews</title>
         <style>
             a{text-decoration: none;}
@@ -75,7 +63,7 @@
                 height: auto;
                 max-height: 150px;
             }
-            
+
             .search1 {
                 margin-left: 80%;
                 margin-bottom: 30px;
@@ -94,8 +82,7 @@
             <div class="col d-flex">
                 <!--Div that will hold the pie chart-->
                 <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
-                    <a href="#"
-                       class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
+                    <a href="#" class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
                         <svg class="bi me-2" width="40" height="32">
                         <use xlink:href="#bootstrap"></use>
                         </svg>
@@ -129,7 +116,8 @@
                                 </svg>
                                 Dashboard
                             </a>
-                        </li                     
+                        </li>
+
                         <li class="nav-item">
                             <a href="<c:url value="/admin/reviewAuthen.do"/>" class="nav-link active text-white">
                                 <svg class="bi me-2" width="16" height="16">
@@ -138,23 +126,18 @@
                                 Đánh giá
                             </a>
                         </li>
+                        <li class="nav-item" style="display: ${ sessionScope.acc.roleId== 2 ? "block":"none"}">
+                            <a href="<c:url value="/admin/adminAuthen.do"/>" class="nav-link text-white">
+                                <svg class="bi me-2" width="16" height="16">
+                                <use xlink:href="#people-circle"></use>
+                                </svg>
+                                Admin
+                            </a>
+                        </li>
+                    </ul>
                     </ul>
                     <hr>
-                    <div class="dropdown p-3">
-                        <a href="#"
-                           class="d-flex align-items-center overflow-hidden text-white text-decoration-none dropdown-toggle"
-                           id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                            <strong>mdo</strong>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                            <li><a class="dropdown-item" href="<c:url value="/user/userInformaion.do"/>">Trang</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Đăng Xuất</a></li>
-                        </ul>
-                    </div>
+
                 </div>
                 <div class="table-responsive container p-3 mt-5 mb-5">
                     <input class="search1" type="text">

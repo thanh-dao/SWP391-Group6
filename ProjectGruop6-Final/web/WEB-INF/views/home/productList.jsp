@@ -1,4 +1,5 @@
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,8 +12,7 @@
 
 
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
@@ -67,12 +67,12 @@
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         Sắp xếp theo
                     </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="<c:url value="/home/productList.do"/>">Giá tăng dần</a>
-                        <a class="dropdown-item" href="<c:url value="/home/productList.do"/>">Giá giảm dần</a>
-                        <a class="dropdown-item" href="<c:url value="/home/productList.do"/>">Từ a tới z</a>
-                        <a class="dropdown-item" href="<c:url value="/home/productList.do"/>">Từ z tới a</a>
-                        <a class="dropdown-item" href="<c:url value="/home/productList.do"/>">Số lượng bán</a>
+                    <div class="dropdown-menu panel-collapse">
+                        <button class="dropdown-item" onclick="sortAjax(1, this)">Giá tăng dần</button>
+                        <button class="dropdown-item" onclick="sortAjax(2, this)">Giá giảm dần</button>
+                        <button class="dropdown-item" onclick="sortAjax(3, this)">Từ a tới z</button>
+                        <button class="dropdown-item" onclick="sortAjax(4, this)">Từ z tới a</button>
+                        <button class="dropdown-item" onclick="sortAjax(5, this)">Bán chạy</button>
                     </div>
                 </div>
             </div>
@@ -82,142 +82,134 @@
             <div class="container">
 
                 <div class="product__content row">
-                    <div class="product__content row">
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do"/>">
-                                <img class="img-fluid" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </a>
-                            <a href="<c:url value="/home/productDetail.do"/>">Tên sản phẩm</a><br>
-                            <span>Giá sản phẩm</span>
-                        </div>
 
-                    </div>                           
+                    <c:forEach items="${productList}" var="i">
+                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
+                            <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                <p>${i.name}</p>
+                                <fmt:setLocale value="vi_VN"/>
+                                <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
+                            </a>
+                        </div>
+                    </c:forEach>
+
                 </div>
                 <nav class="next" aria-label="Page navigation example">
                     <ul class="pagination d-flex justify-content-center">
-                        <li class="page-item"><a class="page-link" href="#">Trước</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+                       <c:forEach begin="1" end="${pageNum}" var="i">
+                            <li class="page-item ${i == 1 ? "active" : ""}"><button class="page-link" onclick="pagingAjax(this, event)">${i}</button></li>
+                        </c:forEach> 
                     </ul>
                 </nav>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+        <script>
+            const parrentElement = document.querySelector(".product__content.row");
+//            dom tới thằng container chứa các productlist
+            const pageElements = document.querySelector(".pagination.d-flex.justify-content-center").querySelectorAll(".page-item");
+//            DOM tới các button chuyển trang
+            let getPageNumber = () => {
+                let count = 0;
+                for (var i = 0; i < pageElements.length; i++) {
+                    if (pageElements[i].classList.contains("active"))
+                        break;
+                    else
+                        count++;
+                }
+                return count + 1;
+            }
+//            ví dụ khi người dùng click vào trang 2
+//            thì cái nút thứ 2 nó sẽ có class active
+//            mình sẽ dùng for loop để đếm và dừng lại khi thấy element có class active 
+//            và trả về count + 1. Tại sao lại là count + 1, vì khi debug mới phát hiện ra 
+
+//            pagination
+            const getCateId = () => {
+                const queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+                // url params = các query string của url 
+//                vd: home.do?a=1&b=2&c=3
+//                  thì sau dấu ? nó là query string với các parameter là a, b, c
+                return urlParams.get("cateId");
+                // return giá trị của thằng parameter tên là cateId
+            }
+            const formatVND = (currency) => {
+            // chuyển int sang vnd 
+                return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(currency);
+            }
+            const removeActiveClass = () => {
+            // khi người dùng bấm vào các nút trang ( vd trang thứ 1, trang thứ 2)
+            // thì đầu tiên là phải xóa active class đi 
+                document.querySelectorAll(".page-item.active").forEach(i => {
+                    i.classList.remove("active")
+                })
+            }
+            const renderData = (productData) => {
+            // render data thì bỏ data vô html
+                parrentElement.innerHTML = ""
+                // xóa container 
+                let mainImgUrl = ""
+                // khai báo cái main img 
+                // productData nó là 1 mảng object json
+                // với 1 phần tử = 1 product
+                // => 1 product nó sẽ có 1 mảng image
+                productData.forEach(i => {
+                    i.imgList.forEach(img => {
+                        if (img.isMainImg)
+                            mainImgUrl = img.url;
+                    });
+                    // tìm thằng main image trong cái image list của product
+                    parrentElement.innerHTML +=
+                            '<div class="product__item col-lg-3 col-md-4 col-sm-6">' +
+'<a href="productDetail.do?id=' + i.productId + '">' +
+                            '<img class="img-fluid" src="' + mainImgUrl + '" alt="">' +
+                            '</a>' +
+                            '<a href="productDetail.do?id=' + i.productId + '">' + i.name + '</a><br>' +
+                            '<span>' + formatVND(i.price) + '</span>' +
+                            '</div>'
+                    // đổ data ra html
+                })
+            }
+            const sortAjax = (id, el) => {
+                document.querySelector(".btn.btn-primary.dropdown-toggle").innerHTML = el.innerHTML;
+                // thay đổi nội dung bên trong button sort 
+                $.ajax("/ProjectGroup6/GetProductAjax", {
+                    data: {
+                        func: 'getSortedProductList',
+                        option: id,
+                        cateId: getCateId(),
+                        pageNum: getPageNumber(),
+                    },
+                    success: function (data) {
+//                        console.log(data)
+                        renderData(data)
+                    }
+                })
+            }
+            const pagingAjax = (el, event) => {
+//                event.preventDefault();
+                removeActiveClass()
+                // xóa active class tất cả các nút paging
+                el.parentElement.classList.add("active")
+                // thêm class active vào nút pagin mà mình đã bấm
+                console.log(getPageNumber())
+                
+                 $.ajax("/ProjectGroup6/GetProductAjax", {
+                    data: {
+                        cateId: getCateId(),
+                        func: 'getSortedProductList',
+                        pageNum: getPageNumber() ,
+                    },
+                    success: function (data) {
+                        renderData(data)
+                    }
+                })
+            }
+        </script>
 
     </body>
 </html>
