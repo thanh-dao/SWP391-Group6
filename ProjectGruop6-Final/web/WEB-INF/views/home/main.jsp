@@ -34,7 +34,7 @@
             }
 
             .discount .right {
-                margin-left: 1320px;
+                right: 0;
             }
 
             .discount img {
