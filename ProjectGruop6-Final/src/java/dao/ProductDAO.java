@@ -78,7 +78,8 @@ public class ProductDAO {
         return "  order by " + orderBy + " " + trendStr;
     }
 
-    /** <pre>
+    /**
+     * < pre>
      * get the product list base on page number
      * for ex: when user click page 2, sort by name asc
      * the params should be: pageNum: 2, option: ProductDAO.NAME,
@@ -136,7 +137,8 @@ public class ProductDAO {
         return list;
     }
 
-    /** <pre>
+    /**
+     * < pre>
      * return the product list base on page number
      * and category id
      * for ex: when user click page 2, sort by name asc, categoryId 3
@@ -198,6 +200,68 @@ public class ProductDAO {
             );
         }
         return list;
+    }
+
+    public List<ProductDTO> getProductListByProductName(int pageNum, String productName) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        List<ProductDTO> list = new ArrayList<>();
+        PreparedStatement stm = conn.prepareStatement("select [product_id]\n"
+                + "      ,[email_seller]\n"
+                + "      ,[name]\n"
+                + "      ,[price]\n"
+                + "      ,[description]\n"
+                + "      ,[category_id]\n"
+                + "      ,[quantity]\n"
+                + "      ,[email_admin]\n"
+                + "      ,[status]\n"
+                + "      ,[create_at]\n"
+                + "      ,[approve_at]\n"
+                + "      ,[sold_count]"
+                + " from product "
+                + " where name like ? "
+                + " order by sold_count "
+                + " offset 0 rows "
+                + " fetch first ? rows only");
+        stm.setString(1, "%" + productName + "%");
+        int itemSkipped = (pageNum - 1) * Constants.ITEM_PER_PAGE;
+        stm.setInt(2, itemSkipped);
+        ResultSet rs = stm.executeQuery();
+        ProductImageDAO imageDAO = new ProductImageDAO();
+
+        while (rs.next()) {
+            int id = rs.getInt("product_id");
+            list.add(
+                    new ProductDTO(
+                            id,
+                            rs.getString("email_seller"),
+                            rs.getString("name"),
+                            rs.getLong("price"),
+                            rs.getString("description"),
+                            rs.getInt("category_id"),
+                            rs.getInt("quantity"),
+                            rs.getString("email_admin"),
+                            rs.getInt("status") == 1,
+                            rs.getDate("create_at"),
+                            rs.getDate("approve_at"),
+                            rs.getInt("sold_count"),
+                            imageDAO.findAll(id)
+                    )
+            );
+        }
+        return list;
+    }
+
+    public int countProductListByProductName(String productName) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("select count([product_id])\n"
+                + " from product "
+                + "where name like ? ");
+        stm.setString(1, "%" + productName + "%");
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return -1;
     }
 
     public String getSellerEmailByProductId(int productId) throws ClassNotFoundException, SQLException {
