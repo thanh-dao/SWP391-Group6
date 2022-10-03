@@ -87,7 +87,7 @@
 
             header .header__content a{
                 color: black;
-                font-weight: bold;
+                font-weight: 450;
             }
 
             header .header__content a:hover {
@@ -109,8 +109,8 @@
             }
 
             header .category {
-                margin-top: 20px;
-                padding-bottom: 20px;
+                /*margin-top: 20px;*/
+                padding-bottom: 5px;
             }
 
             header .category ul {
@@ -139,66 +139,44 @@
             }
 
             .search {
+                display: flex;
                 position: relative;
-                width: 80%;
+                /*padding: 2px 0 2px 0;*/
+                width: 100%;
                 height: 40px;
                 background: #fff;
                 border-radius: 60px;
                 box-shadow: 0 0 0 5px #ffba00;
                 border: none;
                 outline: none;
-                padding-left: 15px;
             }
 
-            .search .icon {
-                display: flex;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 60px;
-                height: 60px;
-                background: #fff;
-                justify-content: center;
-                align-items: center;
-                border-radius: 60px;
-                z-index: 1;
-                cursor: pointer;
-            }
-
-            .search .icon::before {
-                content: '';
-                position: absolute;
-                width: 15px;
-                height: 15px;
-                border: 3px solid #ffba00;
-                border-radius: 50%;
-                transform: translate(-4px, -4px);
-            }
-
-            .search .icon::after {
-                content: '';
-                position: absolute;
-                width: 3px;
-                height: 12px;
-                background: #ffba00;
-                transform: translate(6px, 6px) rotate(135deg);
+            .input-search{
+                border-radius: 0 50% 50% 0;
+                width: 680px;
+                height: 100%;
             }
 
             .search input {
+                border-radius: 0 50% 50% 0;
                 position: absolute;
-                top: 0;
+                /*top: 0;*/
                 width: 100%;
                 height: 100%;
-                left: 0;
+                /*left: 0;*/
                 border: none;
                 outline: none;
                 font-size: 18px;
-                padding: 10px 0;
             }
-            .search-icon
-            {
-                position: absolute;
-                right: 0;
+
+            .search-icon {
+                /*justify-content: center;*/
+                background-color: #FFFFFF;
+                padding: 7px;
+                border-radius: 50% 0 0 50%;
+                hight: 36px;
+                width: 36px;
+                light: 0;
                 top: 0;
                 bottom: 0;
 
@@ -364,16 +342,17 @@
                                 <button ><a href="<c:url value="/user/login.do"/>"><i class="fa-sharp fa-solid fa-right-to-bracket"></i>Đăng nhập</a></button>
                             </c:if>                            
                         </div>
-                        <div class="input">
-                            <div>
-                                <form action="searchProduct.do">
-                                    <input  class="position-relative search" name="name" onclick="showLayer()" oninput="searchAjax(this)" type="text" placeholder="TÌm kiếm sản phẩm " id="searchInput">   
-                                    <div class="position-absolute search-result-layer">
-
-                                    </div>
-                                    <input type="submit" hidden>
-                                </form>
+                        <div class="search">
+                            <div class="search-icon">
+                                <i class="fa-solid fa-magnifying-glass"></i>
                             </div>
+                            <form action="searchProduct.do" class="input-search">
+                                <input  class="position-relative" name="name" onclick="showLayer()" oninput="searchAjax(this)" type="text" placeholder="TÌm kiếm sản phẩm " id="searchInput">   
+                                <div class="position-absolute search-result-layer">
+                                </div>
+                                <input type="submit" hidden>
+                            </form>
+
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -464,37 +443,37 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
-                                            const searchResultLayer = document.querySelector(".search-result-layer");
-                                            const searchBar = document.querySelector(".search");
-                                            const showLayer = () => {
-                                                searchResultLayer.style.display = "block";
-                                                searchResultLayer.offsetWidth = searchBar.offsetWidth;
-                                            }
-                                            window.addEventListener("click", (e) => {
-                                                if (searchResultLayer.style.display == "block" && e.target !== searchBar) {
-                                                    searchResultLayer.style.display = "none"
-                                                }
-                                            })
-                                            const searchAjax = (el) => {
-                                                const value = el.value
-                                                $.ajax("/ProjectGroup6/GetProductAjax", {
-                                                    data: {
-                                                        func: "getSearchResult",
-                                                        productName: value
-                                                    },
-                                                    success: function (data) {
-                                                        searchResultLayer.innerHTML = "";
-                                                        console.log(data)
-                                                        data.forEach(i => {
-                                                            console.log("<li onclick='this.querySelector('a').click()'>" +
-                                                                    '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
-                                                                    '</li>')
-                                                            searchResultLayer.innerHTML += "<li onclick='this.querySelector('a').click()'>" +
-                                                                    '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
-                                                                    '</li>'
-                                                        })
-                                                    }
+                                    const searchResultLayer = document.querySelector(".search-result-layer");
+                                    const searchBar = document.querySelector(".search");
+                                    const showLayer = () => {
+                                        searchResultLayer.style.display = "block";
+                                        searchResultLayer.offsetWidth = searchBar.offsetWidth;
+                                    }
+                                    window.addEventListener("click", (e) => {
+                                        if (searchResultLayer.style.display == "block" && e.target !== searchBar) {
+                                            searchResultLayer.style.display = "none"
+                                        }
+                                    })
+                                    const searchAjax = (el) => {
+                                        const value = el.value
+                                        $.ajax("/ProjectGroup6/GetProductAjax", {
+                                            data: {
+                                                func: "getSearchResult",
+                                                productName: value
+                                            },
+                                            success: function (data) {
+                                                searchResultLayer.innerHTML = "";
+                                                console.log(data)
+                                                data.forEach(i => {
+                                                    console.log("<li onclick='this.querySelector('a').click()'>" +
+                                                            '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
+                                                            '</li>')
+                                                    searchResultLayer.innerHTML += "<li onclick='this.querySelector('a').click()'>" +
+                                                            '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
+                                                            '</li>'
                                                 })
                                             }
+                                        })
+                                    }
     </script>
 </html>

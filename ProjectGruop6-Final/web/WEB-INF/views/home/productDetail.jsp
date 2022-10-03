@@ -124,8 +124,12 @@
             }
 
             .product__item {
+                background-color: #FFE5CC;
+                margin-bottom: 10px;
                 width: 100%;
+                /*height: 100%;*/
                 transition: 0.5s;
+                border-radius: 5px;
             }
 
             .product__item a {
@@ -134,24 +138,18 @@
             }
 
             .product__item img {
+                width: 100%;
                 transition: 0.5s;
-            }
-
-            .product__item img:hover {
-                transform: translateY(-5px);
-                transition: 0.5s;
+                height: 180px;
             }
 
             .product__item a:hover {
-                color:blue;
+                color: #FFA500;
                 text-decoration: none;
             }
 
-            .product__item img {
-                height: 230px;
-            }
-
             .product__item span {
+                padding: 10px;
                 font-size: 20px;
                 color: red;
             }
@@ -167,6 +165,15 @@
             }
             .carousel-control-next:hover, .carousel-control-prev:hover{
                 opacity: 1;
+            }
+
+            .hinden-text {
+                font-size: 16px;
+                padding: 3px;
+                width: 180px;
+                overflow: hidden;
+                white-space: nowrap; 
+                text-overflow: ellipsis;
             }
         </style>
     </head>
@@ -228,20 +235,19 @@
                             <h2>${product.name}</h2>
                             <div style="margin: 20px 0;">
                                 ${rating}
-
                                 <c:if test ="${rating == 0}"><span class="fa fa-star-o star"></span></c:if>
                                 <c:if test ="${rating > 0 && rating <= 0.5}"><span class="fa fa-star-half-o star"></span></c:if>
                                 <c:if test ="${rating > 0.5 }"><span class="fa fa-star star"></span></c:if>
-                                <c:if test ="${rating < 1}"><span class="fa fa-star-o star"></span></c:if>
+                                <c:if test ="${rating <= 1}"><span class="fa fa-star-o star"></span></c:if>
                                 <c:if test ="${rating > 1 && rating <= 1.5}"><span class="fa fa-star-half-o star"></span></c:if>
                                 <c:if test ="${rating > 1.5}"><span class="fa fa-star star"></span></c:if>
-                                <c:if test ="${rating < 2}"><span class="fa fa-star-o star"></span></c:if>
+                                <c:if test ="${rating <= 2}"><span class="fa fa-star-o star"></span></c:if>
                                 <c:if test ="${rating > 2 && rating <=2.5}"><span class="fa fa-star-half-o star"></span></c:if>
                                 <c:if test ="${rating > 2.5}"><span class="fa fa-star star"></span></c:if>
-                                <c:if test ="${rating < 3}"><span class="fa fa-star-o star"></span></c:if>
+                                <c:if test ="${rating <= 3}"><span class="fa fa-star-o star"></span></c:if>
                                 <c:if test ="${rating > 3 && rating <= 3.5}"><span class="fa fa-star-half-o star"></span></c:if>
                                 <c:if test ="${rating > 3.5}"><span class="fa fa-star star"></span></c:if>
-                                <c:if test ="${rating < 4}"><span class="fa fa-star-o star"></span></c:if>
+                                <c:if test ="${rating <= 4}"><span class="fa fa-star-o star"></span></c:if>
                                 <c:if test ="${rating > 4 && rating <= 4.5}"><span class="fa fa-star-half-o star"></span></c:if>
                                 <c:if test ="${rating > 4.5}"><span class="fa fa-star star"></span></c:if>
                                 </div>
@@ -295,16 +301,16 @@
                                 <c:if test ="${i.rating == 0}"><span class="fa fa-star-o star-s"></span></c:if>
                                 <c:if test ="${i.rating > 0 && i.rating <= 0.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
                                 <c:if test ="${i.rating > 0.5 }"><span class="fa fa-star star-s"></span></c:if>
-                                <c:if test ="${i.rating < 1}"><span class="fa fa-star-o star-s"></span></c:if>
+                                <c:if test ="${i.rating <= 1}"><span class="fa fa-star-o star-s"></span></c:if>
                                 <c:if test ="${i.rating > 1 && i.rating <= 1.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
                                 <c:if test ="${i.rating > 1.5}"><span class="fa fa-star star-s"></span></c:if>
-                                <c:if test ="${i.rating < 2}"><span class="fa fa-star-o star-s"></span></c:if>
+                                <c:if test ="${i.rating <= 2}"><span class="fa fa-star-o star-s"></span></c:if>
                                 <c:if test ="${i.rating > 2 && i.rating <=2.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
                                 <c:if test ="${i.rating > 2.5}"><span class="fa fa-star star-s"></span></c:if>
-                                <c:if test ="${i.rating < 3}"><span class="fa fa-star-o star-s"></span></c:if>
+                                <c:if test ="${i.rating <= 3}"><span class="fa fa-star-o star-s"></span></c:if>
                                 <c:if test ="${i.rating > 3 && i.rating <= 3.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
                                 <c:if test ="${i.rating > 3.5}"><span class="fa fa-star star-s"></span></c:if>
-                                <c:if test ="${i.rating < 4}"><span class="fa fa-star-o star-s"></span></c:if>
+                                <c:if test ="${i.rating <= 4}"><span class="fa fa-star-o star-s"></span></c:if>
                                 <c:if test ="${i.rating > 4 && i.rating <= 4.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
                                 <c:if test ="${i.rating > 4.5}"><span class="fa fa-star star-s"></span></c:if>
                                 </p>
@@ -327,13 +333,32 @@
                 <h3 class="font-a">Các sản phẩm khác của <a href="#">${seller.firstName} ${seller.lastName}</a></h3>
                 <div class="product__content row">
                     <c:forEach items="${productList}" var="i">
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
-                                <img class="img-fluid" src="${i.getMainImage().url}" alt="">
-                                <p>${i.name}</p>
-                                <fmt:setLocale value="vi_VN"/>
-                                <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
-                            </a>
+                        <div class=" col-lg-2 col-md-3 col-sm-4" style="padding: 0 5px;">
+                            <div class="product__item">
+                                <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                    <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                    <p class="hinden-text">${i.name}</p>
+                                    <fmt:setLocale value="vi_VN"/>
+                                    <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
+                                </a>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+            <div class="product">
+                <h3 class="font-a">Các sản phẩm cùng loại khác </h3>
+                <div class="product__content row">
+                    <c:forEach items="${productListCategory}" var="i">
+                        <div class=" col-lg-2 col-md-3 col-sm-4" style="padding: 0 5px;">
+                            <div class="product__item">
+                                <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                    <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                    <p class="hinden-text">${i.name}</p>
+                                    <fmt:setLocale value="vi_VN"/>
+                                    <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
+                                </a>
+                            </div>
                         </div>
                     </c:forEach>
                 </div>

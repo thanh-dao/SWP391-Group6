@@ -21,7 +21,7 @@ public class ReviewDAO {
                 + "RIGHT JOIN (SELECT order_detail_id, order_by_shop_id \n"
                 + "FROM [order_detail] WHERE product_id = ?) o ON os.order_by_shop_id = o.order_by_shop_id \n"
                 + "LEFT JOIN review r ON r.order_detail_id = o.order_detail_id\n"
-                + "ORDER BY r.review_id"
+                + "WHERE r.status = 1 ORDER BY r.review_id"
         );
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
@@ -31,7 +31,7 @@ public class ReviewDAO {
                     rs.getString("avatar"),
                     rs.getString("first_name") + " "
                     + rs.getString("last_name"),
-                    rs.getDouble("rating"),
+                    Double.parseDouble(String.format("%,.1f", rs.getDouble("rating"))),
                     rs.getString("comment"),
                     ri.getReviewImage(rs.getInt("review_id"))
             ));
@@ -51,17 +51,15 @@ public class ReviewDAO {
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
         ReviewImageDAO ri = new ReviewImageDAO();
-        while (rs.next()) {
-            return rs.getDouble(1);
-        }
-        return 0;
+        rs.next();
+        return Double.parseDouble(String.format("%,.1f", rs.getDouble(1)));
     }
 
     public static void main(String[] args) {
         ReviewDAO r = new ReviewDAO();
         try {
-//            System.out.println(r.getReview(149));
-            System.out.println(r.getAVGRatingOfProduct(162));
+            System.out.println(r.getReview(384));
+//            System.out.println(r.getAVGRatingOfProduct(384));
         } catch (Exception e) {
         }
     }

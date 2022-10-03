@@ -89,12 +89,15 @@ public class HomeController extends HttpServlet {
                     double rating = review.getAVGRatingOfProduct(productId);
                     List<ProductDTO> productList = proDAO.getProductList(1, proDAO.SOLD_COUNT,
                             proDAO.DESC, user.getEmail());
-                    System.out.println(product);
+                    List<ProductDTO> productListCategory = proDAO.getProductList(1, proDAO.SOLD_COUNT,
+                            proDAO.DESC, product.getCateId());
+                    System.out.println(productListCategory);
                     request.setAttribute("rating", rating);
                     request.setAttribute("product", product);
                     request.setAttribute("seller", user);
                     request.setAttribute("reviewer", reviewer);
                     request.setAttribute("productList", productList);
+                    request.setAttribute("productListCategory", productListCategory);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
