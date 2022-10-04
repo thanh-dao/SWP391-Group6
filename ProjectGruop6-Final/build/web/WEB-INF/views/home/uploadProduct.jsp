@@ -77,14 +77,14 @@
             <div class="container">
 
                 <div class="product__content">
-                    <form>
+                    <form onsubmit="handleSubmit()">
                         <div class="row">
                             <div class="upload col-lg-5 col-md-5 col-sm-5">
                                 <button onclick="document.querySelector('.input-image').click()">
                                     <i class="fa-solid fa-camera"></i>
-                                
+
                                 </button>
-                                <input class="input-image" type="file" hidden accept="image/*">
+                                <input id="#file" onchange="handleFileChange(this)" class="input-image" type="file" multiple hidden accept="image/*">
                             </div>
 
                             <div class="col-lg-7 col-md-7 col-sm-7">
@@ -110,13 +110,39 @@
                             </div>
                         </div>
                     </form>
-
-
-
-
-
                 </div>
             </div>
         </div>
+        <script>
+            const arr = []
+            const inputFile = document.querySelector("#file");
+            const handleFileChange = (el) => {
+                arr.forEach(i => {
+                    console.log(i)
+                })
+                const fileCount = el.files.length;
+                const files = el.files
+                for (var i = 0; i < files.length; i++) {
+                    if (arr.length >= 5) {
+                        arr.shift()
+                    }
+                    const file = files[i]
+                    var path = (window.URL || window.webkitURL).createObjectURL(file);
+                    arr.push(file)
+                }
+            }
+            const formData = new FormData()
+            const handleSubmit = () => {
+                for (let i = 0; i < arr.length; i++) {
+                    const element = arr[i];
+                    formData.append("image" + i.toString(), element)
+                }
+                fetch('FileHandle', {
+                    method: "POST",
+                    body: formData
+                })
+            }
+
+        </script>
     </body>
 </html>
