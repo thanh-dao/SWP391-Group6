@@ -94,9 +94,12 @@
                                 <h5>Giá sản phẩm</h5><input type="number">
                                 <h5>Số lượng sản phẩm</h5><input type="number">
                                 <h5>Mô tả sản phẩm</h5>
-                                <textarea type="textarea"style="width: 100%;" required="true" name="address"
-                                          placeholder="Ví dụ: Khách hàng có thể nhận hàng vào buổi sáng"
-                                          class="input-form-item"></textarea>
+                                <div id="description">
+                                   
+                                </div>
+                                 <!--                                    <textarea  type="textarea"style="width: 100%;" required="true" name="address"
+                                                                              placeholder="Ví dụ: Khách hàng có thể nhận hàng vào buổi sáng"
+                                                                              class="input-form-item"></textarea>-->
                                 <h5>Số điện thoại</h5>
                                 <input type="text">
                                 <br />
@@ -113,36 +116,64 @@
                 </div>
             </div>
         </div>
+        <!--<script src="https://cdn.ckeditor.com/ckeditor5/12.3.1/classic/ckeditor.js"></script>-->
+        <script src="<c:url value="/ckeditor5/build/ckeditor.js"/>" type="text/javascript"></script>
         <script>
-            const arr = []
-            const inputFile = document.querySelector("#file");
-            const handleFileChange = (el) => {
-                arr.forEach(i => {
-                    console.log(i)
-                })
-                const fileCount = el.files.length;
-                const files = el.files
-                for (var i = 0; i < files.length; i++) {
-                    if (arr.length >= 5) {
-                        arr.shift()
-                    }
-                    const file = files[i]
-                    var path = (window.URL || window.webkitURL).createObjectURL(file);
-                    arr.push(file)
-                }
-            }
-            const formData = new FormData()
-            const handleSubmit = () => {
-                for (let i = 0; i < arr.length; i++) {
-                    const element = arr[i];
-                    formData.append("image" + i.toString(), element)
-                }
-                fetch('FileHandle', {
-                    method: "POST",
-                    body: formData
-                })
-            }
+                                    const arr = []
+                                    const inputFile = document.querySelector("#file");
+                                    const handleFileChange = (el) => {
+                                        arr.forEach(i => {
+                                            console.log(i)
+                                        })
+                                        const fileCount = el.files.length;
+                                        const files = el.files
+                                        for (var i = 0; i < files.length; i++) {
+                                            if (arr.length >= 5) {
+                                                arr.shift()
+                                            }
+                                            const file = files[i]
+                                            var path = (window.URL || window.webkitURL).createObjectURL(file);
+                                            arr.push(file)
+                                        }
+                                    }
+                                    const formData = new FormData()
+                                    const handleSubmit = () => {
+                                        for (let i = 0; i < arr.length; i++) {
+                                            const element = arr[i];
+                                            formData.append("image" + i.toString(), element)
+                                        }
+                                        fetch('FileHandle', {
+                                            method: "POST",
+                                            body: formData
+                                        })
+                                    }
 
+        </script>
+        <script>
+            var wordCountDescription = {
+                showParagraphs: false,
+                showWordCount: true,
+                showCharCount: true,
+                countSpacesAsChars: false,
+                countHTML: false,
+                maxWordCount: -1,
+                maxCharCount: 2000
+            }
+            window.addEventListener("DOMContentLoaded", () => {
+                ClassicEditor
+                        .create(document.querySelector('#description'))
+                        .then(newEditor => {
+                            editor = newEditor;
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        })
+            });
+            console.log(editor);
+            editor.replace('description', {wordcount: wordCountDescription});
+            window.onclick = () => {
+                console.log(editor.getData())
+            }
         </script>
     </body>
 </html>
