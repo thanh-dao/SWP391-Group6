@@ -331,8 +331,9 @@ public class ProductDAO {
     }
 
     //botton productDetail
-    public List<ProductDTO> getProductList(int pageNum, int option, boolean trend, String emailSeller) throws ClassNotFoundException, SQLException {
-        int itemSkipped = (pageNum - 1) * Constants.ITEM_PER_PAGE;
+    public List<ProductDTO> getProductList(int pageNum, int item_per_page, int option,
+            boolean trend, String emailSeller) throws ClassNotFoundException, SQLException {
+        int itemSkipped = (pageNum - 1) * item_per_page;
         Connection conn = DBUtil.getConnection();
         List<ProductDTO> list = new ArrayList();
         PreparedStatement stm = conn.prepareStatement("SELECT product_id, name, "
@@ -340,7 +341,7 @@ public class ProductDAO {
                 + "WHERE email_seller = ?  AND status = 1 AND quantity > 0"
                 + getFilter(option, trend)
                 + " OFFSET " + itemSkipped + " ROWS \n"
-                + " FETCH NEXT " + Constants.ITEM_PER_PAGE_PRODUCT_DETAIL + " ROWS ONLY;");
+                + " FETCH NEXT " + item_per_page + " ROWS ONLY;");
         stm.setString(1, emailSeller);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -352,6 +353,52 @@ public class ProductDAO {
                             rs.getString("name"),
                             rs.getLong("price"),
                             rs.getInt("quantity"),
+                            rs.getInt("sold_count"),
+                            imageDAO.findAll(id)
+                    )
+            );
+        }
+        return list;
+    }
+    
+    public List<ProductDTO> getProductList(int pageNum, int item_per_page, int option, boolean trend, int cateID) throws ClassNotFoundException, SQLException {
+        int itemSkipped = (pageNum - 1) * item_per_page;
+        Connection conn = DBUtil.getConnection();
+        List<ProductDTO> list = new ArrayList();
+        PreparedStatement stm = conn.prepareStatement("select [product_id]\n"
+                + "      ,[email_seller]\n"
+                + "      ,[name]\n"
+                + "      ,[price]\n"
+                + "      ,[description]\n"
+                + "      ,[category_id]\n"
+                + "      ,[quantity]\n"
+                + "      ,[email_admin]\n"
+                + "      ,[status]\n"
+                + "      ,[create_at]\n"
+                + "      ,[approve_at] "
+                + "      ,[sold_count] from product "
+                + " where category_ID = ?"
+                + getFilter(option, trend)
+                + " OFFSET " + itemSkipped + " ROWS \n"
+                + " FETCH NEXT " + item_per_page + " ROWS ONLY;");
+        stm.setInt(1, cateID);
+        ResultSet rs = stm.executeQuery();
+        ProductImageDAO imageDAO = new ProductImageDAO();
+        while (rs.next()) {
+            int id = rs.getInt("product_id");
+            list.add(
+                    new ProductDTO(
+                            id,
+                            rs.getString("email_seller"),
+                            rs.getString("name"),
+                            rs.getLong("price"),
+                            rs.getString("description"),
+                            rs.getInt("category_id"),
+                            rs.getInt("quantity"),
+                            rs.getString("email_admin"),
+                            rs.getInt("status") == 1,
+                            rs.getDate("create_at"),
+                            rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
                             imageDAO.findAll(id)
                     )

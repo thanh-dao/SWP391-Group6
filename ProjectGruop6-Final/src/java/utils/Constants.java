@@ -26,7 +26,7 @@ public class Constants {
 
     public static final int ITEM_PER_PAGE = 16;
 
-    public static final int ITEM_PER_PAGE_PRODUCT_DETAIL = 8;
+    public static final int ITEM_PER_PAGE_PRODUCT_DETAIL = 12;
 
     public static final int RESULT_PER_SEARCH = 5;
 }
