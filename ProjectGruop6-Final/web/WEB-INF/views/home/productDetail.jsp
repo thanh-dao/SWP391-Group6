@@ -124,10 +124,11 @@
             }
 
             .product__item {
-                background-color: #FFE5CC;
+                /*background-color: #FFE5CC;*/
+                background-color: #ffefd5 ;
                 margin-bottom: 10px;
                 width: 100%;
-                height: 100%;
+                height: 250px;
                 transition: 0.5s;
                 border-radius: 5px;
             }
@@ -140,7 +141,7 @@
             .product__item img {
                 width: 180px;
                 transition: 0.5s;
-                height: 180px;
+                height: 70%;
             }
 
             .product__item a:hover {
@@ -148,11 +149,12 @@
                 text-decoration: none;
             }
 
-            .product__item span {
-                padding: 10px;
+            .product__item div {
+                padding: 0 10px;
                 font-size: 20px;
                 color: red;
             }
+            
             .img-nav-btn{
                 width: 50px; 
                 height: 50px; 
@@ -186,12 +188,13 @@
                 display:none;
             }
             .tooltip-text:hover span {
+                border-radius: 3px;
                 font-size: 16px;
-                padding: 0 5px;
+                padding: 1px 5px;
                 display: block;
                 position:fixed;
                 overflow:hidden;
-                background-color: black;
+                background-color: #35363A;
                 color: #CCC;
                 z-index: 1000;
                 white-space: nowrap;
@@ -273,6 +276,7 @@
                             </div>
                             <p>Sản phẩm có sẵn: <span class="font-bold">${product.quantity}</span><p/>
                             <h2 style="color: #E72425; text-align: right; margin-right: 20px;">
+                                <fmt:setLocale value="vi_VN"/>
                                 <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>
                             <div class="buy d-flex justify-content-around" style="margin: 50px 0 20px 0;">
                                 <button onclick="window.location.href = '<c:url value="/cart/cart.do?productId=${product.productId}"/>'">Mua</button>
@@ -367,7 +371,9 @@
                                             <span>${i.name}</span>
                                         </p>
                                         <fmt:setLocale value="vi_VN"/>
-                                        <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
+                                        <div style="display: flex; justify-content: flex-end; padding-top: 5px;">
+                                            <fmt:formatNumber value="${i.price}" type="currency"/>
+                                        </div>
                                     </a>
                                 </div>
                             </div>
@@ -392,7 +398,9 @@
                                             <span>${i.name}</span>
                                         </p>
                                         <fmt:setLocale value="vi_VN"/>
-                                        <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
+                                        <div style="display: flex; justify-content: flex-end; padding-top: 5px;">
+                                            <fmt:formatNumber value="${i.price}" type="currency"/>
+                                        </div>
                                     </a>
                                 </div>
                             </div>
