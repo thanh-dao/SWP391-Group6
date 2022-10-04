@@ -81,12 +81,12 @@
                 background: #FFFFFF;
                 padding: 10px;
                 border-radius: 3px;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
             }
 
             .avatar {
-                height: 100px;
-                width: 100px;
+                height: 50px;
+                width: 50px;
                 border-radius: 50%;
                 margin-right: 20px;
             }
@@ -115,19 +115,19 @@
 
             .star{
                 color: #FFA500;
-                font-size:40px;
+                font-size:20px;
             }
 
             .star-s{
                 color: #FFA500;
-                font-size:20px;
+                font-size:15px;
             }
 
             .product__item {
                 background-color: #FFE5CC;
                 margin-bottom: 10px;
                 width: 100%;
-                /*height: 100%;*/
+                height: 100%;
                 transition: 0.5s;
                 border-radius: 5px;
             }
@@ -138,7 +138,7 @@
             }
 
             .product__item img {
-                width: 100%;
+                width: 180px;
                 transition: 0.5s;
                 height: 180px;
             }
@@ -168,17 +168,38 @@
             }
 
             .hinden-text {
+                margin: 0;
                 font-size: 16px;
                 padding: 3px;
-                width: 180px;
+                width: 100%;
                 overflow: hidden;
                 white-space: nowrap; 
                 text-overflow: ellipsis;
+                border-bottom: 1.5px solid rgba(0,0,0,.09);
+            }
+
+            .tooltip-text {
+                text-decoration:none;
+                position:relative;
+            }
+            .tooltip-text span {
+                display:none;
+            }
+            .tooltip-text:hover span {
+                font-size: 16px;
+                padding: 0 5px;
+                display: block;
+                position:fixed;
+                overflow:hidden;
+                background-color: black;
+                color: #CCC;
+                z-index: 1000;
+                white-space: nowrap;
             }
         </style>
     </head>
     <body>
-        <div class="container">
+        <div class="container" >
             <div class="br-form">
                 <div class="link font-a">
                     <a href="<c:url value="/home/main.do"/>">Trang chủ</a> >>
@@ -193,10 +214,7 @@
                 </div>
                 <div class="product__content">
                     <div class="row">
-                        <div id="demo" class="carousel slide col-lg-7 col-md-7 col-sm-7" data-ride="carousel">
-
-
-
+                        <div id="demo" class="carousel slide col-lg-6 col-md-6 col-sm-6" data-ride="carousel">
                             <!-- The slideshow -->
                             <div class="carousel-inner">
                                 <c:forEach items="${product.imgList}" varStatus="count" var="i">
@@ -219,7 +237,6 @@
                                     <div class="d-flex justify-content-center align-items-center img-nav-btn">
                                         <i class="m-0 fa-solid fa-chevron-left "></i>
                                     </div>
-
                                 </a>
                                 <a class="carousel-control-next" href="#demo" data-slide="next">
                                     <div class="d-flex justify-content-center align-items-center img-nav-btn" >
@@ -229,11 +246,9 @@
                             </div>
                         </div>
 
-
-
-                        <div class="col-lg-5 col-md-5 col-sm-5">
-                            <h2>${product.name}</h2>
-                            <div style="margin: 20px 0;">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <h3>${product.name}</h3>
+                            <div style="margin: 10px 0; font-size: 20px; ">
                                 ${rating}
                                 <c:if test ="${rating == 0}"><span class="fa fa-star-o star"></span></c:if>
                                 <c:if test ="${rating > 0 && rating <= 0.5}"><span class="fa fa-star-half-o star"></span></c:if>
@@ -269,18 +284,19 @@
             <div class="br-form">
                 <h5>Thông tin người bán</h5>
                 <div style="display: flex">
-                    <div class="col-md-5 col-sm-12 font-a" style="display: flex">
+                    <div class="col-md-5 col-sm-5 font-a" style="display: flex">
                         <a href="<c:url value="/home/main.do"/>" class="avatar">
                             <img src="<c:url value="${seller.avatarLink}"/>" alt="">
                         </a>
                         <p><a href="#">${seller.firstName} ${seller.lastName}</a></p>
                     </div>
-                    <div class="col-md-7 col-sm-12">
+                    <div class="col-md-7 col-sm-7">
                         <p>Số điện thoại: <span>${seller.phone}</span></p>
-                        <p>Địa chỉ: <span>${seller.address} ${seller.ward}
-                                ${seller.district} ${seller.city}</span></p>
+
                     </div>
-                </div>
+
+                </div><p>Địa chỉ: <span>${seller.address} ${seller.ward}
+                        ${seller.district} ${seller.city}</span></p>
             </div>
 
             <div class="br-form">
@@ -291,7 +307,11 @@
             <div class="br-form">
                 <h5 style="margin-top: 5px;">Đánh giá sản phẩm</h5>
                 <div class="review">
+                    <c:if test="${empty reviewer}">
+                        <p style="text-align: center;">Hiện chưa có đánh giá nào</p>
+                    </c:if>
                     <c:forEach items="${reviewer}" var="i">
+
                         <div class="font-a" style="display: flex">
                             <a href="<c:url value="/home/main.do"/>" class="reviewer">
                                 <img src="<c:url value="${i.avatarLink}"/>" alt="">
@@ -328,41 +348,70 @@
                                     </ul>
                                 </nav>-->
             </div>
-
-            <div class="product">
-                <h3 class="font-a">Các sản phẩm khác của <a href="#">${seller.firstName} ${seller.lastName}</a></h3>
-                <div class="product__content row">
-                    <c:forEach items="${productList}" var="i">
-                        <div class=" col-lg-2 col-md-3 col-sm-4" style="padding: 0 5px;">
-                            <div class="product__item">
-                                <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
-                                    <img class="img-fluid" src="${i.getMainImage().url}" alt="">
-                                    <p class="hinden-text">${i.name}</p>
-                                    <fmt:setLocale value="vi_VN"/>
-                                    <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
-                                </a>
+            <c:if test="${!empty productList}">
+                <div class="produrct">
+                    <div  style="display: flex; justify-content: space-between;">
+                        <h3 class="font-a">Các sản phẩm khác của 
+                            <a href="#">${seller.firstName} ${seller.lastName}</a>
+                        </h3>
+                        <a href="#">Xem thêm >></a>
+                    </div>
+                    <div class="product__content row" style="margin: 0 -5px;">
+                        <c:forEach items="${productList}" var="i">
+                            <div class=" col-lg-2 col-md-3 col-sm-4 col-4" 
+                                 style="padding: 5px; position: static;">
+                                <div class="product__item">
+                                    <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                        <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                        <p class="tooltip-text hinden-text">${i.name}
+                                            <span>${i.name}</span>
+                                        </p>
+                                        <fmt:setLocale value="vi_VN"/>
+                                        <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </c:forEach>
+                        </c:forEach>
+                    </div>
                 </div>
-            </div>
-            <div class="product">
-                <h3 class="font-a">Các sản phẩm cùng loại khác </h3>
-                <div class="product__content row">
-                    <c:forEach items="${productListCategory}" var="i">
-                        <div class=" col-lg-2 col-md-3 col-sm-4" style="padding: 0 5px;">
-                            <div class="product__item">
-                                <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
-                                    <img class="img-fluid" src="${i.getMainImage().url}" alt="">
-                                    <p class="hinden-text">${i.name}</p>
-                                    <fmt:setLocale value="vi_VN"/>
-                                    <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
-                                </a>
+            </c:if>
+            <c:if test="${!empty productListCategory}">
+                <div class="product">
+                    <div  style="display: flex; justify-content: space-between;">
+                        <h3 class="font-a">Các sản phẩm cùng loại khác </h3>
+                        <a href="#">Xem thêm >></a>
+                    </div>
+                    <div class="product__content row">
+                        <c:forEach items="${productListCategory}" var="i">
+                            <div class=" col-lg-2 col-md-3 col-sm-4 col-4" 
+                                 style="padding: 5px; position: static;">
+                                <div class="product__item">
+                                    <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                        <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                        <p class="tooltip-text hinden-text">${i.name}
+                                            <span>${i.name}</span>
+                                        </p>
+                                        <fmt:setLocale value="vi_VN"/>
+                                        <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </c:forEach>
+                        </c:forEach>
+                    </div>
                 </div>
-            </div>
+            </c:if>
         </div>
     </body>
+    <script>
+        cont tooltips = document.querySelectorAll('.tooltip-text span');
+
+        window.onmousemove = function (e) {
+            var x = (e.clientX + 20) + 'px',
+                    y = (e.clientY + 20) + 'px';
+            for (var i = 0; i < tooltips.length; i++) {
+                tooltips[i].style.top = y;
+                tooltips[i].style.left = x;
+            }
+        };
+    </script>
 </html>

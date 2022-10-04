@@ -52,7 +52,7 @@
                 padding-top: 5px;
                 padding-right: 0px;
                 background-color: orange;
-                margin-bottom: 50px;
+                margin-bottom: 10px;
             }
 
             .logo img {
@@ -247,7 +247,7 @@
                 padding: 0;
                 box-shadow: rgb(0 0 0 / 18%) 0px 6px 12px 0px;
                 background: rgb(255, 255, 255);
-                top: 45px;
+                top: 80px;
                 left: -30px;
             }
 
@@ -347,7 +347,7 @@
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </div>
                             <form action="searchProduct.do" class="input-search">
-                                <input  class="position-relative" name="name" onclick="showLayer()" oninput="searchAjax(this)" type="text" placeholder="TÌm kiếm sản phẩm " id="searchInput">   
+                                <input  class="position-relative" name="name" onclick="showLayer()" oninput="searchAjax(this)" type="text" placeholder="Tìm kiếm sản phẩm " id="searchInput">   
                                 <div class="position-absolute search-result-layer">
                                 </div>
                                 <input type="submit" hidden>
