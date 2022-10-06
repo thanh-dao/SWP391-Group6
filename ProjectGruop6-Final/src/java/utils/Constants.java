@@ -29,4 +29,6 @@ public class Constants {
     public static final int ITEM_PER_PAGE_PRODUCT_DETAIL = 12;
 
     public static final int RESULT_PER_SEARCH = 5;
+    
+    public static final String IMAGE_DIRECTORY = "C:\\img";
 }

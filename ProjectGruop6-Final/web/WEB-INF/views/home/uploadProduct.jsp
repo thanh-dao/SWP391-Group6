@@ -49,7 +49,7 @@
                 cursor: pointer;
             } 
 
-            .upload button {
+            .upload-button {
                 height: 200px;
                 width: 200px;
             }
@@ -69,6 +69,17 @@
             .button_1{
                 margin-top: 20px;
             }
+            .bd-example {
+                display: none;
+            }
+            .carousel-caption, .carousel-caption p {
+                padding: 0;
+                margin-bottom: 0;
+            }
+
+            .carousel-indicators {
+                margin-bottom: 0;
+            }
         </style>
     </head>
     <body>
@@ -77,14 +88,31 @@
             <div class="container">
 
                 <div class="product__content">
-                    <form onsubmit="handleSubmit()">
+                    <form onclick="handleSubmit()">
                         <div class="row">
                             <div class="upload col-lg-5 col-md-5 col-sm-5">
-                                <button onclick="document.querySelector('.input-image').click()">
+                                <button class="upload-button" type="button" onclick="toggleFile()">
                                     <i class="fa-solid fa-camera"></i>
-
                                 </button>
-                                <input id="#file" onchange="handleFileChange(this)" class="input-image" type="file" multiple hidden accept="image/*">
+                                <input id="file" onchange="handleFileChange(this)" class="input-image" type="file" multiple hidden accept="image/*">
+                                <div class="bd-example">
+                                    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+                                        <ol class="carousel-indicators">
+
+                                        </ol>
+                                        <div class="carousel-inner mt-5">
+
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-lg-7 col-md-7 col-sm-7">
@@ -95,11 +123,11 @@
                                 <h5>Số lượng sản phẩm</h5><input type="number">
                                 <h5>Mô tả sản phẩm</h5>
                                 <div id="description">
-                                   
+
                                 </div>
-                                 <!--                                    <textarea  type="textarea"style="width: 100%;" required="true" name="address"
-                                                                              placeholder="Ví dụ: Khách hàng có thể nhận hàng vào buổi sáng"
-                                                                              class="input-form-item"></textarea>-->
+                                <!--                                    <textarea  type="textarea"style="width: 100%;" required="true" name="address"
+                                                                             placeholder="Ví dụ: Khách hàng có thể nhận hàng vào buổi sáng"
+                                                                             class="input-form-item"></textarea>-->
                                 <h5>Số điện thoại</h5>
                                 <input type="text">
                                 <br />
@@ -116,17 +144,42 @@
                 </div>
             </div>
         </div>
-        <!--<script src="https://cdn.ckeditor.com/ckeditor5/12.3.1/classic/ckeditor.js"></script>-->
-        <script src="<c:url value="/ckeditor5/build/ckeditor.js"/>" type="text/javascript"></script>
+
+        <script src="<c:url value="/ckeditor5/ckeditor_build/ckeditor.js" />" type="text/javascript"></script>
         <script>
+                                    const indicatiors = document.querySelector(".carousel-indicators");
+                                    const carouselInner = document.querySelector(".carousel-inner");
+                                    const imageNameRegex = /\.(jpe?g|png|gif)$/i;
+                                    function readAndPreview(files) {
+                                        indicatiors.innerHTML = "";
+                                        carouselInner.innerHTML = "";
+                                        for (let i = 0; i < files.length; i++) {
+//                                            console.log(imageNameRegex.test(i.result))
+                                            const file = files[i];
+                                            if (imageNameRegex.test(file.name)) {
+                                                const reader = new FileReader();
+
+                                                reader.addEventListener("load", () => {
+                                                    indicatiors.innerHTML +=
+                                                            '<li data-target="#carouselExampleCaptions" data-slide-to="' + i.toString() + '" class="' + (i == 0 ? "active" : "") + '"></li>';
+                                                    carouselInner.innerHTML +=
+                                                            '<div class="carousel-item ' + (i == 0 ? 'active' : '') + '" >' +
+                                                            '<img src="' + reader.result + ' " class="d-block w-100" alt="">' +
+                                                            '<div class="carousel-caption d-none d-md-block">' +
+                                                            '<p>' + file.name + '</p>' +
+                                                            `</div>
+                                                    </div>`
+                                                }, false);
+                                                reader.readAsDataURL(file);
+                                            }
+                                        }
+                                    }
                                     const arr = []
-                                    const inputFile = document.querySelector("#file");
                                     const handleFileChange = (el) => {
-                                        arr.forEach(i => {
-                                            console.log(i)
-                                        })
                                         const fileCount = el.files.length;
-                                        const files = el.files
+                                        const files = el.files;
+                                        if (fileCount > 0)
+                                            document.querySelector(".bd-example").style.display = "block";
                                         for (var i = 0; i < files.length; i++) {
                                             if (arr.length >= 5) {
                                                 arr.shift()
@@ -135,17 +188,30 @@
                                             var path = (window.URL || window.webkitURL).createObjectURL(file);
                                             arr.push(file)
                                         }
+                                        readAndPreview(arr);
+
                                     }
                                     const formData = new FormData()
                                     const handleSubmit = () => {
-                                        for (let i = 0; i < arr.length; i++) {
-                                            const element = arr[i];
-                                            formData.append("image" + i.toString(), element)
+                                        // reset form data
+                                        formData.delete("image")
+                                        if (arr.length > 0) {
+                                            for (let i = 0; i < arr.length; i++) {
+                                                const element = arr[i];
+                                                formData.append("image", element)
+                                            }
+                                            const values = formData.getAll("image")
+                                            fetch('<c:url value="/FileHandle"/>', {
+                                                method: "POST",
+                                                body: formData,
+                                                headers: new Headers()
+                                            })
                                         }
-                                        fetch('FileHandle', {
-                                            method: "POST",
-                                            body: formData
-                                        })
+                                        console.log(formData.getAll("image"))
+                                    }
+                                    const fileInput = document.querySelector('#file');
+                                    const toggleFile = () => {
+                                        fileInput.click()
                                     }
 
         </script>
@@ -169,7 +235,7 @@
                             console.error(error);
                         })
             });
-            console.log(editor);
+//            console.log(editor);
             editor.replace('description', {wordcount: wordCountDescription});
             window.onclick = () => {
                 console.log(editor.getData())
