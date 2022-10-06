@@ -204,15 +204,53 @@
                             </table>
 
                             <table class="table table-striped ">
-                                <thead>                                  
-                                    <tr row>
-                                        <th><input type="checkbox" name=""></th>
-                                        <th class="col-md-6 col-5">Tên người bán 1</th>
-                                        <th class="col-md-3 col-3"></th>
-                                        <th class="col-md-3 col-4"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                <c:forEach items="${order.getOrderByShopList()}" var="i">
+                                    <thead>                                  
+                                        <tr row>
+                                            <th><input type="checkbox" name=""></th>
+                                            <th class="col-md-6 col-5">${i.getName()}</th>
+                                            <th class="col-md-3 col-3"></th>
+                                            <th class="col-md-3 col-4"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${i.getOrderDetailList()}" var="p">
+                                            <tr>
+                                                <th><input type="checkbox" name=""></th>
+                                                <td style="margin: 0">
+                                                    <div class="row">
+                                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                            <div class="product-img">
+                                                                <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
+                                                                </picture>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 font-bold">
+                                                            <a href="">${p.getName()}</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                        <fmt:setLocale value="vi_VN" />
+                                        <span class="product-real-prices">
+                                            <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
+                                        </span>
+                                        </td>
+                                        <td>
+                                            <div class="quantity-button">
+                                                <button class="btn-style-left">-</button>
+                                                <input class="ip-qua-style" value=${p.getQuantity()}>
+                                                <button class="btn-style-right">+</button>
+                                                <div class=" style-product-cart delete-icon"
+                                                     style="justify-content: center">
+                                                    <a class="show-cart" style="color: white"><i
+                                                            class="fas fa-trash delete-trash"></i></a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                    </c:forEach>
                                     <tr>
                                         <th><input type="checkbox" name=""></th>
                                         <td style="margin: 0">
@@ -230,98 +268,64 @@
                                             </div>
                                         </td>
                                         <td>
-                                <fmt:setLocale value="vi_VN" />
-                                <span class="product-real-prices">
-                                    <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
-                                </span>
-                                </td>
-                                <td>
-                                    <div class="quantity-button">
-                                        <button class="btn-style-left">-</button>
-                                        <input class="ip-qua-style" value="1">
-                                        <button class="btn-style-right">+</button>
-                                        <div class=" style-product-cart delete-icon"
-                                             style="justify-content: center">
-                                            <a class="show-cart" style="color: white"><i
-                                                    class="fas fa-trash delete-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                <tr>
-                                    <th><input type="checkbox" name=""></th>
-                                    <td style="margin: 0">
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                                <div class="product-img">
-                                                    <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
-                                                    </picture>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 font-bold">
-                                                <a href="">Tên Sản Phẩm</a>
+                                    <fmt:setLocale value="vi_VN" />
+                                    <span class="product-real-prices">
+                                        <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
+                                    </span>
+                                    </td>
+                                    <td>
+                                        <div class="quantity-button">
+                                            <button class="btn-style-left">-</button>
+                                            <input class="ip-qua-style" value="1">
+                                            <button class="btn-style-right">+</button>
+                                            <div class=" style-product-cart delete-icon"
+                                                 style="justify-content: center">
+                                                <a class="show-cart" style="color: white"><i
+                                                        class="fas fa-trash delete-trash"></i></a>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
-                                <fmt:setLocale value="vi_VN" />
-                                <span class="product-real-prices">
-                                    <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
-                                </span>
-                                </td>
-                                <td>
-                                    <div class="quantity-button">
-                                        <button class="btn-style-left">-</button>
-                                        <input class="ip-qua-style" value="1">
-                                        <button class="btn-style-right">+</button>
-                                        <div class=" style-product-cart delete-icon"
-                                             style="justify-content: center">
-                                            <a class="show-cart" style="color: white"><i
-                                                    class="fas fa-trash delete-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                <tr>
-                                    <th><input type="checkbox" name=""></th>
-                                    <td style="margin: 0">
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                                <div class="product-img">
-                                                    <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
-                                                    </picture>
-                                                    </a>
+                                    </tr>
+                                    <tr>
+                                        <th><input type="checkbox" name=""></th>
+                                        <td style="margin: 0">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="product-img">
+                                                        <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
+                                                        </picture>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 font-bold">
+                                                    <a href="">Tên Sản Phẩm</a>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 font-bold">
-                                                <a href="">Tên Sản Phẩm</a>
+                                        </td>
+                                        <td>
+                                    <fmt:setLocale value="vi_VN" />
+                                    <span class="product-real-prices">
+                                        <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
+                                    </span>
+                                    </td>
+                                    <td>
+                                        <div class="quantity-button">
+                                            <button class="btn-style-left">-</button>
+                                            <input class="ip-qua-style" value="1">
+                                            <button class="btn-style-right">+</button>
+                                            <div class=" style-product-cart delete-icon"
+                                                 style="justify-content: center">
+                                                <a class="show-cart" style="color: white"><i
+                                                        class="fas fa-trash delete-trash"></i></a>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
-                                <fmt:setLocale value="vi_VN" />
-                                <span class="product-real-prices">
-                                    <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
-                                </span>
-                                </td>
-                                <td>
-                                    <div class="quantity-button">
-                                        <button class="btn-style-left">-</button>
-                                        <input class="ip-qua-style" value="1">
-                                        <button class="btn-style-right">+</button>
-                                        <div class=" style-product-cart delete-icon"
-                                             style="justify-content: center">
-                                            <a class="show-cart" style="color: white"><i
-                                                    class="fas fa-trash delete-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                </tbody>
+                                    </tr>
+                                    </tbody>
+                                </c:forEach>
                             </table>
-<!--l===========================================================================-->
-<table class="table table-striped ">
+                            <!--l===========================================================================-->
+                            <table class="table table-striped ">
                                 <thead>                                  
                                     <tr row>
                                         <th><input type="checkbox" name=""></th>
@@ -450,10 +454,10 @@
                                 </div>
                                 <div class="txt-style">
                                     <div>
-                                        <span class="font-bold">Họ và tên: </span><span>Tên người mua</span>
+                                        <span class="font-bold">Họ và tên: </span><span>${user.firstName} ${user.lastName}</span>
                                     </div>
                                     <div>
-                                        <span class="font-bold">Số điện thoại: </span><span>Số điện thoại</span><br>
+                                        <span class="font-bold">Số điện thoại: </span><span>${user.phone}</span><br>
                                     </div>
                                     <div>
                                         <span class="font-bold">Địa chỉ: </span>

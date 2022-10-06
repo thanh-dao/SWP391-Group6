@@ -2,6 +2,7 @@ package controllers;
 
 import config.Config;
 import dao.OrderDAO;
+import dto.OrderDTO;
 import dto.UserDTO;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -37,11 +38,17 @@ public class CartController extends HttpServlet {
                         request.setAttribute("controller", "user");
                         request.setAttribute("action", "login");
                     } else {
+                        UserDTO user = (UserDTO) session.getAttribute("user");
                         if (request.getParameter("productId") != null) {
                             int productId = Integer.parseInt(request.getParameter("productId"));
-                            UserDTO user = (UserDTO) session.getAttribute("user");
                             OrderDAO od = new OrderDAO();
                             od.addCart(user.getEmail(), productId);
+                        } else {
+                            OrderDAO o = new OrderDAO();
+                            OrderDTO order = o.getOrder(user.getEmail(), 0);
+//                            order.getOrderByShopList()
+                            request.setAttribute("order", order);
+//                            System.out.println(o.getOrder(user.getEmail(), 0));
                         }
                     }
                 } catch (Exception ex) {

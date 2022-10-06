@@ -18,9 +18,8 @@ public class OrderDTO {
     private int paymentId;
     private String emailBuyer;
     private Date orderDate;
-    private boolean status;
     private AddressDTO address;
-//    private List<OrderByShopDTO> OrderByShopList;
+    private List<OrderByShopDTO> OrderByShopList;
 
     public OrderDTO(int orderId, String emailBuyer) {
         this.orderId = orderId;
@@ -29,6 +28,6 @@ public class OrderDTO {
     
     @Override
     public String toString() {
-        return "OrderDTO{" + "orderId=" + orderId + ", deliveryId=" + deliveryId + ", paymentId=" + paymentId + ", emailBuyer=" + emailBuyer + ", orderDate=" + orderDate + ", status=" + status + ", address=" + address + '}';
+        return "OrderDTO{" + "orderId=" + orderId + ", deliveryId=" + deliveryId + ", paymentId=" + paymentId + ", emailBuyer=" + emailBuyer + ", orderDate=" + orderDate + ", address=" + address + '}';
     }
 }

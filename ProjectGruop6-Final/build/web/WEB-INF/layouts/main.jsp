@@ -247,7 +247,7 @@
                 padding: 0;
                 box-shadow: rgb(0 0 0 / 18%) 0px 6px 12px 0px;
                 background: rgb(255, 255, 255);
-                top: 80px;
+                top: 70px;
                 left: -30px;
             }
 

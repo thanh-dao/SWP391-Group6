@@ -1,14 +1,40 @@
 package dao;
 
+import dto.OrderByShopDTO;
+import dto.OrderDTO;
+import dto.UserDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import utils.DBUtil;
 
 public class OrderByShopDAO {
-//create order when order null
 
+    //select
+    public List<OrderByShopDTO> getOrderByShop(int orderId) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        List<OrderByShopDTO> list = new ArrayList();
+        OrderDetailDAO od = new OrderDetailDAO();
+        PreparedStatement stm = conn.prepareStatement("SELECT order_by_shop_id,"
+                + " email_seller, transaction_fee, transport_fee, shipper_date "
+                + "FROM order_by_shop WHERE order_id = ? ");
+        stm.setInt(1, orderId);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            UserDAO u = new UserDAO();
+            UserDTO user = u.findUser(rs.getString("email_seller"));
+            list.add(new OrderByShopDTO(rs.getInt("order_by_shop_id"),
+                    rs.getString("email_seller"), user.getFirstName()+ " " + user.getLastName(), 
+                    rs.getDouble("transaction_fee"), rs.getDouble("transport_fee"), 
+                    rs.getDate("shipper_date"), od.getOrderDetail(rs.getInt("order_by_shop_id"))));
+        }
+        return list;
+    }
+
+    //create order when order null
     public void createOrderByShop(int orderId, String emailSeller) throws ClassNotFoundException, SQLException {
         Connection conn;
         conn = DBUtil.getConnection();
@@ -37,11 +63,12 @@ public class OrderByShopDAO {
             od.addOrderDetail(rs.getInt("order_by_shop_id"), productId);
         }
     }
-
+    
     public static void main(String[] args) {
         try {
             OrderByShopDAO obs = new OrderByShopDAO();
-            obs.addOrderByShop(16,  157);
+//            obs.addOrderByShop(16, 157);
+            System.out.println(obs.getOrderByShop(16));
         } catch (Exception e) {
         }
     }

@@ -308,7 +308,7 @@ public class ProductDAO {
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
                 + "      ,[sold_count] FROM product "
-                + " WHERE product_id = ? AND status = 1");
+                + " WHERE product_id = ? AND email_admin is not null");
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -417,7 +417,7 @@ public class ProductDAO {
 //           p.getProductList(1, ProductDAO.NAME, ProductDAO.DESC, 3).forEach(i -> {
 //               System.out.println(i.getName());
 //           });
-            System.out.println(p.getProductById(384).getImgList().indexOf(1));
+            System.out.println(p.getProductById(384));
 
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
