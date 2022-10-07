@@ -439,6 +439,39 @@ public class ProductDAO {
 
     }
 
+    //--product detail
+    public ProductDTO getProductByIdAd(int productId) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
+                + "      ,[email_seller]\n"
+                + "      ,[name]\n"
+                + "      ,[price]\n"
+                + "      ,[description]\n"
+                + "      ,[category_id]\n"
+                + "      ,[quantity]\n"
+                + "      ,[sold_count] FROM product "
+                + " WHERE product_id = ?");
+        stm.setInt(1, productId);
+        ResultSet rs = stm.executeQuery();
+        ProductImageDAO imageDAO = new ProductImageDAO();
+        while (rs.next()) {
+            int id = rs.getInt("product_id");
+            ProductDTO product = new ProductDTO(
+                    id,
+                    rs.getString("email_seller"),
+                    rs.getString("name"),
+                    rs.getLong("price"),
+                    rs.getString("description"),
+                    rs.getInt("category_id"),
+                    rs.getInt("quantity"),
+                    rs.getInt("sold_count"),
+                    imageDAO.findAll(id)
+            );
+            return product;
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         ProductDAO proDAO = new ProductDAO();
         try {

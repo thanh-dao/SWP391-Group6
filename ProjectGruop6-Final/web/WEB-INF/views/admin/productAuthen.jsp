@@ -118,7 +118,7 @@
                         <caption>Danh sách sản phẩm</caption>
                         <thead>
                             <tr>
-                                <th scope="col">SKU</th>
+                                <th scope="col">STT</th>
                                 <th scope="col">Tên sản phẩm</th>
                                 <th scope="col">Hình ảnh</th>
                                 <th scope="col">Giá tiền</th>
@@ -139,7 +139,7 @@
                                     <td>
                                         <div class="d-flex gap-3 ">
                                             <div class="col">
-                                                <button type="button" class="btn btn-danger mb-3 "><a href="<c:url value="/admin/checkProductAd.do?${p.getProductId()}"/>"/>Chi tiết</a></button>
+                                                <button type="button" class="btn btn-danger mb-3 "><a href="<c:url value="/admin/checkProductAd.do?productId=${p.productId}"/>"/>Chi tiết</a></button>
                                             </div>
                                         </div>
                                     </td>

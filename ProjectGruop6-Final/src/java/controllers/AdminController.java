@@ -7,7 +7,11 @@ package controllers;
 
 import config.Config;
 import dao.ProductDAO;
+import dao.ReviewDAO;
+import dao.UserDAO;
 import dto.ProductDTO;
+import dto.ReviewDTO;
+import dto.UserDTO;
 //import jakarta.servlet.ServletException;
 //import jakarta.servlet.annotation.WebServlet;
 //import jakarta.servlet.http.HttpServlet;
@@ -20,6 +24,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.Constants;
 
 /**
  *
@@ -47,20 +52,46 @@ public class AdminController extends HttpServlet {
                 break;
             case "dashBroad":
                 break;
-            case "productAuthen":
-                ProductDAO proDAO = new ProductDAO();               
-                 try {
-                     List<ProductDTO> list = proDAO.getProductAdmin();   
-                      request.setAttribute("listProduct", list);
+            case "productAuthen": {
+                ProductDAO proDAO = new ProductDAO();
+                try {
+                    List<ProductDTO> list = proDAO.getProductAdmin();
+                    request.setAttribute("listProduct", list);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                break;
+            }
+            break;
+            case "checkProductAd": {
+                int productId = Integer.parseInt(request.getParameter("productId"));
+                System.out.println(productId);
+                ProductDAO proDAO = new ProductDAO();
+                UserDAO userDAO = new UserDAO();
+                ReviewDAO review = new ReviewDAO();
+                try {
+                    ProductDTO product = proDAO.getProductByIdAd(productId);
+                    UserDTO user = userDAO.getUserByProductId(productId);
+                    List<ReviewDTO> reviewer = review.getReview(productId);
+                    double rating = review.getAVGRatingOfProduct(productId);
+                    List<ProductDTO> productList = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
+                            proDAO.SOLD_COUNT, proDAO.DESC, user.getEmail());
+                    List<ProductDTO> productListCategory = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
+                            proDAO.SOLD_COUNT, proDAO.DESC, product.getCateId());
+                    System.out.println(productListCategory);
+                    request.setAttribute("rating", rating);
+                    request.setAttribute("product", product);
+                    request.setAttribute("seller", user);
+                    request.setAttribute("reviewer", reviewer);
+                    request.setAttribute("productList", productList);
+                    request.setAttribute("productListCategory", productListCategory);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            break;
             case "reviewAuthen":
                 break;
-            case "checkProductAd":
-                break;
-                case "deleteProduct":
+            case "deleteProduct":
                 break;
             default:
                 //chuyển đến trang thông báo lổi
