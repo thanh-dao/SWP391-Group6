@@ -5,6 +5,7 @@
  */
 package dao;
 
+import dto.AddressDTO;
 import dto.UserDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -46,8 +47,11 @@ public class UserDAO {
         while (rs.next()) {
             UserDTO user = new UserDTO(
                     rs.getString(1), rs.getString(2), rs.getString(3),
-                    rs.getString(4), rs.getString(5), rs.getDate(6), rs.getString(7),
-                    rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11)
+                    rs.getString(4), rs.getString(5), rs.getDate(6), 
+                    new AddressDTO(
+                            rs.getString(7),rs.getString(8),
+                            rs.getString(9), rs.getString(10)
+                    ), rs.getInt(11)
             );
             return user;
         }
@@ -102,8 +106,9 @@ public class UserDAO {
         while (rs.next()) {
             UserDTO user = new UserDTO(
                     rs.getString(1), rs.getString(2), rs.getString(3),
-                    rs.getString(4),  rs.getString(5), rs.getString(6),
-                    rs.getString(7), rs.getString(8), rs.getString(9)
+                    rs.getString(4), rs.getString(5),
+                    new AddressDTO(rs.getString(6), rs.getString(7),
+                            rs.getString(8), rs.getString(9))
             );
             return user;
         }

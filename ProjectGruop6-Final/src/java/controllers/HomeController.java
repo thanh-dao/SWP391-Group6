@@ -104,6 +104,7 @@ public class HomeController extends HttpServlet {
             }
             break;
             case "uploadProduct":
+//                String 
                 break;
             case "checkProduct":
                 break;

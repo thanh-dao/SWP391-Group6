@@ -527,6 +527,10 @@ public class ProductDAO {
         return list;
     }
 
+    
+    public void deleteProduct(int productId) {
+        
+    }
     public static void main(String[] args) {
         ProductDAO proDAO = new ProductDAO();
         try {
