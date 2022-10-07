@@ -24,6 +24,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 import utils.Constants;
 
 /**
@@ -44,6 +46,7 @@ public class AdminController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = (HttpSession) request.getSession();
         String action = (String) request.getAttribute("action");
         String controller = (String) request.getAttribute("controller");
 
@@ -76,10 +79,42 @@ public class AdminController extends HttpServlet {
                 }
             }
             break;
+            case "approvingProduct": {
+                int productId = Integer.parseInt(request.getParameter("productId"));
+                UserDTO user = (UserDTO) session.getAttribute("user");
+                ProductDAO proDAO = new ProductDAO();
+                String acction = request.getParameter("acction");
+                try {
+                    proDAO.approveProduct(user.getEmail(), productId, acction);
+                } catch (Exception e) {
+                }
+                
+                System.out.println(productId);
+                System.out.println(user.getEmail());
+                System.out.println(acction);
+                try {
+
+                    List<ProductDTO> list = proDAO.getProductAdmin();
+                    request.setAttribute("listProduct", list);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                request.setAttribute("controller", "admin");
+                request.setAttribute("action", "productAuthen");
+            }
+            break;
             case "reviewAuthen":
                 break;
-            case "deleteProduct":
-                break;
+            case "deleteProduct": {
+                ProductDAO proDAO = new ProductDAO();
+                try {
+                    List<ProductDTO> productList = proDAO.getProductApproved(ProductDAO.APPROVE_AT, ProductDAO.DESC);
+                    request.setAttribute("product", productList);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
             default:
                 //chuyển đến trang thông báo lổi
                 request.setAttribute("controller", "error");

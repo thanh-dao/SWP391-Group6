@@ -126,24 +126,24 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                Id sản phẩm
-                            </td>
-                            <td>Tên sản phẩm</td>
-                            <td>
-                                Giá
-                            </td>
-                            <td>Ngày duyệt</td>
-                            <td>
-                                <div class="d-flex gap-3 ">
-                                    <div class="col">
-                                        <button type="button" class="btn btn-danger mb-3">&nbsp;Xóa&nbsp;</button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
+                        <c:forEach var="p" items="${product}">
+                            <tr>
+                                <td>
+                                    ${p.productId}
+                                </td>
+                                <td>${p.name}</td>
+                                <td>
+                                    ${p.price} VNĐ
+                                </td>
+                                <td>${p.approveAt}</td>
+                                <td>
+                                    <div class="d-flex gap-3 ">
+                                        <div class="col">
+                                            <button type="button" class="btn btn-danger mb-3">Xóa</button>                                        
+                                        </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
                 <nav aria-label="Page navigation example">
