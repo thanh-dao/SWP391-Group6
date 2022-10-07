@@ -247,8 +247,8 @@
                                 <fmt:setLocale value="vi_VN"/>
                                 <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>
                             <div class="buy d-flex justify-content-around" style="margin: 50px 0 20px 0;">
-                                <button onclick="window.location.href = '<c:url value="#?productId=${product.productId}"/>'">Duyệt</button>
-                                <button onclick="window.location.href = '<c:url value="#?productId=${product.productId}"/>'">Không Duyệt</button>
+                                <button onclick="window.location.href = '<c:url value="/admin/approvingProduct.do?productId=${product.productId}&acction=Yes"/>'">Duyệt</button>
+                                <button onclick="window.location.href = '<c:url value="/admin/approvingProduct.do?productId=${product.productId}&acction=No"/>'">Không Duyệt</button>
                             </div>
                         </div>
                     </div>

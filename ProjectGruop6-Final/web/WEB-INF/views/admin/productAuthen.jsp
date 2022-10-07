@@ -135,7 +135,7 @@
                                         <img class="img-fluid product-img" src="<c:url value="${p.getMainImage().url}"/>" alt="">
                                     </td>
                                     <td>
-                                        ${p.getPrice()}
+                                        ${p.getPrice()} VNĐ
                                     <td>
                                         <div class="d-flex gap-3 ">
                                             <div class="col">

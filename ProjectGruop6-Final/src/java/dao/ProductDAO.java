@@ -2,9 +2,11 @@ package dao;
 
 import dto.ProductDTO;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -439,7 +441,7 @@ public class ProductDAO {
 
     }
 
-    //--product detail
+    //--product detail admin
     public ProductDTO getProductByIdAd(int productId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
@@ -472,15 +474,70 @@ public class ProductDAO {
         return null;
     }
 
+    // xet duyet product
+    public boolean approveProduct(String emailAdmin, int productId, String acction) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        boolean result = true;
+        PreparedStatement stm = conn.prepareStatement(" UPDATE [dbo].[product]\n"
+                + "SET email_admin =" + emailAdmin + ", approve_at = " + Date.valueOf(LocalDate.now()) + " , status = ? \n"
+                + "WHERE product_id = " + productId);
+
+        if (acction.equalsIgnoreCase("Yes")) {
+            stm.setInt(1, 1);
+        } else {
+            stm.setInt(1, 0);
+        }
+        int count = stm.executeUpdate();
+        if (count == 0) {
+            result = false;
+        }
+        return result;
+    }
+
+    //  list all product approved
+    public List<ProductDTO> getProductApproved(int option, boolean trend) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        List<ProductDTO> list = new ArrayList();
+        PreparedStatement stm = conn.prepareStatement("select [product_id], [email_seller], [name], [price], [description], [category_id], [quantity], [email_admin], [status], [create_at], [approve_at], [sold_count] \n"
+                + "from product \n"
+                + " WHERE status = 1"
+                + getFilter(option, trend));
+        ResultSet rs = stm.executeQuery();
+        ProductImageDAO imageDAO = new ProductImageDAO();
+        while (rs.next()) {
+            int id = rs.getInt("product_id");
+            list.add(
+                    new ProductDTO(
+                            id,
+                            rs.getString("email_seller"),
+                            rs.getString("name"),
+                            rs.getLong("price"),
+                            rs.getString("description"),
+                            rs.getInt("category_id"),
+                            rs.getInt("quantity"),
+                            rs.getString("email_admin"),
+                            rs.getInt("status") == 1,
+                            rs.getDate("create_at"),
+                            rs.getDate("approve_at"),
+                            rs.getInt("sold_count"),
+                            imageDAO.findAll(id)
+                    )
+            );
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         ProductDAO proDAO = new ProductDAO();
         try {
-            List<ProductDTO> list = proDAO.getProductAdmin();
-            for (ProductDTO x : list) {
-                System.out.println(x.getName());
+            boolean test = proDAO.approveProduct("PhuongNHSE150997@fpt.edu.vn", 149, "Yes");
+            if (test) {
+                System.out.println("tcc");
+            } else {
+                System.out.println("cuts");
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            e.fillInStackTrace();
         }
     }
 }
