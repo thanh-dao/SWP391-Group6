@@ -80,10 +80,9 @@ public class ProductDAO {
 
     /**
      * < pre>
-     * get the product list base on page number
-     * for ex: when user click page 2, sort by name asc
-     * the params should be: pageNum: 2, option: ProductDAO.NAME,
-     * trend: ProductDAO.ASC
+     * get the product list base on page number for ex: when user click page 2,
+     * sort by name asc the params should be: pageNum: 2, option:
+     * ProductDAO.NAME, trend: ProductDAO.ASC
      * </pre>
      *
      * @param pageNum page number( for ex: 1, 2, 3, ...)
@@ -139,11 +138,9 @@ public class ProductDAO {
 
     /**
      * < pre>
-     * return the product list base on page number
-     * and category id
-     * for ex: when user click page 2, sort by name asc, categoryId 3
-     * the params should be: pageNum: 2, option: ProductDAO.NAME,
-     * trend: ProductDAO.ASC, cateID: 3
+     * return the product list base on page number and category id for ex: when
+     * user click page 2, sort by name asc, categoryId 3 the params should be:
+     * pageNum: 2, option: ProductDAO.NAME, trend: ProductDAO.ASC, cateID: 3
      * </pre>
      *
      * @param pageNum page number( for ex: 1, 2, 3, ...)
@@ -360,7 +357,7 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public List<ProductDTO> getProductList(int pageNum, int item_per_page, int option, boolean trend, int cateID) throws ClassNotFoundException, SQLException {
         int itemSkipped = (pageNum - 1) * item_per_page;
         Connection conn = DBUtil.getConnection();
@@ -406,19 +403,49 @@ public class ProductDAO {
         }
         return list;
     }
+//------------------------------------------------------------
+    //product list cho admin duyet
+
+    public List<ProductDTO> getProductAdmin() throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        List<ProductDTO> list = new ArrayList();
+        PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
+                + "      ,[email_seller]\n"
+                + "      ,[name]\n"
+                + "      ,[price]\n"
+                + "      ,[description]\n"
+                + "      ,[category_id]\n"
+                + "      ,[quantity]\n"
+                + "      FROM product "
+                + " WHERE email_admin is null");
+        ResultSet rs = stm.executeQuery();
+        ProductImageDAO imageDAO = new ProductImageDAO();
+        while (rs.next()) {
+            list.add(
+                    new ProductDTO(
+                            rs.getInt("product_id"),
+                            rs.getString("email_seller"),
+                            rs.getString("name"),
+                            rs.getLong("price"),
+                            rs.getString("description"),
+                            rs.getInt("category_id"),
+                            rs.getInt("quantity"),
+                            imageDAO.findAll(rs.getInt("product_id"))
+                    )
+            );
+
+        }
+        return list;
+
+    }
 
     public static void main(String[] args) {
-        ProductDAO p = new ProductDAO();
+        ProductDAO proDAO = new ProductDAO();
         try {
-//            System.out.println(p.countProductByCateId("1"));
-//            p.getProductList(10, "sách").forEach(i -> {
-//                System.out.println(i);
-//                });
-//           p.getProductList(1, ProductDAO.NAME, ProductDAO.DESC, 3).forEach(i -> {
-//               System.out.println(i.getName());
-//           });
-            System.out.println(p.getProductById(384));
-
+            List<ProductDTO> list = proDAO.getProductAdmin();
+            for (ProductDTO x : list) {
+                System.out.println(x.getName());
+            }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

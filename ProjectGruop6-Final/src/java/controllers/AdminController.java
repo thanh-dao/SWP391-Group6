@@ -6,12 +6,15 @@
 package controllers;
 
 import config.Config;
+import dao.ProductDAO;
+import dto.ProductDTO;
 //import jakarta.servlet.ServletException;
 //import jakarta.servlet.annotation.WebServlet;
 //import jakarta.servlet.http.HttpServlet;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,6 +48,13 @@ public class AdminController extends HttpServlet {
             case "dashBroad":
                 break;
             case "productAuthen":
+                ProductDAO proDAO = new ProductDAO();               
+                 try {
+                     List<ProductDTO> list = proDAO.getProductAdmin();   
+                      request.setAttribute("listProduct", list);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 break;
             case "reviewAuthen":
                 break;
