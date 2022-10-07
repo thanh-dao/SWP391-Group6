@@ -57,6 +57,17 @@ public class ProductDTO {
         this.imgList = imgList;
     }
 
+    public ProductDTO(int productId, String emailSeller, String name, long price, String description, int cateId, int quantity, List<ProductImageDTO> imgList) {
+        this.productId = productId;
+        this.emailSeller = emailSeller;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.cateId = cateId;
+        this.quantity = quantity;
+        this.imgList = imgList;
+    }
+
     @Override
     public String toString() {
         return "ProductDTO{" + "productId=" + productId + ", emailSeller=" + emailSeller + ", name=" + name + ", price=" + price + ", description=" + description + ", cateId=" + cateId + ", quantity=" + quantity + ", emailAdmin=" + emailAdmin + ", isAvalable=" + isAvalable + ", createAt=" + createAt + ", approveAt=" + approveAt + ", soldCount=" + soldCount + ", imgList=" + imgList + '}';

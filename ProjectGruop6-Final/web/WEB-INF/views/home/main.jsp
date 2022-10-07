@@ -18,7 +18,7 @@
                 margin-top: 0px;
             }
 
-            @media screen and (max-width: 1500px) {
+            @media screen and (max-width: 1200px) {
                 div.discount {
                     display: none;
                 }

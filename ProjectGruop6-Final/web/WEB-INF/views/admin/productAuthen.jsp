@@ -118,7 +118,7 @@
                         <caption>Danh sách sản phẩm</caption>
                         <thead>
                             <tr>
-                                <th scope="col">SKU</th>
+                                <th scope="col">STT</th>
                                 <th scope="col">Tên sản phẩm</th>
                                 <th scope="col">Hình ảnh</th>
                                 <th scope="col">Giá tiền</th>
@@ -126,57 +126,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td style="">1</td>
+                            <c:forEach var="p" items="${listProduct}" varStatus="loop">
+                                <tr>
+                                    <td style="">${loop.count}</td>
 
-                                <td>Tên sản phẩm</td>
-                                <td>
-                                    <img class="img-fluid product-img" src="<c:url value="/images/930x700.png"/>" alt="">
-                                </td>
-                                <td>
-                                    Giá tiền
-                                <td>
-                                    <div class="d-flex gap-3 ">
-                                        <div class="col">
-                                            <button type="button" class="btn btn-danger mb-3 "><a href="<c:url value="/admin/checkProductAd.do"/>"/>Chi tiết</a></button>
+                                    <td>${p.getName()}</td>
+                                    <td>
+                                        <img class="img-fluid product-img" src="<c:url value="${p.getMainImage().url}"/>" alt="">
+                                    </td>
+                                    <td>
+                                        ${p.getPrice()}
+                                    <td>
+                                        <div class="d-flex gap-3 ">
+                                            <div class="col">
+                                                <button type="button" class="btn btn-danger mb-3 "><a href="<c:url value="/admin/checkProductAd.do?productId=${p.productId}"/>"/>Chi tiết</a></button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td style="">2</td>
-
-                                <td>Tên sản phẩm</td>
-                                <td>
-                                    <img class="img-fluid product-img" src="<c:url value="/images/930x700.png"/>" alt="">
-                                </td>
-                                <td>
-                                    Giá tiền
-                                <td>
-                                    <div class="d-flex gap-3 ">
-                                        <div class="col">
-                                            <button type="button" class="btn btn-danger mb-3"><a href="<c:url value="/admin/checkProductAd.do"/>"/>Chi tiết</a></button>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr><tr>
-                                <td style="">3</td>
-
-                                <td>Tên sản phẩm</td>
-                                <td>
-                                    <img class="img-fluid product-img" src="<c:url value="/images/930x700.png"/>" alt="">
-                                </td>
-                                <td>
-                                    Giá tiền
-                                <td>
-                                    <div class="d-flex gap-3 ">
-                                        <div class="col">
-                                            <button type="button" class="btn btn-danger mb-3"><a href="<c:url value="/admin/checkProductAd.do"/>"/>Chi tiết</a></button>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            </c:forEach>
 
                         </tbody>
                     </table>
