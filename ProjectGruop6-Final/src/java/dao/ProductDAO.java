@@ -80,10 +80,9 @@ public class ProductDAO {
 
     /**
      * < pre>
-     * get the product list base on page number
-     * for ex: when user click page 2, sort by name asc
-     * the params should be: pageNum: 2, option: ProductDAO.NAME,
-     * trend: ProductDAO.ASC
+     * get the product list base on page number for ex: when user click page 2,
+     * sort by name asc the params should be: pageNum: 2, option:
+     * ProductDAO.NAME, trend: ProductDAO.ASC
      * </pre>
      *
      * @param pageNum page number( for ex: 1, 2, 3, ...)
@@ -139,11 +138,9 @@ public class ProductDAO {
 
     /**
      * < pre>
-     * return the product list base on page number
-     * and category id
-     * for ex: when user click page 2, sort by name asc, categoryId 3
-     * the params should be: pageNum: 2, option: ProductDAO.NAME,
-     * trend: ProductDAO.ASC, cateID: 3
+     * return the product list base on page number and category id for ex: when
+     * user click page 2, sort by name asc, categoryId 3 the params should be:
+     * pageNum: 2, option: ProductDAO.NAME, trend: ProductDAO.ASC, cateID: 3
      * </pre>
      *
      * @param pageNum page number( for ex: 1, 2, 3, ...)
@@ -330,7 +327,7 @@ public class ProductDAO {
         return null;
     }
 
-    //botton productDetail
+    //botton productDetailPage
     public List<ProductDTO> getProductList(int pageNum, int item_per_page, int option,
             boolean trend, String emailSeller) throws ClassNotFoundException, SQLException {
         int itemSkipped = (pageNum - 1) * item_per_page;
@@ -346,21 +343,20 @@ public class ProductDAO {
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
         while (rs.next()) {
-            int id = rs.getInt("product_id");
             list.add(
                     new ProductDTO(
-                            id,
+                            rs.getInt("product_id"),
                             rs.getString("name"),
                             rs.getLong("price"),
                             rs.getInt("quantity"),
                             rs.getInt("sold_count"),
-                            imageDAO.findAll(id)
+                            imageDAO.findAll(rs.getInt("product_id"))
                     )
             );
         }
         return list;
     }
-    
+
     public List<ProductDTO> getProductList(int pageNum, int item_per_page, int option, boolean trend, int cateID) throws ClassNotFoundException, SQLException {
         int itemSkipped = (pageNum - 1) * item_per_page;
         Connection conn = DBUtil.getConnection();

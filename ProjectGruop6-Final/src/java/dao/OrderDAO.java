@@ -27,11 +27,24 @@ public class OrderDAO {
             AddressDTO address = new AddressDTO(rs.getString("address"), adr.get(rs.getString("ward_id"), adr.WARD),
                     adr.get(rs.getString("district_id"), adr.DISTRICT), adr.get(rs.getString("city_id"), adr.CITY));
             OrderDTO order = new OrderDTO(rs.getInt("order_id"), rs.getInt("delivery_id"),
-                    rs.getInt("payment_id"), rs.getString("email_buyer"),
-                    rs.getDate("order_date"), address, ob.getOrderByShop(rs.getInt("order_id")));
+                    rs.getInt("payment_id"), rs.getString("email_buyer"), rs.getDate("order_date"),
+                    address, ob.getOrderByShop(rs.getInt("order_id")), getTotal(rs.getString("email_buyer")));
             return order;
         }
         return null;
+    }
+
+    public float getTotal(String emailBuyer) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT SUM(p.price) as total FROM\n"
+                + "(SELECT order_id FROM [order] WHERE email_buyer = ?) o \n"
+                + "LEFT JOIN [order_by_shop] os ON o.order_id = os.order_id\n"
+                + "LEFT JOIN [order_detail] od ON od.order_by_shop_id = os.order_by_shop_id\n"
+                + "LEFT JOIN product p ON p.product_id = od.product_id");
+        stm.setString(1, emailBuyer);
+        ResultSet rs = stm.executeQuery();
+        rs.next();
+        return Float.parseFloat(String.format("%.0f", rs.getFloat("total")));
     }
 
     //addCart
@@ -82,21 +95,20 @@ public class OrderDAO {
         OrderDAO o = new OrderDAO();
         try {
 //            d.addCart("ThinhPQSE151077@fpt.edu.vn", 158);
-            OrderDTO order = o.getOrder("ThinhPQSE151077@fpt.edu.vn", 0);
-            System.out.println(order.getOrderByShopList());
-            order.getOrderByShopList().forEach((t) -> {
-                System.out.println(t.toString());
-            });
-            System.out.println("================================================");
-            System.out.println(order.getOrderByShopList().get(0).getOrderDetailList().get(0)
-                    .getProductId());
-            System.out.println(order.getOrderByShopList().get(0).getEmailSeller());
-            for (OrderByShopDTO  i : order.getOrderByShopList()) {
-                System.out.println(i.getEmailSeller());
-            }
-            
-                   
-                    
+            System.out.println(o.getTotal("ThinhPQSE151077@fpt.edu.vn"));
+//            OrderDTO order = o.getOrder("ThinhPQSE151077@fpt.edu.vn", 0);
+//            System.out.println(order.getOrderByShopList());
+//            order.getOrderByShopList().forEach((t) -> {
+//                System.out.println(t.toString());
+//            });
+//            System.out.println("================================================");
+//            System.out.println(order.getOrderByShopList().get(0).getOrderDetailList().get(0)
+//                    .getProductId());
+//            System.out.println(order.getOrderByShopList().get(0).getEmailSeller());
+//            for (OrderByShopDTO i : order.getOrderByShopList()) {
+//                System.out.println(i.getEmailSeller());
+//            }
+
         } catch (Exception e) {
         }
     }

@@ -1,5 +1,6 @@
 package dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,19 +14,19 @@ public class OrderDetailDTO {
 
     private int orderDetailId;
     private int productId;
-    private String name;
     private int quantity;
     private String price;
+    private ProductDTO product;
 
-    public OrderDetailDTO(int orderDetailId, int productId, String name, int quantity) {
+    public OrderDetailDTO(int orderDetailId, int productId, int quantity, ProductDTO product) {
         this.orderDetailId = orderDetailId;
         this.productId = productId;
-        this.name = name;
         this.quantity = quantity;
+        this.product = product;
     }
 
     @Override
     public String toString() {
-        return "OrderDetailDTO{" + "orderDetailId=" + orderDetailId + ", productId=" + productId + ", quantity=" + quantity + ", price=" + price + '}';
+        return "OrderDetailDTO{" + "orderDetailId=" + orderDetailId + ", productId=" + productId + ", quantity=" + quantity + ", price=" + price + ", product=" + product + '}';
     }
 }

@@ -20,6 +20,7 @@ public class OrderDTO {
     private Date orderDate;
     private AddressDTO address;
     private List<OrderByShopDTO> OrderByShopList;
+    private float total;
 
     public OrderDTO(int orderId, String emailBuyer) {
         this.orderId = orderId;

@@ -24,7 +24,7 @@ public class OrderDetailDAO {
             ProductDAO p = new ProductDAO();
             ProductDTO product = p.getProductById(rs.getInt("product_id"));
             list.add(new OrderDetailDTO(rs.getInt("order_detail_id"), rs.getInt("product_id"),
-                    product.getName(), rs.getInt("quantity")));
+                    rs.getInt("quantity"), p.getProductById(rs.getInt("product_id"))));
         }
         return list;
     }
@@ -73,10 +73,12 @@ public class OrderDetailDAO {
 
     public static void main(String[] args) {
         OrderDetailDAO d = new OrderDetailDAO();
+
         try {
 //            d.updateOrderDetail(14, 152, 3, null);
 //            d.addOrderDetail(14, 150);
-            System.out.println(d.getOrderDetail(15));
+            List<OrderDetailDTO> od = d.getOrderDetail(15);
+            System.out.println(od.get(0).getProduct().getMainImage().getUrl());
 
         } catch (Exception e) {
         }
