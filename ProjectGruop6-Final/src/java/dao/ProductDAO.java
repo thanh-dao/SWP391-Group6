@@ -1,13 +1,16 @@
 package dao;
 
+import com.google.gson.Gson;
 import dto.ProductDTO;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -537,10 +540,32 @@ public class ProductDAO {
 
     }
 
+    public void getJson() throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        String sql = "SELECT ARRAY_TO_JSON(ARRAY_AGG(ROW_TO_JSON(data)))::varchar resubrow FROM (SELECT * FROM product)data;";
+        Statement stm = conn.createStatement();
+        ResultSet rs = stm.executeQuery(sql);
+        String resubrow = "";
+
+        if (rs.next()) {
+            System.out.println(rs.getString("resubrow"));
+            resubrow = rs.getString("resubrow");
+        }
+
+    }
+
     public static void main(String[] args) {
         ProductDAO proDAO = new ProductDAO();
         try {
-            System.out.println(proDAO.getProductById(149));
+            Gson gson = new Gson();
+            HashMap<String, String> hashmap = new HashMap<>();
+            hashmap.put("aaa", "valueeee");
+            hashmap.put("aaa2", "valueeee");
+            hashmap.put("aaa3", "valueeee");
+            hashmap.put("aaa4", "valueeee");
+            hashmap.put("aaa5", "valueeee");
+            System.out.println(gson.toJson(hashmap));
+//            System.out.println(proDAO.getProductById(149));
 //            boolean test = proDAO.approveProduct("PhuongNHSE150997@fpt.edu.vn", 149, "Yes");
 //            if (test) {
 //                System.out.println("tcc");

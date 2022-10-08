@@ -344,6 +344,7 @@
                                 </p>
                             </div>
                             <p>${i.comment}</p>
+                        <span style="display: flex; justify-content: flex-end;">${i.date}</span>
                     </c:forEach>
                 </div>
             </div>
