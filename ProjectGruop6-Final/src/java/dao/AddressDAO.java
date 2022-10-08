@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import utils.DBUtil;
 
 /**
@@ -77,9 +78,47 @@ public class AddressDAO {
         return null;
     }
 
+    public HashMap<String, String> getCityIdAndName() throws SQLException, ClassNotFoundException {
+        Connection conn = DBUtil.getConnection();
+        HashMap<String, String> result = new HashMap<>();
+        PreparedStatement stm = conn.prepareStatement("SELECT city_id, name FROM city");
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+             result.put(rs.getString(1), rs.getString(2));
+        }
+        return result;
+    }
+    public HashMap<String, String> getDistrictIdAndName(int cityId) throws SQLException, ClassNotFoundException {
+        Connection conn = DBUtil.getConnection();
+        HashMap<String, String> result = new HashMap<>();
+        PreparedStatement stm = conn.prepareStatement("SELECT district_id, name FROM district where city_id = ?");
+        stm.setInt(1, cityId);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+             result.put(rs.getString(1), rs.getString(2));
+        }
+        return result;
+    }
+    
+    public HashMap<String, String> getWardIdAndName(int districtId) throws SQLException, ClassNotFoundException {
+        Connection conn = DBUtil.getConnection();
+        HashMap<String, String> result = new HashMap<>();
+        PreparedStatement stm = conn.prepareStatement("SELECT ward_id, name FROM ward where district_id = ?");
+        stm.setInt(1, districtId);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+             result.put(rs.getString(1), rs.getString(2));
+        }
+        return result;
+    }
+    
+
     public static void main(String[] args) {
         AddressDAO a = new AddressDAO();
         try {
+            a.getWardIdAndName(271).forEach((key, value) -> {
+                System.out.println(key + " " + value);
+            });
             System.out.println(a.get(null, a.CITY));
             if (a.get(null, a.CITY) == null) {
                 System.out.println("OK");

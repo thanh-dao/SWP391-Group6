@@ -58,14 +58,27 @@
                                     </a>  
 
                                 </button>
-                                <c:if test="${sessionScope.errorLoginMessage != null}">
-                                    <p style="padding-top: 20px;color:blue">${sessionScope.errorLoginMessage}</p>
-                                </c:if>
+                                <p style="padding-top: 20px;color:blue">
+                                    <c:if test="${sessionScope.errorLoginMessage != null}">
+                                        ${sessionScope.errorLoginMessage}
+                                    </c:if>
+                                </p>
+
                             </div>
                     </div>
                     </form>
                 </div>
             </div>
         </div>
+        <script>
+
+            
+
+            const message = localStorage.getItem("message")
+            if(message != null) {
+                document.querySelector(".text-center p").innerHTML = message;
+                localStorage.removeItem("message")
+            }
+        </script>
     </body>
 </html>

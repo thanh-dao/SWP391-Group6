@@ -27,10 +27,7 @@ public class UserDTO {
     private String lastName;
     private String phone;
     private Date yob;
-    private String address;
-    private String ward;
-    private String city;
-    private String district;
+    private AddressDTO address;
     private int roleId;
 
     public UserDTO(String email, String avatarLink, String firstName, String lastName) {
@@ -40,22 +37,21 @@ public class UserDTO {
         this.lastName = lastName;
     }
 
-    public UserDTO(String email, String avatarLink, String firstName, String lastName, String phone, String address, String ward, String city, String district) {
+    
+
+    public UserDTO(String email, String avatarLink, String firstName, String lastName, String phone, AddressDTO address) {
         this.email = email;
         this.avatarLink = avatarLink;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.address = address;
-        this.ward = ward;
-        this.city = city;
-        this.district = district;
     }
-
-    
 
     @Override
     public String toString() {
-        return "UserDTO{" + "email=" + email + ", avatarLink=" + avatarLink + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", yob=" + yob + ", address=" + address + ", ward=" + ward + ", city=" + city + ", district=" + district + ", roleId=" + roleId + '}';
+        return "UserDTO{" + "email=" + email + ", avatarLink=" + avatarLink + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", yob=" + yob + ", address=" + address + ", roleId=" + roleId + '}';
     }
+    
+    
 }

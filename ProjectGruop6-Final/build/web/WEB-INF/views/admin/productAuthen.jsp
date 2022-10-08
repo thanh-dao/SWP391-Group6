@@ -122,6 +122,7 @@
                                 <th scope="col">Tên sản phẩm</th>
                                 <th scope="col">Hình ảnh</th>
                                 <th scope="col">Giá tiền</th>
+                                <th scope="col">Ngày đăng</th>
                                 <th scope="col">Hành động</th>
                             </tr>
                         </thead>
@@ -129,13 +130,16 @@
                             <c:forEach var="p" items="${listProduct}" varStatus="loop">
                                 <tr>
                                     <td style="">${loop.count}</td>
-
                                     <td>${p.getName()}</td>
                                     <td>
                                         <img class="img-fluid product-img" src="<c:url value="${p.getMainImage().url}"/>" alt="">
                                     </td>
                                     <td>
                                         ${p.getPrice()} VNĐ
+                                    </td>
+                                    <td>
+                                        ${p.getCreateAt()}
+                                    </td>
                                     <td>
                                         <div class="d-flex gap-3 ">
                                             <div class="col">

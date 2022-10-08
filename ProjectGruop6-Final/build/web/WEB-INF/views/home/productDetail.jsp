@@ -154,7 +154,7 @@
                 font-size: 20px;
                 color: red;
             }
-            
+
             .img-nav-btn{
                 width: 50px; 
                 height: 50px; 

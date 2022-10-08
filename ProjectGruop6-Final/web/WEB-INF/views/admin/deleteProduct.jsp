@@ -127,7 +127,7 @@
                     </thead>
                     <tbody>
                         <c:forEach var="p" items="${product}">
-                            <tr>
+                            <tr id="${p.productId}">
                                 <td>
                                     ${p.productId}
                                 </td>
@@ -139,7 +139,7 @@
                                 <td>
                                     <div class="d-flex gap-3 ">
                                         <div class="col">
-                                            <button type="button" class="btn btn-danger mb-3">Xóa</button>                                        
+                                            <button type="button" onclick="deleteProduct(p.productId)" class="btn btn-danger mb-3">Xóa</button>                                        
                                         </div>
                                 </td>
                             </tr>
@@ -166,6 +166,11 @@
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
         <script>
+            const deleteProduct = (pId, el) => {
+                
+            }
+            
+            
             const navElements = document.querySelectorAll(".nav-item");
             const removeActiveClass = () => {
                 navElements.forEach(item => {
@@ -232,7 +237,7 @@
                     var chart = new google.visualization.LineChart(i);
                     chart.draw(data, options);
                 })
-
+                
             }
         </script>
 

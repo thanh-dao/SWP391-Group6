@@ -16,6 +16,11 @@ public class AddressDTO {
     private String districtName;
     private String cityName;
 
+    
+    public boolean isNull(){
+        return houseNumber == null || wardName == null || districtName == null || cityName == null;
+    }
+    
     @Override
     public String toString() {
         return "AddressDTO{" + "houseNumber=" + houseNumber + ", cityName=" + cityName + ", districtName=" + districtName + ", wardName=" + wardName + '}';
