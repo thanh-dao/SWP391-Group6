@@ -130,7 +130,6 @@
                             <c:forEach var="p" items="${listProduct}" varStatus="loop">
                                 <tr>
                                     <td style="">${loop.count}</td>
-
                                     <td>${p.getName()}</td>
                                     <td>
                                         <img class="img-fluid product-img" src="<c:url value="${p.getMainImage().url}"/>" alt="">

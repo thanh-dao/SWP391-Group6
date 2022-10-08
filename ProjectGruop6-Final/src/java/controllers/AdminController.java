@@ -94,7 +94,7 @@ public class AdminController extends HttpServlet {
                 System.out.println(acction);
                 try {
 
-                    List<ProductDTO> list = proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC);
+                    List<ProductDTO> list = proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC );
                     request.setAttribute("listProduct", list);
                 } catch (Exception e) {
                     e.printStackTrace();

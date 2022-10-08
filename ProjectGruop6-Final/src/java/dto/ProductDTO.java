@@ -64,7 +64,8 @@ public class ProductDTO {
         this.imgList = imgList;
     }
 
-    public ProductDTO(int productId, String emailSeller, String name, long price, String description, int cateId, int quantity, Date createAt ,List<ProductImageDTO> imgList) {
+// product list cho admin duyệt
+    public ProductDTO(int productId, String emailSeller, String name, long price, String description, int cateId, int quantity, Date createAt, List<ProductImageDTO> imgList) {
         this.productId = productId;
         this.emailSeller = emailSeller;
         this.name = name;
