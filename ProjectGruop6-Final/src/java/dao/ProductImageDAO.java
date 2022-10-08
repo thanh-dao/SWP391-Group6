@@ -53,7 +53,7 @@ public class ProductImageDAO {
     public static void main(String[] args) {
         ProductImageDAO p = new ProductImageDAO();
         try {
-            p.findAll(256).forEach(i -> {
+            p.findAll(384).forEach(i -> {
                 System.out.println(i);
             });
         } catch (SQLException ex) {

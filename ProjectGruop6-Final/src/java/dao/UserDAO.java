@@ -105,9 +105,9 @@ public class UserDAO {
         ResultSet rs = stm.executeQuery();
         while (rs.next()) {
             UserDTO user = new UserDTO(
-                    rs.getString(1), rs.getString(2), rs.getString(3),
-                    rs.getString(4), rs.getString(5),
-                    new AddressDTO(rs.getString(6), rs.getString(7),
+                    rs.getString("email"), rs.getString("avatar"), rs.getString("first_name"),
+                    rs.getString("last_name"), rs.getString("phone"),
+                    new AddressDTO(rs.getString("address"), rs.getString(7),
                             rs.getString(8), rs.getString(9))
             );
             return user;
@@ -118,9 +118,9 @@ public class UserDAO {
     public static void main(String[] args) {
         UserDAO uDAO = new UserDAO();
         try {
-//            System.out.println(uDAO.getUserByProductId(149));
+            System.out.println(uDAO.getUserByProductId(149));
 //            System.out.println(uDAO.addUser("thanhddse151068@fpt.edu.vn", "Dao Duc Thanh", "jajaaja"));
-            System.out.println(uDAO.findUser("ThinhPQSE151077@fpt.edu.vn"));
+//            System.out.println(uDAO.findUser("ThinhPQSE151077@fpt.edu.vn"));
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

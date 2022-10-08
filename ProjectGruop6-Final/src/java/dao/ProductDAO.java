@@ -317,9 +317,8 @@ public class ProductDAO {
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
         while (rs.next()) {
-            int id = rs.getInt("product_id");
             ProductDTO product = new ProductDTO(
-                    id,
+                    rs.getInt("product_id"),
                     rs.getString("email_seller"),
                     rs.getString("name"),
                     rs.getLong("price"),
@@ -327,7 +326,7 @@ public class ProductDAO {
                     rs.getInt("category_id"),
                     rs.getInt("quantity"),
                     rs.getInt("sold_count"),
-                    imageDAO.findAll(id)
+                    imageDAO.findAll(rs.getInt("product_id"))
             );
             return product;
         }
@@ -541,12 +540,13 @@ public class ProductDAO {
     public static void main(String[] args) {
         ProductDAO proDAO = new ProductDAO();
         try {
-            boolean test = proDAO.approveProduct("PhuongNHSE150997@fpt.edu.vn", 149, "Yes");
-            if (test) {
-                System.out.println("tcc");
-            } else {
-                System.out.println("cuts");
-            }
+            System.out.println(proDAO.getProductById(149));
+//            boolean test = proDAO.approveProduct("PhuongNHSE150997@fpt.edu.vn", 149, "Yes");
+//            if (test) {
+//                System.out.println("tcc");
+//            } else {
+//                System.out.println("cuts");
+//            }
         } catch (Exception e) {
             e.fillInStackTrace();
         }

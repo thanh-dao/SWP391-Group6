@@ -6,6 +6,9 @@
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
+<link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
+
 <html lang="en">
 
     <head>
@@ -141,135 +144,153 @@
                 </div>
                 <div class="table-responsive container p-3 mt-5 mb-5">
                     <input class="search1" type="text">
-                    <table class="table caption-top table-striped table-bordered table-hover border-dark">
-                        <caption>Danh sách đánh giá</caption>
+                    <table id="table_id" class="display">
                         <thead>
                             <tr>
-                                <th scope="col">Stt</th>
-                                <th scope="col">Tên khách hàng</th>
-                                <th scope="col">Tên sản phẩm</th>
-                                <th scope="col">Hình ảnh</th>
-                                <th scope="col">Bình luận</th>
-                                <th scope="col">Đánh giá</th>
-                                <th scope="col">Hành động</th>
+                                <th>Column 1</th>
+                                <th>Column 2</th>
                             </tr>
                         </thead>
                         <tbody>
-
                             <tr>
-                                <td>1</td>
-                                <td>Tên khách hàng 1</td>
-                                <td>Tên sản phẩm</td>
-                                <td class="img-container">
-                                    <div>
-                                        <!-- <img class="img-fluid  product-img-review-active " src="./img/930x700.png" alt=""> -->
-                                        <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
-                                        <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
-                                        <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
-                                        <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
-                                        <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
-                                        <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
-                                    </div>
-                                </td>
-                                <td>Bình Luận<br>
-                                    Bình Luận<br>
-                                </td>
-                                <td>
-                                    <div class="rating-container">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex gap-3 ">
-                                        <div class="col">
-                                            <button type="button" class="btn btn-success mb-3">Approve</button>
-                                            <button type="button" class="btn btn-danger mb-3">Reject</button>
-
-                                        </div>
-                                    </div>
-                                </td>
+                                <td>Row 1 Data 1</td>
+                                <td>Row 1 Data 2</td>
                             </tr>
-
                             <tr>
-                                <td>2</td>
-                                <td>Tên khách hàng 2</td>
-                                <td>Tên sản phẩm</td>
-                                <td class="img-container">
-                                    <div>
-                                        <!-- <img class="img-fluid  product-img-review-active " src="./img/930x700.png" alt=""> -->
-                                        <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
-                                        <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
-                                        <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
-
-                                    </div>
-                                </td>
-                                <td>Bình Luận<br>
-                                    Bình Luận<br>
-                                </td>
-                                <td>
-                                    <div class="rating-container">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex gap-3 ">
-                                        <div class="col">
-                                            <button type="button" class="btn btn-success mb-3">Approve</button>
-                                            <button type="button" class="btn btn-danger mb-3">Reject</button>
-
-                                        </div>
-                                    </div>
-                                </td>
+                                <td>Row 2 Data 1</td>
+                                <td>Row 2 Data 2</td>
                             </tr>
-
-                            <tr>
-                                <td>3</td>
-                                <td>Tên khách hàng 3</td>
-                                <td>Tên sản phẩm</td>
-                                <td class="img-container">
-                                    <div>
-                                        <!-- <img class="img-fluid  product-img-review-active " src="./img/930x700.png" alt=""> -->
-                                        <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
-                                        <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
-                                        <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
-                                        <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
-
-                                    </div>
-                                </td>
-                                <td>Bình Luận<br>
-                                    Bình Luận<br>
-                                </td>
-                                <td>
-                                    <div class="rating-container">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex gap-3 ">
-                                        <div class="col">
-                                            <button type="button" class="btn btn-success mb-3">Approve</button>
-                                            <button type="button" class="btn btn-danger mb-3">Reject</button>
-
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-
                         </tbody>
                     </table>
+                    <!--                    <table class="table caption-top table-striped table-bordered table-hover border-dark">
+                                            <caption>Danh sách đánh giá</caption>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Stt</th>
+                                                    <th scope="col">Tên khách hàng</th>
+                                                    <th scope="col">Tên sản phẩm</th>
+                                                    <th scope="col">Hình ảnh</th>
+                                                    <th scope="col">Bình luận</th>
+                                                    <th scope="col">Đánh giá</th>
+                                                    <th scope="col">Hành động</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                    
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Tên khách hàng 1</td>
+                                                    <td>Tên sản phẩm</td>
+                                                    <td class="img-container">
+                                                        <div>
+                                                             <img class="img-fluid  product-img-review-active " src="./img/930x700.png" alt=""> 
+                                                            <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
+                                                            <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
+                                                            <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
+                                                            <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
+                                                            <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
+                                                            <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
+                                                        </div>
+                                                    </td>
+                                                    <td>Bình Luận<br>
+                                                        Bình Luận<br>
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-container">
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex gap-3 ">
+                                                            <div class="col">
+                                                                <button type="button" class="btn btn-success mb-3">Approve</button>
+                                                                <button type="button" class="btn btn-danger mb-3">Reject</button>
+                    
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                    
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Tên khách hàng 2</td>
+                                                    <td>Tên sản phẩm</td>
+                                                    <td class="img-container">
+                                                        <div>
+                                                             <img class="img-fluid  product-img-review-active " src="./img/930x700.png" alt=""> 
+                                                            <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
+                                                            <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
+                                                            <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
+                    
+                                                        </div>
+                                                    </td>
+                                                    <td>Bình Luận<br>
+                                                        Bình Luận<br>
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-container">
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex gap-3 ">
+                                                            <div class="col">
+                                                                <button type="button" class="btn btn-success mb-3">Approve</button>
+                                                                <button type="button" class="btn btn-danger mb-3">Reject</button>
+                    
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                    
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Tên khách hàng 3</td>
+                                                    <td>Tên sản phẩm</td>
+                                                    <td class="img-container">
+                                                        <div>
+                                                             <img class="img-fluid  product-img-review-active " src="./img/930x700.png" alt=""> 
+                                                            <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
+                                                            <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
+                                                            <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
+                                                            <img class="img-fluid product-img-review " src="<c:url value="/images/690x400.png"/>" alt="">
+                    
+                                                        </div>
+                                                    </td>
+                                                    <td>Bình Luận<br>
+                                                        Bình Luận<br>
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-container">
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex gap-3 ">
+                                                            <div class="col">
+                                                                <button type="button" class="btn btn-success mb-3">Approve</button>
+                                                                <button type="button" class="btn btn-danger mb-3">Reject</button>
+                    
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                    
+                    
+                                            </tbody>
+                                        </table>-->
                 </div>
             </div>
         </div>
@@ -285,6 +306,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+        <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
     </body>
 
 </html>

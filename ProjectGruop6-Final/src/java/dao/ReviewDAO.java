@@ -15,7 +15,7 @@ public class ReviewDAO {
         List<ReviewDTO> list = new ArrayList<>();
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT u.avatar, u.first_name, "
-                + "u.last_name, r.comment, r.rating, r.review_id FROM [user] u\n"
+                + "u.last_name, r.comment, r.rating, r.date, r.review_id FROM [user] u\n"
                 + "RIGHT JOIN [order] od ON u.email = od.email_buyer\n"
                 + "RIGHT JOIN order_by_shop os ON od.order_id = os.order_id\n"
                 + "RIGHT JOIN (SELECT order_detail_id, order_by_shop_id \n"
@@ -28,11 +28,13 @@ public class ReviewDAO {
         ReviewImageDAO ri = new ReviewImageDAO();
         while (rs.next()) {
             list.add(new ReviewDTO(
+                    rs.getInt("review_id"),
                     rs.getString("avatar"),
                     rs.getString("first_name") + " "
                     + rs.getString("last_name"),
                     Double.parseDouble(String.format("%,.1f", rs.getDouble("rating"))),
                     rs.getString("comment"),
+                    rs.getDate("date"),
                     ri.getReviewImage(rs.getInt("review_id"))
             ));
         }
@@ -54,29 +56,33 @@ public class ReviewDAO {
         rs.next();
         return Double.parseDouble(String.format("%,.1f", rs.getDouble(1)));
     }
-    
-    public List<ReviewDTO> getListReviewForCheck(int status, boolean adminExist) throws ClassNotFoundException, SQLException {
+
+    public List<ReviewDTO> getListReviewForCheck() throws ClassNotFoundException, SQLException {
         List<ReviewDTO> list = new ArrayList<>();
         Connection conn = DBUtil.getConnection();
-        PreparedStatement stm = conn.prepareStatement("SELECT u.avatar, u.first_name, "
-                + "u.last_name, r.comment, r.rating, r.review_id FROM [user] u\n"
-                + "RIGHT JOIN [order] od ON u.email = od.email_buyer\n"
-                + "RIGHT JOIN order_by_shop os ON od.order_id = os.order_id\n"
-                + "RIGHT JOIN (SELECT order_detail_id, order_by_shop_id \n"
-                + "FROM [order_detail] WHERE product_id = ?) o ON os.order_by_shop_id = o.order_by_shop_id \n"
-                + "LEFT JOIN review r ON r.order_detail_id = o.order_detail_id\n"
-                + "WHERE r.status = 1 ORDER BY r.review_id"
+        PreparedStatement stm = conn.prepareStatement("SELECT u.avatar, u.first_name, u.last_name, r.comment, r.rating, r.date, r.review_id, r.email_admin, r.status \n"
+                + "FROM (SELECT * FROM review WHERE status is null AND email_admin is null) r\n"
+                + "LEFT JOIN [order_detail] o ON r.order_detail_id = o.order_detail_id \n"
+                + "LEFT JOIN order_by_shop os ON o.order_by_shop_id = os.order_by_shop_id\n"
+                + "LEFT JOIN [order] od ON od.order_id = os.order_id\n"
+                + "LEFT JOIN [user] u ON u.email = od.email_buyer\n"
+                + "ORDER BY r.date"
         );
-        stm.setInt(1, productId);
+//        stm.setInt(1, status);
+//        stm.setBoolean(2, adminExist);
         ResultSet rs = stm.executeQuery();
         ReviewImageDAO ri = new ReviewImageDAO();
         while (rs.next()) {
             list.add(new ReviewDTO(
+                    rs.getInt("review_id"),
                     rs.getString("avatar"),
                     rs.getString("first_name") + " "
                     + rs.getString("last_name"),
                     Double.parseDouble(String.format("%,.1f", rs.getDouble("rating"))),
                     rs.getString("comment"),
+                    rs.getDate("date"),
+                    rs.getString("email_admin"),
+                    rs.getBoolean("status"),
                     ri.getReviewImage(rs.getInt("review_id"))
             ));
         }
@@ -86,7 +92,8 @@ public class ReviewDAO {
     public static void main(String[] args) {
         ReviewDAO r = new ReviewDAO();
         try {
-            System.out.println(r.getReview(384));
+            System.out.println(r.getListReviewForCheck());
+//            System.out.println(r.getReview(384));
 //            System.out.println(r.getAVGRatingOfProduct(384));
         } catch (Exception e) {
         }

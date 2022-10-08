@@ -231,9 +231,13 @@
                                     </div>
                                 </c:forEach>
                                 <ul class="carousel-indicators" style="bottom: 0; margin: 0;background-color: #FFA500;width: 100%;">
-                                    <li data-target="#demo" data-slide-to="0" class="active"></li>
-                                    <li data-target="#demo" data-slide-to="1"></li>
-                                    <li data-target="#demo" data-slide-to="2"></li>
+                                    <c:forEach items="${product.imgList}" varStatus="count" var="i">
+                                        <script>
+                                            console.log(${count.index})
+                                        </script>
+                                        <li data-target="#demo" data-slide-to="${count.index } " class="${count.index  == 0 ? "active" : ""}"></li>
+                                        </c:forEach>
+
                                 </ul>
                                 <!-- Left and right controls -->
                                 <a class="carousel-control-prev" href="#demo" data-slide="prev">
@@ -299,8 +303,8 @@
 
                     </div>
 
-                </div><p>Địa chỉ: <span>${seller.address} ${seller.ward}
-                        ${seller.district} ${seller.city}</span></p>
+                </div><p>Địa chỉ: <span>${seller.address.houseNumber} ${seller.address.wardName}
+                        ${seller.address.districtName} ${seller.address.cityName}</span></p>
             </div>
 
             <div class="br-form">
@@ -342,15 +346,6 @@
                             <p>${i.comment}</p>
                     </c:forEach>
                 </div>
-                <!--                <nav aria-label="Page navigation example" style="margin-top: 5px;">
-                                    <ul class="pagination d-flex justify-content-center">
-                                        <li class="page-item "><a class="page-link" href="#">Previous</a></li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                    </ul>
-                                </nav>-->
             </div>
             <c:if test="${!empty productList}">
                 <div class="produrct">
@@ -411,7 +406,7 @@
         </div>
     </body>
     <script>
-        cont tooltips = document.querySelectorAll('.tooltip-text span');
+        const tooltips = document.querySelectorAll('.tooltip-text span');
 
         window.onmousemove = function (e) {
             var x = (e.clientX + 20) + 'px',
