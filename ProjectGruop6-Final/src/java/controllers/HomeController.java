@@ -128,6 +128,7 @@ public class HomeController extends HttpServlet {
 
                 break;
             case "searchProduct": {
+                
                 String productName = request.getParameter("name");
                 ProductDAO proDAO = new ProductDAO();
                 List<ProductDTO> productList = null;
