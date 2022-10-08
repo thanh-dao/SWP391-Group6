@@ -24,6 +24,8 @@ public class ProductDAO {
 
     public static final int APPROVE_AT = 4;
 
+    public static final int CREATE_AT = 5;
+
     public static final boolean DESC = true;
 
     public static final boolean ASC = false;
@@ -70,6 +72,9 @@ public class ProductDAO {
             }
             case 4: {
                 orderBy = "approve_at";
+            }
+            case 5: {
+                orderBy = "create_at";
             }
         }
         if (trend == DESC) {
@@ -408,7 +413,7 @@ public class ProductDAO {
 //------------------------------------------------------------
     //product list cho admin duyet
 
-    public List<ProductDTO> getProductAdmin() throws ClassNotFoundException, SQLException {
+    public List<ProductDTO> getProductAdmin(int option, boolean trend) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<ProductDTO> list = new ArrayList();
         PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
@@ -418,8 +423,10 @@ public class ProductDAO {
                 + "      ,[description]\n"
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
+                + "      ,[create_at]\n"
                 + "      FROM product "
-                + " WHERE email_admin is null");
+                + " WHERE email_admin is null"
+                + getFilter(option, trend));
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
         while (rs.next()) {
@@ -432,6 +439,7 @@ public class ProductDAO {
                             rs.getString("description"),
                             rs.getInt("category_id"),
                             rs.getInt("quantity"),
+                            rs.getDate("create_at"),
                             imageDAO.findAll(rs.getInt("product_id"))
                     )
             );
@@ -527,10 +535,10 @@ public class ProductDAO {
         return list;
     }
 
-    
     public void deleteProduct(int productId) {
-        
+
     }
+
     public static void main(String[] args) {
         ProductDAO proDAO = new ProductDAO();
         try {

@@ -122,6 +122,7 @@
                                 <th scope="col">Tên sản phẩm</th>
                                 <th scope="col">Hình ảnh</th>
                                 <th scope="col">Giá tiền</th>
+                                <th scope="col">Ngày đăng</th>
                                 <th scope="col">Hành động</th>
                             </tr>
                         </thead>
@@ -136,6 +137,10 @@
                                     </td>
                                     <td>
                                         ${p.getPrice()} VNĐ
+                                    </td>
+                                    <td>
+                                        ${p.getCreateAt()}
+                                    </td>
                                     <td>
                                         <div class="d-flex gap-3 ">
                                             <div class="col">
