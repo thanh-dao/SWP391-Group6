@@ -346,7 +346,7 @@
                             <div class="search-icon">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </div>
-                            <form action="searchProduct.do" class="input-search">
+                            <form action="#"  class="input-search">
                                 <input  class="position-relative" name="name" onclick="showLayer()" oninput="searchAjax(this)" type="text" placeholder="Tìm kiếm sản phẩm " id="searchInput">   
                                 <div class="position-absolute search-result-layer">
                                 </div>
