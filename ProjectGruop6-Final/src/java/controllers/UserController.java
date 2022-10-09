@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import config.Config;
 import dao.UserDAO;
+import dto.AddressDTO;
 import dto.UserDTO;
 import dto.UserGoogleDTO;
 //import jakarta.servlet.ServletException;
@@ -17,6 +18,7 @@ import dto.UserGoogleDTO;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,8 +62,35 @@ public class UserController extends HttpServlet {
 //                response.sendRedirect("");
 //                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
-            case "userInformation":
-                break;
+            case "userInformation": {
+            }
+            break;
+            case "updateInformation": {
+                UserDAO userDAO = new UserDAO();
+                // avatarLink null nha
+                String avatarLink = request.getParameter("avatarLink");
+                String email = request.getParameter("email");
+                String yob = request.getParameter("yob");
+                Date date = Date.valueOf(yob);
+                String firstName = request.getParameter("firstName");
+                String lastName = request.getParameter("lastName");
+                String phone = request.getParameter("phone");
+                String cityName = request.getParameter("cityName");
+                String districtName = request.getParameter("districtName");
+                String wardName = request.getParameter("wardName");
+                String houseNumber = request.getParameter("houseNumber");
+                UserDTO userDTO = new UserDTO(email, avatarLink, firstName, lastName, phone, date, new AddressDTO(houseNumber, wardName, districtName, cityName));
+                try {
+                    userDAO.updateUser(userDTO);
+                    System.out.println("Hàm này chưa chạy dc đâu bé ơi");
+                } catch (SQLException ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.setAttribute("action", "userInformation");
+            }
+            break;
             case "googleLoginHandle": {
                 String code = request.getParameter("code");
                 System.out.println(code);
@@ -99,8 +128,7 @@ public class UserController extends HttpServlet {
 
             }
             break;
-            case "logout":
-            {
+            case "logout": {
                 session.removeAttribute("user");
                 redirectUrl = "/";
                 isFowarded = true;

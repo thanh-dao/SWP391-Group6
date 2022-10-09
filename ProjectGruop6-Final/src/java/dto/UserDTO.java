@@ -37,8 +37,6 @@ public class UserDTO {
         this.lastName = lastName;
     }
 
-    
-
     public UserDTO(String email, String avatarLink, String firstName, String lastName, String phone, AddressDTO address) {
         this.email = email;
         this.avatarLink = avatarLink;
@@ -48,10 +46,19 @@ public class UserDTO {
         this.address = address;
     }
 
+    public UserDTO(String email, String avatarLink, String firstName, String lastName, String phone, Date yob, AddressDTO address) {
+        this.email = email;
+        this.avatarLink = avatarLink;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.yob = yob;
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" + "email=" + email + ", avatarLink=" + avatarLink + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", yob=" + yob + ", address=" + address + ", roleId=" + roleId + '}';
     }
-    
-    
+
 }

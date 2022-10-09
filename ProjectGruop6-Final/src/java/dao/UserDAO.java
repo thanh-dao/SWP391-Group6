@@ -8,6 +8,7 @@ package dao;
 import dto.AddressDTO;
 import dto.UserDTO;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,9 +48,9 @@ public class UserDAO {
         while (rs.next()) {
             UserDTO user = new UserDTO(
                     rs.getString(1), rs.getString(2), rs.getString(3),
-                    rs.getString(4), rs.getString(5), rs.getDate(6), 
+                    rs.getString(4), rs.getString(5), rs.getDate(6),
                     new AddressDTO(
-                            rs.getString(7),rs.getString(8),
+                            rs.getString(7), rs.getString(8),
                             rs.getString(9), rs.getString(10)
                     ), rs.getInt(11)
             );
@@ -114,14 +115,23 @@ public class UserDAO {
         }
         return null;
     }
+
     public int countUser() throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select count(email) from [dbo].[user]");
         ResultSet rs = stm.executeQuery();
-        if(rs.next()) {
+        if (rs.next()) {
             return rs.getInt(1);
         }
         return -1;
+    }
+
+    // Update user information
+    public boolean updateUser(UserDTO User) throws SQLException, ClassNotFoundException {
+        Connection conn = DBUtil.getConnection();
+
+        /// tận cùng sự trầm cảm
+        return true;
     }
 
     public static void main(String[] args) {
