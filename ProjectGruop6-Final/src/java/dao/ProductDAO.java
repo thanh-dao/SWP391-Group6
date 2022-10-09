@@ -47,11 +47,59 @@ public class ProductDAO {
         return 0;
     }
 
-    public boolean createProduct(String name, String cateId,
+    public ProductDTO getProductBySellerAndName(String sellerEmail, String productName) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
+                + "      ,[email_seller]\n"
+                + "      ,[name]\n"
+                + "      ,[price]\n"
+                + "      ,[description]\n"
+                + "      ,[category_id]\n"
+                + "      ,[quantity]\n"
+                + "      ,[email_admin]\n"
+                + "      ,[status]\n"
+                + "      ,[create_at]\n"
+                + "      ,[approve_at]\n"
+                + "      ,[sold_count]\n"
+                + "  FROM [FEP_DB].[dbo].[product]\n"
+                + "  where name = ? and email_seller = ? ");
+        stm.setString(1, productName);
+        stm.setString(2, sellerEmail);
+        ResultSet rs = stm.executeQuery();
+        ProductDTO product = null;
+        if (rs.next()) {
+            product = new ProductDTO();
+            product.setProductId(rs.getInt("product_id"));
+            product.setEmailSeller(rs.getString("email_seller"));
+            product.setName(rs.getString("name"));
+            product.setPrice(rs.getInt("price"));
+            product.setDescription(rs.getString("description"));
+            product.setCateId(rs.getInt("category_id"));
+            product.setQuantity(rs.getInt("quantity"));
+            product.setEmailAdmin(rs.getString("email_admin"));
+            product.setAvalable(rs.getInt("status") == 1);
+            product.setApproveAt(rs.getDate("approve_at"));
+            product.setCreateAt(rs.getDate("create_at"));
+            product.setSoldCount(rs.getInt("sold_count"));
+        }
+        return product;
+    }
+
+    public int getMaxId() throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("select max(product_id) from product");
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return -1;
+    }
+
+    public boolean createProduct(
+            String name, String cateId,
             String quantity, String price,
-            String description, String houseNumber,
-            String cityId, String districtId,
-            String sellerEmail) throws SQLException, ClassNotFoundException {
+            String description, String sellerEmail
+    ) throws SQLException, ClassNotFoundException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("INSERT INTO [dbo].[product]\n"
                 + "           ([email_seller]\n"
@@ -72,7 +120,7 @@ public class ProductDAO {
         stm.setString(5, cateId);
         stm.setString(6, quantity);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();  
+        Date date = new Date();
         stm.setString(7, formatter.format(date));
         return stm.executeUpdate() == 1;
     }
@@ -590,7 +638,7 @@ public class ProductDAO {
     public static void main(String[] args) {
         ProductDAO proDAO = new ProductDAO();
         try {
-            System.out.println(proDAO.createProduct("Con ga con", "1", "10", "800000", "hoholalahooh", "862", "79", "764", "thanhddse151068@fpt.edu.vn"));
+            System.out.println(proDAO.getProductBySellerAndName("thanhddse151068@fpt.edu.vn", "123331221"));
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();

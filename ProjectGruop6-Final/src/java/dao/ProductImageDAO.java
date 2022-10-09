@@ -61,14 +61,24 @@ public class ProductImageDAO {
         }
         return -1;
     }
+    
+    public int getMaxId() throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("select max(image_id) from image_product");
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            return rs.getInt(1);
+        }
+        return -1;
+    }
 
     public boolean addImage(String productId, String url, boolean isMainImage) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("INSERT INTO [dbo].[image_product]\n"
                 + "           ([product_id]\n"
                 + "           ,[url]\n"
-                + "           ,[is_main_img] "
-                + "values (? , ? , ?)");
+                + "           ,[is_main_img] )\n"
+                + " VALUES (? , ? , ?)");
         stm.setString(1, productId);
         stm.setString(2, url);
         stm.setString(3, isMainImage ? "1" : "0");
@@ -78,7 +88,7 @@ public class ProductImageDAO {
     public static void main(String[] args) {
         ProductImageDAO p = new ProductImageDAO();
         try {
-            System.out.println(p.countImage());
+            System.out.println(p.addImage("254", "https://salt.tikicdn.com/cache/w1200/ts/product/ac/65/00/9dfd638a9ac02b57d308672cdfbad506.jpg", true));
 //            p.findAll(384).forEach(i -> {
 //                System.out.println(i);
 //            });
