@@ -2,55 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-<<<<<<< HEAD
         <group>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dao/ProductImageDAO.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/AdminController.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dao/ReviewDAO.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/CartController.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dao/OrderDAO.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/cart/cart.jsp</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/home/productDetail.jsp</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/layouts/main.jsp</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dao/OrderByShopDAO.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/HomeController.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dto/OrderByShopDTO.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dto/OrderDTO.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dto/OrderDetailDTO.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dao/OrderDetailDAO.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/layouts/main.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/home/productDetail.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/admin/adminAuthen.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/admin/deleteProduct.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/admin/checkProductAd.jsp</file>
         </group>
-=======
-        <group/>
->>>>>>> 08af199b7642be2129f8649b1c13ac3aaa3686e1
-=======
-        <group>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/dto/ProductImageDTO.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/dao/UserDAO.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/utils/Constants.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/dto/UserDTO.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/web/WEB-INF/views/home/productDetail.jsp</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/web/WEB-INF/views/home/checkProduct.jsp</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/web/WEB-INF/views/home/productList.jsp</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/controllers/HomeController.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/controllers/AddCartAjax.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/dao/AddressDAO.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/web/WEB-INF/views/admin/checkProductAd.jsp</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/controllers/UserController.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/dao/ReviewDAO.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/dao/OrderDAO.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/dto/ProductDTO.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/controllers/CartController.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/web/WEB-INF/views/home/main.jsp</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/web/WEB-INF/views/admin/adminAuthen.jsp</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/dto/OrderDTO.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/controllers/FileHandle.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/web/WEB-INF/views/admin/productAuthen.jsp</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/controllers/OrderController.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/web/WEB-INF/views/admin/deleteProduct.jsp</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/dao/ProductDAO.java</file>
-            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/ProjectGruop6-Final/src/java/controllers/AdminController.java</file>
-        </group>
->>>>>>> 1062db6b4837feb7ed210c660a665cf74edc5384
     </open-files>
 </project-private>
