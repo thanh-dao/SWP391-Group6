@@ -501,7 +501,7 @@ public class ProductDAO {
                 + "      ,[quantity]\n"
                 + "      ,[create_at]\n"
                 + "      FROM product "
-                + " WHERE email_admin is null"
+                + " WHERE email_admin is null AND status = 0 "
                 + getFilter(option, trend));
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
