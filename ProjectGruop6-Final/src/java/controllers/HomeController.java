@@ -18,6 +18,8 @@ import dto.ReviewDTO;
 import dto.UserDTO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +29,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import jdk.nashorn.internal.runtime.regexp.joni.ast.ConsAltNode;
 import utils.Constants;
 
 /**
@@ -35,6 +36,7 @@ import utils.Constants;
  * @author Admin
  */
 @WebServlet(name = "HomeController", urlPatterns = {"/home"})
+
 public class HomeController extends HttpServlet {
 
     /**
@@ -105,20 +107,25 @@ public class HomeController extends HttpServlet {
             }
             break;
             case "uploadProduct":
-                String address = request.getParameter("address-hidden");
-                
-                if (address != null) {
-                    String name = request.getParameter("name");
-                    int price = Integer.parseInt(request.getParameter("price"));
-                    int quantity = Integer.parseInt(request.getParameter("quantity"));
-                    String houseNumber = request.getParameter("address");
-                    String description = request.getParameter("description-hidden=");
-                    String[] addresses = address.split(";");
-                    String cityId = addresses[0];
-                    String districtId = addresses[1];
-                    String wardId = addresses[1];
+                String name = request.getParameter("name");
+                System.out.println("name: " + name);
+                if (name != null) {
+                    String price = request.getParameter("price").replace(",", "");
+                    String quantity = request.getParameter("quantity").replace(",", "");;
+                    String cateId = request.getParameter("cateId");
+                    String description = request.getParameter("descriptionHidden");
+                    String sellerEmail = request.getParameter("sellerEmail");
                     ProductDAO proDAO = new ProductDAO();
-                    
+                    session.setAttribute("name", name);
+                    try {
+                        System.out.println("product created : " + proDAO.createProduct(name, cateId, quantity, price, description, sellerEmail));
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                        LocalDateTime now = LocalDateTime.now();
+                        System.out.println(dtf.format(now));
+
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 break;
             case "checkProduct":

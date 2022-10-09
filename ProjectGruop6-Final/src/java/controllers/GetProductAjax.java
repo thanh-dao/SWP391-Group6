@@ -62,6 +62,12 @@ public class GetProductAjax extends HttpServlet {
                     out.print(b);
                     break;
                 }
+                case "init productName":{
+                    String name = request.getParameter("name");
+                    request.getSession().setAttribute("productName", name);
+                    out.print(gson.toJson(name));
+                    break;
+                }
                 default: {
                     throw new IllegalArgumentException("invalid function name in GetProductAjax");
                 }
