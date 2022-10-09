@@ -10,7 +10,8 @@ import dao.AddressDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -41,7 +42,7 @@ public class AddressHandleAjax extends HttpServlet {
         String param = request.getParameter("param");
         AddressDAO addressDAO = new AddressDAO();
         Gson gson = new Gson();
-        HashMap<String, String> result = null;
+        List<Map<String, String>> result = null;
         switch (param) {
             case "city": {
                 try {
@@ -70,9 +71,10 @@ public class AddressHandleAjax extends HttpServlet {
                 }
             }
 
-            PrintWriter out = response.getWriter();
-            out.println(gson.toJson(result));
         }
+        PrintWriter out = response.getWriter();
+        out.println(gson.toJson(result));
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

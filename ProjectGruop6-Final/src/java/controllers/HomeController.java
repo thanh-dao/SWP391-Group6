@@ -87,9 +87,9 @@ public class HomeController extends HttpServlet {
                     UserDTO user = userDAO.getUserByProductId(productId);
                     List<ReviewDTO> reviewer = review.getReview(productId);
                     double rating = review.getAVGRatingOfProduct(productId);
-                    List<ProductDTO> productList = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL, 
+                    List<ProductDTO> productList = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
                             proDAO.SOLD_COUNT, proDAO.DESC, user.getEmail());
-                    List<ProductDTO> productListCategory = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL, 
+                    List<ProductDTO> productListCategory = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
                             proDAO.SOLD_COUNT, proDAO.DESC, product.getCateId());
                     System.out.println(user.toString());
                     System.out.println(productListCategory);
@@ -105,7 +105,21 @@ public class HomeController extends HttpServlet {
             }
             break;
             case "uploadProduct":
-//                String 
+                String address = request.getParameter("address-hidden");
+                
+                if (address != null) {
+                    String name = request.getParameter("name");
+                    int price = Integer.parseInt(request.getParameter("price"));
+                    int quantity = Integer.parseInt(request.getParameter("quantity"));
+                    String houseNumber = request.getParameter("address");
+                    String description = request.getParameter("description-hidden=");
+                    String[] addresses = address.split(";");
+                    String cityId = addresses[0];
+                    String districtId = addresses[1];
+                    String wardId = addresses[1];
+                    ProductDAO proDAO = new ProductDAO();
+                    
+                }
                 break;
             case "checkProduct":
                 break;
@@ -125,10 +139,9 @@ public class HomeController extends HttpServlet {
             }
             break;
             case "reviewProduct":
-
                 break;
             case "searchProduct": {
-                
+
                 String productName = request.getParameter("name");
                 ProductDAO proDAO = new ProductDAO();
                 List<ProductDTO> productList = null;

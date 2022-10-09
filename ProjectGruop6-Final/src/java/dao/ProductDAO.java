@@ -1,19 +1,16 @@
 package dao;
 
-import com.google.gson.Gson;
 import dto.ProductDTO;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import utils.Constants;
 import utils.DBUtil;
 
@@ -48,6 +45,36 @@ public class ProductDAO {
             return rs.getInt(1);
         }
         return 0;
+    }
+
+    public boolean createProduct(String name, String cateId,
+            String quantity, String price,
+            String description, String houseNumber,
+            String cityId, String districtId,
+            String sellerEmail) throws SQLException, ClassNotFoundException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("INSERT INTO [dbo].[product]\n"
+                + "           ([email_seller]\n"
+                + "           ,[name]\n"
+                + "           ,[price]\n"
+                + "           ,[description]\n"
+                + "           ,[category_id]\n"
+                + "           ,[quantity]\n"
+                + "           ,[status]\n"
+                + "           ,[create_at] \n"
+                + ")\n"
+                + "     VALUES "
+                + " ( ?, ?, ?, ?, ?, ?, 0, ?) ");
+        stm.setString(1, sellerEmail);
+        stm.setString(2, name);
+        stm.setString(3, price);
+        stm.setString(4, description);
+        stm.setString(5, cateId);
+        stm.setString(6, quantity);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();  
+        stm.setString(7, formatter.format(date));
+        return stm.executeUpdate() == 1;
     }
 
     /**
@@ -483,12 +510,22 @@ public class ProductDAO {
         return null;
     }
 
+    public boolean deleteProduct(String productId, String emailAdmin) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("UPDATE [dbo].[product]\n"
+                + "set status = 0, email_admin = ? \n"
+                + "WHERE product_id = ?");
+        stm.setString(1, emailAdmin);
+        stm.setString(2, emailAdmin);
+        return stm.executeUpdate() == 1;
+    }
+
     // xet duyet product
     public boolean approveProduct(String emailAdmin, int productId, String acction) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         boolean result = true;
         PreparedStatement stm = conn.prepareStatement(" UPDATE [dbo].[product]\n"
-                + "SET email_admin =" + emailAdmin + ", approve_at = " + Date.valueOf(LocalDate.now()) + " , status = ? \n"
+                + "SET email_admin =" + emailAdmin + ", approve_at = " + java.sql.Date.valueOf(LocalDate.now()) + " , status = ? \n"
                 + "WHERE product_id = " + productId);
 
         if (acction.equalsIgnoreCase("Yes")) {
@@ -536,10 +573,6 @@ public class ProductDAO {
         return list;
     }
 
-    public void deleteProduct(int productId) {
-
-    }
-
     public void getJson() throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         String sql = "SELECT ARRAY_TO_JSON(ARRAY_AGG(ROW_TO_JSON(data)))::varchar resubrow FROM (SELECT * FROM product)data;";
@@ -557,23 +590,10 @@ public class ProductDAO {
     public static void main(String[] args) {
         ProductDAO proDAO = new ProductDAO();
         try {
-            Gson gson = new Gson();
-            HashMap<String, String> hashmap = new HashMap<>();
-            hashmap.put("aaa", "valueeee");
-            hashmap.put("aaa2", "valueeee");
-            hashmap.put("aaa3", "valueeee");
-            hashmap.put("aaa4", "valueeee");
-            hashmap.put("aaa5", "valueeee");
-            System.out.println(gson.toJson(hashmap));
-//            System.out.println(proDAO.getProductById(149));
-//            boolean test = proDAO.approveProduct("PhuongNHSE150997@fpt.edu.vn", 149, "Yes");
-//            if (test) {
-//                System.out.println("tcc");
-//            } else {
-//                System.out.println("cuts");
-//            }
+            System.out.println(proDAO.createProduct("Con ga con", "1", "10", "800000", "hoholalahooh", "862", "79", "764", "thanhddse151068@fpt.edu.vn"));
         } catch (Exception e) {
-            e.fillInStackTrace();
+//            e.fillInStackTrace();
+            e.printStackTrace();
         }
     }
 }

@@ -7,10 +7,8 @@ package controllers;
 
 import config.Config;
 import dao.ProductDAO;
-import dao.ReviewDAO;
 import dao.UserDAO;
 import dto.ProductDTO;
-import dto.ReviewDTO;
 import dto.UserDTO;
 //import jakarta.servlet.ServletException;
 //import jakarta.servlet.annotation.WebServlet;
@@ -18,15 +16,16 @@ import dto.UserDTO;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
-import utils.Constants;
 
 /**
  *
@@ -54,6 +53,16 @@ public class AdminController extends HttpServlet {
             case "adminAuthen":
                 break;
             case "dashBroad":
+        {
+            try {
+                int userNumber = new UserDAO().countUser();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+                
                 break;
             case "productAuthen": {
                 ProductDAO proDAO = new ProductDAO();

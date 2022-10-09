@@ -114,6 +114,15 @@ public class UserDAO {
         }
         return null;
     }
+    public int countUser() throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("select count(email) from [dbo].[user]");
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()) {
+            return rs.getInt(1);
+        }
+        return -1;
+    }
 
     public static void main(String[] args) {
         UserDAO uDAO = new UserDAO();

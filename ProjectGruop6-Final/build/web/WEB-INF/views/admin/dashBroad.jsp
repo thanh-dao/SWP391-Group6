@@ -17,10 +17,10 @@
             }
 
             .card {
-
                 max-width: 200px;
                 max-height: 100px;
                 background-color: #ccc;
+                margin-bottom: 20px;    
             }
 
             .card-body {
@@ -74,9 +74,9 @@
             .row-custom {
                 display: flex;
                 flex-wrap: wrap;
-                margin-top: calc(var(--bs-gutter-y) * -1);
+/*                margin-top: calc(var(--bs-gutter-y) * -1);
                 margin-right: calc(var(--bs-gutter-x) * -.5);
-                margin-left: calc(var(--bs-gutter-x) * -.5);
+                margin-left: calc(var(--bs-gutter-x) * -.5);*/
                 justify-content: center;
                 width: 100%;
             }
@@ -155,7 +155,7 @@
             <hr>
         </div>
         <div class=" pt-3 container">
-            <div class="row d-flex pb-5 gap-3 w-100 justify-content-center">
+            <div class="row d-flex pb-5 gap-3 w-100 justify-content-around">
                 <div class="card col-sm-12 col-md-6 col-lg-3">
                     <div class="card-body d-flex justify-content-between">
                         <div class="card-body-left">

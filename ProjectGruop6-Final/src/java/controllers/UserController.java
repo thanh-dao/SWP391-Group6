@@ -86,7 +86,7 @@ public class UserController extends HttpServlet {
                             ex.printStackTrace();
                         }
                     }
-
+                    System.out.println(userDTO);
                     session.setAttribute("user", userDTO);
                     redirectUrl = "/home/main.do";
                     session.setAttribute("errorLoginMessage", null);

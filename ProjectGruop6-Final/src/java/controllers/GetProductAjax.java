@@ -40,24 +40,34 @@ public class GetProductAjax extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String function = request.getParameter("func");
         List<ProductDTO> productResult = null;
+        Gson gson = new Gson();
+        PrintWriter out = response.getWriter();
         try {
             switch (function) {
                 case "getSortedProductList": {
                     productResult = getSortedProductList(request, response);
+                    out.print(gson.toJson(productResult));
                     break;
                 }
                 case "getSearchResult": {
                     String productName = request.getParameter("productName");
                     productResult = getSearchResult(productName, request, response);
+                    out.print(gson.toJson(productResult));
                     break;
                 }
-                default:{
+                case "deleteProduct": {
+                    String productId = request.getParameter("productId");
+                    String emailAdmin = request.getParameter("emailAdmin");
+                    boolean b = new ProductDAO().deleteProduct(productId, emailAdmin);
+                    out.print(b);
+                    break;
+                }
+                default: {
                     throw new IllegalArgumentException("invalid function name in GetProductAjax");
                 }
             }
-            Gson gson = new Gson();
-            PrintWriter out = response.getWriter();
-            out.print(gson.toJson(productResult));
+
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         }

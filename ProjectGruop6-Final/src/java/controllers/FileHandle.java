@@ -5,7 +5,9 @@
  */
 package controllers;
 
+import dao.ProductImageDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import org.apache.commons.io.FilenameUtils;
 import utils.Constants;
 
 /**
@@ -39,13 +42,18 @@ public class FileHandle extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         Collection<Part> part = request.getParts();
+        ProductImageDAO pImageDAO = new ProductImageDAO();
+
         part.forEach(i -> {
             String fileName = getFileName(i);
             System.out.println(fileName);
-            if(fileName != null) {
+            if (fileName != null) {
                 try {
-                    i.write(fileName);
-                } catch (IOException ex) {
+                    int imgCount = pImageDAO.countImage();
+                    String localFileExtension =  FilenameUtils.getExtension(fileName);
+                    String localFileName = Integer.toString(imgCount + 1);
+                    i.write(localFileName + "." + localFileExtension);
+                } catch (IOException | ClassNotFoundException | SQLException ex) {
                     Logger.getLogger(FileHandle.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -62,6 +70,7 @@ public class FileHandle extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
@@ -90,9 +99,10 @@ public class FileHandle extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
     public String getFileName(Part path) {
         String contentDisposition = path.getHeader("content-disposition");
-        if(contentDisposition.contains("filename=")){
+        if (contentDisposition.contains("filename=")) {
             int beginIndex = contentDisposition.indexOf("filename=") + 10;
             int endIndex = contentDisposition.length() - 1;
             return contentDisposition.substring(beginIndex, endIndex);
