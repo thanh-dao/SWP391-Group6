@@ -129,7 +129,6 @@ public class UserDAO {
         }
         return -1;
     }
-<<<<<<< HEAD
     
     public LinkedHashMap<String, String> getTop10SellerByMonth(int month) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
@@ -148,7 +147,6 @@ public class UserDAO {
         return arr;
     }
     
-=======
 
     // Update user information
     public boolean updateUser(UserDTO User) throws SQLException, ClassNotFoundException {
@@ -158,7 +156,6 @@ public class UserDAO {
         return true;
     }
 
->>>>>>> 025bd8073d1c30e809638e2421bbf463996a4bfd
     public static void main(String[] args) {
         UserDAO uDAO = new UserDAO();
         try {

@@ -127,11 +127,7 @@ public class UserController extends HttpServlet {
                 }
                 break;
             }
-<<<<<<< HEAD
 
-=======
-            break;
->>>>>>> 025bd8073d1c30e809638e2421bbf463996a4bfd
             case "logout": {
                 session.removeAttribute("user");
                 redirectUrl = "/";
