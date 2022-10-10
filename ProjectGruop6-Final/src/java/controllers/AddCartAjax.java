@@ -8,7 +8,6 @@ package controllers;
 import com.google.gson.Gson;
 import dao.ProductDAO;
 import dao.UserDAO;
-import dto.ProductDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;

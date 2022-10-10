@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import utils.DBUtil;
 
@@ -42,7 +43,6 @@ public class ReviewDAO {
     }
 
     public double getAVGRatingOfProduct(int productId) throws ClassNotFoundException, SQLException {
-        List<ReviewDTO> list = new ArrayList<>();
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT AVG(r.rating)\n"
                 + "FROM [order_detail] o\n"
@@ -52,7 +52,6 @@ public class ReviewDAO {
         );
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
-        ReviewImageDAO ri = new ReviewImageDAO();
         rs.next();
         return Double.parseDouble(String.format("%,.1f", rs.getDouble(1)));
     }
@@ -89,9 +88,40 @@ public class ReviewDAO {
         return list;
     }
 
+    public int getTotalReview() throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("select count(review.review_id) from review");
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return -1;
+    }
+
+    public int getTotalReview(int month) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("select count(review.review_id) from review where month([date])=  ?");
+        stm.setInt(1, month);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return -1;
+    }
+
+    public ArrayList<Integer> getTotalReviewCurrentMonths(int monthNumber) throws ClassNotFoundException, SQLException {
+        ArrayList<Integer> arr = new ArrayList<>();
+        int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        for (int i = currentMonth - 1; i >= currentMonth - monthNumber; i--) {
+            arr.add(getTotalReview(i));
+        }
+        return arr;
+    }
+
     public static void main(String[] args) {
         ReviewDAO r = new ReviewDAO();
         try {
+            System.out.println(Calendar.getInstance().get(Calendar.MONTH));
             System.out.println(r.getListReviewForCheck());
 //            System.out.println(r.getReview(384));
 //            System.out.println(r.getAVGRatingOfProduct(384));

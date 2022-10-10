@@ -96,11 +96,10 @@ public class UserController extends HttpServlet {
                     session.setAttribute("errorLoginMessage",
                             "Tài khoản của bạn không được phép đăng nhập vào hệ thống");
                 }
-
+                break;
             }
-            break;
-            case "logout":
-            {
+
+            case "logout": {
                 session.removeAttribute("user");
                 redirectUrl = "/";
                 isFowarded = true;

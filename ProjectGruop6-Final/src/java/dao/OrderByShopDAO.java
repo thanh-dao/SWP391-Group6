@@ -27,12 +27,14 @@ public class OrderByShopDAO {
             UserDAO u = new UserDAO();
             UserDTO user = u.findUser(rs.getString("email_seller"));
             list.add(new OrderByShopDTO(rs.getInt("order_by_shop_id"),
-                    rs.getString("email_seller"), user.getFirstName()+ " " + user.getLastName(), 
-                    rs.getDouble("transaction_fee"), rs.getDouble("transport_fee"), 
+                    rs.getString("email_seller"), user.getFirstName() + " " + user.getLastName(),
+                    rs.getDouble("transaction_fee"), rs.getDouble("transport_fee"),
                     rs.getDate("shipper_date"), od.getOrderDetail(rs.getInt("order_by_shop_id"))));
         }
         return list;
     }
+    
+   
 
     //create order when order null
     public void createOrderByShop(int orderId, String emailSeller) throws ClassNotFoundException, SQLException {

@@ -5,8 +5,11 @@
  */
 package controllers;
 
+import com.google.gson.Gson;
 import config.Config;
+import dao.OrderDAO;
 import dao.ProductDAO;
+import dao.ReviewDAO;
 import dao.UserDAO;
 import dto.ProductDTO;
 import dto.UserDTO;
@@ -17,6 +20,9 @@ import dto.UserDTO;
 //import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,18 +58,47 @@ public class AdminController extends HttpServlet {
         switch (action) {
             case "adminAuthen":
                 break;
-            case "dashBroad":
-        {
-            try {
-                int userNumber = new UserDAO().countUser();
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+            case "dashBroad": {
+                try {
+                    UserDAO userDAO =  new UserDAO();
+                    OrderDAO orderDAO = new OrderDAO();
+                    ReviewDAO reviewDAO = new ReviewDAO();
+                    ProductDAO proDAO = new ProductDAO();
+                    int totaluser = userDAO.countUser();
+                    int totalOrder = orderDAO.countOrder();
+                    int totalIncome = orderDAO.getTotalIncome();
+                    int totalReview = reviewDAO.getTotalReview();
+                    System.out.println(totalOrder);
+                    System.out.println(totalIncome);
+                    request.setAttribute("userCount", totaluser);
+                    request.setAttribute("totalOrder", totalOrder);
+                    request.setAttribute("totalIncome", totalIncome);
+                    request.setAttribute("totalReview", totalReview);
+                    
+                    ArrayList<Integer> totalOrderCurrentMonth = orderDAO.getTotalOrderCurrentMonths(6);
+                    ArrayList<Integer> totalIncomeCurrentMonths = orderDAO.getTotalIncomeCurrentMonths(6);
+                    ArrayList<Integer> totalReviewCurrentMonths = reviewDAO.getTotalReviewCurrentMonths(6);
+                    Gson gson = new Gson();
+                    request.setAttribute("totalOrderCurrentMonth", gson.toJson(totalOrderCurrentMonth));
+                    request.setAttribute("totalIncomeCurrentMonths", gson.toJson(totalIncomeCurrentMonths));
+                    request.setAttribute("totalReviewCurrentMonths", gson.toJson(totalReviewCurrentMonths));
+                    
+                    int currentMonth = Calendar.getInstance().get(Calendar.MONTH) ;
+                    System.out.println(currentMonth);
+                    LinkedHashMap<String, String> top10Seller = userDAO.getTop10SellerByMonth(currentMonth);
+                    List<ProductDTO> top10Product = proDAO.getTop10ProductByMonth(currentMonth);
+                    System.out.println(top10Product.size());
+                    request.setAttribute("top10Seller", top10Seller);
+                    request.setAttribute("top10Product", top10Product);
+                    
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        }
-                
-                break;
+
+            break;
             case "productAuthen": {
                 ProductDAO proDAO = new ProductDAO();
                 try {
@@ -103,7 +138,7 @@ public class AdminController extends HttpServlet {
                 System.out.println(acction);
                 try {
 
-                    List<ProductDTO> list = proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC );
+                    List<ProductDTO> list = proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC);
                     request.setAttribute("listProduct", list);
                 } catch (Exception e) {
                     e.printStackTrace();
