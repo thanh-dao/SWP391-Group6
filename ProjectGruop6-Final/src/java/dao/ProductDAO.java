@@ -571,7 +571,6 @@ public class ProductDAO {
     // xet duyet product
     public boolean approveProduct(String emailAdmin, int productId, String acction) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
-        boolean result = true;
         PreparedStatement stm = conn.prepareStatement(" UPDATE [dbo].[product]\n"
                 + "SET email_admin =" + emailAdmin + ", approve_at = " + java.sql.Date.valueOf(LocalDate.now()) + " , status = ? \n"
                 + "WHERE product_id = " + productId);
@@ -580,12 +579,8 @@ public class ProductDAO {
             stm.setInt(1, 1);
         } else {
             stm.setInt(1, 0);
-        }
-        int count = stm.executeUpdate();
-        if (count == 0) {
-            result = false;
-        }
-        return result;
+        }       
+        return stm.executeUpdate() == 1;
     }
 
     //  list all product approved

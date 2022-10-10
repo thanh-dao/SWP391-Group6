@@ -3,12 +3,39 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/E:/FALL2022/GitRepo/SWP391-Group6/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/home/uploadProduct.jsp</file>
             <file>file:/E:/FALL2022/GitRepo/SWP391-Group6/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/GetProductAjax.java</file>
             <file>file:/E:/FALL2022/GitRepo/SWP391-Group6/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/Notification.java</file>
             <file>file:/E:/FALL2022/GitRepo/SWP391-Group6/SWP391-Group6/ProjectGruop6-Final/src/java/dao/ProductDAO.java</file>
             <file>file:/E:/FALL2022/GitRepo/SWP391-Group6/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/HomeController.java</file>
             <file>file:/E:/FALL2022/GitRepo/SWP391-Group6/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/FileHandle.java</file>
+=======
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/admin/reviewAuthen.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/admin/deleteProduct.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/user/login.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/admin/productAuthen.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/src/java/dao/AddressDAO.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/UserController.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/OrderController.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/src/java/dto/UserDTO.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/cart/billInformation.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/AddressHandleAjax.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/layouts/main.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/cart/cart.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/src/java/dto/AddressDTO.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/src/java/dao/UserDAO.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/home/checkProduct.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/home/productDetail.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/user/userInformation.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/src/java/dao/ProductDAO.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/AdminController.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/HomeController.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/src/java/dto/ReviewImageDTO.java</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/admin/adminAuthen.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/admin/checkProductAd.jsp</file>
+            <file>file:/C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/home/productList.jsp</file>
+>>>>>>> 025bd8073d1c30e809638e2421bbf463996a4bfd
         </group>
     </open-files>
 </project-private>
