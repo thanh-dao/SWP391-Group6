@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import utils.DBUtil;
 
 public class OrderDAO {
@@ -91,11 +93,80 @@ public class OrderDAO {
         }
     }
 
+    public int getTotalIncome(int month) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT SUM(od.price) FROM \n"
+                + "(SELECT order_id FROM [order] WHERE MONTH([order_date]) = ?) o \n"
+                + "LEFT JOIN order_by_shop os ON o.order_id = os.order_id\n"
+                + "LEFT JOIN order_detail od ON od.order_by_shop_id = os.order_by_shop_id");
+        stm.setInt(1, month);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) % 3 / 100;
+        }
+        return -1;
+    }
+
+    public int getTotalIncome() throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT SUM(od.price) FROM \n"
+                + "(SELECT order_id FROM [order]) o\n"
+                + "LEFT JOIN order_by_shop os ON o.order_id = os.order_id\n"
+                + "LEFT JOIN order_detail od ON od.order_by_shop_id = os.order_by_shop_id");
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) * 3 / 100;
+        }
+        return -1;
+    }
+
+    public int countOrder() throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT max([order_id])\n"
+                + "  FROM [FEP_DB].[dbo].[order]\n"
+                + "  where status = 1");
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return -1;
+    }
+
+    public int getTotalOrder(int month) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("select count(order_id) from dbo.[order]\n"
+                + "where month(order_date) = ?");
+        stm.setInt(1, month);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return -1;
+    }
+
+    public ArrayList<Integer> getTotalOrderCurrentMonths(int monthNumber) throws ClassNotFoundException, SQLException {
+        ArrayList<Integer> arr = new ArrayList<>();
+        int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        for (int i = currentMonth - 1; i >= currentMonth - monthNumber; i--) {
+            arr.add(getTotalOrder(i));
+        }
+        return arr;
+    }
+
+    public ArrayList<Integer> getTotalIncomeCurrentMonths(int monthNumber) throws ClassNotFoundException, SQLException {
+        ArrayList<Integer> arr = new ArrayList<>();
+        int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        for (int i = currentMonth - 1; i >= currentMonth - monthNumber; i--) {
+            arr.add(getTotalIncome(i));
+        }
+        return arr;
+    }
+
     public static void main(String[] args) {
         OrderDAO o = new OrderDAO();
         try {
 //            d.addCart("ThinhPQSE151077@fpt.edu.vn", 158);
-            System.out.println(o.getTotal("ThinhPQSE151077@fpt.edu.vn"));
+            System.out.println(o.getTotalIncome());
 //            OrderDTO order = o.getOrder("ThinhPQSE151077@fpt.edu.vn", 0);
 //            System.out.println(order.getOrderByShopList());
 //            order.getOrderByShopList().forEach((t) -> {

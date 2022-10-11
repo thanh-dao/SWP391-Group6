@@ -12,6 +12,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.DBUtil;
@@ -56,7 +60,7 @@ public class UserDAO {
             );
             return user;
         }
-
+        
         return null;
     }
 
@@ -92,7 +96,7 @@ public class UserDAO {
         stm.executeUpdate();
         return new UserDTO(email, avatarLink, firstName, lastName);
     }
-
+    
     public UserDTO getUserByProductId(int productId) throws ClassNotFoundException, SQLException {
         Connection conn;
         conn = DBUtil.getConnection();
@@ -125,6 +129,24 @@ public class UserDAO {
         }
         return -1;
     }
+    
+    public LinkedHashMap<String, String> getTop10SellerByMonth(int month) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT TOP 10 SUM(od.quantity) , os.email_seller FROM \n"
+                + "(SELECT order_id FROM [order] WHERE MONTH([order_date]) = ?) o\n"
+                + "LEFT JOIN order_by_shop os ON o.order_id = os.order_id\n"
+                + "LEFT JOIN order_detail od ON od.order_by_shop_id = os.order_by_shop_id\n"
+                + "GROUP BY os.email_seller\n"
+                + "order by SUM(od.quantity) desc");
+        stm.setInt(1, month);
+        ResultSet rs = stm.executeQuery();
+        LinkedHashMap<String, String> arr = new LinkedHashMap ();
+        while(rs.next()) {
+            arr.put(rs.getString(2), rs.getString(1));
+        }
+        return arr;
+    }
+    
 
     // Update user information
     public boolean updateUser(UserDTO User) throws SQLException, ClassNotFoundException {
@@ -137,7 +159,10 @@ public class UserDAO {
     public static void main(String[] args) {
         UserDAO uDAO = new UserDAO();
         try {
-            System.out.println(uDAO.getUserByProductId(149));
+            uDAO.getTop10SellerByMonth(9).forEach((k, v) -> {
+                System.out.println(k + "  " + v);
+            });
+//            System.out.println(uDAO.getUserByProductId(149));
 //            System.out.println(uDAO.addUser("thanhddse151068@fpt.edu.vn", "Dao Duc Thanh", "jajaaja"));
 //            System.out.println(uDAO.findUser("ThinhPQSE151077@fpt.edu.vn"));
         } catch (ClassNotFoundException ex) {

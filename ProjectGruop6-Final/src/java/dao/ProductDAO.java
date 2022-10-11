@@ -15,19 +15,19 @@ import utils.Constants;
 import utils.DBUtil;
 
 public class ProductDAO {
-
+    
     public static final int SOLD_COUNT = 1;
-
+    
     public static final int PRICE = 2;
-
+    
     public static final int NAME = 3;
-
+    
     public static final int APPROVE_AT = 4;
-
+    
     public static final int CREATE_AT = 5;
-
+    
     public static final boolean DESC = true;
-
+    
     public static final boolean ASC = false;
 
     /**
@@ -46,7 +46,7 @@ public class ProductDAO {
         }
         return 0;
     }
-
+    
     public ProductDTO getProductBySellerAndName(String sellerEmail, String productName) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
@@ -84,7 +84,7 @@ public class ProductDAO {
         }
         return product;
     }
-
+    
     public int getMaxId() throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select max(product_id) from product");
@@ -94,7 +94,7 @@ public class ProductDAO {
         }
         return -1;
     }
-
+    
     public boolean createProduct(
             String name, String cateId,
             String quantity, String price,
@@ -283,7 +283,7 @@ public class ProductDAO {
         }
         return list;
     }
-
+    
     public List<ProductDTO> getProductListByProductName(int pageNum, String productName) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<ProductDTO> list = new ArrayList<>();
@@ -309,7 +309,7 @@ public class ProductDAO {
         stm.setInt(2, itemSkipped);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
-
+        
         while (rs.next()) {
             int id = rs.getInt("product_id");
             list.add(
@@ -332,7 +332,7 @@ public class ProductDAO {
         }
         return list;
     }
-
+    
     public int countProductListByProductName(String productName) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select count([product_id])\n"
@@ -345,7 +345,7 @@ public class ProductDAO {
         }
         return -1;
     }
-
+    
     public String getSellerEmailByProductId(int productId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select email_seller from product "
@@ -358,7 +358,7 @@ public class ProductDAO {
         }
         return sellerEmail;
     }
-
+    
     public List<ProductDTO> getProductList(int size, String productName) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<ProductDTO> list = new ArrayList<>();
@@ -440,7 +440,7 @@ public class ProductDAO {
         }
         return list;
     }
-
+    
     public List<ProductDTO> getProductList(int pageNum, int item_per_page, int option, boolean trend, int cateID) throws ClassNotFoundException, SQLException {
         int itemSkipped = (pageNum - 1) * item_per_page;
         Connection conn = DBUtil.getConnection();
@@ -519,10 +519,10 @@ public class ProductDAO {
                             imageDAO.findAll(rs.getInt("product_id"))
                     )
             );
-
+            
         }
         return list;
-
+        
     }
 
     //--product detail admin
@@ -557,7 +557,7 @@ public class ProductDAO {
         }
         return null;
     }
-
+    
     public boolean deleteProduct(String productId, String emailAdmin) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("UPDATE [dbo].[product]\n"
@@ -574,7 +574,7 @@ public class ProductDAO {
         PreparedStatement stm = conn.prepareStatement(" UPDATE [dbo].[product]\n"
                 + "SET email_admin =" + emailAdmin + ", approve_at = " + java.sql.Date.valueOf(LocalDate.now()) + " , status = ? \n"
                 + "WHERE product_id = " + productId);
-
+        
         if (acction.equalsIgnoreCase("Yes")) {
             stm.setInt(1, 1);
         } else {
@@ -615,25 +615,49 @@ public class ProductDAO {
         }
         return list;
     }
-
+    
     public void getJson() throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         String sql = "SELECT ARRAY_TO_JSON(ARRAY_AGG(ROW_TO_JSON(data)))::varchar resubrow FROM (SELECT * FROM product)data;";
         Statement stm = conn.createStatement();
         ResultSet rs = stm.executeQuery(sql);
         String resubrow = "";
-
+        
         if (rs.next()) {
             System.out.println(rs.getString("resubrow"));
             resubrow = rs.getString("resubrow");
         }
-
+        
     }
 
+    public List<ProductDTO> getTop10ProductByMonth(int month) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT TOP 10 p.product_id, od.quantity, p.name FROM \n"
+                + "(SELECT order_id FROM [order] WHERE MONTH([order_date]) = ?) o\n"
+                + "LEFT JOIN order_by_shop os ON o.order_id = os.order_id\n"
+                + "LEFT JOIN order_detail od ON od.order_by_shop_id = os.order_by_shop_id\n"
+                + "LEFT JOIN product p ON p.product_id = od.product_id\n"
+                + "order by od.quantity desc");
+        stm.setInt(1, month);
+        ResultSet rs = stm.executeQuery();
+        List<ProductDTO> arr = new ArrayList<>();
+        while(rs.next()) {
+            ProductDTO product = new ProductDTO();
+            product.setProductId(rs.getInt(1));
+            product.setQuantity(rs.getInt(2));
+            product.setName(rs.getString(3));
+            arr.add(product);
+        }
+        return arr;
+    }
+    
     public static void main(String[] args) {
         ProductDAO proDAO = new ProductDAO();
         try {
-            System.out.println(proDAO.getProductBySellerAndName("thanhddse151068@fpt.edu.vn", "123331221"));
+            System.out.println(proDAO.getTop10ProductByMonth(9).size());
+            proDAO.getTop10ProductByMonth(9).forEach(i -> {
+                System.out.println(i);
+            });
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();
