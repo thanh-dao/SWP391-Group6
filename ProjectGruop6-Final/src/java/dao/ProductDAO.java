@@ -545,7 +545,7 @@ public class ProductDAO {
                 + "      ,[quantity]\n"
                 + "      ,[create_at]\n"
                 + "      FROM product "
-                + " WHERE email_admin is null AND status = 0 "
+                + " WHERE email_admin is null AND status is null "
                 + getFilter(option, trend));
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -608,7 +608,7 @@ public class ProductDAO {
                 + "set status = 0, email_admin = ? \n"
                 + "WHERE product_id = ?");
         stm.setString(1, emailAdmin);
-        stm.setString(2, emailAdmin);
+        stm.setString(2, productId);
         return stm.executeUpdate() == 1;
     }
 
@@ -616,14 +616,15 @@ public class ProductDAO {
     public boolean approveProduct(String emailAdmin, int productId, String acction) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement(" UPDATE [dbo].[product]\n"
-                + "SET email_admin =" + emailAdmin + ", approve_at = " + java.sql.Date.valueOf(LocalDate.now()) + " , status = ? \n"
+                + "SET email_admin = '" + emailAdmin + "' ,approve_at = '" + 
+                java.sql.Date.valueOf(LocalDate.now()).toString() + "' ,status = ? \n"
                 + "WHERE product_id = " + productId);
-        
         if (acction.equalsIgnoreCase("Yes")) {
             stm.setInt(1, 1);
+            System.out.println("HERE : " + stm.executeUpdate());
         } else {
             stm.setInt(1, 0);
-        }       
+        }       System.out.println(stm.executeUpdate());
         return stm.executeUpdate() == 1;
     }
 
@@ -698,8 +699,8 @@ public class ProductDAO {
     public static void main(String[] args) {
         ProductDAO proDAO = new ProductDAO();
         try {
-<<<<<<< HEAD
-            System.out.println(proDAO.getProductById(149, 1, -1));
+//                proDAO.approveProduct("PhuongNHSE150997@fpt.edu.vn", 460, "YES");
+                System.out.println(proDAO.getProductAdmin(CREATE_AT, ASC));
 //            Gson gson = new Gson();
 //            HashMap<String, String> hashmap = new HashMap<>();
 //            hashmap.put("aaa", "valueeee");
@@ -717,12 +718,12 @@ public class ProductDAO {
 //            }
 //            JSONArray jsonA = JSONArray.fromObject(mybeanList);
 //            System.out.println(jsonA);
-=======
-            System.out.println(proDAO.getTop10ProductByMonth(9).size());
-            proDAO.getTop10ProductByMonth(9).forEach(i -> {
-                System.out.println(i);
-            });
->>>>>>> bf00d6014eb4ad09bbd6f6a203b66cd9393c0ecf
+//=======
+//            System.out.println(proDAO.getTop10ProductByMonth(9).size());
+//            proDAO.getTop10ProductByMonth(9).forEach(i -> {
+//                System.out.println(i);
+//            });
+//>>>>>>> bf00d6014eb4ad09bbd6f6a203b66cd9393c0ecf
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();
