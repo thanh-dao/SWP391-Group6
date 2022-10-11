@@ -304,6 +304,50 @@ public class ProductDAO {
         return list;
     }
 
+    //chua su dung
+    public ProductDTO getProductById(int productId, int status, int optionAdmin) throws ClassNotFoundException, SQLException {
+        String strStatus = "";
+        String strOptionAdmin = "";
+        if (optionAdmin == 1) {
+            strOptionAdmin = " AND email_admin is not null ";
+        } else if (optionAdmin == 0) {
+            strOptionAdmin = " AND email_admin is null ";
+        }
+        if (status == 1) {
+            strStatus = "status = 1";
+        } else if (status == 0) {
+            strStatus = "status = 0";
+        }
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
+                + "      ,[email_seller]\n"
+                + "      ,[name]\n"
+                + "      ,[price]\n"
+                + "      ,[description]\n"
+                + "      ,[category_id]\n"
+                + "      ,[quantity]\n"
+                + "      ,[sold_count] FROM product "
+                + " WHERE product_id = ? " + strStatus + strOptionAdmin);
+        stm.setInt(1, productId);
+        ResultSet rs = stm.executeQuery();
+        ProductImageDAO imageDAO = new ProductImageDAO();
+        while (rs.next()) {
+            ProductDTO product = new ProductDTO(
+                    rs.getInt("product_id"),
+                    rs.getString("email_seller"),
+                    rs.getString("name"),
+                    rs.getLong("price"),
+                    rs.getString("description"),
+                    rs.getInt("category_id"),
+                    rs.getInt("quantity"),
+                    rs.getInt("sold_count"),
+                    imageDAO.findAll(rs.getInt("product_id"))
+            );
+            return product;
+        }
+        return null;
+    }
+
     //productDetail khi đã đc duyệt
     public ProductDTO getProductById(int productId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
@@ -557,14 +601,15 @@ public class ProductDAO {
     public static void main(String[] args) {
         ProductDAO proDAO = new ProductDAO();
         try {
-            Gson gson = new Gson();
-            HashMap<String, String> hashmap = new HashMap<>();
-            hashmap.put("aaa", "valueeee");
-            hashmap.put("aaa2", "valueeee");
-            hashmap.put("aaa3", "valueeee");
-            hashmap.put("aaa4", "valueeee");
-            hashmap.put("aaa5", "valueeee");
-            System.out.println(gson.toJson(hashmap));
+            System.out.println(proDAO.getProductById(149, 1, -1));
+//            Gson gson = new Gson();
+//            HashMap<String, String> hashmap = new HashMap<>();
+//            hashmap.put("aaa", "valueeee");
+//            hashmap.put("aaa2", "valueeee");
+//            hashmap.put("aaa3", "valueeee");
+//            hashmap.put("aaa4", "valueeee");
+//            hashmap.put("aaa5", "valueeee");
+//            System.out.println(gson.toJson(hashmap));
 //            System.out.println(proDAO.getProductById(149));
 //            boolean test = proDAO.approveProduct("PhuongNHSE150997@fpt.edu.vn", 149, "Yes");
 //            if (test) {
@@ -572,6 +617,8 @@ public class ProductDAO {
 //            } else {
 //                System.out.println("cuts");
 //            }
+//            JSONArray jsonA = JSONArray.fromObject(mybeanList);
+//            System.out.println(jsonA);
         } catch (Exception e) {
             e.fillInStackTrace();
         }

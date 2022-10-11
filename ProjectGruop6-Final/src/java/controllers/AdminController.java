@@ -94,7 +94,7 @@ public class AdminController extends HttpServlet {
                 System.out.println(acction);
                 try {
 
-                    List<ProductDTO> list = proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC );
+                    List<ProductDTO> list = proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC);
                     request.setAttribute("listProduct", list);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -103,8 +103,16 @@ public class AdminController extends HttpServlet {
                 request.setAttribute("action", "productAuthen");
             }
             break;
-            case "reviewAuthen":
-                break;
+            case "reviewAuthen": {
+                ReviewDAO r = new ReviewDAO();
+                try {
+                    List<ReviewDTO> reviewList = r.getListReviewForCheck();
+                    request.setAttribute("reviewList", reviewList);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
             case "deleteProduct": {
                 ProductDAO proDAO = new ProductDAO();
                 try {

@@ -22,6 +22,7 @@ public class ReviewDTO {
     private String emailAdmin;
     private boolean status;
     private List<ReviewImageDTO> image;
+    private ProductDTO product;
 
     public ReviewDTO(int reviewId, String avatarLink, String name, double rating, String comment, Date date, List<ReviewImageDTO> image) {
         this.reviewId = reviewId;
