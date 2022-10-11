@@ -128,7 +128,7 @@
                                     <div class="input-form">
                                         <label>Tỉnh/Thành phố</label>
                                         <input required="true" type="text" maxlength="50" class="input-form-item" required="true"
-                                               type="text" placeholder="Chọn Tỉnh/Thành Phố" name="cityName" value="${sessionScope.user.address.cityName == null ? "" : sessionScope.user.address.city}">
+                                               type="text" placeholder="Chọn Tỉnh/Thành Phố" name="cityName" value="${sessionScope.user.address.cityName == null ? "" : sessionScope.user.address.cityName}">
                                     </div>
                                     <div class="input-form">
                                         <label>Quận/Huyện</label>
@@ -145,7 +145,7 @@
                             <div class="form-item1 input-form" style="position: relative">
                                 <label>Địa chỉ chi tiết</label><br>
                                 <textarea type="textarea" required="true" name="houseNumber"
-                                          placeholder="Ví dụ: 193/14/2, đường Đỗ Văn Thi" class="input-form-item" value="${sessionScope.user.address.houseNumber == null ? "" : sessionScope.user.address.houseNumber}"></textarea>
+                                          placeholder="Ví dụ: 193/14/2, đường Đỗ Văn Thi" class="input-form-item" >${sessionScope.user.address.houseNumber == null ? "" : sessionScope.user.address.houseNumber}</textarea>
                             </div>
                         </div>
                         <div class="form__img col-lg-3 col-md-3 col-sm-3">
