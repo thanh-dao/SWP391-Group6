@@ -139,7 +139,7 @@
                                 <td>
                                     <div class="d-flex gap-3 ">
                                         <div class="col">
-                                            <button type="button" onclick="deleteProduct(p.productId)" class="btn btn-danger mb-3">Xóa</button>                                        
+                                            <button type="button" onclick="deleteProduct(${p.productId}, this)" class="btn btn-danger mb-3">Xóa</button>                                        
                                         </div>
                                 </td>
                             </tr>
@@ -167,7 +167,36 @@
         crossorigin="anonymous"></script>
         <script>
             const deleteProduct = (pId, el) => {
-                
+                swal({
+                    title: "",
+                    text: "Bạn có muốn xóa sản phẩm này?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax("<c:url value="/GetProductAjax"/>", {
+                            data: {
+                                productId: pId,
+                                func: "deleteProduct",
+                                emailAdmin: '${sessionScope.user.email}',
+                            },
+                            success: function (data, textStatus, jqXHR) {
+                                swal("Đã xóa thành công", {
+                                    icon: "success",
+                                });
+                                const tableRow = el.parentElement.parentElement.parentElement.parentElement
+                                tableRow.remove()
+                            }, 
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                swal("Xóa thất bại!!!", {
+                                    icon: "error",
+                                });
+                            }
+                        })
+                    }
+                  });
             }
             
             
@@ -237,7 +266,6 @@
                     var chart = new google.visualization.LineChart(i);
                     chart.draw(data, options);
                 })
-                
             }
         </script>
 

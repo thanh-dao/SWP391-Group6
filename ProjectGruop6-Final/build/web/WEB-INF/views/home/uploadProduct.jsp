@@ -3,6 +3,9 @@
     Created on : Sep 14, 2022, 3:38:49 AM
     Author     : ADmin
 --%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dto.CategoryDTO"%>
+<%@page import="com.google.gson.Gson"%>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,7 +14,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Check Product</title>
         <!-- Bootstrap CSS -->
-
+        <!--<script src="https://cdn.jsdelivr.net/npm/autonumeric@4.5.4"></script>-->
+        <script src="https://unpkg.com/autonumeric"></script>
         <style>
             .product__details {
                 margin-bottom: 50px;
@@ -81,8 +85,8 @@
                 margin-bottom: 0;
             }
 
-            .dropdown button {
-                min-width: 150px;
+            .select-category {
+                margin-bottom: 10px; 
             }
         </style>
     </head>
@@ -90,19 +94,26 @@
 
         <div class="product__details">
             <div class="container">
-                <c:if test="${sessionScope.user.address.isNull() == true}">
+                <c:if test="${sessionScope.user == null}">
                     <script>
                         window.location.href = "/ProjectGroup6/user/login.do";
+                        localStorage.setItem("message", "you must login to use this feature");
+                    </script>
+                </c:if>
+                <c:if test="${sessionScope.user.address.isNull() == true}">
+                    <script>
+                        window.location.href = "/ProjectGroup6/user/userInformation.do";
                         localStorage.setItem("message", "you are not allowed to use this feature");
                     </script>
                 </c:if>
                 <div class="product__content">
-                    <form action="<c:url value="/home"/>" onclick="handleSubmit()">
+                    <form  method="GET" class="product-form">
                         <div class="row ">
                             <div class="upload col-lg-5 col-md-5 col-sm-5">
                                 <button class="upload-button" type="button" onclick="toggleFile()">
                                     <i class="fa-solid fa-camera"></i>
                                 </button>
+                                <p class="notification"></p>
                                 <input id="file" onchange="handleFileChange(this)" class="input-image" type="file" multiple hidden accept="image/*">
                                 <div class="bd-example">
                                     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
@@ -126,9 +137,40 @@
 
                             <div class="col-lg-7 col-md-7 col-sm-7">
 
-                                <h5>Tên sản Phẩm</h5><input name="name" type="text">
-                                <h5>Giá sản phẩm</h5><input name="price" min="0" maxlength="12" type="number">
-                                <h5>Số lượng sản phẩm</h5><input name="quantity" type="number" max="2147483000" min="0">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Tên sản Phẩm</span>
+                                    </div>
+                                    <input type="text" class="form-control product-name"
+                                           name="name"
+                                           placeholder="Tên sản Phẩm" aria-label="Tên sản Phẩm" aria-describedby="basic-addon1">
+                                </div>
+                                <h5>Danh mục sản phẩm</h5>
+                                <select class="select-category">
+                                    <c:forEach items="${sessionScope.cateList}" var="i" >
+                                        <option value="${i.cateId}">${i.name}</option>
+                                    </c:forEach>
+                                </select>
+                                <div class="input-group mb-3 mt-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Giá sản phẩm</span>
+                                    </div>
+                                    <input type="text" id="formattedMoneyField"
+                                           name="price"
+                                           class="form-control" aria-label="Amount (to the nearest dollar)">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">₫</span>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3 mt-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Số lượng sản phẩm</span>
+                                    </div>
+                                    <input type="text"id="formattedNumberField"
+                                           name="quantity"
+                                           class="form-control" aria-label="Amount (to the nearest dollar)">
+
+                                </div>
                                 <h5>Mô tả sản phẩm</h5>
                                 <div id="description">
 
@@ -136,149 +178,184 @@
                                 <!--                                    <textarea  type="textarea"style="width: 100%;" required="true" name="address"
                                                                              placeholder="Ví dụ: Khách hàng có thể nhận hàng vào buổi sáng"
                                                                              class="input-form-item"></textarea>-->
-                                <h5>Số điện thoại</h5>
-                                <input type="text" name="phone">
+
                                 <br />
-                                <h5>Email</h5>
-                                <input type="email" placeholder="Email" disabled>
-                                <h5>Địa chỉ người bán</h5><input name="address" type="text" placeholder="số nhà, tên đường">
-                                <div class="row justify-content-between">
-                                    <div class="dropdown col-lg-3">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Thành phố
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <button type="button" data-id="79" class="dropdown-item" >Hồ Chí Minh</button>
-                                        </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">@</span>
                                     </div>
-
-                                    <div class="dropdown col-lg-3">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" disabled="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Quận/Huyện
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <button type="button"  class="dropdown-item" >Action</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="dropdown col-lg-3">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" disabled="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Phường/Xã
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <button type="button"  class="dropdown-item" >Action</button>
-                                        </div>
-                                    </div>
-                                    <input class="address-hidden" type="text" name="address-hidden" hidden readonly>
-                                    <input class="description-hidden" type="text" readonly hidden name="description-hidden" >
+                                    <input class="form-control seller-email"
+                                           name="sellerEmail"
+                                           type="email" placeholder="Email" readonly value="${sessionScope.user.email}">
                                 </div>
-                                <div class="buy d-flex justify-content-around button_1">
-                                    <button type="submit">Lưu</button>
-                                    <button onclick="previewProduct()">Xem trước</button>
-                                </div>
-                                
+                                <input class="description-hidden" 
+                                       name="descriptionHidden"
+                                       type="text" readonly hidden  >
+                                <input readonly 
+                                       name="cateId"
+                                       hidden class="category-hidden">
+                            </div>
+                            <div class="buy d-flex justify-content-center button_1">
+                                <button type="submit">Lưu</button>
+                                <button onclick="previewProduct()">Xem trước</button>
                             </div>
                         </div>
-                    </form>
                 </div>
+                </form>
             </div>
         </div>
+    </div>
 
-        <script src="<c:url value="/ckeditor5/ckeditor_build/ckeditor.js" />" type="text/javascript"></script>
-        <script>
-                                        const indicatiors = document.querySelector(".carousel-indicators");
-                                        const carouselInner = document.querySelector(".carousel-inner");
-                                        const imageNameRegex = /\.(jpe?g|png|gif)$/i;
-                                        function readAndPreview(files) {
-                                            indicatiors.innerHTML = "";
-                                            carouselInner.innerHTML = "";
-                                            for (let i = 0; i < files.length; i++) {
+    <script src="<c:url value="/ckeditor5/ckeditor_build/ckeditor.js" />" type="text/javascript"></script>
+    <script>
+                                    $(".select-category").select2()
+                                    const currency = new AutoNumeric('#formattedMoneyField', {
+                                        allowDecimalPadding: false,
+                                        createLocalList: false,
+                                        decimalPlaces: 0,
+                                        maximumValue: "1000000000000",
+                                        minimumValue: "0",
+                                        onInvalidPaste: "replace"
+                                    });
+                                    const quantity = new AutoNumeric('#formattedNumberField', {
+                                        allowDecimalPadding: false,
+                                        createLocalList: false,
+                                        decimalPlaces: 0,
+                                        maximumValue: "1000000000000",
+                                        minimumValue: "0",
+                                        onInvalidPaste: "replace"
+                                    })
+    </script>
+    <script>
+        const indicatiors = document.querySelector(".carousel-indicators");
+        const carouselInner = document.querySelector(".carousel-inner");
+//        const imageNameRegex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
+        function readAndPreview(files) {
+            indicatiors.innerHTML = "";
+            carouselInner.innerHTML = "";
+            for (let i = 0; i < files.length; i++) {
 //                                            console.log(imageNameRegex.test(i.result))
-                                                const file = files[i];
-                                                if (imageNameRegex.test(file.name)) {
-                                                    const reader = new FileReader();
+                const file = files[i];
+//                if (imageNameRegex.test(file.name)) {
+                const reader = new FileReader();
 
-                                                    reader.addEventListener("load", () => {
-                                                        indicatiors.innerHTML +=
-                                                                '<li data-target="#carouselExampleCaptions" data-slide-to="' + i.toString() + '" class="' + (i == 0 ? "active" : "") + '"></li>';
-                                                        carouselInner.innerHTML +=
-                                                                '<div class="carousel-item ' + (i == 0 ? 'active' : '') + '" >' +
-                                                                '<img src="' + reader.result + ' " class="d-block w-100" alt="">' +
-                                                                '<div class="carousel-caption d-none d-md-block">' +
-                                                                '<p>' + file.name + '</p>' +
-                                                                `</div>
-                                                    </div>`
-                                                    }, false);
-                                                    reader.readAsDataURL(file);
-                                                }
-                                            }
-                                        }
-                                        const arr = []
-                                        const handleFileChange = (el) => {
-                                            const fileCount = el.files.length;
-                                            const files = el.files;
-                                            if (fileCount > 0)
-                                                document.querySelector(".bd-example").style.display = "block";
-                                            for (var i = 0; i < files.length; i++) {
-                                                if (arr.length >= 5) {
-                                                    arr.shift()
-                                                }
-                                                const file = files[i]
-                                                var path = (window.URL || window.webkitURL).createObjectURL(file);
-                                                arr.push(file)
-                                            }
-                                            readAndPreview(arr);
-
-                                        }
-                                        const formData = new FormData()
-                                        const handleSubmit = () => {
-                                            document.querySelector(".address-hidden").value = "54;555;22015"
-                                            document.querySelector(".description-hidden").value = editor.getData();
-                                            console.log(document.querySelector(".description-hidden").value)
-                                            // reset form data
-                                            formData.delete("image")
-                                            if (arr.length > 0) {
-                                                for (let i = 0; i < arr.length; i++) {
-                                                    const element = arr[i];
-                                                    formData.append("image", element)
-                                                }
-                                                const values = formData.getAll("image")
-                                                fetch('<c:url value="/FileHandle"/>', {
-                                                    method: "POST",
-                                                    body: formData,
-                                                    headers: new Headers()
-                                                })
-                                            }
-                                            console.log(formData.getAll("image"))
-                                        }
-                                        const fileInput = document.querySelector('#file');
-                                        const toggleFile = () => {
-                                            fileInput.click()
-                                        }
-
-        </script>
-        <script>
-            var wordCountDescription = {
-                showParagraphs: false,
-                showWordCount: true,
-                showCharCount: true,
-                countSpacesAsChars: false,
-                countHTML: false,
-                maxWordCount: -1,
-                maxCharCount: 2000
+                reader.addEventListener("load", () => {
+                    indicatiors.innerHTML +=
+                            '<li data-target="#carouselExampleCaptions" data-slide-to="' + i.toString() + '" class="' + (i == 0 ? "active" : "") + '"></li>';
+                    carouselInner.innerHTML +=
+                            '<div class="carousel-item ' + (i == 0 ? 'active' : '') + '" >' +
+                            '<img src="' + reader.result + ' " class="d-block w-100" alt="">' +
+                            '<div class="carousel-caption d-none d-md-block">' +
+                            '<p>' + file.name + '</p>' +
+                            `</div>
+                                                </div>`
+                }, false);
+                reader.readAsDataURL(file);
+//                }
             }
-            window.addEventListener("DOMContentLoaded", () => {
-                ClassicEditor
-                        .create(document.querySelector('#description'))
-                        .then(newEditor => {
-                            editor = newEditor;
+        }
+        const arr = []
+        const handleFileChange = (el) => {
+            const fileCount = el.files.length;
+            const files = el.files;
+            if (fileCount > 0)
+                document.querySelector(".bd-example").style.display = "block";
+            for (var i = 0; i < files.length; i++) {
+                if (arr.length >= 5) {
+                    arr.shift()
+                }
+                const file = files[i]
+                var path = (window.URL || window.webkitURL).createObjectURL(file);
+                arr.push(file)
+            }
+            readAndPreview(arr);
+
+        }
+        const formData = new FormData()
+        const form = document.querySelector(".product-form")
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            if (arr.length == 0) {
+                document.querySelector(".notification").innerHTML = "Bạn chưa đăng hình cho sản phẩm này!!";
+                return false;
+            }
+            const categoryHidden = document.querySelector(".category-hidden");
+            const descriptionHidden = document.querySelector(".description-hidden");
+            categoryHidden.value = $(".select-category").val()
+            descriptionHidden.value = editor.getData();
+            console.log(document.querySelector(".description-hidden").value)
+
+            // reset form data
+            formData.delete("image")
+            if (arr.length > 0) {
+                for (let i = 0; i < arr.length; i++) {
+                    const element = arr[i];
+                    formData.append("image", element)
+                }
+//                formData.append("name", document.querySelector(".product-name").value)
+//                formData.append("cateId", categoryHidden.value)
+//                formData.append("price", document.querySelector("#formattedMoneyField").value)
+//                formData.append("quantity", document.querySelector("#formattedNumberField").value)
+//                formData.append("descriptionHidden", descriptionHidden.value)
+//                formData.append("sellerEmail", document.querySelector(".seller-email").value)
+
+
+                form.submit();
+
+                $.ajax('<c:url value="/GetProductAjax"/>', {
+                    data: {
+                        name: document.querySelector(".product-name").value,
+                        func: "init productName"
+                    },
+                    success: function (data) {
+                        console.log("ok")
+                        fetch('<c:url value="/FileHandle"/>', {
+                            method: "POST",
+                            body: formData,
                         })
-                        .catch(error => {
-                            console.error(error);
-                        })
-            });
+                    }
+                })
+
+            }
+            console.log(formData.getAll("image"))
+        })
+        function timeout(ms, promise) {
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    reject(new Error("timeout"))
+                }, ms)
+                promise.then(resolve, reject)
+            })
+        }
+        const fileInput = document.querySelector('#file');
+        const toggleFile = () => {
+            fileInput.click()
+        }
+
+    </script>
+    <script>
+//        var wordCountDescription = {
+//            showParagraphs: false,
+//            showWordCount: true,
+//            showCharCount: true,
+//            countSpacesAsChars: false,
+//            countHTML: false,
+//            maxWordCount: -1,
+//            maxCharCount: 2000
+//        }
+        window.addEventListener("DOMContentLoaded", () => {
+            ClassicEditor
+                    .create(document.querySelector('#description'))
+                    .then(newEditor => {
+                        editor = newEditor;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+        });
 //            console.log(editor);
-            
-        </script>
-    </body>
+
+    </script>
+
+</body>
 </html>

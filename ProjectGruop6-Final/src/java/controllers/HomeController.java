@@ -18,6 +18,8 @@ import dto.ReviewDTO;
 import dto.UserDTO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +29,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import jdk.nashorn.internal.runtime.regexp.joni.ast.ConsAltNode;
 import utils.Constants;
 
 /**
@@ -35,6 +36,7 @@ import utils.Constants;
  * @author Admin
  */
 @WebServlet(name = "HomeController", urlPatterns = {"/home"})
+
 public class HomeController extends HttpServlet {
 
     /**
@@ -87,9 +89,9 @@ public class HomeController extends HttpServlet {
                     UserDTO user = userDAO.getUserByProductId(productId);
                     List<ReviewDTO> reviewer = review.getReview(productId);
                     double rating = review.getAVGRatingOfProduct(productId);
-                    List<ProductDTO> productList = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL, 
+                    List<ProductDTO> productList = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
                             proDAO.SOLD_COUNT, proDAO.DESC, user.getEmail());
-                    List<ProductDTO> productListCategory = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL, 
+                    List<ProductDTO> productListCategory = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
                             proDAO.SOLD_COUNT, proDAO.DESC, product.getCateId());
                     System.out.println(user.toString());
                     System.out.println(productListCategory);
@@ -105,7 +107,26 @@ public class HomeController extends HttpServlet {
             }
             break;
             case "uploadProduct":
-//                String 
+                String name = request.getParameter("name");
+                System.out.println("name: " + name);
+                if (name != null) {
+                    String price = request.getParameter("price").replace(",", "");
+                    String quantity = request.getParameter("quantity").replace(",", "");;
+                    String cateId = request.getParameter("cateId");
+                    String description = request.getParameter("descriptionHidden");
+                    String sellerEmail = request.getParameter("sellerEmail");
+                    ProductDAO proDAO = new ProductDAO();
+                    session.setAttribute("name", name);
+                    try {
+                        System.out.println("product created : " + proDAO.createProduct(name, cateId, quantity, price, description, sellerEmail));
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                        LocalDateTime now = LocalDateTime.now();
+                        System.out.println(dtf.format(now));
+
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 break;
             case "checkProduct":
                 break;
@@ -125,10 +146,9 @@ public class HomeController extends HttpServlet {
             }
             break;
             case "reviewProduct":
-
                 break;
             case "searchProduct": {
-                
+
                 String productName = request.getParameter("name");
                 ProductDAO proDAO = new ProductDAO();
                 List<ProductDTO> productList = null;

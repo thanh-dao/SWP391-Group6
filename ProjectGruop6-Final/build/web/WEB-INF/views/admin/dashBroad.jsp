@@ -3,24 +3,27 @@
     Created on : Sep 14, 2022, 4:37:06 AM
     Author     : ADmin
 --%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>dashBroad</title>
+        <title>Dash board</title>
         <style>
-            a{text-decoration: none;}
+            a {
+                text-decoration: none;
+            }
             body {
                 height: 100vh;
             }
 
             .card {
-
                 max-width: 200px;
                 max-height: 100px;
                 background-color: #ccc;
+                margin-bottom: 20px;    
             }
 
             .card-body {
@@ -62,40 +65,23 @@
                 width: 0;
             }
 
-            canvas {
-                box-sizing: border-box;
-                width: 100%;
-                height: 100%;
-                display: block;
-            }
 
 
 
-            .row-custom {
+            .row-custom{
                 display: flex;
-                flex-wrap: wrap;
-                margin-top: calc(var(--bs-gutter-y) * -1);
-                margin-right: calc(var(--bs-gutter-x) * -.5);
-                margin-left: calc(var(--bs-gutter-x) * -.5);
                 justify-content: center;
-                width: 100%;
+            }
+            .row-custom canvas {
+                display: flex;
+                justify-content: center;
+                width: 75% !important;
+                height: 20% !important;
             }
 
             /* add responsive for chart */
-            @media (min-width: 991.98px) {
-                .row-custom canvas {
-                    width: 41.6666667% !important;
-                    height: auto !important;
-                }
-            }
 
-            @media (max-width: 652px) {
-                .row-custom canvas {
-                    width: 100% !important;
-                }
-            }
         </style>
-        <title>Document</title>
     </head>
     <body>
         <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
@@ -155,11 +141,11 @@
             <hr>
         </div>
         <div class=" pt-3 container">
-            <div class="row d-flex pb-5 gap-3 w-100 justify-content-center">
+            <div class="row d-flex pb-5 gap-3 w-100 justify-content-around">
                 <div class="card col-sm-12 col-md-6 col-lg-3">
                     <div class="card-body d-flex justify-content-between">
                         <div class="card-body-left">
-                            <h3 class="card-title">123</h3>
+                            <h3 class="card-title">${userCount}</h3>
                             <p>Người dùng</p>
                         </div>
                         <div class="card-body-right d-flex mb-3 align-items-center">
@@ -170,8 +156,8 @@
                 <div class="card col-sm-12 col-md-6 col-lg-3">
                     <div class="card-body d-flex justify-content-between">
                         <div class="card-body-left">
-                            <h3 class="card-title">123</h3>
-                            <p>Đon hàng</p>
+                            <h3 class="card-title">${totalOrder}</h3>
+                            <p>Đơn hàng</p>
                         </div>
                         <div class="card-body-right d-flex mb-3 align-items-center">
                             <i class="fa-solid fa-bag-shopping"></i>
@@ -181,7 +167,8 @@
                 <div class="card col-sm-12 col-md-6 col-lg-3">
                     <div class="card-body d-flex justify-content-between">
                         <div class="card-body-left">
-                            <h3 class="card-title">123</h3>
+                            <fmt:setLocale value="vi-VN"/>
+                            <h3 class="card-title"><fmt:formatNumber  value="${totalIncome}" type="currency"/></h3>
                             <p>Lợi nhuận</p>
                         </div>
                         <div class="card-body-right d-flex mb-3 align-items-center">
@@ -192,28 +179,67 @@
                 <div class="card col-sm-12 col-md-6 col-lg-3">
                     <div class="card-body d-flex justify-content-between">
                         <div class="card-body-left">
-                            <h3 class="card-title">123</h3>
+                            <h3 class="card-title">${totalReview}</h3>
                             <p>Đánh giá</p>
                         </div>
                         <div class="card-body-right d-flex mb-3 align-items-center">
                             <i class="fa-solid fa-comments"></i>
-                            </i>
                         </div>
                     </div>
                 </div>
             </div>
+<div class="row-custom">
+            <canvas class="" id="chart0"></canvas>
 
         </div>
-        <div class="row-custom">
-            <!-- <div class="col-sm-12 col-md-6" id="user-chart"></div>
-            <div class="col-sm-12 col-md-6" id="order-chart"></div>
-            <div class="col-sm-12 col-md-6" id="feedback-chart"></div>
-            <div class="col-sm-12 col-md-6" id="profit-chart"></div> -->
-            <canvas class="col-sm-12 col-md-6" id="chart0"></canvas>
-            <canvas class="col-sm-12 col-md-6" id="chart1"></canvas>
-            <canvas class="col-sm-12 col-md-6" id="chart2"></canvas>
+
+        <!--<div class="container">-->
+
+            <div class="row">
+                <table class="table table-responsive col-md-8 table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Tên sản phẩm</th>
+                            <th scope="col">Số lượng đã bán</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        <!--            <h1>${top10Product}</h1>
+                    <h1>${top10Seller}</h1>-->
+                        <c:forEach items="${top10Product}" var="i" varStatus="loop">
+                            <tr>
+                                <th scope="row">${loop.count}</th>
+                                <td>${i.name}</td>
+                                <td>${i.quantity}</td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
 
 
+
+                <table class="table table-responsive col-md-3 table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Email người bán</th>
+                            <th scope="col">Đã bán</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${top10Seller}" var="i" varStatus="loop">
+                            <tr>
+                                <th scope="row">${loop.count}</th>
+                                <td>${i.key}</td>
+                                <td>${i.value}</td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table> 
+            </div>   
+        </div>
+              
         </div>
         <!-- add ionicons  -->
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -239,7 +265,6 @@
             const navBtn = document.querySelector(".navigate-button")
             let opened = false;
             const navMenu = document.querySelector(".nav-menu");
-
             navBtn.addEventListener("click", () => {
                 opened = !opened;
                 const navMenuStyle = navMenu.style
@@ -263,46 +288,72 @@
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
-            const labels = [
-                'January',
-                'February',
-                'March',
-                'April',
-                'May',
-                'June',
-            ];
 
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const curMonth = new Date().getMonth() + 1;
+
+
+
+            const labels = [];
+            for (let i = curMonth - 1; i >= curMonth - 6; i--) {
+                labels.push(months[i]);
+            }
+            console.log(labels)
+            console.log(${totalReviewCurrentMonths})
+            console.log(${totalIncomeCurrentMonths})
+            console.log(${totalOrderCurrentMonth})
             const data = {
-                labels: labels,
-                datasets: [{
-                        label: 'My First dataset',
+                labels: labels.reverse(),
+                datasets: [
+                    {
+                        label: 'Đơn hàng',
                         backgroundColor: 'rgb(255, 99, 132)',
                         borderColor: 'rgb(255, 99, 132)',
-                        data: [0, 10, 5, 2, 20, 30, 45],
-                    }]
+                        data: ${totalOrderCurrentMonth}.reverse(),
+                    },
+                    {
+                        label: 'Doanh số',
+                        backgroundColor: '#429ef5',
+                        borderColor: '#429ef5',
+                        data: ${totalIncomeCurrentMonths}.reverse(),
+                    },
+                    {
+                        label: 'Đánh giá',
+                        backgroundColor: '#c242f5',
+                        borderColor: '#c242f5',
+                        data: ${totalReviewCurrentMonths}.reverse(),
+                    },
+                ]
             };
-
             const config = {
                 type: 'line',
                 data: data,
                 options: {
-                    responsive: false
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Chart.js Line Chart - Multi Axis'
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                    },
                 }
             };
-        </script>
-        <script>
             const myChart = new Chart(
                     document.getElementById('chart0'),
                     config
                     );
-            const a = new Chart(
-                    document.querySelector("#chart1"),
-                    config
-                    );
-            const b = new Chart(
-                    document.querySelector("#chart2"),
-                    config
-                    );
+
         </script>
 
 
