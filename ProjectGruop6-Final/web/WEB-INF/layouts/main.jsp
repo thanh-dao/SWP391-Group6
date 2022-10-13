@@ -369,7 +369,7 @@
                             <div class="container-account">
                                 <div class="account-link">
                                     <a class="account-link" href="#" >
-                                        <img style="border-radius: 50%;" src="<c:url value="${sessionScope.user.avatarLink}"/>" alt="">
+                                        <img style="border-radius: 50%;" src="${sessionScope.user.avatarLink}" alt="">
                                     </a>
 
                                     <div class="account-btn">

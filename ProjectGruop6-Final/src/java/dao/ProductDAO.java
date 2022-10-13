@@ -110,7 +110,7 @@ public class ProductDAO {
                 + "           ,[category_id]\n"
                 + "           ,[quantity]\n"
                 + "           ,[status]\n"
-                + "           ,[create_at] \n"
+                + "           ,[create_at]\n"
                 + ")\n"
                 + "     VALUES "
                 + " ( ?, ?, ?, ?, ?, ?, 0, ?) ");
@@ -120,9 +120,7 @@ public class ProductDAO {
         stm.setString(4, description);
         stm.setString(5, cateId);
         stm.setString(6, quantity);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        stm.setString(7, formatter.format(date));
+        stm.setDate(7, new java.sql.Date(new Date().getTime()));
         return stm.executeUpdate() == 1;
     }
 

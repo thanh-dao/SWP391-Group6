@@ -17,14 +17,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import utils.Constants;
 import utils.DBUtil;
 
-/**
- *
- * @author kanek
- */
+
 public class UserDAO {
 
     /**
@@ -52,12 +48,15 @@ public class UserDAO {
         ResultSet rs = stm.executeQuery();
         while (rs.next()) {
             UserDTO user = new UserDTO(
-                    rs.getString(1), rs.getString(2), rs.getString(3),
+                    rs.getString(1), Constants.IMAGE_RELATIVE_DIRECTORY + "/" + rs.getString("avatar"), rs.getString(3),
                     rs.getString(4), rs.getString(5), rs.getDate(6),
-                    new AddressDTO(
-                            rs.getString(7), rs.getString(8),
-                            rs.getString(9), rs.getString(10)
-                    ), rs.getInt(11)
+                    new AddressDAO().getFullAddress(
+                            rs.getString("address"),
+                            rs.getString("city_id"),
+                            rs.getString("district_id"),
+                            rs.getString("ward_id")
+                    ),
+                     rs.getInt(11)
             );
             return user;
         }
@@ -95,7 +94,7 @@ public class UserDAO {
         stm.setString(3, lastName);
         stm.setString(4, firstName);
         stm.executeUpdate();
-        return new UserDTO(email, avatarLink, firstName, lastName);
+        return new UserDTO(email, Constants.IMAGE_RELATIVE_DIRECTORY + "/" +  avatarLink, firstName, lastName);
     }
 
     public UserDTO getUserByProductId(int productId) throws ClassNotFoundException, SQLException {
@@ -111,7 +110,7 @@ public class UserDAO {
         ResultSet rs = stm.executeQuery();
         while (rs.next()) {
             UserDTO user = new UserDTO(
-                    rs.getString("email"), rs.getString("avatar"), rs.getString("first_name"),
+                    rs.getString("email"), Constants.IMAGE_RELATIVE_DIRECTORY + "/" + rs.getString("avatar"), rs.getString("first_name"),
                     rs.getString("last_name"), rs.getString("phone"),
                     new AddressDTO(rs.getString("address"), rs.getString(7),
                             rs.getString(8), rs.getString(9))
@@ -148,6 +147,17 @@ public class UserDAO {
         return arr;
     }
 
+    public String getUserAvatar(String email) throws SQLException, ClassNotFoundException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("select avatar from [user] where email = ? ");
+        stm.setString(1, email);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return Constants.IMAGE_RELATIVE_DIRECTORY + "/" + rs.getString(1);
+        }
+        return null;
+    }
+
     public List<UserDTO> getUserByRole(boolean status) throws ClassNotFoundException, SQLException {
         Connection conn;
         conn = DBUtil.getConnection();
@@ -157,7 +167,7 @@ public class UserDAO {
                 + "      ,[last_name]\n"
                 + "      ,[phone]\n"
                 + "      ,[role_id]"
-                + "  FROM [user] WHERE role_id = ?" );
+                + "  FROM [user] WHERE role_id = ?");
         stm.setInt(1, status ? 2 : 0);
         ResultSet rs = stm.executeQuery();
         List<UserDTO> list = new ArrayList<>();
@@ -194,17 +204,48 @@ public class UserDAO {
         return a + "]";
     }
 
-    // Update user information
-    public boolean updateUser(UserDTO User) throws SQLException, ClassNotFoundException {
+    public boolean updateUserAvatar(String dir, String email) throws SQLException, ClassNotFoundException {
         Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("update [user] "
+                + " set [avatar] = ? "
+                + " where [email] = ?"
+        );
+        stm.setString(1, dir);
+        stm.setString(2, email);
+        return stm.executeUpdate() == 1;
+    }
 
-        /// tận cùng sự trầm cảm
-        return true;
+    // Update user information
+    public boolean updateUser(UserDTO user) throws SQLException, ClassNotFoundException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("update [user] "
+                + " set [first_name] = ? , \n"
+                + " [last_name] = ? , "
+                + " [phone] = ? , "
+                + " [yob] = ? , "
+                + " [address] = ? , "
+                + " [ward_id] = ? , "
+                + " [district_id] = ? , "
+                + " [city_id] = ?  "
+                + " where [email] = ?"
+        );
+        AddressDTO address = user.getAddress();
+        stm.setString(1, user.getFirstName());
+        stm.setString(2, user.getLastName());
+        stm.setString(3, user.getPhone());
+        stm.setDate(4, (Date) user.getYob());
+        stm.setString(5, address.getHouseNumber());
+        stm.setString(6, address.getWardId());
+        stm.setString(7, address.getDistrictId());
+        stm.setString(8, address.getCityId());
+        stm.setString(9, user.getEmail());
+        return stm.executeUpdate() == 1;
     }
 
     public static void main(String[] args) {
         UserDAO uDAO = new UserDAO();
         try {
+<<<<<<< HEAD
 //            uDAO.getTop10SellerByMonth(9).forEach((k, v) -> {
 //                System.out.println(k + "  " + v);
 //            });
@@ -220,6 +261,10 @@ System.out.println(uDAO.getUserByRole(false).size());
 //        } catch (SQLException ex) {
 //            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+=======
+            System.out.println(uDAO.getUserByRole(false).size());
+//        
+>>>>>>> 050ca7d16e89f523a315855f17bd1b1c56c05db9
         } catch (Exception ex) {
         }
     }

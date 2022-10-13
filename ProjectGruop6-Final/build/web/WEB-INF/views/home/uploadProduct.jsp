@@ -234,9 +234,7 @@
             indicatiors.innerHTML = "";
             carouselInner.innerHTML = "";
             for (let i = 0; i < files.length; i++) {
-//                                            console.log(imageNameRegex.test(i.result))
                 const file = files[i];
-//                if (imageNameRegex.test(file.name)) {
                 const reader = new FileReader();
 
                 reader.addEventListener("load", () => {
@@ -284,22 +282,12 @@
             categoryHidden.value = $(".select-category").val()
             descriptionHidden.value = editor.getData();
             console.log(document.querySelector(".description-hidden").value)
-
-            // reset form data
             formData.delete("image")
             if (arr.length > 0) {
                 for (let i = 0; i < arr.length; i++) {
                     const element = arr[i];
                     formData.append("image", element)
                 }
-//                formData.append("name", document.querySelector(".product-name").value)
-//                formData.append("cateId", categoryHidden.value)
-//                formData.append("price", document.querySelector("#formattedMoneyField").value)
-//                formData.append("quantity", document.querySelector("#formattedNumberField").value)
-//                formData.append("descriptionHidden", descriptionHidden.value)
-//                formData.append("sellerEmail", document.querySelector(".seller-email").value)
-
-
                 form.submit();
 
                 $.ajax('<c:url value="/GetProductAjax"/>', {
@@ -309,7 +297,7 @@
                     },
                     success: function (data) {
                         console.log("ok")
-                        fetch('<c:url value="/FileHandle"/>', {
+                        fetch('<c:url value="/FileProductHandle"/>', {
                             method: "POST",
                             body: formData,
                         })
@@ -334,15 +322,6 @@
 
     </script>
     <script>
-//        var wordCountDescription = {
-//            showParagraphs: false,
-//            showWordCount: true,
-//            showCharCount: true,
-//            countSpacesAsChars: false,
-//            countHTML: false,
-//            maxWordCount: -1,
-//            maxCharCount: 2000
-//        }
         window.addEventListener("DOMContentLoaded", () => {
             ClassicEditor
                     .create(document.querySelector('#description'))

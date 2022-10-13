@@ -30,5 +30,15 @@ public class Constants {
 
     public static final int RESULT_PER_SEARCH = 5;
     
-    public static final String IMAGE_DIRECTORY = "C:\\img";
+    public static final String IMAGE_RELATIVE_DIRECTORY = "/ProjectGroup6/img";
+    
+    public static final String IMAGE_ABSOLUTE_DIRECTORY = "E:/FALL2022/GitRepo/SWP391-Group6/ProjectGruop6-Final/web/img";
+    
+    public static void main(String[] args) {
+        System.out.println(getImageDirectory());
+    }
+    public static String getImageDirectory () {
+        return (new java.io.File("").getAbsolutePath() + "\\web\\img").replace("\\", "/");
+    }
+    
 }
