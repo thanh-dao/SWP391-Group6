@@ -427,12 +427,12 @@
                                     <label class="shipper-item col-md-6 col-sm-6">
                                         <input id="dmt1" name="dmt" type="radio" required="">
                                         <i class="fab fa-shopify"></i>
-                                        <label >Nhận hàng trực tiếp</label><br>
+                                        <label for="dmt1">Nhận hàng trực tiếp</label><br>
                                     </label>
                                     <label class="shipper-item  col-md-6 col-sm-6">
                                         <input id="dmt2" name="dmt" type="radio" required="">
                                         <i class="fas fa-shipping-fast"></i>
-                                        <label >Giao hàng tận nhà</label><br>
+                                        <label for="dmt2" >Giao hàng tận nhà</label><br>
                                     </label>
                                 </div>
                             </div>
@@ -440,14 +440,14 @@
                                 <h3 style="padding: 10px;">Chọn hình thức thanh toán </h3>
                                 <div class="CardAddingForm">
                                     <div class="card-item">
-                                        <input id="pmt1" name="pmt" type="radio" required="">
+                                        <input id="cod" value="cod" onchange="renderPaymentButton(this)" name="pmt" type="radio" required="">
                                         <i class="fas fa-hand-holding-usd"></i>
                                         <label for="cod">Thanh toán trực tiếp khi nhận hàng</label><br>
                                     </div>
                                     <div class="card-item">
-                                        <input id="pmt2" name="pmt" type="radio" required="">
+                                        <input id="paypal" value="paypal" onchange="renderPaymentButton(this)" name="pmt" type="radio" required="">
                                         <i class="fas fa-credit-card"></i>
-                                        <label for="visa">Thanh toán bằng thẻ</label><br>
+                                        <label for="paypal" >Thanh toán bằng Paypal</label><br>
                                     </div>
                                 </div>
                             </div>
@@ -486,13 +486,47 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" name="action" value="step3" class="btn-buy" onclick="window.location.href = '<c:url value="/cart/billInformation.do"/>'">Thanh Toán</button>
+                                <h1></h1>
+                                <h1></h1>
+                                <div id="paypal-button-container">
+                                    <button type="button" name="action" value="step3" class="btn-buy" onclick="window.location.href = '/ProjectGroup6/cart/billInformation.do'">Thanh Toán</button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+        <script src="https://www.paypal.com/sdk/js?client-id=AcSATbC34qNTc0kDCzZGDxWFgnsdQpuWt8HMIPQwHfGU2UBgNx6lAPkoOtczUGEpWuHK0dm-ZOupi3iY" data-namespace="paypal_sdk"></script>
+        <script>
+                                        function renderPaymentButton(el) {
+                                            const buttonContainer = document.querySelector("#paypal-button-container");
+                                            const radioValue = el.value;
+                                            if (radioValue === "paypal") {
+                                                buttonContainer.innerHTML = "";
+                                                paypal_sdk.Buttons({
+                                                    createOrder: function (data, actions) {
+                                                        return actions.order.create({
+                                                            purchase_units: [{
+                                                                    amount: {
+                                                                        value: '500'
+                                                                    }
+                                                                }]
+                                                        })
+                                                    },
+                                                    style: {
+                                                        layout: 'vertical',
+                                                        color: 'blue',
+                                                        shape: 'rect',
+                                                        label: 'paypal'
+                                                    }
+                                                }).render('#paypal-button-container');
+                                            } else {
+                                                buttonContainer.innerHTML = `<button type="button" name="action" value="step3" class="btn-buy" onclick="window.location.href = '/ProjectGroup6/cart/billInformation.do'">Thanh Toán</button>`
+                                            }
+                                        }
+        </script>
     </body>
 
 </html>

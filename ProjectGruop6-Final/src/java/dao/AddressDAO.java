@@ -33,7 +33,7 @@ public class AddressDAO {
         String cityName = get(cityId, CITY);
         String districtName = get(districtId, DISTRICT);
         String wardName = get(wardId, WARD);
-        return new AddressDTO(houseNumber, wardName, districtName, cityName);
+        return new AddressDTO(houseNumber, wardId, wardName, districtId, districtName, cityId, cityName);
     }
 
     public String get(String id, int table) throws ClassNotFoundException, SQLException {
@@ -118,7 +118,7 @@ public class AddressDAO {
         while (rs.next()) {
             Map<String, String> data = new HashMap<>();
             data.put("id", rs.getString(1));
-            data.put("text", rs.getString(2));
+            data.put("name", rs.getString(2));
             result.add(data);
         }
         return result;

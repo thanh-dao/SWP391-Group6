@@ -55,9 +55,9 @@ public class AddressHandleAjax extends HttpServlet {
                 break;
             }
             case "ward": {
-                String wardId = request.getParameter("cityId");
+                String districtId = request.getParameter("districtId");
                 try {
-                    result = addressDAO.getDistrictIdAndName(Integer.parseInt(wardId));
+                    result = addressDAO.getWardIdAndName(Integer.parseInt(districtId));
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(AddressHandleAjax.class.getName()).log(Level.SEVERE, null, ex);
                 }

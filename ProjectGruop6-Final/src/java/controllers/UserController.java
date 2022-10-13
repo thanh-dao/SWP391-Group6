@@ -67,22 +67,25 @@ public class UserController extends HttpServlet {
             break;
             case "updateInformation": {
                 UserDAO userDAO = new UserDAO();
-                // avatarLink null nha
-                String avatarLink = request.getParameter("avatarLink");
-                String email = request.getParameter("email");
+                String email = ((UserDTO) session.getAttribute("user")).getEmail();
                 String yob = request.getParameter("yob");
                 Date date = Date.valueOf(yob);
                 String firstName = request.getParameter("firstName");
                 String lastName = request.getParameter("lastName");
                 String phone = request.getParameter("phone");
-                String cityName = request.getParameter("cityName");
-                String districtName = request.getParameter("districtName");
-                String wardName = request.getParameter("wardName");
+                String cityId = request.getParameter("cityId");
+                String districtId = request.getParameter("districtId");
+                String wardId = request.getParameter("wardId");
                 String houseNumber = request.getParameter("houseNumber");
-                UserDTO userDTO = new UserDTO(email, avatarLink, firstName, lastName, phone, date, new AddressDTO(houseNumber, wardName, districtName, cityName));
+                AddressDTO address = new AddressDTO();
+                address.setHouseNumber(houseNumber);
+                address.setCityId(cityId);
+                address.setDistrictId(districtId);
+                address.setWardId(wardId);
+                UserDTO userDTO = new UserDTO(email, "", firstName, lastName, phone, date, address);
                 try {
                     userDAO.updateUser(userDTO);
-                    System.out.println("Hàm này chưa chạy dc đâu bé ơi");
+                    session.setAttribute("user", userDTO);
                 } catch (SQLException ex) {
                     Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ClassNotFoundException ex) {
@@ -152,9 +155,11 @@ public class UserController extends HttpServlet {
     public static String getToken(String code) throws ClientProtocolException, IOException {
         // call api to get token
         String response = Request.Post(Constants.GOOGLE_LINK_GET_TOKEN)
-                .bodyForm(Form.form().add("client_id", Constants.GOOGLE_CLIENT_ID)
+                .bodyForm(Form.form()
+                        .add("client_id", Constants.GOOGLE_CLIENT_ID)
                         .add("client_secret", Constants.GOOGLE_CLIENT_SECRET)
-                        .add("redirect_uri", Constants.GOOGLE_REDIRECT_URI).add("code", code)
+                        .add("redirect_uri", Constants.GOOGLE_REDIRECT_URI)
+                        .add("code", code)
                         .add("grant_type", Constants.GOOGLE_GRANT_TYPE).build())
                 .execute().returnContent().asString();
         JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
@@ -167,7 +172,6 @@ public class UserController extends HttpServlet {
         String response = Request.Get(link).execute().returnContent().asString();
         System.out.println(response);
         UserGoogleDTO user = new Gson().fromJson(response, UserGoogleDTO.class);
-
         return user;
     }
 

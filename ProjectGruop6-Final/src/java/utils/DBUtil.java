@@ -5,10 +5,10 @@
  */
 package utils;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Optional;
 
 /**
  *
@@ -29,7 +29,10 @@ public class DBUtil {
 
     public static void main(String[] args) {
         try{
-            System.out.println(getConnection());
+            File file = new File(Constants.IMAGE_ABSOLUTE_DIRECTORY + "/asdsadsadsadd.png");
+            System.out.println(file.toString());
+            System.out.println(file.getAbsolutePath());
+            System.out.println(file.delete());
         }catch(Exception e){
             e.printStackTrace();
         }
