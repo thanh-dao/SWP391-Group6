@@ -208,6 +208,7 @@ public class UserDAO {
 //            uDAO.getTop10SellerByMonth(9).forEach((k, v) -> {
 //                System.out.println(k + "  " + v);
 //            });
+System.out.println();
 System.out.println(uDAO.getUserByRole(false).size());
 //System.out.println(uDAO.updateUserRole("ThinhPQSE151077@fpt.edu.vn", true));
 //            System.out.println(uDAO.getUserJson(uDAO.getAllUser()));
