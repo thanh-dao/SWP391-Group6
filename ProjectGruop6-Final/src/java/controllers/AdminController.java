@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import com.google.gson.Gson;
@@ -20,6 +15,7 @@ import dto.UserDTO;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import static java.lang.System.out;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,16 +48,67 @@ public class AdminController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         HttpSession session = (HttpSession) request.getSession();
         String action = (String) request.getAttribute("action");
         String controller = (String) request.getAttribute("controller");
-
+        System.out.println(action);
+        System.out.println("HERE0");
         switch (action) {
-            case "adminAuthen":
-                break;
+            case "adminAuthen": {
+                UserDAO u = new UserDAO();
+                try {
+                    if (request.getParameter("func") != null) {
+                        String func = request.getParameter("func");
+                        String email = request.getParameter("email");
+                        switch (func) {
+                            case "agree": {
+                                System.out.println("AGREE");
+                                u.updateUserRole(email, true);
+                            }
+                            break;
+                            case "disagree": {
+                                System.out.println("DISAGREE");
+                                u.updateUserRole(email, false);
+                            }
+                            break;
+                            default:
+                                request.setAttribute("controller", "error");
+                                request.setAttribute("action", "index");
+                                request.setAttribute("message", "Error when processing the request");
+                        }
+                    } else {
+                        if (request.getParameter("status") != null) {
+                            String status = request.getParameter("status");
+                            request.setAttribute("status", status);
+                            switch (status) {
+                                case "user": {
+                                    request.setAttribute("userList", u.getUserJson(u.getUserByRole(false)));
+                                }
+                                break;
+                                case "subAdmin": {
+                                    request.setAttribute("userList", u.getUserJson(u.getUserByRole(true)));
+                                }
+                                break;
+                                default:
+                                    request.setAttribute("controller", "error");
+                                    request.setAttribute("action", "index");
+                                    request.setAttribute("message", "Error when processing the request");
+                            }
+                        } else {
+                            request.setAttribute("controller", "error");
+                            request.setAttribute("action", "index");
+                            request.setAttribute("message", "Error when processing the request");
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
             case "dashBroad": {
                 try {
-                    UserDAO userDAO =  new UserDAO();
+                    UserDAO userDAO = new UserDAO();
                     OrderDAO orderDAO = new OrderDAO();
                     ReviewDAO reviewDAO = new ReviewDAO();
                     ProductDAO proDAO = new ProductDAO();
@@ -75,7 +122,7 @@ public class AdminController extends HttpServlet {
                     request.setAttribute("totalOrder", totalOrder);
                     request.setAttribute("totalIncome", totalIncome);
                     request.setAttribute("totalReview", totalReview);
-                    
+
                     ArrayList<Integer> totalOrderCurrentMonth = orderDAO.getTotalOrderCurrentMonths(6);
                     ArrayList<Integer> totalIncomeCurrentMonths = orderDAO.getTotalIncomeCurrentMonths(6);
                     ArrayList<Integer> totalReviewCurrentMonths = reviewDAO.getTotalReviewCurrentMonths(6);
@@ -83,22 +130,21 @@ public class AdminController extends HttpServlet {
                     request.setAttribute("totalOrderCurrentMonth", gson.toJson(totalOrderCurrentMonth));
                     request.setAttribute("totalIncomeCurrentMonths", gson.toJson(totalIncomeCurrentMonths));
                     request.setAttribute("totalReviewCurrentMonths", gson.toJson(totalReviewCurrentMonths));
-                    
-                    int currentMonth = Calendar.getInstance().get(Calendar.MONTH) ;
+
+                    int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
                     System.out.println(currentMonth);
                     LinkedHashMap<String, String> top10Seller = userDAO.getTop10SellerByMonth(currentMonth);
                     List<ProductDTO> top10Product = proDAO.getTop10ProductByMonth(currentMonth);
                     System.out.println(top10Product.size());
                     request.setAttribute("top10Seller", top10Seller);
                     request.setAttribute("top10Product", top10Product);
-                    
+
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
             break;
             case "productAuthen": {
                 ProductDAO proDAO = new ProductDAO();
@@ -151,8 +197,56 @@ public class AdminController extends HttpServlet {
             case "reviewAuthen": {
                 ReviewDAO r = new ReviewDAO();
                 try {
-                    List<ReviewDTO> reviewList = r.getListReviewForCheck();
-                    request.setAttribute("reviewList", reviewList);
+                    if (request.getParameter("func") != null) {
+                        String func = request.getParameter("func");
+                        UserDTO user = (UserDTO) session.getAttribute("user");
+                        int reviewId = Integer.parseInt(request.getParameter("reviewId"));
+                        switch (func) {
+                            case "agree": {
+                                System.out.println("AGREE");
+                                System.out.println(r.updateReview(user.getEmail(), reviewId, true));
+                            }
+                            break;
+                            case "disagree": {
+                                r.updateReview(user.getEmail(), reviewId, false);
+                            }
+                            break;
+                            default:
+                                request.setAttribute("controller", "error");
+                                request.setAttribute("action", "index");
+                                request.setAttribute("message", "Error when processing the request");
+                        }
+                    } else {
+                        if (request.getParameter("status") != null) {
+                            String status = request.getParameter("status");
+                            request.setAttribute("status", status);
+                            switch (status) {
+                                case "ar": {
+                                    request.setAttribute("reviewList",
+                                            r.getReviewJson(r.getListReviewForCheck(1, true)));
+                                }
+                                break;
+                                case "nar": {
+                                    request.setAttribute("reviewList",
+                                            r.getReviewJson(r.getListReviewForCheck(0, true)));
+                                }
+                                break;
+                                case "nary": {
+                                    request.setAttribute("reviewList",
+                                            r.getReviewJson(r.getListReviewForCheck(-1, false)));
+                                }
+                                break;
+                                default:
+                                    request.setAttribute("controller", "error");
+                                    request.setAttribute("action", "index");
+                                    request.setAttribute("message", "Error when processing the request");
+                            }
+                        } else {
+                            request.setAttribute("controller", "error");
+                            request.setAttribute("action", "index");
+                            request.setAttribute("message", "Error when processing the request");
+                        }
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

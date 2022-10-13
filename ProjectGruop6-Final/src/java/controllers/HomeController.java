@@ -79,12 +79,11 @@ public class HomeController extends HttpServlet {
             }
 
             case "productDetail": {
-                int productId = Integer.parseInt(request.getParameter("productId"));
-                System.out.println(productId);
                 ProductDAO proDAO = new ProductDAO();
                 UserDAO userDAO = new UserDAO();
                 ReviewDAO review = new ReviewDAO();
                 try {
+                    int productId = Integer.parseInt(request.getParameter("productId"));
                     ProductDTO product = proDAO.getProductById(productId);
                     UserDTO user = userDAO.getUserByProductId(productId);
                     List<ReviewDTO> reviewer = review.getReview(productId);

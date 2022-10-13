@@ -1,8 +1,3 @@
-<%-- 
-    Document   : productAuthen
-    Created on : Sep 14, 2022, 4:37:28 AM
-    Author     : ADmin
---%>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

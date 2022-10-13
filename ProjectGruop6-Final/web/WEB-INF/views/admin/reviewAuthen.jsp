@@ -1,21 +1,16 @@
-<%-- 
-    Document   : reviewAuthen
-    Created on : Sep 14, 2022, 6:49:10 AM
-    Author     : ADmin
---%>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-<link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
-
-<html lang="en">
+<html>
 
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Reviews</title>
         <style>
+            body{
+                background-color: #F0F0F0;
+            }
             a{text-decoration: none;}
             .navigate-button {
                 width: 30px;
@@ -48,97 +43,304 @@
                 flex-wrap: wrap;
                 justify-content: space-around;
             }
-            .product-img {
-                width: 100px;
-                height: 100px;
-                padding: 0;
-                margin: 0;
+            .product-img-review {
+                width: 80px;
+                height: 80px;
+                padding-bottom: 10px;
+                padding-right: 10px;
             }
-
-            .product-img img {
+            .product-img-review-active {
+                margin-bottom: 10px;
                 width: 100%;
-                height: 100%;
-                object-fit: cover;
+                height: auto;
+                max-height: 150px;
             }
-            /*            .product-img-review {
-                            width: 80px;
-                            height: 80px;
-                            padding-bottom: 10px;
-                            padding-right: 10px;
-                        }
-                        .product-img-review-active {
-                            margin-bottom: 10px;
-                            width: 100%;
-                            height: auto;
-                            max-height: 150px;
-                        }*/
             .search1 {
                 margin-left: 80%;
                 margin-bottom: 30px;
             }
-            /* ngôi sao đánh giá */
-            .rating-container {
-                color: #fbc531;
-                display: flex;
+
+            .font-a a{
+                color: #FFA500;
+                /*text-decoration: none;*/
             }
-            button{
-                font-size: 10px;
-                padding: 0;
-                width: 100%;
-                height: 50px;
+
+            .hinden-text {
+                margin: 0;
+                font-size: 16px;
+                padding: 3px;
+                width: 75px;
+                overflow: hidden;
+                white-space: nowrap; 
+                text-overflow: ellipsis;
+            }
+
+            .tooltip-text {
+                text-decoration:none;
+                position:relative;
+            }
+            .tooltip-text span {
+                display:none;
+            }
+            .tooltip-text:hover span {
+                border-radius: 3px;
+                font-size: 16px;
+                padding: 1px 5px;
+                display: block;
+                position:fixed;
+                overflow:hidden;
+                background-color: #35363A;
+                color: #CCC;
+                z-index: 1000;
+                white-space: nowrap;
+            }
+
+            a {
+                color: black;
+            }
+
+            a:hover {
+                color: none;
+                text-decoration: none;
+                color: #FFA500;
+            }
+
+            .br-form {
+                background: #FFF;
+                padding: 10px;
+                border-radius: 3px;
+                margin-bottom: 10px;
+            }
+            tbody td {
+                padding: 1px;
             }
         </style>
     </head>
 
     <body>
-        <div class="container-fluid">
-            <h1 class="display-4 my-4 text-info">List of users</h1>
-            <table class="table table-striped" id="users" style="width: 100%;">
-                <thead >
-                    <tr id="list-header">
-                        <th class="col-1" scope="col">Ngày đăng</th>
-                        <th class="col-2" scope="col">Người đăng</th>
-                        <th class="col-3" scope="col">Sản phẩm</th>
-                        <th class="col-5" scope="col">Đánh giá</th>
-                        <th class="col-1" scope="col">Lựa chọn</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach items="${reviewList}" var="i">
-                        <tr>
-                            <td>${i.date}</td>
-                            <td>${i.avatarLink} ${i.name}</td>
-                            <td>
-                                ${i.product.getName()}
-                                <!--${i.product.getMainImage().getUrl()}-->
-                                <div class="product-img">
-                                    <img src="<c:url value="${i.product.getMainImage().getUrl()}"/>" alt="">
 
-                                </div>
-
-                            </td>
-                            <td>
-                                ${i.rating}
-                                ${i.comment}
-                                <c:forEach items="${i.image}" var="u">
-                                    <div class="product-img">
-                                        <img src="<c:url value="${u.getUrl()}"/>" alt="">
-                                    </div>
-                                </c:forEach>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-success mb-3">Chấp nhận</button>
-                                <button type="button" class="btn btn-danger mb-3">Từ chối</button>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-        <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
+        <c:choose>
+            <c:when test="${not empty reviewList}">
+                <div class="container br-form">
+                    <h3 style="text-align: center; ">Duyệt review</h3>
+                    <ul class="nav nav-tabs" style="margin-bottom: 20px;">               
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="<c:url value="/admin/reviewAuthen.do?status=nary"/>">Chờ duyệt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value="/admin/reviewAuthen.do?status=ar"/>">Đã duyệt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value="/admin/reviewAuthen.do?status=nar"/>">Không được duyệt</a>
+                        </li>
+                    </ul>
+                    <table class="table table-striped" id="review">
+                        <thead style="background-color: #FFEFD5;">
+                            <tr id="list-header">
+                                <th class="col-1" scope="col">Ngày đăng</th>
+                                <th class="col-1" scope="col">Người đăng</th>
+                                <th style="width: 10%;" scope="col">Sản phẩm</th>
+                                <th class="col-1" scope="col"></th>
+                                <th class="col-5" scope="col">Đánh giá</th>
+                                <th scope="col">Hình ảnh</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th class="col-1" scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <h3 style="text-align: center; margin: 50px; ">Hiện không có review nào chờ duyệt</h3>
+            </c:otherwise>
+        </c:choose>
+        <script>
+            var table;
+            var reviewList = ${reviewList};
+            console.log(reviewList);
+            var productName;
+            function initTableData() {
+                var modifiedUsers = reviewList.map(r => {
+                    var option = `<button type="button" onclick="handleReview(` + r.reviewId + `, this, 'agree')" class="btn btn-success mb-3">Chấp nhận</button>
+                                <button type="button" onclick="handleReview(` + r.reviewId + `, this, 'disagree')" class="btn btn-danger mb-3">Từ chối</button>`;
+                    if (String('${status}') == 'nar') {
+                        option = `<button type="button" onclick="handleReview(` + r.reviewId + `, this, 'agree')" class="btn btn-success mb-3">Chấp nhận</button>`;
+                    } else if (String('${status}') == 'ar') {
+                        option = `<button type="button" onclick="handleReview(` + r.reviewId + `, this, 'disagree')" class="btn btn-danger mb-3">Xóa</button>`;
+                    }
+                    return {
+                        date: r.date,
+                        seller: `<p class="font-a"><a href="#">` + r.userName + `</a></p>`,
+                        productName: `<a href="/ProjectGroup6/home/productDetail.do?productId=` + r.productId + `"> 
+                                <p class="tooltip-text hinden-text">` + r.productName + `<span>` + r.productName + `</span></p>`,
+                        productImage: r.productImage,
+                        review: `<p class="font-a" style="border-bottom: 1.5px solid rgba(0,0,0,.09);">Rating: ` + r.rating + `</p>` + r.comment,
+                        image1: r.image0,
+                        image2: r.image1,
+                        image3: r.image2,
+                        image4: r.image3,
+                        image5: r.image4,
+                        option: option,
+                    };
+                });
+                console.log(modifiedUsers);
+                table = $('#review').DataTable({
+                    "processing": true,
+                    data: modifiedUsers,
+                    columns: [
+                        {data: 'date'},
+                        {data: 'seller'},
+                        {data: 'productName'},
+                        {data: 'productImage',
+                            render: function (data) {
+                                if (data == "" || data == null) {
+                                    return null;
+                                }
+                                return '<img src="' + data + '" alt="' + data + '"height="75" width="75"/>';
+                            }
+                        },
+                        {data: 'review'},
+                        {
+                            data: 'image1',
+                            render: function (data) {
+                                if (data == "" || data == null) {
+                                    return null;
+                                }
+                                return '<img src="' + data + '" alt="' + data + '"height="75" width="75"/>';
+                            }
+                        }, {
+                            data: 'image2',
+                            render: function (data) {
+                                if (data == "" || data == null) {
+                                    return null;
+                                }
+                                return '<img src="' + data + '" alt="' + data + '"height="75" width="75"/>';
+                            }
+                        }, {
+                            data: 'image3',
+                            render: function (data) {
+                                if (data == "" || data == null) {
+                                    return null;
+                                }
+                                return '<img src="' + data + '" alt="' + data + '"height="75" width="75"/>';
+                            }
+                        }, {
+                            data: 'image4',
+                            render: function (data) {
+                                if (data == "" || data == null) {
+                                    return null;
+                                }
+                                return '<img src="' + data + '" alt="' + data + '"height="75" width="75"/>';
+                            }
+                        }, {
+                            data: 'image5',
+                            render: function (data) {
+                                if (data == "" || data == null) {
+                                    return null;
+                                }
+                                return '<img src="' + data + '" alt="' + data + '"height="75" width="75"/>';
+                            }
+                        },
+                        {data: 'option'},
+                    ]
+                });
+            }
+            const handleReview = (rId, el, option) => {
+                if (option == 'agree') {
+                    text = 'Xác nhận duyệt sản phẩm !!!';
+                } else if (option == 'disagree') {
+                    text = 'Xác nhận từ chối sản phẩm !!!';
+                }
+                swal({
+                    title: "",
+                    text: text,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                        .then((commit) => {
+                            if (commit) {
+                                $.ajax("<c:url value="/admin/reviewAuthen.do"/>", {
+                                    data: {
+                                        reviewId: rId,
+                                        func: option,
+                                    },
+                                    success: function (data, textStatus, jqXHR) {
+                                        swal("Duyệt thành công", {
+                                            icon: "success",
+                                        });
+                                        const tableRow = el.parentElement.parentElement
+                                        tableRow.remove()
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        swal("Duyệt thất bại!!!", {
+                                            icon: "error",
+                                        });
+                                    }
+                                })
+                            }
+                        });
+            }
+//            const pageSwitching = (option) => {
+//            console.log(option);
+//                $.ajax("<c:url value="/admin/reviewAuthen.do"/>", {
+//                    data: {
+//                        status: option
+//                    }
+//                })
+//            }
+            $(document).ready(function () {
+                initTableData();
+                //                $("#btnReloadData").on("click", function () {
+                //                    //alert("reload data...")
+                //                    table.ajax.reload();
+                //                });
+            });
+            const tooltips = document.querySelectorAll('.tooltip-text span');
+//        window.onmousemove = function (e) {
+//            var x = (e.clientX + 20) + 'px',
+//                    y = (e.clientY + 20) + 'px';
+//            for (var i = 0; i < tooltips.length; i++) {
+//                tooltips[i].style.top = y;
+//                tooltips[i].style.left = x;
+//            }
+//        };
+            var style = document.createElement('style');
+            document.head.appendChild(style);
+            var matchingElements = [];
+            var allElements = document.getElementsByTagName('*');
+            for (var i = 0, n = allElements.length; i < n; i++) {
+                var attr = allElements[i].getAttribute('.tooltip-text span');
+                if (attr) {
+                    allElements[i].addEventListener('mouseover', hoverEvent);
+                }
+            }
+            function hoverEvent(event) {
+                event.preventDefault();
+                x = event.x - this.offsetLeft;
+                y = event.y - this.offsetTop;
+                y += 10;
+                style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
+            }
+            const tabs = document.querySelectorAll(".nav-link")
+            // console.log(tabs)
+            const removeActiveClass = (elements) => {
+                elements.forEach(i => {
+                    i.classList.remove("active")
+                })
+            }
+            tabs.forEach(i => {
+                i.addEventListener("click", () => {
+                    removeActiveClass(tabs);
+                    i.classList.add("active");
+                })
+            });
+        </script>
     </body>
 
 </html>
