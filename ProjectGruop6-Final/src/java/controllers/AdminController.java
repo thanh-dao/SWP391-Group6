@@ -54,8 +54,57 @@ public class AdminController extends HttpServlet {
         System.out.println(action);
         System.out.println("HERE0");
         switch (action) {
-            case "adminAuthen":
-                break;
+            case "adminAuthen": {
+                UserDAO u = new UserDAO();
+                try {
+                    if (request.getParameter("func") != null) {
+                        String func = request.getParameter("func");
+                        String email = request.getParameter("email");
+                        switch (func) {
+                            case "agree": {
+                                System.out.println("AGREE");
+                                u.updateUserRole(email, true);
+                            }
+                            break;
+                            case "disagree": {
+                                System.out.println("DISAGREE");
+                                u.updateUserRole(email, false);
+                            }
+                            break;
+                            default:
+                                request.setAttribute("controller", "error");
+                                request.setAttribute("action", "index");
+                                request.setAttribute("message", "Error when processing the request");
+                        }
+                    } else {
+                        if (request.getParameter("status") != null) {
+                            String status = request.getParameter("status");
+                            request.setAttribute("status", status);
+                            switch (status) {
+                                case "user": {
+                                    request.setAttribute("userList", u.getUserJson(u.getUserByRole(false)));
+                                }
+                                break;
+                                case "subAdmin": {
+                                    request.setAttribute("userList", u.getUserJson(u.getUserByRole(true)));
+                                }
+                                break;
+                                default:
+                                    request.setAttribute("controller", "error");
+                                    request.setAttribute("action", "index");
+                                    request.setAttribute("message", "Error when processing the request");
+                            }
+                        } else {
+                            request.setAttribute("controller", "error");
+                            request.setAttribute("action", "index");
+                            request.setAttribute("message", "Error when processing the request");
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
             case "dashBroad": {
                 try {
                     UserDAO userDAO = new UserDAO();
@@ -95,7 +144,6 @@ public class AdminController extends HttpServlet {
                     Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
             break;
             case "productAuthen": {
                 ProductDAO proDAO = new ProductDAO();
@@ -168,7 +216,6 @@ public class AdminController extends HttpServlet {
                                 request.setAttribute("message", "Error when processing the request");
                         }
                     } else {
-                        Gson gson = new Gson();
                         if (request.getParameter("status") != null) {
                             String status = request.getParameter("status");
                             request.setAttribute("status", status);
@@ -185,7 +232,7 @@ public class AdminController extends HttpServlet {
                                 break;
                                 case "nary": {
                                     request.setAttribute("reviewList",
-                                            r.getReviewJson(r.getListReviewForCheck(0, true)));
+                                            r.getReviewJson(r.getListReviewForCheck(-1, false)));
                                 }
                                 break;
                                 default:
@@ -193,6 +240,10 @@ public class AdminController extends HttpServlet {
                                     request.setAttribute("action", "index");
                                     request.setAttribute("message", "Error when processing the request");
                             }
+                        } else {
+                            request.setAttribute("controller", "error");
+                            request.setAttribute("action", "index");
+                            request.setAttribute("message", "Error when processing the request");
                         }
                     }
                 } catch (Exception e) {

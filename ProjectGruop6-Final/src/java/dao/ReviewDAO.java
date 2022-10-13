@@ -143,7 +143,7 @@ public class ReviewDAO {
         for (ReviewDTO r : reviewList) {
             hashmap.put("reviewId", String.valueOf(r.getReviewId()));
             hashmap.put("date", formatter.format(r.getDate()));
-            hashmap.put("nameUser", r.getName());
+            hashmap.put("userName", r.getName());
             hashmap.put("productId", String.valueOf(r.getProduct().getProductId()));
             hashmap.put("productName", r.getProduct().getName());
             hashmap.put("productImage", r.getProduct().getMainImage().getUrl());
@@ -175,7 +175,8 @@ public class ReviewDAO {
     public static void main(String[] args) {
         ReviewDAO r = new ReviewDAO();
         try {
-            System.out.println(r.updateReview("ThinhPQSE151077@fpt.edu.vn", 25, true));
+            System.out.println(r.getReviewJson(r.getListReviewForCheck(1, true)));
+//            System.out.println(r.updateReview("ThinhPQSE151077@fpt.edu.vn", 25, true));
         } catch (Exception e) {
         }
     }

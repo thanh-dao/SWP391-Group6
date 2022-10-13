@@ -5,6 +5,7 @@
  */
 package dao;
 
+import com.google.gson.Gson;
 import dto.AddressDTO;
 import dto.UserDTO;
 import java.sql.Connection;
@@ -60,7 +61,7 @@ public class UserDAO {
             );
             return user;
         }
-        
+
         return null;
     }
 
@@ -96,7 +97,7 @@ public class UserDAO {
         stm.executeUpdate();
         return new UserDTO(email, avatarLink, firstName, lastName);
     }
-    
+
     public UserDTO getUserByProductId(int productId) throws ClassNotFoundException, SQLException {
         Connection conn;
         conn = DBUtil.getConnection();
@@ -129,7 +130,7 @@ public class UserDAO {
         }
         return -1;
     }
-    
+
     public LinkedHashMap<String, String> getTop10SellerByMonth(int month) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT TOP 10 SUM(od.quantity) , os.email_seller FROM \n"
@@ -140,13 +141,58 @@ public class UserDAO {
                 + "order by SUM(od.quantity) desc");
         stm.setInt(1, month);
         ResultSet rs = stm.executeQuery();
-        LinkedHashMap<String, String> arr = new LinkedHashMap ();
-        while(rs.next()) {
+        LinkedHashMap<String, String> arr = new LinkedHashMap();
+        while (rs.next()) {
             arr.put(rs.getString(2), rs.getString(1));
         }
         return arr;
     }
-    
+
+    public List<UserDTO> getUserByRole(boolean status) throws ClassNotFoundException, SQLException {
+        Connection conn;
+        conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT [email]\n"
+                + "      ,[avatar]\n"
+                + "      ,[first_name]\n"
+                + "      ,[last_name]\n"
+                + "      ,[phone]\n"
+                + "      ,[role_id]"
+                + "  FROM [user] WHERE role_id = ?" );
+        stm.setInt(1, status ? 2 : 0);
+        ResultSet rs = stm.executeQuery();
+        List<UserDTO> list = new ArrayList<>();
+        while (rs.next()) {
+            list.add(new UserDTO(
+                    rs.getString("email"), rs.getString("avatar"), rs.getString("first_name"),
+                    rs.getString("last_name"), rs.getString("phone"), rs.getInt("role_id")
+            ));
+        }
+        return list;
+    }
+
+    public boolean updateUserRole(String email, boolean status) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("UPDATE [user] \n"
+                + "SET role_id = ? WHERE email = ?");
+        stm.setInt(1, status ? 2 : 0);
+        stm.setString(2, email);
+        return stm.executeUpdate() == 1;
+    }
+
+    public String getUserJson(List<UserDTO> userList) throws ClassNotFoundException, SQLException {
+        Gson gson = new Gson();
+        HashMap<String, String> hashmap = new HashMap<>();
+        String a = "[";
+        for (UserDTO r : userList) {
+            hashmap.put("email", String.valueOf(r.getEmail()));
+            hashmap.put("name", r.getFirstName() + r.getLastName());
+            hashmap.put("avatar", r.getAvatarLink());
+            hashmap.put("phone", r.getPhone() == null ? "Chưa cập nhật" : r.getPhone());
+            hashmap.put("roleId", String.valueOf(r.getRoleId()));
+            a += gson.toJson(hashmap) + ",";
+        }
+        return a + "]";
+    }
 
     // Update user information
     public boolean updateUser(UserDTO User) throws SQLException, ClassNotFoundException {
@@ -159,16 +205,21 @@ public class UserDAO {
     public static void main(String[] args) {
         UserDAO uDAO = new UserDAO();
         try {
-            uDAO.getTop10SellerByMonth(9).forEach((k, v) -> {
-                System.out.println(k + "  " + v);
-            });
+//            uDAO.getTop10SellerByMonth(9).forEach((k, v) -> {
+//                System.out.println(k + "  " + v);
+//            });
+System.out.println(uDAO.getUserByRole(false).size());
+//System.out.println(uDAO.updateUserRole("ThinhPQSE151077@fpt.edu.vn", true));
+//            System.out.println(uDAO.getUserJson(uDAO.getAllUser()));
 //            System.out.println(uDAO.getUserByProductId(149));
 //            System.out.println(uDAO.addUser("thanhddse151068@fpt.edu.vn", "Dao Duc Thanh", "jajaaja"));
 //            System.out.println(uDAO.findUser("ThinhPQSE151077@fpt.edu.vn"));
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        } catch (Exception ex) {
         }
     }
 }
