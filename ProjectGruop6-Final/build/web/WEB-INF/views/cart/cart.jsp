@@ -255,9 +255,9 @@
                                                 </td>
                                                 <td>
                                                     <div class="quantity-button">
-                                                        <button class="btn-style-left">-</button>
+                                                        <button class="btn-style-left" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, ${p.getQuantity()}, 'minus', this)">-</button>
                                                         <input class="ip-qua-style" value=${p.getQuantity()}>
-                                                        <button class="btn-style-right">+</button>
+                                                        <button class="btn-style-right" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, ${p.getQuantity()}, 'sum', this)">+</button>
                                                         <div class=" style-product-cart delete-icon"
                                                              style="justify-content: center">
                                                             <a class="show-cart" style="color: white"><i
@@ -313,39 +313,55 @@
             </div>
         </div>
         <script>
-            const handleReview = (pId, el, option) => {
-                if (option == 'delete') {
-                    text = 'Xác nhận xóa sản phẩm !!!';
-                }
+            const deleteOrderDetail = (pId, osId, el) => {
                 swal({
                     title: "",
-                    text: text,
+                    text: "Xác nhận xóa sản phẩm này?",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                 })
-                        .then((commit) => {
-                            if (commit) {
+                        .then((willDelete) => {
+                            if (willDelete) {
                                 $.ajax("<c:url value="/cart/cart.do"/>", {
                                     data: {
-                                        pId: pId,
-                                        func: option,
+                                        productId: pId,
+                                        func: "delete",
+                                        osId: osId,
                                     },
                                     success: function (data, textStatus, jqXHR) {
-                                        swal("Duyệt thành công", {
+                                        swal("Đã xóa thành công", {
                                             icon: "success",
                                         });
-                                        const tableRow = el.parentElement.parentElement
+                                        const tableRow = el.parentElement.parentElement.parentElement.parentElement
                                         tableRow.remove()
                                     },
                                     error: function (jqXHR, textStatus, errorThrown) {
-                                        swal("Duyệt thất bại!!!", {
+                                        swal("Xóa thất bại!!!", {
                                             icon: "error",
                                         });
                                     }
                                 })
                             }
                         });
+            }
+            const handleCart = (pId, osId, quantity, option, el) => {
+                if (option == 'minus') {
+                    quantity -= 1;
+                    if (quantity <= 0) {
+                        deleteOrderDetail(pId, osId, el);
+                    }
+                } else if (option == 'sum') {
+                    quantity += 1;
+                }
+                $.ajax("<c:url value="/cart/cart.do"/>", {
+                    data: {
+                        pId: pId,
+                        func: 'update',
+                        quan: quantity,
+                        osId: osId,
+                    }
+                })
             }
             const handleSelectByShop = (el) => {
                 const container = el.parentElement.parentElement.parentElement.parentElement;

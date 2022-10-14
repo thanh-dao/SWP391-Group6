@@ -434,7 +434,7 @@ public class ProductDAO {
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
                 + "      ,[sold_count] FROM product "
-                + " WHERE product_id = ? AND email_admin is not null");
+                + " WHERE product_id = ? AND email_admin is not null AND status = 1");
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();

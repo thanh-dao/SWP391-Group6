@@ -65,7 +65,7 @@ public class OrderDAO {
         }
     }
 
-    //addCart
+    //deleteAProduct
     public void deleteAProduct(String emailBuyer, int productId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT order_id FROM [order] "

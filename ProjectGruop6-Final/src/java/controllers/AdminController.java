@@ -53,7 +53,6 @@ public class AdminController extends HttpServlet {
         String action = (String) request.getAttribute("action");
         String controller = (String) request.getAttribute("controller");
         System.out.println(action);
-        System.out.println("HERE0");
         switch (action) {
             case "adminAuthen": {
                 UserDAO u = new UserDAO();
