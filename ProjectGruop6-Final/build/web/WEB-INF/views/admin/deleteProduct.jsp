@@ -126,7 +126,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="p" items="${product}">
+                        <c:forEach var="p" items="${productList}">
                             <tr id="${p.productId}">
                                 <td>
                                     ${p.productId}

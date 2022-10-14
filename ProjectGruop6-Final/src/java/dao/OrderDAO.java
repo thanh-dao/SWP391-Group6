@@ -65,6 +65,22 @@ public class OrderDAO {
         }
     }
 
+    //deleteAProduct
+    public void deleteAProduct(String emailBuyer, int productId) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT order_id FROM [order] "
+                + "WHERE email_buyer = ? AND [status] = 0");
+        stm.setString(1, emailBuyer);
+        ResultSet rs = stm.executeQuery();
+        if (!rs.next()) {
+            createOrder(emailBuyer);
+            addCart(emailBuyer, productId);
+        } else {
+            OrderByShopDAO obs = new OrderByShopDAO();
+            obs.addOrderByShop(rs.getInt("order_id"), productId);
+        }
+    }
+
     //create order when order null
     public void createOrder(String emailBuyer) throws ClassNotFoundException, SQLException {
         Connection conn;

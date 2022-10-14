@@ -237,7 +237,6 @@
                                         </script>
                                         <li data-target="#demo" data-slide-to="${count.index } " class="${count.index  == 0 ? "active" : ""}"></li>
                                         </c:forEach>
-
                                 </ul>
                                 <!-- Left and right controls -->
                                 <a class="carousel-control-prev" href="#demo" data-slide="prev">
@@ -252,7 +251,6 @@
                                 </a>
                             </div>
                         </div>
-
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <h3>${product.name}</h3>
                             <div style="margin: 10px 0; font-size: 20px; ">
@@ -283,7 +281,7 @@
                                 <fmt:setLocale value="vi_VN"/>
                                 <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>
                             <div class="buy d-flex justify-content-around" style="margin: 50px 0 20px 0;">
-                                <button onclick="window.location.href = '<c:url value="/cart/cart.do?productId=${product.productId}"/>'">Mua</button>
+                                <button onclick="addOrder(${product.productId})">Mua</button>
                             </div>
                         </div>
                     </div>
@@ -300,18 +298,15 @@
                     </div>
                     <div class="col-md-7 col-sm-7">
                         <p>Số điện thoại: <span>${seller.phone}</span></p>
-
                     </div>
 
                 </div><p>Địa chỉ: <span>${seller.address.houseNumber} ${seller.address.wardName}
                         ${seller.address.districtName} ${seller.address.cityName}</span></p>
             </div>
-
             <div class="br-form">
                 <h5>Mô tả chi tiết: </h5>
                 <p style="padding: 10px 0 10px 0;">${product.description}</p>
             </div>
-
             <div class="br-form">
                 <h5 style="margin-top: 5px;">Đánh giá sản phẩm</h5>
                 <div class="review">
@@ -319,7 +314,6 @@
                         <p style="text-align: center;">Hiện chưa có đánh giá nào</p>
                     </c:if>
                     <c:forEach items="${reviewer}" var="i">
-
                         <div class="font-a" style="display: flex">
                             <a href="<c:url value="/home/main.do"/>" class="reviewer">
                                 <img src="<c:url value="${i.avatarLink}"/>" alt="">
@@ -407,15 +401,57 @@
         </div>
     </body>
     <script>
+        const addOrder = (pId) => {
+            $.ajax("<c:url value="/cart/cart.do"/>", {
+                data: {
+                    func: 'add',
+                    pId: pId,
+                },
+                success: function (data, textStatus, jqXHR) {
+                    swal("Đã thêm vào giỏ hàng", {
+                        icon: "success",
+                        buttons: false,
+                        timer: 1000
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    swal("Thêm vào giỏ hàng thất bại!!!", {
+                        icon: "error",
+                        buttons: false,
+                        timer: 1000
+                    });
+                }
+            })
+        }
         const tooltips = document.querySelectorAll('.tooltip-text span');
-
-        window.onmousemove = function (e) {
-            var x = (e.clientX + 20) + 'px',
-                    y = (e.clientY + 20) + 'px';
-            for (var i = 0; i < tooltips.length; i++) {
-                tooltips[i].style.top = y;
-                tooltips[i].style.left = x;
+                <script>
+                const tooltips = document.querySelectorAll('.tooltip-text span');
+            //        window.onmousemove = function (e) {
+//            var x = (e.clientX + 20) + 'px',
+//                    y = (e.clientY + 20) + 'px';
+//            for (var i = 0; i < tooltips.length; i++) {
+//                tooltips[i].style.top = y;
+//                tooltips[i].style.left = x;
+//            }
+//        };
+                var style = document.createElement('style');
+        document.head.appendChild(style);
+        var matchingElements = [];
+        var allElements = document.getElementsByTagName('*');
+        for (var i = 0, n = allElements.length; i < n; i++) {
+            var attr = allElements[i].getAttribute('.tooltip-text span');
+            if (attr) {
+                allElements[i].addEven
+                    tListener('mouseover', hoverEvent);
+                }
+                }
+                function hoverEvent(event) {
+                    event.preventDefault();
+                    x = event.x - this.offsetLeft;
+           
+                y = event.y - this.offsetTop;
+                    y += 10;
+                    style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
             }
-        };
     </script>
 </html>

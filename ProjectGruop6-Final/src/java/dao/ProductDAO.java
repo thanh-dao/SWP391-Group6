@@ -1,5 +1,6 @@
 package dao;
 
+import com.google.gson.Gson;
 import dto.ProductDTO;
 import java.sql.Connection;
 import java.util.Date;
@@ -10,24 +11,25 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import utils.Constants;
 import utils.DBUtil;
 
 public class ProductDAO {
-    
+
     public static final int SOLD_COUNT = 1;
-    
+
     public static final int PRICE = 2;
-    
+
     public static final int NAME = 3;
-    
+
     public static final int APPROVE_AT = 4;
-    
+
     public static final int CREATE_AT = 5;
-    
+
     public static final boolean DESC = true;
-    
+
     public static final boolean ASC = false;
 
     /**
@@ -46,7 +48,7 @@ public class ProductDAO {
         }
         return 0;
     }
-    
+
     public ProductDTO getProductBySellerAndName(String sellerEmail, String productName) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
@@ -84,7 +86,7 @@ public class ProductDAO {
         }
         return product;
     }
-    
+
     public int getMaxId() throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select max(product_id) from product");
@@ -94,7 +96,7 @@ public class ProductDAO {
         }
         return -1;
     }
-    
+
     public boolean createProduct(
             String name, String cateId,
             String quantity, String price,
@@ -109,7 +111,7 @@ public class ProductDAO {
                 + "           ,[category_id]\n"
                 + "           ,[quantity]\n"
                 + "           ,[status]\n"
-                + "           ,[create_at] \n"
+                + "           ,[create_at]\n"
                 + ")\n"
                 + "     VALUES "
                 + " ( ?, ?, ?, ?, ?, ?, 0, ?) ");
@@ -119,9 +121,7 @@ public class ProductDAO {
         stm.setString(4, description);
         stm.setString(5, cateId);
         stm.setString(6, quantity);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        stm.setString(7, formatter.format(date));
+        stm.setDate(7, new java.sql.Date(new Date().getTime()));
         return stm.executeUpdate() == 1;
     }
 
@@ -283,7 +283,7 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public List<ProductDTO> getProductListByProductName(int pageNum, String productName) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<ProductDTO> list = new ArrayList<>();
@@ -309,7 +309,7 @@ public class ProductDAO {
         stm.setInt(2, itemSkipped);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
-        
+
         while (rs.next()) {
             int id = rs.getInt("product_id");
             list.add(
@@ -332,7 +332,7 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public int countProductListByProductName(String productName) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select count([product_id])\n"
@@ -345,7 +345,7 @@ public class ProductDAO {
         }
         return -1;
     }
-    
+
     public String getSellerEmailByProductId(int productId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select email_seller from product "
@@ -358,7 +358,7 @@ public class ProductDAO {
         }
         return sellerEmail;
     }
-    
+
     public List<ProductDTO> getProductList(int size, String productName) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<ProductDTO> list = new ArrayList<>();
@@ -434,7 +434,7 @@ public class ProductDAO {
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
                 + "      ,[sold_count] FROM product "
-                + " WHERE product_id = ? AND email_admin is not null");
+                + " WHERE product_id = ? AND email_admin is not null AND status = 1");
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -484,7 +484,7 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public List<ProductDTO> getProductList(int pageNum, int item_per_page, int option, boolean trend, int cateID) throws ClassNotFoundException, SQLException {
         int itemSkipped = (pageNum - 1) * item_per_page;
         Connection conn = DBUtil.getConnection();
@@ -563,10 +563,10 @@ public class ProductDAO {
                             imageDAO.findAll(rs.getInt("product_id"))
                     )
             );
-            
+
         }
         return list;
-        
+
     }
 
     //--product detail admin
@@ -601,7 +601,7 @@ public class ProductDAO {
         }
         return null;
     }
-    
+
     public boolean deleteProduct(String productId, String emailAdmin) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("UPDATE [dbo].[product]\n"
@@ -616,15 +616,16 @@ public class ProductDAO {
     public boolean approveProduct(String emailAdmin, int productId, String acction) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement(" UPDATE [dbo].[product]\n"
-                + "SET email_admin = '" + emailAdmin + "' ,approve_at = '" + 
-                java.sql.Date.valueOf(LocalDate.now()).toString() + "' ,status = ? \n"
+                + "SET email_admin = '" + emailAdmin + "' ,approve_at = '"
+                + java.sql.Date.valueOf(LocalDate.now()).toString() + "' ,status = ? \n"
                 + "WHERE product_id = " + productId);
         if (acction.equalsIgnoreCase("Yes")) {
             stm.setInt(1, 1);
             System.out.println("HERE : " + stm.executeUpdate());
         } else {
             stm.setInt(1, 0);
-        }       System.out.println(stm.executeUpdate());
+        }
+        System.out.println(stm.executeUpdate());
         return stm.executeUpdate() == 1;
     }
 
@@ -660,19 +661,19 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public void getJson() throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         String sql = "SELECT ARRAY_TO_JSON(ARRAY_AGG(ROW_TO_JSON(data)))::varchar resubrow FROM (SELECT * FROM product)data;";
         Statement stm = conn.createStatement();
         ResultSet rs = stm.executeQuery(sql);
         String resubrow = "";
-        
+
         if (rs.next()) {
             System.out.println(rs.getString("resubrow"));
             resubrow = rs.getString("resubrow");
         }
-        
+
     }
 
     public List<ProductDTO> getTop10ProductByMonth(int month) throws ClassNotFoundException, SQLException {
@@ -686,7 +687,7 @@ public class ProductDAO {
         stm.setInt(1, month);
         ResultSet rs = stm.executeQuery();
         List<ProductDTO> arr = new ArrayList<>();
-        while(rs.next()) {
+        while (rs.next()) {
             ProductDTO product = new ProductDTO();
             product.setProductId(rs.getInt(1));
             product.setQuantity(rs.getInt(2));
@@ -696,19 +697,27 @@ public class ProductDAO {
         return arr;
     }
     
+    public String getProductListJson(List<ProductDTO> productList) throws ClassNotFoundException, SQLException {
+        Gson gson = new Gson();
+        HashMap<String, String> hashmap = new HashMap<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String a = "[";
+        for (ProductDTO p : productList) {
+            hashmap.put("productId", String.valueOf(p.getProductId()));
+            hashmap.put("date", formatter.format(p.getCreateAt()));
+            hashmap.put("name", p.getName());
+            hashmap.put("image", p.getMainImage().getUrl());
+            hashmap.put("price", String.valueOf(p.getPrice()));
+            a += gson.toJson(hashmap) + ",";
+        }
+        return a + "]";
+    }
+
     public static void main(String[] args) {
         ProductDAO proDAO = new ProductDAO();
         try {
 //                proDAO.approveProduct("PhuongNHSE150997@fpt.edu.vn", 460, "YES");
-                System.out.println(proDAO.getProductAdmin(CREATE_AT, ASC));
-//            Gson gson = new Gson();
-//            HashMap<String, String> hashmap = new HashMap<>();
-//            hashmap.put("aaa", "valueeee");
-//            hashmap.put("aaa2", "valueeee");
-//            hashmap.put("aaa3", "valueeee");
-//            hashmap.put("aaa4", "valueeee");
-//            hashmap.put("aaa5", "valueeee");
-//            System.out.println(gson.toJson(hashmap));
+//                System.out.println(proDAO.getProductAdmin(CREATE_AT, ASC));
 //            System.out.println(proDAO.getProductById(149));
 //            boolean test = proDAO.approveProduct("PhuongNHSE150997@fpt.edu.vn", 149, "Yes");
 //            if (test) {
@@ -723,7 +732,6 @@ public class ProductDAO {
 //            proDAO.getTop10ProductByMonth(9).forEach(i -> {
 //                System.out.println(i);
 //            });
-//>>>>>>> bf00d6014eb4ad09bbd6f6a203b66cd9393c0ecf
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();

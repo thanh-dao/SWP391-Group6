@@ -37,6 +37,15 @@ public class UserDTO {
         this.lastName = lastName;
     }
 
+    public UserDTO(String email, String avatarLink, String firstName, String lastName, String phone, int roleId) {
+        this.email = email;
+        this.avatarLink = avatarLink;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.roleId = roleId;
+    }
+
     public UserDTO(String email, String avatarLink, String firstName, String lastName, String phone, AddressDTO address) {
         this.email = email;
         this.avatarLink = avatarLink;

@@ -1,12 +1,17 @@
 package dao;
 
+import com.google.gson.Gson;
 import dto.ReviewDTO;
+import dto.ReviewImageDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import utils.DBUtil;
 
@@ -56,11 +61,21 @@ public class ReviewDAO {
         return Double.parseDouble(String.format("%,.1f", rs.getDouble(1)));
     }
 
-    public List<ReviewDTO> getListReviewForCheck() throws ClassNotFoundException, SQLException {
+    public List<ReviewDTO> getListReviewForCheck(int option, boolean existAdmin) throws ClassNotFoundException, SQLException {
+        String o = "status ";
+        if (option == 1 && existAdmin) {
+            o += "= 1";
+        } else if (option == 0 && existAdmin) {
+            o += "= 0";
+        } else if (option == -1 && !existAdmin) {
+            o += "is null AND email_admin is null";
+        } else {
+            o = null;
+        }
         List<ReviewDTO> list = new ArrayList<>();
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT p.product_id, u.avatar, u.first_name, u.last_name, r.comment, r.rating, r.date, r.review_id, r.email_admin, r.status \n"
-                + "FROM (SELECT * FROM review WHERE status is null AND email_admin is null) r\n"
+                + "FROM (SELECT * FROM review WHERE " + o + ") r\n"
                 + "LEFT JOIN [order_detail] o ON r.order_detail_id = o.order_detail_id \n"
                 + "LEFT JOIN order_by_shop os ON o.order_by_shop_id = os.order_by_shop_id\n"
                 + "LEFT JOIN [order] od ON od.order_id = os.order_id\n"
@@ -68,11 +83,10 @@ public class ReviewDAO {
                 + "LEFT JOIN product p ON o.product_id = p.product_id\n"
                 + "ORDER BY r.date"
         );
-//        stm.setInt(1, status);
-//        stm.setBoolean(2, adminExist);
         ResultSet rs = stm.executeQuery();
         ReviewImageDAO ri = new ReviewImageDAO();
         ProductDAO p = new ProductDAO();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         while (rs.next()) {
             list.add(new ReviewDTO(
                     rs.getInt("review_id"),
@@ -121,14 +135,48 @@ public class ReviewDAO {
         return arr;
     }
 
+    public String getReviewJson(List<ReviewDTO> reviewList) throws ClassNotFoundException, SQLException {
+        Gson gson = new Gson();
+        HashMap<String, String> hashmap = new HashMap<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String a = "[";
+        for (ReviewDTO r : reviewList) {
+            hashmap.put("reviewId", String.valueOf(r.getReviewId()));
+            hashmap.put("date", formatter.format(r.getDate()));
+            hashmap.put("userName", r.getName());
+            hashmap.put("productId", String.valueOf(r.getProduct().getProductId()));
+            hashmap.put("productName", r.getProduct().getName());
+            hashmap.put("productImage", r.getProduct().getMainImage().getUrl());
+            hashmap.put("rating", String.valueOf(r.getRating()));
+            hashmap.put("comment", r.getComment());
+            for (int i = 0; i < 5; i++) {
+                if (i < r.getImage().size()) {
+                    hashmap.put("image" + i, r.getImage().get(i).getUrl());
+                } else {
+                    hashmap.put("image" + i, "");
+                }
+            }
+            a += gson.toJson(hashmap) + ",";
+        }
+        return a + "]";
+    }
+
+    public boolean updateReview(String emailAdmin, int reviewId, boolean status) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("UPDATE review \n"
+                + "SET email_admin = ?, status = ? \n"
+                + "WHERE review_id = ?");
+        stm.setString(1, emailAdmin);
+        stm.setBoolean(2, status);
+        stm.setInt(3, reviewId);
+        return stm.executeUpdate() == 1;
+    }
+
     public static void main(String[] args) {
         ReviewDAO r = new ReviewDAO();
         try {
-            System.out.println(Calendar.getInstance().get(Calendar.MONTH));
-            System.out.println(r.getListReviewForCheck());
-//            System.out.println(r.getListReviewForCheck());
-//            System.out.println(r.getReview(384));
-//            System.out.println(r.getAVGRatingOfProduct(384));
+            System.out.println(r.getReviewJson(r.getListReviewForCheck(1, true)));
+//            System.out.println(r.updateReview("ThinhPQSE151077@fpt.edu.vn", 25, true));
         } catch (Exception e) {
         }
     }

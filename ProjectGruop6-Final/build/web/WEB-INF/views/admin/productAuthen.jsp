@@ -1,8 +1,3 @@
-<%-- 
-    Document   : productAuthen
-    Created on : Sep 14, 2022, 4:37:28 AM
-    Author     : ADmin
---%>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -27,7 +22,6 @@
                 box-sizing: content-box;
             }
 
-
             .table-res {
                 display: inline-block;
                 overflow-x: auto;
@@ -48,13 +42,65 @@
                 width: 200px;
                 height: 200px;
             }
+
+            .font-a a{
+                color: #FFA500;
+                /*text-decoration: none;*/
+            }
+
+            .hinden-text {
+                margin: 0;
+                font-size: 16px;
+                padding: 3px;
+                width: 75px;
+                overflow: hidden;
+                white-space: nowrap; 
+                text-overflow: ellipsis;
+            }
+
+            .tooltip-text {
+                text-decoration:none;
+                position:relative;
+            }
+            .tooltip-text span {
+                display:none;
+            }
+            .tooltip-text:hover span {
+                border-radius: 3px;
+                font-size: 16px;
+                padding: 1px 5px;
+                display: block;
+                position:fixed;
+                overflow:hidden;
+                background-color: #35363A;
+                color: #CCC;
+                z-index: 1000;
+                white-space: nowrap;
+            }
+
+            a {
+                color: black;
+            }
+
+            a:hover {
+                color: none;
+                text-decoration: none;
+                color: #FFA500;
+            }
+
+            .br-form {
+                background: #FFF;
+                padding: 10px;
+                border-radius: 3px;
+                margin-bottom: 10px;
+            }
         </style>
         <title>Hello, world!</title>
     </head>
 
     <body>
         <div class="col d-flex">
-            <!--Div that will hold the pie chart-->
+<!--            Div that will hold the pie chart-->
             <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
                 <a href="#" class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
                     <svg class="bi me-2" width="40" height="32">
@@ -68,21 +114,21 @@
                 <hr>
                 <ul class="nav nav-pills flex-column overflow-hidden mb-auto ">
                     <li class="nav-item">
-                        <a href="<c:url value="/admin/productAuthen.do"/>" class="nav-link active text-white">
+                        <a href="<c:url value="/admin/productAuthen.do?status=nary"/>" class="nav-link active text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#grid"></use>
                             </svg>
                             Sản phẩm
                         </a>
                     </li>
-                    <li class="nav-item">
+<!--                    <li class="nav-item">
                         <a href="<c:url value="/admin/deleteProduct.do"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#grid"></use>
                             </svg>
                             Xóa sản phẩm
                         </a>
-                    </li>
+                    </li>-->
                     <li class="nav-item">
                         <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
@@ -93,14 +139,14 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="<c:url value="/admin/reviewAuthen.do"/>" class="nav-link text-white">
+                        <a href="<c:url value="/admin/reviewAuthen.do?status=nary"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#people-circle"></use>
                             </svg>
                             Đánh giá
                         </a>
                     </li>
-                    <li class="nav-item" style="display: ${ sessionScope.acc.roleId== 2 ? "block":"none"}">
+                    <li class="nav-item" style="display: ${sessionScope.user.roleId == 1 ? "block":"none"}">
                         <a href="<c:url value="/admin/adminAuthen.do"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#people-circle"></use>
@@ -112,67 +158,81 @@
                 </ul>
                 <hr>
             </div>
-            <div class="table-responsive container p-3 ">
-                <div class="table-responsive-md container p-3">
-                    <table class="table caption-top table-striped table-bordered over-flow-y table-hover border-dark">
-                        <caption>Danh sách sản phẩm</caption>
-                        <thead>
-                            <tr>
-                                <th scope="col">STT</th>
-                                <th scope="col">Tên sản phẩm</th>
-                                <th scope="col">Hình ảnh</th>
-                                <th scope="col">Giá tiền</th>
-                                <th scope="col">Ngày đăng</th>
-                                <th scope="col">Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="p" items="${listProduct}" varStatus="loop">
-                                <tr>
-                                    <td style="">${loop.count}</td>
-                                    <td>${p.getName()}</td>
-                                    <td>
-                                        <img class="img-fluid product-img" src="<c:url value="${p.getMainImage().url}"/>" alt="">
-                                    </td>
-                                    <td>
-                                        ${p.getPrice()} VNĐ
-                                    </td>
-                                    <td>
-                                        ${p.getCreateAt()}
-                                    </td>
-                                    <td>
-                                        <div class="d-flex gap-3 ">
-                                            <div class="col">
-                                                <button type="button" class="btn btn-danger mb-3 "><a href="<c:url value="/admin/checkProductAd.do?productId=${p.productId}"/>"/>Chi tiết</a></button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-
-                        </tbody>
-                    </table>
-                </div>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination d-flex justify-content-center">
-                        <li class="page-item"><a class="page-link" href="#">Trước</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Sau</a></li>
-                    </ul>
-                </nav>
-            </div>
-
         </div>
-
-
+        <c:if test="${not empty productList}">
+            <div class="container br-form">
+                <h3 style="text-align: center; ">Duyệt sản phẩm</h3>
+                <ul class="nav nav-tabs" style="margin-bottom: 20px;">               
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="<c:url value="/admin/productAuthen.do?status=nary"/>">Chờ duyệt</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<c:url value="/admin/productAuthen.do?status=ar"/>">Đã duyệt</a>
+                    </li>
+                </ul>
+                <table class="table table-striped" id="productTable">
+                    <thead style="background-color: #FFEFD5;">
+                        <tr id="list-header">
+                            <th class="col-2" scope="col">Ngày đăng</th>
+                            <th class="col-6" scope="col">Tên sản phẩm</th>
+                            <th scope="col" class="col-1">Hình ảnh</th>
+                            <th class="col-2" scope="col">Giá</th>
+                            <th class="col-1" scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </c:if>
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
         <script>
+            var table;
+            var productList = ${productList};
+    //            console.log(productList);
+            var productName;
+            function initTableData() {
+                var modifiedUsers = productList.map(p => {
+                    if (String('${status}') == 'nary') {
+                        option = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">Launch demo modal</button>`;
+                    } else if (String('${status}') == 'ar') {
+                        option = `<button type="button" onclick="deleteProduct(` + p.productId + `, this)" class="btn btn-danger mb-3">Xóa</button>`;
+                    }
+                    console.log(option);
+                    return {
+                        date: p.date,
+                        name: `<a href="/ProjectGroup6/home/productDetail.do?productId=` + p.productId + `"> 
+                                <p class="tooltip-text">` + p.name + `<span>` + p.name + `</span></p>`,
+                        image: p.image,
+                        price: `<div style="display: flex; justify-content: flex-end; padding-top: 5px; color: red;">` + p.price +
+                                `</div>`,
+                        option: option,
+                    };
+                });
+                console.log(modifiedUsers);
+                table = $('#productTable').DataTable({
+                    "processing": true,
+                    data: modifiedUsers,
+                    columns: [
+                        {data: 'date'},
+                        {data: 'name'},
+                        {data: 'image',
+                            render: function (data) {
+                                if (data == "" || data == null) {
+                                    return null;
+                                }
+                                return '<img src="' + data + '" alt="' + data + '"height="100" width="100"/>';
+                            }
+                        },
+                        {data: 'price'},
+                        {data: 'option'},
+                    ]
+                });
+            }
             const navElements = document.querySelectorAll(".nav-item");
             const removeActiveClass = (elements) => {
                 elements.forEach(item => {
@@ -190,7 +250,41 @@
             const navBtn = document.querySelector(".navigate-button")
             let opened = false;
             const navMenu = document.querySelector(".nav-menu");
-
+            $(document).ready(function () {
+                initTableData();
+            });
+            const deleteProduct = (pId, el) => {
+                swal({
+                    title: "",
+                    text: "Bạn có muốn xóa sản phẩm này?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                $.ajax("<c:url value="/GetProductAjax"/>", {
+                                    data: {
+                                        productId: pId,
+                                        func: "deleteProduct",
+                                        emailAdmin: '${sessionScope.user.email}',
+                                    },
+                                    success: function (data, textStatus, jqXHR) {
+                                        swal("Đã xóa thành công", {
+                                            icon: "success",
+                                        });
+                                        const tableRow = el.parentElement.parentElement
+                                        tableRow.remove()
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        swal("Xóa thất bại!!!", {
+                                            icon: "error",
+                                        });
+                                    }
+                                })
+                            }
+                        });
+            }
             navBtn.addEventListener("click", () => {
                 console.log(1);
                 opened = !opened;

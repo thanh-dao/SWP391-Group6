@@ -87,7 +87,7 @@
         <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
             <a href="#" class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
                 <svg class="bi me-2" width="40" height="32">
-           git      <use xlink:href="#bootstrap"></use>
+                git      <use xlink:href="#bootstrap"></use>
                 </svg>
                 <span class="fs-4 text-align">Home</span>
             </a>
@@ -146,6 +146,7 @@
                     <div class="card-body d-flex justify-content-between">
                         <div class="card-body-left">
                             <h3 class="card-title">${userCount}</h3>
+                            <p class="counter">1200</p>
                             <p>Người dùng</p>
                         </div>
                         <div class="card-body-right d-flex mb-3 align-items-center">
@@ -188,12 +189,12 @@
                     </div>
                 </div>
             </div>
-<div class="row-custom">
-            <canvas class="" id="chart0"></canvas>
+            <div class="row-custom">
+                <canvas class="" id="chart0"></canvas>
 
-        </div>
+            </div>
 
-        <!--<div class="container">-->
+            <!--<div class="container">-->
 
             <div class="row">
                 <table class="table table-responsive col-md-8 table-hover">
@@ -205,15 +206,15 @@
                         </tr>
                     </thead>
                     <tbody>
-        <!--            <h1>${top10Product}</h1>
-                    <h1>${top10Seller}</h1>-->
-                        <c:forEach items="${top10Product}" var="i" varStatus="loop">
-                            <tr>
-                                <th scope="row">${loop.count}</th>
-                                <td>${i.name}</td>
-                                <td>${i.quantity}</td>
-                            </tr>
-                        </c:forEach>
+                    <h1>${top10Product}</h1>
+                    <h1>${top10Seller}</h1>
+                    <c:forEach items="${top10Product}" var="i" varStatus="loop">
+                        <tr>
+                            <th scope="row">${loop.count}</th>
+                            <td>${i.name}</td>
+                            <td>${i.quantity}</td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
 
@@ -230,7 +231,6 @@
                     <tbody>
                         <c:forEach items="${top10Seller}" var="i" varStatus="loop">
                             <tr>
-                                <th scope="row">${loop.count}</th>
                                 <td>${i.key}</td>
                                 <td>${i.value}</td>
                             </tr>
@@ -238,125 +238,170 @@
                     </tbody>
                 </table> 
             </div>   
+
+
+
+            <!-- new table-->
+            <div class="summary">
+                <div class="container">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Số lượng đã bán</th>
+                                    <th>Email đã bán</th>
+                                    <th>Người bán</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Anna</td>
+                                    <td>Pitt</td>
+                                    <td>35</td>
+                                    <td>New York</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>            
+
+
         </div>
-              
-        </div>
-        <!-- add ionicons  -->
-        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-        <!-- add bootstrap -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
 
-        <script>
-            const navElements = document.querySelectorAll(".nav-item");
-            const removeActiveClass = () => {
-                navElements.forEach(item => {
-                    item.childNodes[1].classList.remove("active");
-                })
-            }
-            navElements.forEach(i => {
-                i.addEventListener("click", () => {
-                    removeActiveClass()
-                    i.childNodes[1].classList.add("active");
-                })
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+            integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--counting up-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"
+            integrity="sha512-ZKNVEa7gi0Dz4Rq9jXcySgcPiK+5f01CqW+ZoKLLKr9VMXuCsw3RjWiv8ZpIOa0hxO79np7Ec8DDWALM0bDOaQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/Counting-Up-To-Numerical-Values-On-Scroll-jQuery-Countup-js/jquery.countup.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- add ionicons  -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- add bootstrap -->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>-->
+
+    <script>
+        const navElements = document.querySelectorAll(".nav-item");
+        const removeActiveClass = () => {
+            navElements.forEach(item => {
+                item.childNodes[1].classList.remove("active");
             })
-            const navBtn = document.querySelector(".navigate-button")
-            let opened = false;
-            const navMenu = document.querySelector(".nav-menu");
-            navBtn.addEventListener("click", () => {
-                opened = !opened;
-                const navMenuStyle = navMenu.style
-                if (opened) {
-                    navBtn.innerHTML = '<ion-icon name="close-outline"></ion-icon>'
-                    document.addEventListener("click", (e) => {
-                        if (!navMenu.contains(e.target)) {
-                            navMenuStyle.width = "0"
-                            opened = false;
-                            navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
-                        }
-                    })
-                    navMenuStyle.width = "300px";
-                } else {
-                    navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
-                    navMenuStyle.width = "0"
-                }
+        }
+        navElements.forEach(i => {
+            i.addEventListener("click", () => {
+                removeActiveClass()
+                i.childNodes[1].classList.add("active");
             })
-
-        </script>
-
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-
-            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            const curMonth = new Date().getMonth() + 1;
-
-
-
-            const labels = [];
-            for (let i = curMonth - 1; i >= curMonth - 6; i--) {
-                labels.push(months[i]);
+        })
+        const navBtn = document.querySelector(".navigate-button")
+        let opened = false;
+        const navMenu = document.querySelector(".nav-menu");
+        navBtn.addEventListener("click", () => {
+            opened = !opened;
+            const navMenuStyle = navMenu.style
+            if (opened) {
+                navBtn.innerHTML = '<ion-icon name="close-outline"></ion-icon>'
+                document.addEventListener("click", (e) => {
+                    if (!navMenu.contains(e.target)) {
+                        navMenuStyle.width = "0"
+                        opened = false;
+                        navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
+                    }
+                })
+                navMenuStyle.width = "300px";
+            } else {
+                navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
+                navMenuStyle.width = "0"
             }
-            console.log(labels)
-            console.log(${totalReviewCurrentMonths})
-            console.log(${totalIncomeCurrentMonths})
-            console.log(${totalOrderCurrentMonth})
-            const data = {
-                labels: labels.reverse(),
-                datasets: [
-                    {
-                        label: 'Đơn hàng',
-                        backgroundColor: 'rgb(255, 99, 132)',
-                        borderColor: 'rgb(255, 99, 132)',
-                        data: ${totalOrderCurrentMonth}.reverse(),
-                    },
-                    {
-                        label: 'Doanh số',
-                        backgroundColor: '#429ef5',
-                        borderColor: '#429ef5',
-                        data: ${totalIncomeCurrentMonths}.reverse(),
-                    },
-                    {
-                        label: 'Đánh giá',
-                        backgroundColor: '#c242f5',
-                        borderColor: '#c242f5',
-                        data: ${totalReviewCurrentMonths}.reverse(),
-                    },
-                ]
-            };
-            const config = {
-                type: 'line',
-                data: data,
-                options: {
-                    responsive: true,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    }
+        })
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const curMonth = new Date().getMonth() + 1;
+
+
+
+        const labels = [];
+        for (let i = curMonth - 1; i >= curMonth - 6; i--) {
+            labels.push(months[i]);
+        }
+        console.log(labels)
+        console.log(${totalReviewCurrentMonths})
+        console.log(${totalIncomeCurrentMonths})
+        console.log(${totalOrderCurrentMonth})
+        const data = {
+            labels: labels.reverse(),
+            datasets: [
+                {
+                    label: 'Đơn hàng',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ${totalOrderCurrentMonth}.reverse(),
                 },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Chart.js Line Chart - Multi Axis'
-                    }
+                {
+                    label: 'Doanh số',
+                    backgroundColor: '#429ef5',
+                    borderColor: '#429ef5',
+                    data: ${totalIncomeCurrentMonths}.reverse(),
                 },
-                scales: {
-                    y: {
-                        type: 'linear',
-                        display: true,
-                        position: 'left',
-                    },
+                {
+                    label: 'Đánh giá',
+                    backgroundColor: '#c242f5',
+                    borderColor: '#c242f5',
+                    data: ${totalReviewCurrentMonths}.reverse(),
+                },
+            ]
+        };
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
                 }
-            };
-            const myChart = new Chart(
-                    document.getElementById('chart0'),
-                    config
-                    );
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Chart.js Line Chart - Multi Axis'
+                }
+            },
+            scales: {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                },
+            }
+        };
+        const myChart = new Chart(
+                document.getElementById('chart0'),
+                config
+                );
 
-        </script>
+    </script>
+    <script>
+        $('.counter').countUp();
+    </script>
 
 
-    </body>
+</body>
 
 </html>
