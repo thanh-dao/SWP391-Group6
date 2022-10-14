@@ -247,9 +247,9 @@
 
                                 renderCity();
                             } else {
-                                const cityId = ${sessionScope.user == null ? "1" : sessionScope.user.address.cityId};
-                                const districtId = ${sessionScope.user == null ? "1" : sessionScope.user.address.districtId};
-                                const wardId = ${sessionScope.user == null ? "1" : sessionScope.user.address.wardId};
+                                const cityId = ${sessionScope.user == null ? 1 : sessionScope.user.address.cityId == null ? 1 : sessionScope.user.address.cityId};
+                                const districtId = ${sessionScope.user == null ? 1 : sessionScope.user.address.districtId == null ? 1 : sessionScope.user.address.districtId};
+                                const wardId = ${sessionScope.user == null ? 1 : sessionScope.user.address.wardId == null ? 1 : sessionScope.user.address.wardId};
                                 renderCity()
                                 renderWardOrDistrict(districtId, cityId, "district", "Chọn quận/huyện");
                                 renderWardOrDistrict(wardId, districtId, "ward", "Chọn phường/xã");
