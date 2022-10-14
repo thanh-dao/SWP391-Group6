@@ -80,7 +80,7 @@ public class OrderDetailDAO {
         stm.executeUpdate();
     }
 
-    public boolean checkQuantity(int orderByShopId, int productId) throws ClassNotFoundException, SQLException {
+    public boolean checkQuantity(int orderByShopId, int productId, int quantity) throws ClassNotFoundException, SQLException {
         Connection conn;
         conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT quantity FROM [order_detail] "
@@ -102,7 +102,8 @@ public class OrderDetailDAO {
 //            d.addOrderDetail(14, 150);
 //            List<OrderDetailDTO> od = d.getOrderDetail(15);
 //            System.out.println(od.get(0).getProduct().getMainImage().getUrl());
-System.out.println(d.checkQuantity(14, 149));
+//System.out.println(d.checkQuantity(14, 149, 2));
+            d.deleteOrderDetail(14, 152);
         } catch (Exception e) {
         }
     }

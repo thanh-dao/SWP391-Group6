@@ -258,7 +258,7 @@
                                                         <button class="btn-style-left" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, ${p.getQuantity()}, 'minus', this)">-</button>
                                                         <input class="ip-qua-style" value=${p.getQuantity()}>
                                                         <button class="btn-style-right" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, ${p.getQuantity()}, 'sum', this)">+</button>
-                                                        <div class=" style-product-cart delete-icon"
+                                                        <div class=" style-product-cart delete-icon " onclick="deleteOrderDetail(${p.getProductId()}, ${i.orderByShopId}, this)" 
                                                              style="justify-content: center">
                                                             <a class="show-cart" style="color: white"><i
                                                                     class="fas fa-trash delete-trash"></i></a>
@@ -332,13 +332,15 @@
                                     success: function (data, textStatus, jqXHR) {
                                         swal("Đã xóa thành công", {
                                             icon: "success",
+                                            buttons: false,
                                         });
-                                        const tableRow = el.parentElement.parentElement.parentElement.parentElement
+                                        const tableRow = el.parentElement.parentElement.parentElement
                                         tableRow.remove()
                                     },
                                     error: function (jqXHR, textStatus, errorThrown) {
                                         swal("Xóa thất bại!!!", {
                                             icon: "error",
+                                            buttons: false,
                                         });
                                     }
                                 })
