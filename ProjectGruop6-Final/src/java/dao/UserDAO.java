@@ -20,7 +20,6 @@ import java.util.List;
 import utils.Constants;
 import utils.DBUtil;
 
-
 public class UserDAO {
 
     /**
@@ -47,8 +46,9 @@ public class UserDAO {
         stm.setString(1, email);
         ResultSet rs = stm.executeQuery();
         while (rs.next()) {
+            String storedAvatar = rs.getString("avatar");
             UserDTO user = new UserDTO(
-                    rs.getString(1), Constants.IMAGE_RELATIVE_DIRECTORY + "/" + rs.getString("avatar"), rs.getString(3),
+                    rs.getString(1), storedAvatar.contains("http")  ? storedAvatar : Constants.IMAGE_RELATIVE_DIRECTORY + "/" + storedAvatar, rs.getString(3),
                     rs.getString(4), rs.getString(5), rs.getDate(6),
                     new AddressDAO().getFullAddress(
                             rs.getString("address"),
@@ -56,7 +56,7 @@ public class UserDAO {
                             rs.getString("district_id"),
                             rs.getString("ward_id")
                     ),
-                     rs.getInt(11)
+                    rs.getInt(11)
             );
             return user;
         }
@@ -94,7 +94,7 @@ public class UserDAO {
         stm.setString(3, lastName);
         stm.setString(4, firstName);
         stm.executeUpdate();
-        return new UserDTO(email, Constants.IMAGE_RELATIVE_DIRECTORY + "/" +  avatarLink, firstName, lastName);
+        return new UserDTO(email, Constants.IMAGE_RELATIVE_DIRECTORY + "/" + avatarLink, firstName, lastName);
     }
 
     public UserDTO getUserByProductId(int productId) throws ClassNotFoundException, SQLException {
@@ -109,8 +109,9 @@ public class UserDAO {
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
         while (rs.next()) {
+            String storedAvatar = rs.getString("avatar");
             UserDTO user = new UserDTO(
-                    rs.getString("email"), Constants.IMAGE_RELATIVE_DIRECTORY + "/" + rs.getString("avatar"), rs.getString("first_name"),
+                    rs.getString("email"), storedAvatar.contains("http")  ? storedAvatar : Constants.IMAGE_RELATIVE_DIRECTORY + "/" + storedAvatar, rs.getString("first_name"),
                     rs.getString("last_name"), rs.getString("phone"),
                     new AddressDTO(rs.getString("address"), rs.getString(7),
                             rs.getString(8), rs.getString(9))
