@@ -97,19 +97,11 @@
             <hr>
             <ul class="nav nav-pills flex-column overflow-hidden mb-auto ">
                 <li class="nav-item">
-                    <a href="<c:url value="/admin/productAuthen.do"/>" class="nav-link text-white">
+                    <a href="<c:url value="/admin/productAuthen.do?status=nary"/>" class="nav-link text-white">
                         <svg class="bi me-2" width="16" height="16">
                         <use xlink:href="#grid"></use>
                         </svg>
                         Sản phẩm
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<c:url value="/admin/deleteProduct.do"/>" class="nav-link text-white">
-                        <svg class="bi me-2" width="16" height="16">
-                        <use xlink:href="#grid"></use>
-                        </svg>
-                        Xóa sản phẩm
                     </a>
                 </li>
                 <li class="nav-item">
@@ -122,15 +114,15 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="<c:url value="/admin/reviewAuthen.do"/>" class="nav-link text-white">
+                    <a href="<c:url value="/admin/reviewAuthen.do?status=nary"/>" class="nav-link text-white">
                         <svg class="bi me-2" width="16" height="16">
                         <use xlink:href="#people-circle"></use>
                         </svg>
                         Đánh giá
                     </a>
                 </li>
-                <li class="nav-item" style="display: ${ sessionScope.acc.roleId== 2 ? "block":"none"}">
-                    <a href="<c:url value="/admin/adminAuthen.do"/>" class="nav-link text-white">
+                <li class="nav-item" style="display: ${sessionScope.user.roleId == 1 ? "block":"none"}">
+                    <a href="<c:url value="/admin/adminAuthen.do?status=user"/>" class="nav-link text-white">
                         <svg class="bi me-2" width="16" height="16">
                         <use xlink:href="#people-circle"></use>
                         </svg>
@@ -287,9 +279,9 @@
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <!-- add bootstrap -->
-<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>-->
+    <!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>-->
 
     <script>
         const navElements = document.querySelectorAll(".nav-item");

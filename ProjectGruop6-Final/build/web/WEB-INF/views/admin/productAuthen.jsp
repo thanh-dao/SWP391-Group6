@@ -100,7 +100,7 @@
 
     <body>
         <div class="col d-flex">
-<!--            Div that will hold the pie chart-->
+            <!--            Div that will hold the pie chart-->
             <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
                 <a href="#" class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
                     <svg class="bi me-2" width="40" height="32">
@@ -121,14 +121,6 @@
                             Sản phẩm
                         </a>
                     </li>
-<!--                    <li class="nav-item">
-                        <a href="<c:url value="/admin/deleteProduct.do"/>" class="nav-link text-white">
-                            <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#grid"></use>
-                            </svg>
-                            Xóa sản phẩm
-                        </a>
-                    </li>-->
                     <li class="nav-item">
                         <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
@@ -147,14 +139,13 @@
                         </a>
                     </li>
                     <li class="nav-item" style="display: ${sessionScope.user.roleId == 1 ? "block":"none"}">
-                        <a href="<c:url value="/admin/adminAuthen.do"/>" class="nav-link text-white">
+                        <a href="<c:url value="/admin/adminAuthen.do?status=user"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#people-circle"></use>
                             </svg>
                             Admin
                         </a>
                     </li>
-                </ul>
                 </ul>
                 <hr>
             </div>
@@ -193,7 +184,7 @@
         <script>
             var table;
             var productList = ${productList};
-    //            console.log(productList);
+            //            console.log(productList);
             var productName;
             function initTableData() {
                 var modifiedUsers = productList.map(p => {
