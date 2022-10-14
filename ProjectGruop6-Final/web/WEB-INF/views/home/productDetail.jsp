@@ -406,8 +406,8 @@
             </c:if>
         </div>
     </body>
-    <script>
-        const tooltips = document.querySelectorAll('.tooltip-text span');
+<script>
+    const tooltips = document.querySelectorAll('.tooltip-text span');
 //        window.onmousemove = function (e) {
 //            var x = (e.clientX + 20) + 'px',
 //                    y = (e.clientY + 20) + 'px';
@@ -416,22 +416,22 @@
 //                tooltips[i].style.left = x;
 //            }
 //        };
-        var style = document.createElement('style');
-        document.head.appendChild(style);
-        var matchingElements = [];
-        var allElements = document.getElementsByTagName('*');
-        for (var i = 0, n = allElements.length; i < n; i++) {
-            var attr = allElements[i].getAttribute('.tooltip-text span');
-            if (attr) {
-                allElements[i].addEventListener('mouseover', hoverEvent);
-            }
+    var style = document.createElement('style');
+    document.head.appendChild(style);
+    var matchingElements = [];
+    var allElements = document.getElementsByTagName('*');
+    for (var i = 0, n = allElements.length; i < n; i++) {
+        var attr = allElements[i].getAttribute('.tooltip-text span');
+        if (attr) {
+            allElements[i].addEventListener('mouseover', hoverEvent);
         }
-        function hoverEvent(event) {
-            event.preventDefault();
-            x = event.x - this.offsetLeft;
-            y = event.y - this.offsetTop;
-            y += 10;
-            style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
-        }
-    </script>
+    }
+    function hoverEvent(event) {
+        event.preventDefault();
+        x = event.x - this.offsetLeft;
+        y = event.y - this.offsetTop;
+        y += 10;
+        style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
+    }
+</script>
 </html>

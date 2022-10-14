@@ -245,7 +245,7 @@ public class UserDAO {
     public static void main(String[] args) {
         UserDAO uDAO = new UserDAO();
         try {
-            System.out.println(uDAO.getUserByRole(false).size());
+            System.out.println(uDAO.getUserByRole(true).size());
 //        
         } catch (Exception ex) {
         }
