@@ -246,6 +246,7 @@ public class UserDAO {
     public static void main(String[] args) {
         UserDAO uDAO = new UserDAO();
         try {
+<<<<<<< HEAD
 //            uDAO.getTop10SellerByMonth(9).forEach((k, v) -> {
 //                System.out.println(k + "  " + v);
 //            });
@@ -263,6 +264,9 @@ System.out.println(uDAO.getUserByRole(false).size());
             System.out.println(uDAO.getUserByRole(false).size());
             System.out.println(uDAO.getUserByRole(true).size());
 //        
+=======
+            
+>>>>>>> 99e41e5b104ece1980a6b3df4bef84f4bf3419f3
         } catch (Exception ex) {
         }
     }
