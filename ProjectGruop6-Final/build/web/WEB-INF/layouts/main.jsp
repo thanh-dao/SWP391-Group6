@@ -344,7 +344,7 @@
                             <button ><a href="<c:url value="/home/uploadProduct.do"/>"><i class="fa-sharp fa-solid fa-file-pen"></i>Đăng tin</a></button>
                             <button ><a href="<c:url value="/order/history.do"/>"><i class="fa-sharp fa-solid fa-clipboard"></i>Đơn hàng</a></button>
 
-                            <button style="display: ${sessionScope.user.roleId== 1 or sessionScope.user.roleId== 2 ? "block":"none"}"><a href="<c:url value="/admin/productAuthen.do"/>"><i class="fas fa-user-shield"></i>Duyệt</a></button>
+                            <button style="display: ${sessionScope.user.roleId== 1 or sessionScope.user.roleId== 2 ? "block":"none"}"><a href="<c:url value="/admin/productAuthen.do?status=nary"/>"><i class="fas fa-user-shield"></i>Duyệt</a></button>
 
                             <button ><a href="<c:url value="/cart/cart.do"/>"><i class="fa-solid fa-cart-shopping"></i>Giỏ hàng</a></button>
                             <c:if test ="${sessionScope.user == null}">

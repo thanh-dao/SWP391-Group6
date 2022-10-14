@@ -283,7 +283,7 @@
                                 <fmt:setLocale value="vi_VN"/>
                                 <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>
                             <div class="buy d-flex justify-content-around" style="margin: 50px 0 20px 0;">
-                                <button onclick="window.location.href = '<c:url value="/cart/cart.do?productId=${product.productId}"/>'">Mua</button>
+                                <button onclick="addOrder(${product.productId})">Mua</button>
                             </div>
                         </div>
                     </div>
@@ -407,6 +407,28 @@
         </div>
     </body>
     <script>
+        const addOrder = (pId) => {
+            $.ajax("<c:url value="/cart/cart.do"/>", {
+                data: {
+                    func: 'add',
+                    pId: pId,
+                },
+                success: function (data, textStatus, jqXHR) {
+                    swal("Đã thêm vào giỏ hàng", {
+                        icon: "success",
+                        buttons: false,
+                        timer: 1000
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    swal("Thêm vào giỏ hàng thất bại!!!", {
+                        icon: "error",
+                        buttons: false,
+                        timer: 1000
+                    });
+                }
+            })
+        }
         const tooltips = document.querySelectorAll('.tooltip-text span');
 //        window.onmousemove = function (e) {
 //            var x = (e.clientX + 20) + 'px',

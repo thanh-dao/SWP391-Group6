@@ -35,16 +35,33 @@ public class CartController extends HttpServlet {
             case "cart": {
                 try {
                     if (session.getAttribute("user") == null) {
+                        System.out.println("HERE=====================================");
                         request.setAttribute("controller", "user");
                         request.setAttribute("action", "login");
                     } else {
+                        OrderDAO o = new OrderDAO();
                         UserDTO user = (UserDTO) session.getAttribute("user");
-                        if (request.getParameter("productId") != null) {
-                            int productId = Integer.parseInt(request.getParameter("productId"));
-                            OrderDAO od = new OrderDAO();
-                            od.addCart(user.getEmail(), productId);
+                        System.out.println(user.toString());
+                        if (request.getParameter("func") != null
+                                && request.getParameter("pId") != null) {
+                            String func = request.getParameter("func");
+                            int productId = Integer.parseInt(request.getParameter("pId"));
+//                            System.out.println("HERE=====================================");
+                            switch (func) {
+                                case "add": {
+                                    o.addCart(user.getEmail(), productId);
+                                }
+                                break;
+                                case "delete": {
+
+                                }
+                                break;
+                                default:
+                                    request.setAttribute("controller", "error");
+                                    request.setAttribute("action", "index");
+                                    request.setAttribute("message", "Error when processing the request");
+                            }
                         } else {
-                            OrderDAO o = new OrderDAO();
                             OrderDTO order = o.getOrder(user.getEmail(), 0);
 //                            order.getOrderByShopList()
                             request.setAttribute("order", order);

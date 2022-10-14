@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import utils.Constants;
 import utils.DBUtil;
@@ -694,6 +695,22 @@ public class ProductDAO {
             arr.add(product);
         }
         return arr;
+    }
+    
+    public String getProductListJson(List<ProductDTO> productList) throws ClassNotFoundException, SQLException {
+        Gson gson = new Gson();
+        HashMap<String, String> hashmap = new HashMap<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String a = "[";
+        for (ProductDTO p : productList) {
+            hashmap.put("productId", String.valueOf(p.getProductId()));
+            hashmap.put("date", formatter.format(p.getCreateAt()));
+            hashmap.put("name", p.getName());
+            hashmap.put("image", p.getMainImage().getUrl());
+            hashmap.put("price", String.valueOf(p.getPrice()));
+            a += gson.toJson(hashmap) + ",";
+        }
+        return a + "]";
     }
 
     public static void main(String[] args) {

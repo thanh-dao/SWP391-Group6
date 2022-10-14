@@ -213,18 +213,18 @@
                             <table style="margin-bottom: 1rem;">
                                 <thead>                                  
                                     <tr row>
-                                        <th><input type="checkbox" name=""></th>
+                                        <th><input type="checkbox" onclick="handleSelectAll()" name=""></th>
                                         <th class="col-md-6 col-5">Sản phẩm</th>
                                         <th class="col-md-3 col-3">Đơn giá</th>
                                         <th class="col-md-3 col-4">Số lượng</th>
                                     </tr>
                                 </thead>
                             </table>
-                            <table class="table table-striped">
-                                <c:forEach items="${order.getOrderByShopList()}" var="i">
+                            <c:forEach items="${order.getOrderByShopList()}" var="i">
+                                <table class="table table-striped">
                                     <thead style="background-color: #FFEFD5;">                                  
                                         <tr row>
-                                            <th><input type="checkbox" name=""></th>
+                                            <th><input type="checkbox" onclick="handleSelectByShop(this)" name="${i.orderByShopId}"></th>
                                             <th class="col-md-6 col-5 font-a">Sản phẩm của <a href="#">${i.getName()}</a></th>
                                             <th class="col-md-3 col-3"></th>
                                             <th class="col-md-3 col-4"></th>
@@ -233,7 +233,7 @@
                                     <tbody>
                                         <c:forEach items="${i.getOrderDetailList()}" var="p">
                                             <tr>
-                                                <th><input type="checkbox" name=""></th>
+                                                <th><input type="checkbox" class="product-item" price="${p.getProduct().price}" id="${p.productId}" onclick="" name=""></th>
                                                 <td style="margin: 0">
                                                     <div class="row">
                                                         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding: 0;">
@@ -268,7 +268,8 @@
                                             </tr>
                                         </c:forEach>
                                     </tbody>
-                                </c:forEach>
+                                </table>
+                            </c:forEach>
                             </table>
                         </div>
                     </div>
@@ -298,9 +299,9 @@
                             <span class="title-style">Tổng cộng</span>
                             <div class="price-content txt-style">
                                 <span>Tổng : 
-                                    <span class="price-content">
+                                    <span id="price" class="price-content">
                                         <fmt:setLocale value="vi_VN"/>
-                                        <fmt:formatNumber value="${order.total}" type="currency"/>
+                                        <fmt:formatNumber value="" type="currency"/>
                                     </span>
                                 </span>
                             </div>
@@ -311,6 +312,67 @@
 
             </div>
         </div>
+        <script>
+            const handleReview = (pId, el, option) => {
+                if (option == 'delete') {
+                    text = 'Xác nhận xóa sản phẩm !!!';
+                }
+                swal({
+                    title: "",
+                    text: text,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                        .then((commit) => {
+                            if (commit) {
+                                $.ajax("<c:url value="/cart/cart.do"/>", {
+                                    data: {
+                                        pId: pId,
+                                        func: option,
+                                    },
+                                    success: function (data, textStatus, jqXHR) {
+                                        swal("Duyệt thành công", {
+                                            icon: "success",
+                                        });
+                                        const tableRow = el.parentElement.parentElement
+                                        tableRow.remove()
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        swal("Duyệt thất bại!!!", {
+                                            icon: "error",
+                                        });
+                                    }
+                                })
+                            }
+                        });
+            }
+            const handleSelectByShop = (el) => {
+                const container = el.parentElement.parentElement.parentElement.parentElement;
+                container.querySelectorAll("tbody input[type=checkbox]").forEach(i => {
+                    i.checked = !i.checked;
+                })
+                document.getElementById("price").innerHTML = total();
+            }
+            const handleSelectAll = () => {
+                const container = document.querySelectorAll("input[type=checkbox]").forEach(i => {
+                    i.checked = !i.checked;
+                })
+                document.getElementById("price").innerHTML = total();
+            }
+            const total = () => {
+                var price = 0;
+                document.querySelectorAll('.product-item').forEach(i => {
+                    if (i.checked == true)
+                        price += parseInt(i.getAttribute("price"))
+                })
+                return price;
+            }
+
+            $(document).ready(function () {
+                total();
+            });
+        </script>
     </body>
 
 </html>

@@ -147,10 +147,32 @@ public class AdminController extends HttpServlet {
             }
             break;
             case "productAuthen": {
-                ProductDAO proDAO = new ProductDAO();
                 try {
-                    List<ProductDTO> list = proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC);
-                    request.setAttribute("listProduct", list);
+                    ProductDAO proDAO = new ProductDAO();
+                    if (request.getParameter("status") != null) {
+                        String status = request.getParameter("status");
+                        request.setAttribute("status", status);
+                        switch (status) {
+                            case "nary": {
+                                request.setAttribute("productList",
+                                        proDAO.getProductListJson(proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC)));
+                            }
+                            break;
+                            case "ar": {
+                                request.setAttribute("productList",
+                                        proDAO.getProductListJson(proDAO.getProductApproved(ProductDAO.APPROVE_AT, ProductDAO.DESC)));
+                            }
+                            break;
+                            default:
+                                request.setAttribute("controller", "error");
+                                request.setAttribute("action", "index");
+                                request.setAttribute("message", "Error when processing the request");
+                        }
+                    } else {
+                        request.setAttribute("controller", "error");
+                        request.setAttribute("action", "index");
+                        request.setAttribute("message", "Error when processing the request");
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -252,16 +274,16 @@ public class AdminController extends HttpServlet {
                 }
             }
             break;
-            case "deleteProduct": {
-                ProductDAO proDAO = new ProductDAO();
-                try {
-                    List<ProductDTO> productList = proDAO.getProductApproved(ProductDAO.APPROVE_AT, ProductDAO.DESC);
-                    request.setAttribute("product", productList);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            break;
+//            case "deleteProduct": {
+//                ProductDAO proDAO = new ProductDAO();
+//                try {
+//                    List<ProductDTO> productList = proDAO.getProductApproved(ProductDAO.APPROVE_AT, ProductDAO.DESC);
+//                    request.setAttribute("product", productList);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            break;
             default:
                 //chuyển đến trang thông báo lổi
                 request.setAttribute("controller", "error");
