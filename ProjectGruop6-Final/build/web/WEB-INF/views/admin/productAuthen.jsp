@@ -182,6 +182,9 @@
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
         <script>
+            function redirect(productId) {
+                window.open('/ProjectGroup6/admin/checkProductAd.do?productId=' + productId, '_blank');
+            }
             var table;
             var productList = ${productList};
             //            console.log(productList);
@@ -189,7 +192,8 @@
             function initTableData() {
                 var modifiedUsers = productList.map(p => {
                     if (String('${status}') == 'nary') {
-                        option = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">Launch demo modal</button>`;
+                        option = '<button type="button" class="btn btn-primary" data-toggle="modal" onclick="redirect(' + p.productId + ')" data-target="#exampleModalLong">Chi tiết</button>';
+//                        option += ``
                     } else if (String('${status}') == 'ar') {
                         option = `<button type="button" onclick="deleteProduct(` + p.productId + `, this)" class="btn btn-danger mb-3">Xóa</button>`;
                     }
