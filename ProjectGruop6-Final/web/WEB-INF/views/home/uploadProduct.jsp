@@ -204,7 +204,7 @@
                                 <div class="modal-dialog modal-dialog-scrollable  modal-xl" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
+                                            <h5 class="modal-title" id="exampleModalScrollableTitle">Xem trước sản phẩm</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -441,7 +441,7 @@
                                                                             <p>Đánh giá: <span class="font-bold">0</span></p>
 
                                                                         </div>
-                                                                        <p>Sản phẩm có sẵn: <span class="font-bold product-quantity"></span><p/>
+                                                                        <p>Số lượng sản phẩm: <span class="font-bold product-quantity"></span><p/>
                                                                         <h2 style="color: #E72425; text-align: right; margin-right: 20px;">
                                                                             <fmt:setLocale value="vi_VN"/>
                                                                             <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>

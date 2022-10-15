@@ -69,7 +69,7 @@
                 <hr>
                 <ul class="nav nav-pills flex-column overflow-hidden mb-auto ">
                     <li class="nav-item">
-                        <a href="<c:url value="/admin/productAuthen.do"/>" class="nav-link  text-white">
+                        <a href="<c:url value="/admin/productAuthen.do?status=nary"/>" class="nav-link active text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#grid"></use>
                             </svg>
@@ -77,15 +77,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<c:url value="/admin/deleteProduct.do"/>" class="nav-link active text-white">
-                            <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#people-circle"></use>
-                            </svg>
-                            Xóa sản phẩm
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link  text-white">
+                        <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#table"></use>
                             </svg>
@@ -94,15 +86,15 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="<c:url value="/admin/reviewAuthen.do"/>" class="nav-link text-white">
+                        <a href="<c:url value="/admin/reviewAuthen.do?status=nary"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#people-circle"></use>
                             </svg>
                             Đánh giá
                         </a>
                     </li>
-                    <li class="nav-item" style="display: ${ sessionScope.acc.roleId== 2 ? "block":"none"}">
-                        <a href="<c:url value="/admin/adminAuthen.do"/>" class="nav-link text-white">
+                    <li class="nav-item" style="display: ${sessionScope.user.roleId == 1 ? "block":"none"}">
+                        <a href="<c:url value="/admin/adminAuthen.do?status=user"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#people-circle"></use>
                             </svg>
@@ -166,107 +158,107 @@
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
         <script>
-            const deleteProduct = (pId, el) => {
-                swal({
-                    title: "",
-                    text: "Bạn có muốn xóa sản phẩm này?",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        $.ajax("<c:url value="/GetProductAjax"/>", {
-                            data: {
-                                productId: pId,
-                                func: "deleteProduct",
-                                emailAdmin: '${sessionScope.user.email}',
-                            },
-                            success: function (data, textStatus, jqXHR) {
-                                swal("Đã xóa thành công", {
-                                    icon: "success",
-                                });
-                                const tableRow = el.parentElement.parentElement.parentElement.parentElement
-                                tableRow.remove()
-                            }, 
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                swal("Xóa thất bại!!!", {
-                                    icon: "error",
-                                });
-                            }
-                        })
-                    }
-                  });
-            }
-            
-            
-            const navElements = document.querySelectorAll(".nav-item");
-            const removeActiveClass = () => {
-                navElements.forEach(item => {
-                    item.childNodes[1].classList.remove("active");
-                })
-            }
-            navElements.forEach(i => {
-                i.addEventListener("click", () => {
-                    removeActiveClass()
-                    i.childNodes[1].classList.add("active");
-                })
-            })
-            const navBtn = document.querySelector(".navigate-button")
-            let opened = false;
-            const navMenu = document.querySelector(".nav-menu");
+                                                const deleteProduct = (pId, el) => {
+                                                    swal({
+                                                        title: "",
+                                                        text: "Bạn có muốn xóa sản phẩm này?",
+                                                        icon: "warning",
+                                                        buttons: true,
+                                                        dangerMode: true,
+                                                    })
+                                                            .then((willDelete) => {
+                                                                if (willDelete) {
+                                                                    $.ajax("<c:url value="/GetProductAjax"/>", {
+                                                                        data: {
+                                                                            productId: pId,
+                                                                            func: "deleteProduct",
+                                                                            emailAdmin: '${sessionScope.user.email}',
+                                                                        },
+                                                                        success: function (data, textStatus, jqXHR) {
+                                                                            swal("Đã xóa thành công", {
+                                                                                icon: "success",
+                                                                            });
+                                                                            const tableRow = el.parentElement.parentElement.parentElement.parentElement
+                                                                            tableRow.remove()
+                                                                        },
+                                                                        error: function (jqXHR, textStatus, errorThrown) {
+                                                                            swal("Xóa thất bại!!!", {
+                                                                                icon: "error",
+                                                                            });
+                                                                        }
+                                                                    })
+                                                                }
+                                                            });
+                                                }
 
-            navBtn.addEventListener("click", () => {
-                opened = !opened;
-                const navMenuStyle = navMenu.style
-                if (opened) {
-                    navBtn.innerHTML = '<ion-icon name="close-outline"></ion-icon>'
-                    document.addEventListener("click", (e) => {
-                        if (!navMenu.contains(e.target)) {
-                            navMenuStyle.width = "0"
-                            opened = false;
-                            navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
-                        }
-                    })
-                    navMenuStyle.width = "300px";
-                } else {
-                    navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
-                    navMenuStyle.width = "0"
-                }
-            })
+
+                                                const navElements = document.querySelectorAll(".nav-item");
+                                                const removeActiveClass = () => {
+                                                    navElements.forEach(item => {
+                                                        item.childNodes[1].classList.remove("active");
+                                                    })
+                                                }
+                                                navElements.forEach(i => {
+                                                    i.addEventListener("click", () => {
+                                                        removeActiveClass()
+                                                        i.childNodes[1].classList.add("active");
+                                                    })
+                                                })
+                                                const navBtn = document.querySelector(".navigate-button")
+                                                let opened = false;
+                                                const navMenu = document.querySelector(".nav-menu");
+
+                                                navBtn.addEventListener("click", () => {
+                                                    opened = !opened;
+                                                    const navMenuStyle = navMenu.style
+                                                    if (opened) {
+                                                        navBtn.innerHTML = '<ion-icon name="close-outline"></ion-icon>'
+                                                        document.addEventListener("click", (e) => {
+                                                            if (!navMenu.contains(e.target)) {
+                                                                navMenuStyle.width = "0"
+                                                                opened = false;
+                                                                navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
+                                                            }
+                                                        })
+                                                        navMenuStyle.width = "300px";
+                                                    } else {
+                                                        navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
+                                                        navMenuStyle.width = "0"
+                                                    }
+                                                })
 
         </script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
-            google.charts.load('current', {'packages': ['corechart']});
-            google.charts.setOnLoadCallback(drawChart);
-            function drawChart() {
+                                                google.charts.load('current', {'packages': ['corechart']});
+                                                google.charts.setOnLoadCallback(drawChart);
+                                                function drawChart() {
 
-                // Create the data table.
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Topping');
-                data.addColumn('number', 'Slices');
-                data.addRows([
-                    ['Mushrooms', 3],
-                    ['Onions', 5],
-                    ['Olives', 0],
-                    ['Zucchini', 8],
-                    ['Pepperoni', 4],
-                ]);
+                                                    // Create the data table.
+                                                    var data = new google.visualization.DataTable();
+                                                    data.addColumn('string', 'Topping');
+                                                    data.addColumn('number', 'Slices');
+                                                    data.addRows([
+                                                        ['Mushrooms', 3],
+                                                        ['Onions', 5],
+                                                        ['Olives', 0],
+                                                        ['Zucchini', 8],
+                                                        ['Pepperoni', 4],
+                                                    ]);
 
-                // Set chart options
-                var options = {
-                    'title': 'How Much Pizza I Ate Last Night',
-                    'width': 500,
-                    'height': 300
-                };
+                                                    // Set chart options
+                                                    var options = {
+                                                        'title': 'How Much Pizza I Ate Last Night',
+                                                        'width': 500,
+                                                        'height': 300
+                                                    };
 
-                // Instantiate and draw our chart, passing in some options.
-                document.querySelectorAll("#chart_div").forEach(i => {
-                    var chart = new google.visualization.LineChart(i);
-                    chart.draw(data, options);
-                })
-            }
+                                                    // Instantiate and draw our chart, passing in some options.
+                                                    document.querySelectorAll("#chart_div").forEach(i => {
+                                                        var chart = new google.visualization.LineChart(i);
+                                                        chart.draw(data, options);
+                                                    })
+                                                }
         </script>
 
     </body>
