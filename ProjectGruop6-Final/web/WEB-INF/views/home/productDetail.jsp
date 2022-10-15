@@ -424,9 +424,7 @@
             })
         }
         const tooltips = document.querySelectorAll('.tooltip-text span');
-                <script>
-                const tooltips = document.querySelectorAll('.tooltip-text span');
-            //        window.onmousemove = function (e) {
+        //        window.onmousemove = function (e) {
 //            var x = (e.clientX + 20) + 'px',
 //                    y = (e.clientY + 20) + 'px';
 //            for (var i = 0; i < tooltips.length; i++) {
@@ -434,7 +432,7 @@
 //                tooltips[i].style.left = x;
 //            }
 //        };
-                var style = document.createElement('style');
+        var style = document.createElement('style');
         document.head.appendChild(style);
         var matchingElements = [];
         var allElements = document.getElementsByTagName('*');
@@ -442,16 +440,16 @@
             var attr = allElements[i].getAttribute('.tooltip-text span');
             if (attr) {
                 allElements[i].addEven
-                    tListener('mouseover', hoverEvent);
-                }
-                }
-                function hoverEvent(event) {
-                    event.preventDefault();
-                    x = event.x - this.offsetLeft;
-           
-                y = event.y - this.offsetTop;
-                    y += 10;
-                    style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
+                tListener('mouseover', hoverEvent);
             }
+        }
+        function hoverEvent(event) {
+            event.preventDefault();
+            x = event.x - this.offsetLeft;
+
+            y = event.y - this.offsetTop;
+            y += 10;
+            style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
+        }
     </script>
 </html>

@@ -1,6 +1,7 @@
 package controllers;
 
 import config.Config;
+import dao.OrderByShopDAO;
 import dao.OrderDAO;
 import dao.OrderDetailDAO;
 import dao.ProductDAO;
@@ -44,26 +45,29 @@ public class CartController extends HttpServlet {
                         OrderDAO o = new OrderDAO();
                         UserDTO user = (UserDTO) session.getAttribute("user");
                         ProductDAO p = new ProductDAO();
-                        System.out.println(user.toString());
                         if (request.getParameter("func") != null
                                 && request.getParameter("pId") != null) {
                             String func = request.getParameter("func");
                             int productId = Integer.parseInt(request.getParameter("pId"));
-                            int orderByShopId = Integer.parseInt(request.getParameter("osId"));
+                            
                             OrderDetailDAO od = new OrderDetailDAO();
+                                                              
                             switch (func) {
                                 case "add": {
+                                    System.out.println("HERE");
                                     o.addCart(user.getEmail(), productId);
                                 }
                                 break;
                                 case "delete": {
+                                    int orderByShopId = Integer.parseInt(request.getParameter("osId"));
                                     od.deleteOrderDetail(orderByShopId, productId);
                                 }
                                 case "update": {
+                                    int orderByShopId = Integer.parseInt(request.getParameter("osId"));
                                     if (request.getParameter("quan") != null) {
                                         int quantity = Integer.parseInt(request.getParameter("quan"));
                                         System.out.println(quantity);
-                                        if (quantity < p.getProductById(productId).getQuantity()) {
+                                        if (quantity <= p.getProductById(productId).getQuantity()) {
                                             od.updateOrderDetail(orderByShopId, productId, quantity, null);
                                         } else {
                                             throw new Exception();
@@ -78,6 +82,8 @@ public class CartController extends HttpServlet {
                                     request.setAttribute("action", "index");
                                     request.setAttribute("message", "Error when processing the request");
                             }
+                            int orderByShopId = Integer.parseInt(request.getParameter("osId"));
+                            new OrderByShopDAO().checkOrderByShop(orderByShopId);
                         } else {
 //                            order.getOrderByShopList()
                             request.setAttribute("order", o.getOrder(user.getEmail(), 0));

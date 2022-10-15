@@ -255,9 +255,9 @@
                                                 </td>
                                                 <td>
                                                     <div class="quantity-button">
-                                                        <button class="btn-style-left" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, ${p.getQuantity()}, 'minus', this)">-</button>
-                                                        <input class="ip-qua-style" value=${p.getQuantity()}>
-                                                        <button class="btn-style-right" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, ${p.getQuantity()}, 'sum', this)">+</button>
+                                                        <button class="btn-style-left" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, 'minus', this)">-</button>
+                                                        <input class="ip-qua-style" onchange="updateMoneyPerProduct(this)" value=${p.getQuantity()}>
+                                                        <button class="btn-style-right" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, 'sum', this)">+</button>
                                                         <div class=" style-product-cart delete-icon " onclick="deleteOrderDetail(${p.getProductId()}, ${i.orderByShopId}, this)" 
                                                              style="justify-content: center">
                                                             <a class="show-cart" style="color: white"><i
@@ -325,7 +325,7 @@
                             if (willDelete) {
                                 $.ajax("<c:url value="/cart/cart.do"/>", {
                                     data: {
-                                        productId: pId,
+                                        pId: pId,
                                         func: "delete",
                                         osId: osId,
                                     },
@@ -333,29 +333,42 @@
                                         swal("Đã xóa thành công", {
                                             icon: "success",
                                             buttons: false,
+                                            timer: 1000,
                                         });
                                         const tableRow = el.parentElement.parentElement.parentElement
+                                        const tableBody = tableRow.parentElement;
+                                        const tableElement = tableBody.parentElement;
                                         tableRow.remove()
+                                        if(tableBody.innerHTML.trim() === ""){
+                                            tableElement.remove();
+                                        }
                                     },
                                     error: function (jqXHR, textStatus, errorThrown) {
                                         swal("Xóa thất bại!!!", {
                                             icon: "error",
                                             buttons: false,
+                                            timer: 1000,
                                         });
                                     }
                                 })
                             }
                         });
             }
-            const handleCart = (pId, osId, quantity, option, el) => {
+            const handleCart = (pId, osId, option, el) => {
+            let quantity = parseInt(el.parentElement.querySelector(".ip-qua-style").value)
+            console.log(1)
                 if (option == 'minus') {
                     quantity -= 1;
-                    if (quantity <= 0) {
+                    if (quantity < 1) {
+                        quantity = 1;
                         deleteOrderDetail(pId, osId, el);
                     }
+                    
                 } else if (option == 'sum') {
                     quantity += 1;
+
                 }
+                el.parentElement.querySelector(".ip-qua-style").value = quantity;
                 $.ajax("<c:url value="/cart/cart.do"/>", {
                     data: {
                         pId: pId,
