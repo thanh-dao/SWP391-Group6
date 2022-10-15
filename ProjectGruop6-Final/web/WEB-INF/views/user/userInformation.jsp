@@ -157,8 +157,7 @@
                                         <label>Quận/Huyện</label>
                                         <select class="district-picker" onchange="handleDistrictChange(this)" name="districtId">
                                         </select>
-                                        <input required="true" type="text" maxlength="50" class="input-form-item" required="true"
-                                               type="text" placeholder="Nhập Quận/Huyện" name="districtName" value="${sessionScope.user.address.districtName == null ? "" : sessionScope.user.address.districtName}">
+                                        
                                     </div>
                                     <div class="input-form">
                                         <label>Phường/Xã</label>

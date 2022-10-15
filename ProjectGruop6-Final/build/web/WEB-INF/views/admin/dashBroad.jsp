@@ -132,7 +132,7 @@
             </ul>
             <hr>
         </div>
-        <div class=" pt-3 container">
+        <div class=" pt-3 container-fluid">
             <div class="row d-flex pb-5 gap-3 w-100 justify-content-around">
                 <div class="card col-sm-12 col-md-6 col-lg-3">
                     <div class="card-body d-flex justify-content-between">
@@ -187,79 +187,84 @@
             </div>
 
             <!--<div class="container">-->
-
-            <div class="row">
-                <table class="table table-responsive col-md-8 table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Tên sản phẩm</th>
-                            <th scope="col">Số lượng đã bán</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <h1>${top10Product}</h1>
-                    <h1>${top10Seller}</h1>
-                    <c:forEach items="${top10Product}" var="i" varStatus="loop">
-                        <tr>
-                            <th scope="row">${loop.count}</th>
-                            <td>${i.name}</td>
-                            <td>${i.quantity}</td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-
-
-
-                <table class="table table-responsive col-md-3 table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Email người bán</th>
-                            <th scope="col">Đã bán</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${top10Seller}" var="i" varStatus="loop">
+            <br>
+            <br>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-8">
+                    <table class="table  table-responsive  table-hover">
+                        <h4 style="display: inline-block;">Top 10 sản phẩm bán chạy</h4>
+                        <thead>
                             <tr>
-                                <td>${i.key}</td>
-                                <td>${i.value}</td>
+                                <th scope="col">#</th>
+                                <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Số lượng đã bán</th>
                             </tr>
-                        </c:forEach>
-                    </tbody>
-                </table> 
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${top10Product}" var="i" varStatus="loop">
+                                <tr>
+                                    <th scope="row">${loop.count}</th>
+                                    <td>${i.name}</td>
+                                    <td>${i.quantity}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="col-md-3">
+                    <h4>Top 10 shop bán chạy</h4>
+                    <table class="table table-responsive table-hover caption-top">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Email người bán</th>
+                                <th scope="col">Đã bán</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${top10Seller}" var="i" varStatus="loop">
+                                <tr>
+                                    <td>${loop.count}</td>
+                                    <td>${i.key}</td>
+                                    <td>${i.value}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table> 
+                </div>
             </div>   
 
 
-
-            <!-- new table-->
-            <div class="summary">
-                <div class="container">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Số lượng đã bán</th>
-                                    <th>Email đã bán</th>
-                                    <th>Người bán</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Anna</td>
-                                    <td>Pitt</td>
-                                    <td>35</td>
-                                    <td>New York</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>            
+            <!--
+                         new table
+                        <div class="summary">
+                            <div class="container">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Tên sản phẩm</th>
+                                                <th>Số lượng đã bán</th>
+                                                <th>Email đã bán</th>
+                                                <th>Người bán</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Anna</td>
+                                                <td>Pitt</td>
+                                                <td>35</td>
+                                                <td>New York</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>            -->
 
 
         </div>
