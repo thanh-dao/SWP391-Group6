@@ -48,7 +48,7 @@ public class UserDAO {
         while (rs.next()) {
             String storedAvatar = rs.getString("avatar");
             UserDTO user = new UserDTO(
-                    rs.getString(1), storedAvatar.contains("http")  ? storedAvatar : Constants.IMAGE_RELATIVE_DIRECTORY + "/" + storedAvatar, rs.getString(3),
+                    rs.getString(1), storedAvatar.contains("http") ? storedAvatar : Constants.IMAGE_RELATIVE_DIRECTORY + "/" + storedAvatar, rs.getString(3),
                     rs.getString(4), rs.getString(5), rs.getDate(6),
                     new AddressDAO().getFullAddress(
                             rs.getString("address"),
@@ -111,7 +111,7 @@ public class UserDAO {
         while (rs.next()) {
             String storedAvatar = rs.getString("avatar");
             UserDTO user = new UserDTO(
-                    rs.getString("email"), storedAvatar.contains("http")  ? storedAvatar : Constants.IMAGE_RELATIVE_DIRECTORY + "/" + storedAvatar, rs.getString("first_name"),
+                    rs.getString("email"), storedAvatar.contains("http") ? storedAvatar : Constants.IMAGE_RELATIVE_DIRECTORY + "/" + storedAvatar, rs.getString("first_name"),
                     rs.getString("last_name"), rs.getString("phone"),
                     new AddressDTO(rs.getString("address"), rs.getString(7),
                             rs.getString(8), rs.getString(9))
@@ -244,29 +244,6 @@ public class UserDAO {
     }
 
     public static void main(String[] args) {
-        UserDAO uDAO = new UserDAO();
-        try {
-<<<<<<< HEAD
-//            uDAO.getTop10SellerByMonth(9).forEach((k, v) -> {
-//                System.out.println(k + "  " + v);
-//            });
-//System.out.println(uDAO.getUserByRole(false).size());
-//System.out.println(uDAO.updateUserRole("ThinhPQSE151077@fpt.edu.vn", true));
-//            System.out.println(uDAO.getUserJson(uDAO.getAllUser()));
-//            System.out.println(uDAO.getUserByProductId(149));
-//            System.out.println(uDAO.addUser("thanhddse151068@fpt.edu.vn", "Dao Duc Thanh", "jajaaja"));
-//            System.out.println(uDAO.findUser("ThinhPQSE151077@fpt.edu.vn"));
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-            System.out.println(uDAO.getUserByRole(false).size());
-            System.out.println(uDAO.getUserByRole(true).size());
-=======
 
->>>>>>> cd899c92236eb1e846f5d32d001105674b7d33e9
-        } catch (Exception ex) {
-        }
     }
 }

@@ -121,7 +121,6 @@ public class HomeController extends HttpServlet {
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                         LocalDateTime now = LocalDateTime.now();
                         System.out.println(dtf.format(now));
-
                     } catch (SQLException | ClassNotFoundException ex) {
                         Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
                     }
