@@ -158,7 +158,7 @@
                         <a class="nav-link active" aria-current="page" href="<c:url value="/admin/productAuthen.do?status=nary"/>">Chờ duyệt</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<c:url value="/admin/productAuthen.do?status=ar"/>">Đã duyệt</a>
+                        <a class="nav-link " href="<c:url value="/admin/productAuthen.do?status=ar"/>">Đã duyệt</a>
                     </li>
                 </ul>
                 <table class="table table-striped" id="productTable">
