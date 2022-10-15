@@ -48,7 +48,7 @@ public class UserDAO {
         while (rs.next()) {
             String storedAvatar = rs.getString("avatar");
             UserDTO user = new UserDTO(
-                    rs.getString(1), storedAvatar.contains("http")  ? storedAvatar : Constants.IMAGE_RELATIVE_DIRECTORY + "/" + storedAvatar, rs.getString(3),
+                    rs.getString(1), storedAvatar.contains("http") ? storedAvatar : Constants.IMAGE_RELATIVE_DIRECTORY + "/" + storedAvatar, rs.getString(3),
                     rs.getString(4), rs.getString(5), rs.getDate(6),
                     new AddressDAO().getFullAddress(
                             rs.getString("address"),
@@ -111,7 +111,7 @@ public class UserDAO {
         while (rs.next()) {
             String storedAvatar = rs.getString("avatar");
             UserDTO user = new UserDTO(
-                    rs.getString("email"), storedAvatar.contains("http")  ? storedAvatar : Constants.IMAGE_RELATIVE_DIRECTORY + "/" + storedAvatar, rs.getString("first_name"),
+                    rs.getString("email"), storedAvatar.contains("http") ? storedAvatar : Constants.IMAGE_RELATIVE_DIRECTORY + "/" + storedAvatar, rs.getString("first_name"),
                     rs.getString("last_name"), rs.getString("phone"),
                     new AddressDTO(rs.getString("address"), rs.getString(7),
                             rs.getString(8), rs.getString(9))
@@ -244,10 +244,14 @@ public class UserDAO {
     }
 
     public static void main(String[] args) {
+<<<<<<< HEAD
         UserDAO uDAO = new UserDAO();
         try {
 
         } catch (Exception ex) {
         }
+=======
+
+>>>>>>> 10fa0bc80b14724c62d0337fa067db25feb41680
     }
 }
