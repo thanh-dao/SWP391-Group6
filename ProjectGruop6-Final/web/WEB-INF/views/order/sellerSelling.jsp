@@ -37,7 +37,10 @@
 
     <body>
         <div class="container">
-            <ul class="nav nav-tabs ">               
+            <ul class="nav nav-tabs ">
+                <li class="nav-item">
+                    <a class="nav-link " href="#">Dashboard</a>
+                </li>               
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Đang bán</a>
                 </li>
@@ -47,9 +50,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Đang chờ duyệt</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="#">Dashboard</a>
-                </li>
+                
             </ul>
         </div>
 
@@ -174,7 +175,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-        <script>
+<!--        <script>
             const tabs = document.querySelectorAll(".nav-link")
             // console.log(tabs)
             const removeActiveClass = (elements) => {
@@ -188,7 +189,7 @@
                     i.classList.add("active");
                 })
             });
-        </script>
+        </script>-->
     </body>
 
 </html>

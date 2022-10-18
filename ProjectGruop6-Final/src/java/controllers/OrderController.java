@@ -42,6 +42,8 @@ public class OrderController extends HttpServlet {
         switch (action) {
             case "history":
                 break;
+            case "dashboard":
+                request.setAttribute("action", "sellerDashboard");
             case "stored":
                 break;
             default:

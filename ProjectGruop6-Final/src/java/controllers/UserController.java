@@ -88,9 +88,7 @@ public class UserController extends HttpServlet {
                 try {
                     userDAO.updateUser(userDTO);
                     session.setAttribute("user", userDTO);
-                } catch (SQLException ex) {
-                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
+                } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 request.setAttribute("action", "userInformation");
@@ -101,16 +99,14 @@ public class UserController extends HttpServlet {
                 System.out.println(code);
                 String token = getToken(code);
                 UserGoogleDTO googleUser = getUserInfo(token);
-                isFowarded = true;
+                
                 System.out.println(googleUser.getEmail().endsWith("@fpt.edu.vn"));
                 if (googleUser.getEmail().endsWith("@fpt.edu.vn")) {
                     UserDAO userDAO = new UserDAO();
                     UserDTO userDTO = null;
                     try {
                         userDTO = userDAO.findUser(googleUser.getEmail());
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SQLException ex) {
+                    } catch (ClassNotFoundException | SQLException ex) {
                         Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     if (userDTO == null) {
@@ -122,11 +118,10 @@ public class UserController extends HttpServlet {
                     }
                     System.out.println(userDTO);
                     session.setAttribute("user", userDTO);
-                    redirectUrl = "/home/main.do";
-                    session.setAttribute("errorLoginMessage", null);
-                    
+                    System.out.println(isFowarded);
                 } else {
                     redirectUrl = "/user/login.do";
+                    isFowarded = false;
                     session.setAttribute("errorLoginMessage",
                             "Tài khoản của bạn không được phép đăng nhập vào hệ thống");
                 }
@@ -151,7 +146,7 @@ public class UserController extends HttpServlet {
         } else {
             response.sendRedirect(getServletContext().getContextPath() + redirectUrl);
         }
-        
+        isFowarded = false;
     }
     
     public static String getToken(String code) throws ClientProtocolException, IOException {

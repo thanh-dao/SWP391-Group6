@@ -244,14 +244,6 @@ public class UserDAO {
     }
 
     public static void main(String[] args) {
-<<<<<<< HEAD
-        UserDAO uDAO = new UserDAO();
-        try {
-
-        } catch (Exception ex) {
-        }
-=======
-
->>>>>>> 10fa0bc80b14724c62d0337fa067db25feb41680
+            
     }
 }

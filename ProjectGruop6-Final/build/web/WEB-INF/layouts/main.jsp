@@ -340,7 +340,7 @@
                     <div class="col-md-8">
                         <div class="header__content d-flex justify-content-around">
                             <button ><a href="<c:url value="/home/main.do"/>"><i class="fas fa-home icon-header"></i>Trang chủ</a></button>
-                            <button ><a href="<c:url value="/order/stored.do"/>"><i class="fas fa-table"></i>Quản lý tin</a></button>
+                            <button ><a href="<c:url value="/order/dashboard.do"/>"><i class="fas fa-table"></i>Quản lý tin</a></button>
                             <button ><a href="<c:url value="/home/uploadProduct.do"/>"><i class="fa-sharp fa-solid fa-file-pen"></i>Đăng tin</a></button>
                             <button ><a href="<c:url value="/order/history.do"/>"><i class="fa-sharp fa-solid fa-clipboard"></i>Đơn hàng</a></button>
 

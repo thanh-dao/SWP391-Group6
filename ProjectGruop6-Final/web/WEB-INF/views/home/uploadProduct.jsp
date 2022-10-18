@@ -96,8 +96,10 @@
             <div class="container">
                 <c:if test="${sessionScope.user == null}">
                     <script>
+                        localStorage.setItem("previousUrl", window.location.href);
                         window.location.href = "/ProjectGroup6/user/login.do";
                         localStorage.setItem("message", "you must login to use this feature");
+                        
                     </script>
                 </c:if>
                 <c:if test="${sessionScope.user.address.isNull() == true}">

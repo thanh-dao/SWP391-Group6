@@ -61,9 +61,6 @@ public class HomeController extends HttpServlet {
                 BannerDAO b = new BannerDAO();
                 try {
                     List<CategoryDTO> cateList = cateDAO.findAll();
-                    cateList.forEach(i -> {
-                        System.out.println(i);
-                    });
                     session.setAttribute("cateList", cateList);
                     List<ProductDTO> bestSellers = proDAO.getProductList(0, ProductDAO.SOLD_COUNT, ProductDAO.DESC);
                     List<ProductDTO> newProducts = proDAO.getProductList(0, ProductDAO.APPROVE_AT, ProductDAO.DESC);

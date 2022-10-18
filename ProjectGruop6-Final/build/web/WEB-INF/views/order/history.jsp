@@ -14,6 +14,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <style>
+            thead{
+                display: none;
+            }
+            tbody{
+                margin-top: 20px;
+            }
             .navigate-button {
                 width: 30px;
                 height: 30px;
@@ -91,6 +97,7 @@
                     <caption>#Mã Đơn Hàng 1</caption>
                     <thead>
                         <tr>
+                            <p><i class="fa-solid fa-truck"></i> Giao hàng thành công</p>
                             <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col"></th>

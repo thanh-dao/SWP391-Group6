@@ -9,15 +9,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.io.Serializable;
 
 /**
  *
  * @author kanek
  */
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDTO {
+public class CategoryDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private int cateId;
     private String name;
     private String icon;
