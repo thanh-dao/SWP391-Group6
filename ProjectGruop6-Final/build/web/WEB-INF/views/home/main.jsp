@@ -17,8 +17,8 @@
                 position: relative;
                 margin-top: 0px;
             }
-            
-            @media screen and (max-width: 1500px) {
+
+            @media screen and (max-width: 1200px) {
                 div.discount {
                     display: none;
                 }
@@ -30,7 +30,7 @@
                 width: 190px;
                 height: 300px;
                 margin-bottom: 50px;
-                margin-top: 0px;
+                margin-top: 100px;
             }
 
             .discount .right {
@@ -39,7 +39,7 @@
 
             .discount img {
                 width: 300px;
-                
+
             }
 
             .carousel-item img {
@@ -187,7 +187,7 @@
         <div class="purpose">
             <div class="container intro">
                 <h1>FBT</h1>
-                <p>Đây là thông tin chung của web: Sứ Mệnh, Cốt Lỗi, Mục Tiêu.</p>
+                <p>Thông tin của web: Tầm nhìn, Sứ mệnh, Giá trị.</p>
             </div>
         </div>
     </body>

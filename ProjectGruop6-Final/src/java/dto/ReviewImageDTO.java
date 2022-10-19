@@ -15,10 +15,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewImageDTO {
+
     private String url;
-    
+
     @Override
     public String toString() {
         return "ReviewImageDTO{" + "url=" + url + '}';
     }
+
 }

@@ -46,26 +46,44 @@
 
                             <div class="text-center">
                                 <span class="text_1">Login by FPT Email</span>
-                                <button class="btn_login">
-                                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid &redirect_uri=http://localhost:8084/ProjectGroup6/user/googleLoginHandle.do&response_type=code
-                                       &client_id=361981052480-8ke1bdjjdl3alh1o3f2mrm4osm4uo8bk.apps.googleusercontent.com&approval_prompt=force">
-                                        <img class="logo_google"                                           
-                                             src="<c:url value="/images/icon_google.png"/>"
-                                             alt=""
+                                <button class="btn_login" type="button" onclick="googleLoginURL()">
+                                    <img class="logo_google"                                           
+                                         src="<c:url value="/images/icon_google.png"/>"
+                                         alt=""
 
-                                             />
-                                        Login With Google
-                                    </a>  
+                                         />
+                                    Login With Google
 
                                 </button>
-                                <c:if test="${sessionScope.errorLoginMessage != null}">
-                                    <p style="padding-top: 20px;color:blue">${sessionScope.errorLoginMessage}</p>
-                                </c:if>
+                                <p style="padding-top: 20px;color:blue">
+                                    <c:if test="${sessionScope.errorLoginMessage != null}">
+                                        ${sessionScope.errorLoginMessage}
+                                    </c:if>
+                                </p>
+
                             </div>
                     </div>
                     </form>
                 </div>
             </div>
         </div>
+        <script>
+            let redirectUrl = 'http://localhost:8084/ProjectGroup6/user/googleLoginHandle.do'
+            const message = localStorage.getItem("message")
+            if (message != null) {
+                document.querySelector(".text-center p").innerHTML = message;
+                redirectUrl = localStorage.getItem("previousUrl");
+                localStorage.removeItem("message")
+            }
+            const loginUrl = "https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid &redirect_uri=" + redirectUrl + "&response_type=code" +
+                                       "&client_id=361981052480-8ke1bdjjdl3alh1o3f2mrm4osm4uo8bk.apps.googleusercontent.com&approval_prompt=force";
+                console.log(loginUrl)
+            const googleLoginURL = () => {
+                const loginUrl = "https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid &redirect_uri=" + redirectUrl + "&response_type=code" +
+                                       "&client_id=361981052480-8ke1bdjjdl3alh1o3f2mrm4osm4uo8bk.apps.googleusercontent.com&approval_prompt=force";
+                window.location.href = loginUrl;
+                return googleLoginURL;
+            }
+        </script>
     </body>
 </html>

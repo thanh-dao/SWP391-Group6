@@ -8,7 +8,9 @@ package controllers;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import config.Config;
+import dao.ProductDAO;
 import dao.UserDAO;
+import dto.AddressDTO;
 import dto.UserDTO;
 import dto.UserGoogleDTO;
 //import jakarta.servlet.ServletException;
@@ -17,6 +19,8 @@ import dto.UserGoogleDTO;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,8 +64,38 @@ public class UserController extends HttpServlet {
 //                response.sendRedirect("");
 //                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
-            case "userInformation":
-                break;
+            case "userInformation": {
+            }
+            break;
+            case "updateInformation": {
+                UserDAO userDAO = new UserDAO();
+                String email = ((UserDTO) session.getAttribute("user")).getEmail();
+                String yob = request.getParameter("yob");
+                Date date = Date.valueOf(yob);
+                String firstName = request.getParameter("firstName");
+                String lastName = request.getParameter("lastName");
+                String phone = request.getParameter("phone");
+                String cityId = request.getParameter("cityId");
+                String districtId = request.getParameter("districtId");
+                String wardId = request.getParameter("wardId");
+                String houseNumber = request.getParameter("houseNumber");
+                AddressDTO address = new AddressDTO();
+                address.setHouseNumber(houseNumber);
+                address.setCityId(cityId);
+                address.setDistrictId(districtId);
+                address.setWardId(wardId);
+                UserDTO userDTO = new UserDTO(email, "", firstName, lastName, phone, date, address);
+                try {
+                    userDAO.updateUser(userDTO);
+                    session.setAttribute("user", userDTO);
+                } catch (SQLException ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.setAttribute("action", "userInformation");
+            }
+            break;
             case "googleLoginHandle": {
                 String code = request.getParameter("code");
                 System.out.println(code);
@@ -86,27 +120,26 @@ public class UserController extends HttpServlet {
                             ex.printStackTrace();
                         }
                     }
-
+                    System.out.println(userDTO);
                     session.setAttribute("user", userDTO);
                     redirectUrl = "/home/main.do";
                     session.setAttribute("errorLoginMessage", null);
-
+                    
                 } else {
                     redirectUrl = "/user/login.do";
                     session.setAttribute("errorLoginMessage",
                             "Tài khoản của bạn không được phép đăng nhập vào hệ thống");
                 }
-
+                break;
             }
-            break;
-            case "logout":
-            {
+            
+            case "logout": {
                 session.removeAttribute("user");
                 redirectUrl = "/";
                 isFowarded = true;
                 break;
             }
-
+            
             default: {
                 request.setAttribute("controller", "error");
                 request.setAttribute("action", "index");
@@ -118,28 +151,29 @@ public class UserController extends HttpServlet {
         } else {
             response.sendRedirect(getServletContext().getContextPath() + redirectUrl);
         }
-
+        
     }
-
+    
     public static String getToken(String code) throws ClientProtocolException, IOException {
         // call api to get token
         String response = Request.Post(Constants.GOOGLE_LINK_GET_TOKEN)
-                .bodyForm(Form.form().add("client_id", Constants.GOOGLE_CLIENT_ID)
+                .bodyForm(Form.form()
+                        .add("client_id", Constants.GOOGLE_CLIENT_ID)
                         .add("client_secret", Constants.GOOGLE_CLIENT_SECRET)
-                        .add("redirect_uri", Constants.GOOGLE_REDIRECT_URI).add("code", code)
+                        .add("redirect_uri", Constants.GOOGLE_REDIRECT_URI)
+                        .add("code", code)
                         .add("grant_type", Constants.GOOGLE_GRANT_TYPE).build())
                 .execute().returnContent().asString();
         JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
         String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
         return accessToken;
     }
-
+    
     public static UserGoogleDTO getUserInfo(String accessToken) throws ClientProtocolException, IOException {
         String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();
         System.out.println(response);
         UserGoogleDTO user = new Gson().fromJson(response, UserGoogleDTO.class);
-
         return user;
     }
 

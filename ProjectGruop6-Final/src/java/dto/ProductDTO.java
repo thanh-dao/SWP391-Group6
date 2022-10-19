@@ -36,6 +36,13 @@ public class ProductDTO {
         return null;
     }
 
+    public ProductDTO(int productId, String emailAdmin, boolean isAvalable, Date approveAt) {
+        this.productId = productId;
+        this.emailAdmin = emailAdmin;
+        this.isAvalable = isAvalable;
+        this.approveAt = approveAt;
+    }
+
     public ProductDTO(int productId, String emailSeller, String name, long price, String description, int cateId, int quantity, int soldCount, List<ProductImageDTO> imgList) {
         this.productId = productId;
         this.emailSeller = emailSeller;
@@ -54,6 +61,19 @@ public class ProductDTO {
         this.price = price;
         this.quantity = quantity;
         this.soldCount = soldCount;
+        this.imgList = imgList;
+    }
+
+// product list cho admin duyệt
+    public ProductDTO(int productId, String emailSeller, String name, long price, String description, int cateId, int quantity, Date createAt, List<ProductImageDTO> imgList) {
+        this.productId = productId;
+        this.emailSeller = emailSeller;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.cateId = cateId;
+        this.quantity = quantity;
+        this.createAt = createAt;
         this.imgList = imgList;
     }
 

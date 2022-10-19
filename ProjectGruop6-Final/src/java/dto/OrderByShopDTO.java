@@ -14,8 +14,8 @@ import lombok.Setter;
 public class OrderByShopDTO {
 
     private int orderByShopId;
-    private int orderId;
     private String emailSeller;
+    private String name;
     private double transactionFee;
     private double transportFee;
     private Date shippedDate;
@@ -23,6 +23,6 @@ public class OrderByShopDTO {
 
     @Override
     public String toString() {
-        return "OrderByShopDTO{" + "orderByShopId=" + orderByShopId + ", orderId=" + orderId + ", emailSeller=" + emailSeller + ", transactionFee=" + transactionFee + ", transportFee=" + transportFee + ", shippedDate=" + shippedDate + ", OrderDetailList=" + OrderDetailList + '}';
+        return "OrderByShopDTO{" + "orderByShopId=" + orderByShopId + ", emailSeller=" + emailSeller + ", name=" + name + ", transactionFee=" + transactionFee + ", transportFee=" + transportFee + ", shippedDate=" + shippedDate + ", OrderDetailList=" + OrderDetailList + '}';
     }
 }

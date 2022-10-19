@@ -5,6 +5,7 @@
 --%>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,10 +46,6 @@
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-            }
-
-            .product-real-prices {
-                color: #333;
             }
 
             .quantity-button {
@@ -105,7 +102,7 @@
             }
 
             .btn-buy {
-                background-color: #FFA500;
+                background-color: #FF9900;
                 margin-top: 20px;
                 width: 100%;
                 padding: 10px;
@@ -180,6 +177,27 @@
             .font-bold {
                 font-weight: 500;
             }
+
+            .font-a a{
+                color: #FFA500;
+                text-decoration: none;
+            }
+
+            .product_style a {
+                color: black;
+                font-size: 15px;
+            }
+
+            .product_style a:hover {
+                color: #FFA500;
+                text-decoration: none;
+            }
+
+            .price-content {
+                padding: 0 10px;
+                font-size: 15px;
+                color: red;
+            }
         </style>
     </head>
 
@@ -187,7 +205,7 @@
         <div class="container">
             <div class="cart-content">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-8 font-a">
                         <div class="br-form">
                             <div class="block-header" style="padding: 10px;">
                                 <h3>Giỏ hàng</h3>
@@ -195,249 +213,63 @@
                             <table style="margin-bottom: 1rem;">
                                 <thead>                                  
                                     <tr row>
-                                        <th><input type="checkbox" name=""></th>
+                                        <th><input type="checkbox" onclick="handleSelectAll()" name=""></th>
                                         <th class="col-md-6 col-5">Sản phẩm</th>
                                         <th class="col-md-3 col-3">Đơn giá</th>
                                         <th class="col-md-3 col-4">Số lượng</th>
                                     </tr>
                                 </thead>
                             </table>
-
-                            <table class="table table-striped ">
-                                <thead>                                  
-                                    <tr row>
-                                        <th><input type="checkbox" name=""></th>
-                                        <th class="col-md-6 col-5">Tên người bán 1</th>
-                                        <th class="col-md-3 col-3"></th>
-                                        <th class="col-md-3 col-4"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th><input type="checkbox" name=""></th>
-                                        <td style="margin: 0">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                                    <div class="product-img">
-                                                        <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
-                                                        </picture>
-                                                        </a>
+                            <c:forEach items="${order.getOrderByShopList()}" var="i">
+                                <table class="table table-striped">
+                                    <thead style="background-color: #FFEFD5;">                                  
+                                        <tr row>
+                                            <th><input type="checkbox" onclick="handleSelectByShop(this)" name="${i.orderByShopId}"></th>
+                                            <th class="col-md-6 col-5 font-a">Sản phẩm của <a href="#">${i.getName()}</a></th>
+                                            <th class="col-md-3 col-3"></th>
+                                            <th class="col-md-3 col-4"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${i.getOrderDetailList()}" var="p">
+                                            <tr>
+                                                <th><input type="checkbox" class="product-item" price="${p.getProduct().price}" id="${p.productId}" onclick="" name=""></th>
+                                                <td style="margin: 0">
+                                                    <div class="row">
+                                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding: 0;">
+                                                            <a href="<c:url value="/home/productDetail.do?productId=${p.getProductId()}"/>">
+                                                                <div class="product-img">
+                                                                    <picture> <img src="<c:url value="${p.getProduct().getMainImage().getUrl()}"/>" alt="">
+                                                                    </picture>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 product_style">
+                                                            <a href="<c:url value="/home/productDetail.do?productId=${p.getProductId()}"/>">${p.getProduct().getName()}</a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 font-bold">
-                                                    <a href="">Tên Sản Phẩm</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                <fmt:setLocale value="vi_VN" />
-                                <span class="product-real-prices">
-                                    <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
-                                </span>
-                                </td>
-                                <td>
-                                    <div class="quantity-button">
-                                        <button class="btn-style-left">-</button>
-                                        <input class="ip-qua-style" value="1">
-                                        <button class="btn-style-right">+</button>
-                                        <div class=" style-product-cart delete-icon"
-                                             style="justify-content: center">
-                                            <a class="show-cart" style="color: white"><i
-                                                    class="fas fa-trash delete-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                <tr>
-                                    <th><input type="checkbox" name=""></th>
-                                    <td style="margin: 0">
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                                <div class="product-img">
-                                                    <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
-                                                    </picture>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 font-bold">
-                                                <a href="">Tên Sản Phẩm</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                <fmt:setLocale value="vi_VN" />
-                                <span class="product-real-prices">
-                                    <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
-                                </span>
-                                </td>
-                                <td>
-                                    <div class="quantity-button">
-                                        <button class="btn-style-left">-</button>
-                                        <input class="ip-qua-style" value="1">
-                                        <button class="btn-style-right">+</button>
-                                        <div class=" style-product-cart delete-icon"
-                                             style="justify-content: center">
-                                            <a class="show-cart" style="color: white"><i
-                                                    class="fas fa-trash delete-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                <tr>
-                                    <th><input type="checkbox" name=""></th>
-                                    <td style="margin: 0">
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                                <div class="product-img">
-                                                    <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
-                                                    </picture>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 font-bold">
-                                                <a href="">Tên Sản Phẩm</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                <fmt:setLocale value="vi_VN" />
-                                <span class="product-real-prices">
-                                    <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
-                                </span>
-                                </td>
-                                <td>
-                                    <div class="quantity-button">
-                                        <button class="btn-style-left">-</button>
-                                        <input class="ip-qua-style" value="1">
-                                        <button class="btn-style-right">+</button>
-                                        <div class=" style-product-cart delete-icon"
-                                             style="justify-content: center">
-                                            <a class="show-cart" style="color: white"><i
-                                                    class="fas fa-trash delete-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                </tbody>
-                            </table>
-<!--l===========================================================================-->
-<table class="table table-striped ">
-                                <thead>                                  
-                                    <tr row>
-                                        <th><input type="checkbox" name=""></th>
-                                        <th class="col-md-6 col-5">Tên người bán 2</th>
-                                        <th class="col-md-3 col-3"></th>
-                                        <th class="col-md-3 col-4"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th><input type="checkbox" name=""></th>
-                                        <td style="margin: 0">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                                    <div class="product-img">
-                                                        <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
-                                                        </picture>
-                                                        </a>
+                                                </td>
+                                                <td class="price-content">
+                                                    <fmt:setLocale value="vi_VN"/>
+                                                    <fmt:formatNumber value="${p.getProduct().getPrice()}" type="currency"/>
+                                                </td>
+                                                <td>
+                                                    <div class="quantity-button">
+                                                        <button class="btn-style-left" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, 'minus', this)">-</button>
+                                                        <input class="ip-qua-style" onchange="updateMoneyPerProduct(this)" value=${p.getQuantity()}>
+                                                        <button class="btn-style-right" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, 'sum', this)">+</button>
+                                                        <div class=" style-product-cart delete-icon " onclick="deleteOrderDetail(${p.getProductId()}, ${i.orderByShopId}, this)" 
+                                                             style="justify-content: center">
+                                                            <a class="show-cart" style="color: white"><i
+                                                                    class="fas fa-trash delete-trash"></i></a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 font-bold">
-                                                    <a href="">Tên Sản Phẩm</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                <fmt:setLocale value="vi_VN" />
-                                <span class="product-real-prices">
-                                    <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
-                                </span>
-                                </td>
-                                <td>
-                                    <div class="quantity-button">
-                                        <button class="btn-style-left">-</button>
-                                        <input class="ip-qua-style" value="1">
-                                        <button class="btn-style-right">+</button>
-                                        <div class=" style-product-cart delete-icon"
-                                             style="justify-content: center">
-                                            <a class="show-cart" style="color: white"><i
-                                                    class="fas fa-trash delete-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                <tr>
-                                    <th><input type="checkbox" name=""></th>
-                                    <td style="margin: 0">
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                                <div class="product-img">
-                                                    <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
-                                                    </picture>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 font-bold">
-                                                <a href="">Tên Sản Phẩm</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                <fmt:setLocale value="vi_VN" />
-                                <span class="product-real-prices">
-                                    <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
-                                </span>
-                                </td>
-                                <td>
-                                    <div class="quantity-button">
-                                        <button class="btn-style-left">-</button>
-                                        <input class="ip-qua-style" value="1">
-                                        <button class="btn-style-right">+</button>
-                                        <div class=" style-product-cart delete-icon"
-                                             style="justify-content: center">
-                                            <a class="show-cart" style="color: white"><i
-                                                    class="fas fa-trash delete-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                <tr>
-                                    <th><input type="checkbox" name=""></th>
-                                    <td style="margin: 0">
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                                <div class="product-img">
-                                                    <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
-                                                    </picture>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 font-bold">
-                                                <a href="">Tên Sản Phẩm</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                <fmt:setLocale value="vi_VN" />
-                                <span class="product-real-prices">
-                                    <fmt:formatNumber type="currency" value="">Giá bán</fmt:formatNumber>
-                                </span>
-                                </td>
-                                <td>
-                                    <div class="quantity-button">
-                                        <button class="btn-style-left">-</button>
-                                        <input class="ip-qua-style" value="1">
-                                        <button class="btn-style-right">+</button>
-                                        <div class=" style-product-cart delete-icon"
-                                             style="justify-content: center">
-                                            <a class="show-cart" style="color: white"><i
-                                                    class="fas fa-trash delete-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                </tbody>
-                                <!--l==================================================-->
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </c:forEach>
                             </table>
                         </div>
                     </div>
@@ -450,10 +282,10 @@
                                 </div>
                                 <div class="txt-style">
                                     <div>
-                                        <span class="font-bold">Họ và tên: </span><span>Tên người mua</span>
+                                        <span class="font-bold">Họ và tên: </span><span>${user.firstName} ${user.lastName}</span>
                                     </div>
                                     <div>
-                                        <span class="font-bold">Số điện thoại: </span><span>Số điện thoại</span><br>
+                                        <span class="font-bold">Số điện thoại: </span><span>${user.phone}</span><br>
                                     </div>
                                     <div>
                                         <span class="font-bold">Địa chỉ: </span>
@@ -466,7 +298,12 @@
                             <!-- thanh toán -->
                             <span class="title-style">Tổng cộng</span>
                             <div class="price-content txt-style">
-                                <span>Tổng</span>
+                                <span>Tổng : 
+                                    <span id="price" class="price-content">
+                                        <fmt:setLocale value="vi_VN"/>
+                                        <fmt:formatNumber value="" type="currency"/>
+                                    </span>
+                                </span>
                             </div>
                             <button class="btn-buy" onclick="window.location.href = '<c:url value="/cart/pay.do"/>'">Thanh Toán</button>
                         </div>
@@ -475,6 +312,98 @@
 
             </div>
         </div>
+        <script>
+            const deleteOrderDetail = (pId, osId, el) => {
+                swal({
+                    title: "",
+                    text: "Xác nhận xóa sản phẩm này?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                $.ajax("<c:url value="/cart/cart.do"/>", {
+                                    data: {
+                                        pId: pId,
+                                        func: "delete",
+                                        osId: osId,
+                                    },
+                                    success: function (data, textStatus, jqXHR) {
+                                        swal("Đã xóa thành công", {
+                                            icon: "success",
+                                            buttons: false,
+                                            timer: 1000,
+                                        });
+                                        const tableRow = el.parentElement.parentElement.parentElement
+                                        const tableBody = tableRow.parentElement;
+                                        const tableElement = tableBody.parentElement;
+                                        tableRow.remove()
+                                        if(tableBody.innerHTML.trim() === ""){
+                                            tableElement.remove();
+                                        }
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        swal("Xóa thất bại!!!", {
+                                            icon: "error",
+                                            buttons: false,
+                                            timer: 1000,
+                                        });
+                                    }
+                                })
+                            }
+                        });
+            }
+            const handleCart = (pId, osId, option, el) => {
+            let quantity = parseInt(el.parentElement.querySelector(".ip-qua-style").value)
+            console.log(1)
+                if (option == 'minus') {
+                    quantity -= 1;
+                    if (quantity < 1) {
+                        quantity = 1;
+                        deleteOrderDetail(pId, osId, el);
+                    }
+                    
+                } else if (option == 'sum') {
+                    quantity += 1;
+
+                }
+                el.parentElement.querySelector(".ip-qua-style").value = quantity;
+                $.ajax("<c:url value="/cart/cart.do"/>", {
+                    data: {
+                        pId: pId,
+                        func: 'update',
+                        quan: quantity,
+                        osId: osId,
+                    }
+                })
+            }
+            const handleSelectByShop = (el) => {
+                const container = el.parentElement.parentElement.parentElement.parentElement;
+                container.querySelectorAll("tbody input[type=checkbox]").forEach(i => {
+                    i.checked = !i.checked;
+                })
+                document.getElementById("price").innerHTML = total();
+            }
+            const handleSelectAll = () => {
+                const container = document.querySelectorAll("input[type=checkbox]").forEach(i => {
+                    i.checked = !i.checked;
+                })
+                document.getElementById("price").innerHTML = total();
+            }
+            const total = () => {
+                var price = 0;
+                document.querySelectorAll('.product-item').forEach(i => {
+                    if (i.checked == true)
+                        price += parseInt(i.getAttribute("price"))
+                })
+                return price;
+            }
+
+            $(document).ready(function () {
+                total();
+            });
+        </script>
     </body>
 
 </html>

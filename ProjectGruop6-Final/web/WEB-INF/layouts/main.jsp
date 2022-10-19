@@ -16,12 +16,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Bootstrap CSS -->
-        <link href="D:\FPT\CN5\SWP\ProjectFEP\SWP391-Group6\ProjectGruop6-Final\web\WEB-INF\layouts\main.css" rel="stylesheet" type="text/css">
+        <!--<link href="D:\FPT\CN5\SWP\ProjectFEP\SWP391-Group6\ProjectGruop6-Final\web\WEB-INF\layouts\main.css" rel="stylesheet" type="text/css">-->
         <!--<link href="main.css" rel="stylesheet" type="text/css"/>-->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
@@ -41,18 +40,18 @@
             }
 
             /* Header starts */
-/*            @media screen and (max-width: 768px) {
-                . {
-                    display: none;
-                }
-            }*/
-            
+            /*            @media screen and (max-width: 768px) {
+                            . {
+                                display: none;
+                            }
+                        }*/
+
             header {
                 /*margin-top: 20px;*/
                 padding-top: 5px;
                 padding-right: 0px;
                 background-color: orange;
-                margin-bottom: 50px;
+                margin-bottom: 10px;
             }
 
             .logo img {
@@ -87,7 +86,7 @@
 
             header .header__content a{
                 color: black;
-                font-weight: bold;
+                font-weight: 450;
             }
 
             header .header__content a:hover {
@@ -109,8 +108,8 @@
             }
 
             header .category {
-                margin-top: 20px;
-                padding-bottom: 20px;
+                /*margin-top: 20px;*/
+                padding-bottom: 5px;
             }
 
             header .category ul {
@@ -139,66 +138,44 @@
             }
 
             .search {
+                display: flex;
                 position: relative;
-                width: 80%;
+                /*padding: 2px 0 2px 0;*/
+                width: 100%;
                 height: 40px;
                 background: #fff;
                 border-radius: 60px;
                 box-shadow: 0 0 0 5px #ffba00;
                 border: none;
                 outline: none;
-                padding-left: 15px;
             }
 
-            .search .icon {
-                display: flex;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 60px;
-                height: 60px;
-                background: #fff;
-                justify-content: center;
-                align-items: center;
-                border-radius: 60px;
-                z-index: 1;
-                cursor: pointer;
-            }
-
-            .search .icon::before {
-                content: '';
-                position: absolute;
-                width: 15px;
-                height: 15px;
-                border: 3px solid #ffba00;
-                border-radius: 50%;
-                transform: translate(-4px, -4px);
-            }
-
-            .search .icon::after {
-                content: '';
-                position: absolute;
-                width: 3px;
-                height: 12px;
-                background: #ffba00;
-                transform: translate(6px, 6px) rotate(135deg);
+            .input-search{
+                border-radius: 0 50% 50% 0;
+                width: 680px;
+                height: 100%;
             }
 
             .search input {
+                border-radius: 0 50% 50% 0;
                 position: absolute;
-                top: 0;
+                /*top: 0;*/
                 width: 100%;
                 height: 100%;
-                left: 0;
+                /*left: 0;*/
                 border: none;
                 outline: none;
                 font-size: 18px;
-                padding: 10px 0;
             }
-            .search-icon
-            {
-                position: absolute;
-                right: 0;
+
+            .search-icon {
+                /*justify-content: center;*/
+                background-color: #FFFFFF;
+                padding: 7px;
+                border-radius: 50% 0 0 50%;
+                hight: 36px;
+                width: 36px;
+                light: 0;
                 top: 0;
                 bottom: 0;
 
@@ -269,7 +246,7 @@
                 padding: 0;
                 box-shadow: rgb(0 0 0 / 18%) 0px 6px 12px 0px;
                 background: rgb(255, 255, 255);
-                top: 45px;
+                top: 70px;
                 left: -30px;
             }
 
@@ -342,6 +319,16 @@
     <body>
 
         <!--header-->
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <!-- DataTables -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
         <header>
             <div class="container">
                 <div class="row">
@@ -357,22 +344,24 @@
                             <button ><a href="<c:url value="/home/uploadProduct.do"/>"><i class="fa-sharp fa-solid fa-file-pen"></i>Đăng tin</a></button>
                             <button ><a href="<c:url value="/order/history.do"/>"><i class="fa-sharp fa-solid fa-clipboard"></i>Đơn hàng</a></button>
 
-                            <button style="display: ${sessionScope.user.roleId== 1 or sessionScope.user.roleId== 2 ? "block":"none"}"><a href="<c:url value="/admin/productAuthen.do"/>"><i class="fas fa-user-shield"></i>Duyệt</a></button>
-                            <!--<h1>${sessionScope}</h1>-->
+                            <button style="display: ${sessionScope.user.roleId== 1 or sessionScope.user.roleId== 2 ? "block":"none"}"><a href="<c:url value="/admin/productAuthen.do?status=nary"/>"><i class="fas fa-user-shield"></i>Duyệt</a></button>
+
                             <button ><a href="<c:url value="/cart/cart.do"/>"><i class="fa-solid fa-cart-shopping"></i>Giỏ hàng</a></button>
                             <c:if test ="${sessionScope.user == null}">
                                 <button ><a href="<c:url value="/user/login.do"/>"><i class="fa-sharp fa-solid fa-right-to-bracket"></i>Đăng nhập</a></button>
                             </c:if>                            
                         </div>
-                        <div>                            
-                            <div class="input">
-                                <div>
-                                    <input  class="position-relative search" onclick="showLayer()" oninput="searchAjax(this)" type="text" placeholder="TÌm kiếm sản phẩm " id="searchInput">   
-                                    <div class="position-absolute search-result-layer">
-
-                                    </div>
+                        <div class="search">
+                            <div class="search-icon">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </div>
+                            <form action="searchProduct.do"  class="input-search">
+                                <input  class="position-relative" name="name" onclick="showLayer()" oninput="searchAjax(this)" type="text" placeholder="Tìm kiếm sản phẩm " id="searchInput">   
+                                <div class="position-absolute search-result-layer">
                                 </div>
-                            </div>    
+                                <input type="submit" hidden>
+                            </form>
+
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -380,7 +369,7 @@
                             <div class="container-account">
                                 <div class="account-link">
                                     <a class="account-link" href="#" >
-                                        <img style="border-radius: 50%;" src="<c:url value="${sessionScope.user.avatarLink}"/>" alt="">
+                                        <img style="border-radius: 50%;" src="${sessionScope.user.avatarLink}" alt="">
                                     </a>
 
                                     <div class="account-btn">
@@ -457,43 +446,39 @@
 
         </footer>
     </body>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
-                                        const searchResultLayer = document.querySelector(".search-result-layer");
-                                        const searchBar = document.querySelector(".search");
-                                        const showLayer = () => {
-                                            searchResultLayer.style.display = "block";
-                                            searchResultLayer.offsetWidth = searchBar.offsetWidth;
-                                        }
-                                        window.addEventListener("click", (e) => {
-                                            if (searchResultLayer.style.display == "block" && e.target !== searchBar) {
-                                                searchResultLayer.style.display = "none"
-                                            }
-                                        })
-                                        const searchAjax = (el) => {
-                                            const value = el.value
-                                            $.ajax("/ProjectGroup6/GetProductAjax", {
-                                                data: {
-                                                    func: "getSearchResult",
-                                                    productName: value
-                                                },
-                                                success: function (data) {
-                                                    searchResultLayer.innerHTML = "";
-                                                    console.log(data)
-                                                    data.forEach(i => {
-                                                        console.log("<li onclick='this.querySelector('a').click()'>" +
-                                                                '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
-                                                                '</li>')
-                                                        searchResultLayer.innerHTML += "<li onclick='this.querySelector('a').click()'>" +
-                                                                '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
-                                                                '</li>'
-                                                    })
-                                                }
-                                            })
-                                        }
+        const searchResultLayer = document.querySelector(".search-result-layer");
+        const searchBar = document.querySelector(".search");
+        const showLayer = () => {
+            searchResultLayer.style.display = "block";
+            searchResultLayer.offsetWidth = searchBar.offsetWidth;
+        }
+        window.addEventListener("click", (e) => {
+            if (searchResultLayer.style.display == "block" && e.target !== searchBar) {
+                searchResultLayer.style.display = "none"
+            }
+        })
+        const searchAjax = (el) => {
+            const value = el.value
+            $.ajax("/ProjectGroup6/GetProductAjax", {
+                data: {
+                    func: "getSearchResult",
+                    productName: value
+                },
+                success: function (data) {
+                    searchResultLayer.innerHTML = "";
+                    console.log(data)
+                    data.forEach(i => {
+                        console.log("<li onclick='this.querySelector('a').click()'>" +
+                                '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
+                                '</li>')
+                        searchResultLayer.innerHTML += "<li onclick='this.querySelector('a').click()'>" +
+                                '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
+                                '</li>'
+                    })
+                }
+            })
+        }
     </script>
 </html>

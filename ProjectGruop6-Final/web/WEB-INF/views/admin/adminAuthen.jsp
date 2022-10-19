@@ -13,7 +13,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- Bootstrap CSS -->
-        <style>    
+        <style>
+            body{
+                background: #F0F0F0;
+            }
+            a{text-decoration: none;}
             .col {
                 margin-bottom: 100px;
             }
@@ -45,11 +49,43 @@
                 width: 200px;
                 height: 200px;
             }
-            a{text-decoration: none !important;}
 
             .search1 {
                 margin-left: 80%;
                 margin-bottom: 30px;
+            }
+
+            .avatar {
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+            }
+
+            .avatar img{
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+            }
+            .font-a a{
+                color: #FFA500;
+                margin: 0;
+            }
+
+            a {
+                color: black;
+            }
+
+            a:hover {
+                color: none;
+                text-decoration: none;
+                color: #FFA500;
+            }
+
+            .br-form {
+                background: #FFF;
+                padding: 10px;
+                border-radius: 3px;
+                margin-bottom: 10px;
             }
         </style>
         <title>Hello, world!</title>
@@ -60,7 +96,7 @@
 
     <body>
         <div class="col d-flex">
-            <!--Div that will hold the pie chart-->
+            <!--            Div that will hold the pie chart-->
             <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
                 <a href="#" class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
                     <svg class="bi me-2" width="40" height="32">
@@ -74,7 +110,7 @@
                 <hr>
                 <ul class="nav nav-pills flex-column overflow-hidden mb-auto ">
                     <li class="nav-item">
-                        <a href="<c:url value="/admin/productAuthen.do"/>" class="nav-link  text-white">
+                        <a href="<c:url value="/admin/productAuthen.do?status=nary"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#grid"></use>
                             </svg>
@@ -82,15 +118,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<c:url value="/admin/deleteProduct.do"/>" class="nav-link text-white">
-                            <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#people-circle"></use>
-                            </svg>
-                            Xóa sản phẩm
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link  text-white">
+                        <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#table"></use>
                             </svg>
@@ -99,15 +127,15 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="<c:url value="/admin/reviewAuthen.do"/>" class="nav-link text-white">
+                        <a href="<c:url value="/admin/reviewAuthen.do?status=nary"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#people-circle"></use>
                             </svg>
                             Đánh giá
                         </a>
                     </li>
-                    <li class="nav-item" style="display: ${ sessionScope.acc.roleId== 2 ? "block":"none"}">
-                        <a href="<c:url value="/admin/adminAuthen.do"/>" class="nav-link active text-white">
+                    <li class="nav-item" style="display: ${sessionScope.user.roleId == 1 ? "block":"none"}">
+                        <a href="<c:url value="/admin/adminAuthen.do?status=user"/>" class="nav-link active text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#people-circle"></use>
                             </svg>
@@ -117,55 +145,41 @@
                 </ul>
                 <hr>
             </div>
-            <div class="table-responsive-md container p-3">
-                <div class="container">
+        </div>   
+        <div class="container br-form">
 
-
-                    <table class="table caption-top table-striped table-bordered over-flow-y table-hover border-dark">
-                        <caption>Danh sách người dùng</caption>
-                        <thead>
-                            <tr><input class="search1" type="text" name=""/></tr>
-                        <tr>
-                            <th scope="col">Họ và tên</th>
-                            <th scope="col">User name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Số điện thoại</th>
-                            <th scope="col">Hành động</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="">
-                                    Họ và tên
-                                </td>
-                                <td>User name</td>
-                                <td>
-                                    Email
-                                </td>
-                                <td>Số điện thoại</td>
-                                <td>
-                                    <div class="d-flex gap-3 ">
-                                        <div class="col">
-                                            <button type="button" class="btn btn-success mb-3">Promote</button>
-                                            <button type="button" class="btn btn-danger mb-3">&nbsp;Demote&nbsp;</button>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination d-flex justify-content-center">
-                            <li class="page-item"><a class="page-link" href="#">Trước</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+            <c:choose>
+                <c:when test="${not empty userList}">
+                    <div class="container-fluid br-form">
+                        <h3 style="text-align: center; ">Duyệt Admin</h3>
+                        <ul class="nav nav-tabs" style="margin-bottom: 20px;">               
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="<c:url value="/admin/adminAuthen.do?status=user"/>">User</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<c:url value="/admin/adminAuthen.do?status=subAdmin"/>">Sub admin</a>
+                            </li>
                         </ul>
-                    </nav>
-                </div>
-            </div>
+                        <table class="table table-striped" id="admin" style="width: 100%;">
+                            <thead style="background-color: #FFEFD5;">
+                                <tr id="list-header">
+                                    <th class="col-4" scope="col">Email</th>
+                                    <th class="col-2" scope="col">Người dùng</th>
+                                    <th class="col-1" scope="col"></th>
+                                    <th class="col-3" scope="col">Số điện thoại</th>
+                                    <th class="col-1" scope="col">Vai trò</th>
+                                    <th class="col-1" scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <jsp:include page="/WEB-INF/views/error/index.jsp"/>
+                </c:otherwise>
+            </c:choose>
         </div>
 
 
@@ -174,7 +188,92 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript"></script>
         <script>
+            var table;
+            var reviewList = ${userList};
+            console.log(reviewList);
+            function initTableData() {
+                var modifiedUsers = reviewList.map(u => {
+                    if (u.roleId == 1) {
+                        option = "";
+                        role = 'Admin'
+                    } else if (u.roleId == 2) {
+                        role = 'Sub admin';
+                        option = `<button type="button" onclick="handleAdmin('` + u.email + `', this, 'disagree')" class="btn btn-danger mb-3">Hạ chức</button>`;
+                    } else {
+                        role = 'User';
+                        option = `<button type="button" onclick="handleAdmin('` + u.email + `', this, 'agree')" class="btn btn-success mb-3">Bổ nhiệm</button>`;
+                    }
+                    return {
+                        email: u.email,
+                        user: `<p class="font-a"><a href="#">` + u.name + `</a></p>`,
+                        avatar: u.avatar,
+                        phone: u.phone,
+                        role: role,
+                        option: option,
+                    };
+                });
+                console.log(modifiedUsers);
+                table = $('#admin').DataTable({
+                    "processing": true,
+                    data: modifiedUsers,
+                    columns: [
+                        {data: 'email'},
+                        {data: 'user'},
+                        {data: 'avatar',
+                            render: function (data) {
+                                if (data == "" || data == null) {
+                                    return null;
+                                }
+                                return '<a class="avatar"><img src="' + data + '" alt="' + data + '"height="100" width="100"/></a>';
+                            }
+                        },
+                        {data: 'phone'},
+                        {data: 'role'},
+                        {data: 'option'},
+                    ]});
+            }
+            const handleAdmin = (email, el, option) => {
+                if (option == 'agree') {
+                    text = 'Xác nhận bổ nhiệm người dùng !!!';
+                } else if (option == 'disagree') {
+                    text = 'Xác nhận hạ chức của sub admin !!!';
+                }
+                swal({
+                    title: "",
+                    text: text,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                        .then((commit) => {
+                            if (commit) {
+                                $.ajax("<c:url value="/admin/adminAuthen.do"/>", {
+                                    data: {
+                                        email: email,
+                                        func: option,
+                                    },
+                                    success: function (data, textStatus, jqXHR) {
+                                        swal("Thao tác thành công", {
+                                            icon: "success",
+                                        });
+                                        const tableRow = el.parentElement.parentElement
+                                        tableRow.remove()
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        swal("Thao tác thất bại!!!", {
+                                            icon: "error",
+                                        });
+                                    }
+                                })
+                            }
+                        });
+            }
+            $(document).ready(function () {
+                initTableData();
+            });
             const navElements = document.querySelectorAll(".nav-item");
             const removeActiveClass = () => {
                 navElements.forEach(item => {
@@ -210,13 +309,9 @@
                 }
             })
 
-        </script>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
             google.charts.load('current', {'packages': ['corechart']});
             google.charts.setOnLoadCallback(drawChart);
             function drawChart() {
-
                 // Create the data table.
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Topping');
@@ -228,7 +323,6 @@
                     ['Zucchini', 8],
                     ['Pepperoni', 4],
                 ]);
-
                 // Set chart options
                 var options = {
                     'title': 'How Much Pizza I Ate Last Night',
@@ -241,7 +335,6 @@
                     var chart = new google.visualization.LineChart(i);
                     chart.draw(data, options);
                 })
-
             }
         </script>
 

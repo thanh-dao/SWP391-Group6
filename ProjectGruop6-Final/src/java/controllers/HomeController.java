@@ -17,14 +17,18 @@ import dto.ProductDTO;
 import dto.ReviewDTO;
 import dto.UserDTO;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import jdk.nashorn.internal.runtime.regexp.joni.ast.ConsAltNode;
 import utils.Constants;
 
 /**
@@ -32,6 +36,7 @@ import utils.Constants;
  * @author Admin
  */
 @WebServlet(name = "HomeController", urlPatterns = {"/home"})
+
 public class HomeController extends HttpServlet {
 
     /**
@@ -74,51 +79,90 @@ public class HomeController extends HttpServlet {
             }
 
             case "productDetail": {
-                int productId = Integer.parseInt(request.getParameter("productId"));
-                System.out.println(productId);
                 ProductDAO proDAO = new ProductDAO();
                 UserDAO userDAO = new UserDAO();
                 ReviewDAO review = new ReviewDAO();
                 try {
+                    int productId = Integer.parseInt(request.getParameter("productId"));
                     ProductDTO product = proDAO.getProductById(productId);
                     UserDTO user = userDAO.getUserByProductId(productId);
                     List<ReviewDTO> reviewer = review.getReview(productId);
                     double rating = review.getAVGRatingOfProduct(productId);
-                    List<ProductDTO> productList = proDAO.getProductList(1, proDAO.SOLD_COUNT,
-                            proDAO.DESC, user.getEmail());
-                    System.out.println(product);
+                    List<ProductDTO> productList = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
+                            proDAO.SOLD_COUNT, proDAO.DESC, user.getEmail());
+                    List<ProductDTO> productListCategory = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
+                            proDAO.SOLD_COUNT, proDAO.DESC, product.getCateId());
+                    System.out.println(user.toString());
+                    System.out.println(productListCategory);
                     request.setAttribute("rating", rating);
                     request.setAttribute("product", product);
                     request.setAttribute("seller", user);
                     request.setAttribute("reviewer", reviewer);
                     request.setAttribute("productList", productList);
+                    request.setAttribute("productListCategory", productListCategory);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
             break;
             case "uploadProduct":
+                String name = request.getParameter("name");
+                System.out.println("name: " + name);
+                if (name != null) {
+                    String price = request.getParameter("price").replace(",", "");
+                    String quantity = request.getParameter("quantity").replace(",", "");;
+                    String cateId = request.getParameter("cateId");
+                    String description = request.getParameter("descriptionHidden");
+                    String sellerEmail = request.getParameter("sellerEmail");
+                    ProductDAO proDAO = new ProductDAO();
+                    session.setAttribute("name", name);
+                    try {
+                        System.out.println("product created : " + proDAO.createProduct(name, cateId, quantity, price, description, sellerEmail));
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                        LocalDateTime now = LocalDateTime.now();
+                        System.out.println(dtf.format(now));
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 break;
             case "checkProduct":
                 break;
-            case "productList":
+            case "productList": {
                 String cateIDStr = request.getParameter("cateId");
                 int cateID = Integer.parseInt(cateIDStr);
                 ProductDAO proDAO = new ProductDAO();
                 try {
                     List<ProductDTO> productList = proDAO.getProductList(1, ProductDAO.NAME, ProductDAO.ASC, cateID);
                     int totalProduct = proDAO.countProductByCateId(cateIDStr);
-                    int pageNum = totalProduct / Constants.ITEM_PER_PAGE + ( totalProduct % Constants.ITEM_PER_PAGE == 0 ? 0 : 1);
+                    int pageNum = totalProduct / Constants.ITEM_PER_PAGE + (totalProduct % Constants.ITEM_PER_PAGE == 0 ? 0 : 1);
                     request.setAttribute("productList", productList);
                     request.setAttribute("pageNum", pageNum);
-                } catch(Exception ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-
-                break;
+            }
+            break;
             case "reviewProduct":
-
                 break;
+            case "searchProduct": {
+
+                String productName = request.getParameter("name");
+                ProductDAO proDAO = new ProductDAO();
+                List<ProductDTO> productList = null;
+                int totalProduct = 0;
+                try {
+                    productList = proDAO.getProductListByProductName(1, productName);
+                    totalProduct = proDAO.countProductListByProductName(productName);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                int pageNum = totalProduct / Constants.ITEM_PER_PAGE + (totalProduct % Constants.ITEM_PER_PAGE == 0 ? 0 : 1);
+                request.setAttribute("productList", productList);
+                request.setAttribute("pageNum", pageNum);
+                request.setAttribute("action", "productList");
+            }
+            break;
             default:
                 //chuyển đến trang thông báo lổi
                 request.setAttribute("controller", "error");

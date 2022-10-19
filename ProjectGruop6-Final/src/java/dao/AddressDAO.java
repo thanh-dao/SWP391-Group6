@@ -10,6 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import utils.DBUtil;
 
 /**
@@ -29,7 +33,7 @@ public class AddressDAO {
         String cityName = get(cityId, CITY);
         String districtName = get(districtId, DISTRICT);
         String wardName = get(wardId, WARD);
-        return new AddressDTO(houseNumber, wardName, districtName, cityName);
+        return new AddressDTO(houseNumber, wardId, wardName, districtId, districtName, cityId, cityName);
     }
 
     public String get(String id, int table) throws ClassNotFoundException, SQLException {
@@ -77,9 +81,54 @@ public class AddressDAO {
         return null;
     }
 
+    public List<Map<String, String>> getCityIdAndName() throws SQLException, ClassNotFoundException {
+        Connection conn = DBUtil.getConnection();
+        List<Map<String, String>> result = new ArrayList<>();
+        PreparedStatement stm = conn.prepareStatement("SELECT city_id, name FROM city");
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            Map<String, String> data = new HashMap<>();
+            data.put("id", rs.getString(1));
+            data.put("name", rs.getString(2));
+            result.add(data);
+        }
+        return result;
+    }
+    public List<Map<String, String>> getDistrictIdAndName(int cityId) throws SQLException, ClassNotFoundException {
+        Connection conn = DBUtil.getConnection();
+        List<Map<String, String>> result = new ArrayList<>();
+        PreparedStatement stm = conn.prepareStatement("SELECT district_id, name FROM district where city_id = ?");
+        stm.setInt(1, cityId);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            Map<String, String> data = new HashMap<>();
+            data.put("id", rs.getString(1));
+            data.put("name", rs.getString(2));
+            result.add(data);
+        }
+        return result;
+    }
+    
+    public List<Map<String, String>> getWardIdAndName(int districtId) throws SQLException, ClassNotFoundException {
+        Connection conn = DBUtil.getConnection();
+        List<Map<String, String>> result = new ArrayList<>();
+        PreparedStatement stm = conn.prepareStatement("SELECT ward_id, name FROM ward where district_id = ?");
+        stm.setInt(1, districtId);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            Map<String, String> data = new HashMap<>();
+            data.put("id", rs.getString(1));
+            data.put("name", rs.getString(2));
+            result.add(data);
+        }
+        return result;
+    }
+    
+
     public static void main(String[] args) {
         AddressDAO a = new AddressDAO();
         try {
+//            
             System.out.println(a.get(null, a.CITY));
             if (a.get(null, a.CITY) == null) {
                 System.out.println("OK");
