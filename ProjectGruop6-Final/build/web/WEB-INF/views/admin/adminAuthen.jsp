@@ -38,6 +38,7 @@
                 transition: 0.3s;
                 height: 100vh;
                 width: 0;
+                z-index: 1;
             }
 
             td {
@@ -104,9 +105,9 @@
                     </svg>
                     <span class="fs-4 text-align">Home</span>
                 </a>
-                <button class="navigate-button position-absolute" type="button">
-                    <ion-icon name="menu-outline"></ion-icon>
-                </button>
+                <a class="navigate-button">
+                    <i class="fa-solid fa-bars"></i>
+                </a>
                 <hr>
                 <ul class="nav nav-pills flex-column overflow-hidden mb-auto ">
                     <li class="nav-item">

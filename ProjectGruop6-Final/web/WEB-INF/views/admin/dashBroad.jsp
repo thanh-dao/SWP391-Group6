@@ -63,6 +63,7 @@
                 transition: 0.3s;
                 height: 100vh;
                 width: 0;
+                z-index: 1;
             }
 
 
