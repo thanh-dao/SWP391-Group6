@@ -29,16 +29,22 @@ public class Constants {
     public static final int ITEM_PER_PAGE_PRODUCT_DETAIL = 12;
 
     public static final int RESULT_PER_SEARCH = 5;
-    
+
     public static final String IMAGE_RELATIVE_DIRECTORY = "/ProjectGroup6/img";
+<<<<<<< HEAD
     
     public static final String IMAGE_ABSOLUTE_DIRECTORY = "D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/img";
     
+=======
+
+    public static final String IMAGE_ABSOLUTE_DIRECTORY = "C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/img";
+
+>>>>>>> a45207156b1b275a83a7323567f6172918000acd
     public static void main(String[] args) {
         System.out.println(getImageDirectory());
     }
-    public static String getImageDirectory () {
-        return (new java.io.File("").getAbsolutePath() + "\\web\\img").replace("\\",  "/");
+
+    public static String getImageDirectory() {
+        return (new java.io.File("").getAbsolutePath() + "\\web\\img").replace("\\", "/");
     }
-    
 }

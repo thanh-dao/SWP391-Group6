@@ -8,6 +8,7 @@ package controllers;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import config.Config;
+import dao.ProductDAO;
 import dao.UserDAO;
 import dto.AddressDTO;
 import dto.UserDTO;
@@ -18,6 +19,7 @@ import dto.UserGoogleDTO;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -122,7 +124,7 @@ public class UserController extends HttpServlet {
                     session.setAttribute("user", userDTO);
                     redirectUrl = "/home/main.do";
                     session.setAttribute("errorLoginMessage", null);
-
+                    
                 } else {
                     redirectUrl = "/user/login.do";
                     session.setAttribute("errorLoginMessage",
@@ -130,14 +132,14 @@ public class UserController extends HttpServlet {
                 }
                 break;
             }
-
+            
             case "logout": {
                 session.removeAttribute("user");
                 redirectUrl = "/";
                 isFowarded = true;
                 break;
             }
-
+            
             default: {
                 request.setAttribute("controller", "error");
                 request.setAttribute("action", "index");
@@ -149,9 +151,9 @@ public class UserController extends HttpServlet {
         } else {
             response.sendRedirect(getServletContext().getContextPath() + redirectUrl);
         }
-
+        
     }
-
+    
     public static String getToken(String code) throws ClientProtocolException, IOException {
         // call api to get token
         String response = Request.Post(Constants.GOOGLE_LINK_GET_TOKEN)
@@ -166,7 +168,7 @@ public class UserController extends HttpServlet {
         String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
         return accessToken;
     }
-
+    
     public static UserGoogleDTO getUserInfo(String accessToken) throws ClientProtocolException, IOException {
         String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();

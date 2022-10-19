@@ -3,13 +3,19 @@ package dao;
 import dto.AddressDTO;
 import dto.OrderByShopDTO;
 import dto.OrderDTO;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+<<<<<<< HEAD
 import javax.servlet.http.HttpSession;
+=======
+import java.util.logging.Level;
+import java.util.logging.Logger;
+>>>>>>> a45207156b1b275a83a7323567f6172918000acd
 import utils.DBUtil;
 
 public class OrderDAO {
@@ -195,24 +201,16 @@ public class OrderDAO {
     }
 
     public static void main(String[] args) {
-        OrderDAO o = new OrderDAO();
-        try {
-//            d.addCart("ThinhPQSE151077@fpt.edu.vn", 158);
-            System.out.println(o.getTotalIncome());
-//            OrderDTO order = o.getOrder("ThinhPQSE151077@fpt.edu.vn", 0);
-//            System.out.println(order.getOrderByShopList());
-//            order.getOrderByShopList().forEach((t) -> {
-//                System.out.println(t.toString());
-//            });
-//            System.out.println("================================================");
-//            System.out.println(order.getOrderByShopList().get(0).getOrderDetailList().get(0)
-//                    .getProductId());
-//            System.out.println(order.getOrderByShopList().get(0).getEmailSeller());
-//            for (OrderByShopDTO i : order.getOrderByShopList()) {
-//                System.out.println(i.getEmailSeller());
-//            }
 
-        } catch (Exception e) {
+        String currentPath;
+        try {
+            currentPath = new java.io.File(".").getCanonicalPath();
+            System.out.println("Current dir:" + currentPath);
+            String currentDir = System.getProperty("user.dir");
+            System.out.println("Current dir using System:" + currentDir);
+        } catch (IOException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 }

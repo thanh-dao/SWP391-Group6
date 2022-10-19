@@ -662,20 +662,6 @@ public class ProductDAO {
         return list;
     }
 
-    public void getJson() throws ClassNotFoundException, SQLException {
-        Connection conn = DBUtil.getConnection();
-        String sql = "SELECT ARRAY_TO_JSON(ARRAY_AGG(ROW_TO_JSON(data)))::varchar resubrow FROM (SELECT * FROM product)data;";
-        Statement stm = conn.createStatement();
-        ResultSet rs = stm.executeQuery(sql);
-        String resubrow = "";
-
-        if (rs.next()) {
-            System.out.println(rs.getString("resubrow"));
-            resubrow = rs.getString("resubrow");
-        }
-
-    }
-
     public List<ProductDTO> getTop10ProductByMonth(int month) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT TOP 10 p.product_id, od.quantity, p.name FROM \n"
@@ -699,15 +685,16 @@ public class ProductDAO {
     
     public String getProductListJson(List<ProductDTO> productList) throws ClassNotFoundException, SQLException {
         Gson gson = new Gson();
-        HashMap<String, String> hashmap = new HashMap<>();
+        HashMap<String, Object> hashmap = new HashMap<>();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String a = "[";
         for (ProductDTO p : productList) {
             hashmap.put("productId", String.valueOf(p.getProductId()));
             hashmap.put("date", formatter.format(p.getCreateAt()));
             hashmap.put("name", p.getName());
-            hashmap.put("image", p.getMainImage().getUrl());
+            hashmap.put("image", p.getImgList());
             hashmap.put("price", String.valueOf(p.getPrice()));
+            hashmap.put("description", String.valueOf(p.getDescription()));
             a += gson.toJson(hashmap) + ",";
         }
         return a + "]";
@@ -716,6 +703,7 @@ public class ProductDAO {
     public static void main(String[] args) {
         ProductDAO proDAO = new ProductDAO();
         try {
+            System.out.println(new Gson().toJson(proDAO.getProductListJson(proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC))));
 //                proDAO.approveProduct("PhuongNHSE150997@fpt.edu.vn", 460, "YES");
 //                System.out.println(proDAO.getProductAdmin(CREATE_AT, ASC));
 //            System.out.println(proDAO.getProductById(149));
