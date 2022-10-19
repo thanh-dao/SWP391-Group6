@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import javax.servlet.http.HttpSession;
 import utils.DBUtil;
 
 public class OrderDAO {
@@ -106,6 +107,21 @@ public class OrderDAO {
             OrderByShopDAO obs = new OrderByShopDAO();
             ProductDAO p = new ProductDAO();
             obs.createOrderByShop(productId, p.getSellerEmailByProductId(productId));
+        }
+    }
+
+    //check Order when order_detail null
+    public void checkOrder(int orderId) throws ClassNotFoundException, SQLException {
+        Connection conn;
+        conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT [order_by_shop_id] "
+                + "FROM [order] WHERE orde_id = ? ");
+        stm.setInt(1, orderId);
+        ResultSet rs = stm.executeQuery();
+        System.out.println(rs.next());
+        OrderByShopDAO obs = new OrderByShopDAO();
+        while (rs.next()) {
+            obs.checkOrderByShop(rs.getInt("order_by_shop_id"));
         }
     }
 

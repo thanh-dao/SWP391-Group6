@@ -26,9 +26,16 @@ public class OrderDTO {
         this.orderId = orderId;
         this.emailBuyer = emailBuyer;
     }
-    
+
+    public OrderDTO(String emailBuyer, AddressDTO address, List<OrderByShopDTO> OrderByShopList) {
+        this.emailBuyer = emailBuyer;
+        this.address = address;
+        this.OrderByShopList = OrderByShopList;
+    }
+
     @Override
     public String toString() {
-        return "OrderDTO{" + "orderId=" + orderId + ", deliveryId=" + deliveryId + ", paymentId=" + paymentId + ", emailBuyer=" + emailBuyer + ", orderDate=" + orderDate + ", address=" + address + '}';
+        return "OrderDTO{" + "orderId=" + orderId + ", deliveryId=" + deliveryId + ", paymentId=" + paymentId + ", emailBuyer=" + emailBuyer + ", orderDate=" + orderDate + ", address=" + address + ", OrderByShopList=" + OrderByShopList + ", total=" + total + '}';
     }
+
 }

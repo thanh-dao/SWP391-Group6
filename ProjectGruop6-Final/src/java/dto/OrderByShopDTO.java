@@ -21,6 +21,12 @@ public class OrderByShopDTO {
     private Date shippedDate;
     private List<OrderDetailDTO> OrderDetailList;
 
+    public OrderByShopDTO(String emailSeller, String name, List<OrderDetailDTO> OrderDetailList) {
+        this.emailSeller = emailSeller;
+        this.name = name;
+        this.OrderDetailList = OrderDetailList;
+    }
+
     @Override
     public String toString() {
         return "OrderByShopDTO{" + "orderByShopId=" + orderByShopId + ", emailSeller=" + emailSeller + ", name=" + name + ", transactionFee=" + transactionFee + ", transportFee=" + transportFee + ", shippedDate=" + shippedDate + ", OrderDetailList=" + OrderDetailList + '}';

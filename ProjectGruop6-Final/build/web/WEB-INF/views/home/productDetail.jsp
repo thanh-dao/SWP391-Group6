@@ -280,6 +280,14 @@
                             <h2 style="color: #E72425; text-align: right; margin-right: 20px;">
                                 <fmt:setLocale value="vi_VN"/>
                                 <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>
+                            <h1>${user == null} </h1>
+                            <script>
+                                var isNullUser = true
+                                <c:if test="${user != null}">
+                                    isNullUser = false
+                                </c:if>
+                            </script>
+
                             <div class="buy d-flex justify-content-around" style="margin: 50px 0 20px 0;">
                                 <button onclick="addOrder(${product.productId})">Mua</button>
                             </div>
@@ -402,6 +410,10 @@
     </body>
     <script>
         const addOrder = (pId) => {
+            if (isNullUser == true) {
+                localStorage.setItem("previousUrl", window.location.href)
+                window.location.href = '/ProjectGroup6/user/login.do'
+            }
             $.ajax("<c:url value="/cart/cart.do"/>", {
                 data: {
                     func: 'add',

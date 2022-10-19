@@ -198,6 +198,17 @@
                 font-size: 15px;
                 color: red;
             }
+
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            /* Firefox */
+            input[type=number] {
+                -moz-appearance: textfield;
+            }
         </style>
     </head>
 
@@ -213,15 +224,22 @@
                             <table style="margin-bottom: 1rem;">
                                 <thead>                                  
                                     <tr row>
-                                        <th><input type="checkbox" onclick="handleSelectAll()" name=""></th>
+                                        <th><input id="selectAll" type="checkbox" onclick="handleSelectAll(this)" name=""></th>
                                         <th class="col-md-6 col-5">Sản phẩm</th>
                                         <th class="col-md-3 col-3">Đơn giá</th>
-                                        <th class="col-md-3 col-4">Số lượng</th>
+                                        <th class="col-md-3 col-4" style="display: flex; justify-content: space-between;">
+                                            <span>Số lượng</span>
+                                            <div class=" style-product-cart delete-icon " onclick="deleteAll()" 
+                                                 style="justify-content: center">
+                                                <a class="show-cart" style="color: white"><i
+                                                        class="fas fa-trash delete-trash"></i></a>
+                                            </div>
+                                        </th>
                                     </tr>
                                 </thead>
                             </table>
                             <c:forEach items="${order.getOrderByShopList()}" var="i">
-                                <table class="table table-striped">
+                                <table class="table table-striped cart-table">
                                     <thead style="background-color: #FFEFD5;">                                  
                                         <tr row>
                                             <th><input type="checkbox" onclick="handleSelectByShop(this)" name="${i.orderByShopId}"></th>
@@ -233,7 +251,7 @@
                                     <tbody>
                                         <c:forEach items="${i.getOrderDetailList()}" var="p">
                                             <tr>
-                                                <th><input type="checkbox" class="product-item" price="${p.getProduct().price}" id="${p.productId}" onclick="" name=""></th>
+                                                <th><input type="checkbox" onclick="handleSelect(this)" class="product-item" price="${p.getProduct().price}" id="${p.productId}" onclick="" name=""></th>
                                                 <td style="margin: 0">
                                                     <div class="row">
                                                         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding: 0;">
@@ -256,7 +274,7 @@
                                                 <td>
                                                     <div class="quantity-button">
                                                         <button class="btn-style-left" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, 'minus', this)">-</button>
-                                                        <input class="ip-qua-style" onchange="updateMoneyPerProduct(this)" value=${p.getQuantity()}>
+                                                        <input type="number"   class="ip-qua-style" pattern="/^[1-9]\d*$/" oninput="updateMoneyPerProduct(this, ${p.getQuantity()},${p.getProductId()}, ${i.orderByShopId})" value=${p.getQuantity()}>
                                                         <button class="btn-style-right" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, 'sum', this)">+</button>
                                                         <div class=" style-product-cart delete-icon " onclick="deleteOrderDetail(${p.getProductId()}, ${i.orderByShopId}, this)" 
                                                              style="justify-content: center">
@@ -298,10 +316,8 @@
                             <!-- thanh toán -->
                             <span class="title-style">Tổng cộng</span>
                             <div class="price-content txt-style">
-                                <span>Tổng : 
+                                <span>Thành tiền : 
                                     <span id="price" class="price-content">
-                                        <fmt:setLocale value="vi_VN"/>
-                                        <fmt:formatNumber value="" type="currency"/>
                                     </span>
                                 </span>
                             </div>
@@ -313,6 +329,59 @@
             </div>
         </div>
         <script>
+            const deleteAll = () => {
+                swal({
+                    title: "",
+                    text: "Xác nhận xóa sản phẩm này?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                $.ajax("<c:url value="/cart/cart.do"/>", {
+                                    data: {
+                                        func: "deleteAll",
+                                    },
+                                    success: function (data, textStatus, jqXHR) {
+                                        swal("Đã xóa thành công", {
+                                            icon: "success",
+                                            buttons: false,
+                                            timer: 1000,
+                                        });
+                                        document.querySelectorAll(".cart-table").forEach(i => {
+                                            i.remove()
+                                        })
+                                        document.getElementById("price").innerHTML = total();
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        swal("Xóa thất bại!!!", {
+                                            icon: "error",
+                                            buttons: false,
+                                            timer: 1000,
+                                        });
+                                    }
+                                })
+                            }
+                        });
+            }
+            function updateMoneyPerProduct(el, quantity, pId, osId) {
+                const intValue = parseInt(el.value)
+                if (intValue < 1) {
+                    el.value = quantity;
+                } else {
+                    $.ajax("<c:url value="/cart/cart.do"/>", {
+                        data: {
+                            pId: pId,
+                            func: 'update',
+                            quan: intValue,
+                            osId: osId,
+                        }
+                    })
+                    document.getElementById("price").innerHTML = total();
+                }
+
+            }
             const deleteOrderDetail = (pId, osId, el) => {
                 swal({
                     title: "",
@@ -339,9 +408,10 @@
                                         const tableBody = tableRow.parentElement;
                                         const tableElement = tableBody.parentElement;
                                         tableRow.remove()
-                                        if(tableBody.innerHTML.trim() === ""){
+                                        if (tableBody.innerHTML.trim() === "") {
                                             tableElement.remove();
                                         }
+                                        document.getElementById("price").innerHTML = total();
                                     },
                                     error: function (jqXHR, textStatus, errorThrown) {
                                         swal("Xóa thất bại!!!", {
@@ -355,18 +425,17 @@
                         });
             }
             const handleCart = (pId, osId, option, el) => {
-            let quantity = parseInt(el.parentElement.querySelector(".ip-qua-style").value)
-            console.log(1)
+                let quantity = parseInt(el.parentElement.querySelector(".ip-qua-style").value)
                 if (option == 'minus') {
                     quantity -= 1;
                     if (quantity < 1) {
                         quantity = 1;
                         deleteOrderDetail(pId, osId, el);
                     }
-                    
+
                 } else if (option == 'sum') {
                     quantity += 1;
-
+//                    console.log(quantity);
                 }
                 el.parentElement.querySelector(".ip-qua-style").value = quantity;
                 $.ajax("<c:url value="/cart/cart.do"/>", {
@@ -377,27 +446,52 @@
                         osId: osId,
                     }
                 })
+                document.getElementById("price").innerHTML = total();
             }
             const handleSelectByShop = (el) => {
                 const container = el.parentElement.parentElement.parentElement.parentElement;
+                if (el.checked == false) {
+                    const selectAll = document.getElementById("selectAll")
+                    selectAll.checked = false
+                }
                 container.querySelectorAll("tbody input[type=checkbox]").forEach(i => {
-                    i.checked = !i.checked;
+                    i.checked = el.checked;
                 })
                 document.getElementById("price").innerHTML = total();
             }
-            const handleSelectAll = () => {
+            const handleSelectAll = (el) => {
                 const container = document.querySelectorAll("input[type=checkbox]").forEach(i => {
-                    i.checked = !i.checked;
+                    i.checked = el.checked;
                 })
+                document.getElementById("price").innerHTML = total();
+            }
+            const handleSelect = (el) => {
+                if (el.checked == false) {
+                    const selectByShop = el.parentElement.parentElement.parentElement.parentElement.childNodes[1].querySelectorAll("input[type=checkbox]")
+                    selectByShop[0].checked = false
+                    const selectAll = document.getElementById("selectAll")
+                    selectAll.checked = false
+                } else if (el.checked == true) {
+
+                }
+
                 document.getElementById("price").innerHTML = total();
             }
             const total = () => {
                 var price = 0;
                 document.querySelectorAll('.product-item').forEach(i => {
-                    if (i.checked == true)
-                        price += parseInt(i.getAttribute("price"))
+                    if (i.checked == true) {
+                        const quantity = parseInt(i.parentElement.parentElement.querySelector(".ip-qua-style").value)
+                        price += parseInt(i.getAttribute("price") * quantity)
+                        console.log(price)
+                    }
                 })
-                return price;
+                const formatter = new Intl.NumberFormat('vn-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                    minimumFractionDigits: 0
+                })
+                return formatter.format(price)
             }
 
             $(document).ready(function () {
