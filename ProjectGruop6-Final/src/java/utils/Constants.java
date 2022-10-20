@@ -33,6 +33,8 @@ public class Constants {
     public static final String IMAGE_RELATIVE_DIRECTORY = "/ProjectGroup6/img";
 
     public static final String IMAGE_ABSOLUTE_DIRECTORY = "C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/img";
+    
+    public static final String GHN_API_TOKEN = "d67c06a0-2e7c-11ed-b824-262f869eb1a7";
 
     public static void main(String[] args) {
         System.out.println(getImageDirectory());
