@@ -211,6 +211,11 @@
                 <h3 style="text-align: center; margin: 50px; ">Hiện không có review nào chờ duyệt</h3>
             </c:otherwise>
         </c:choose>
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
         <script>
             var table;
             var reviewList = ${reviewList};
@@ -348,6 +353,7 @@
 //            }
             $(document).ready(function () {
                 initTableData();
+                
                 //                $("#btnReloadData").on("click", function () {
                 //                    //alert("reload data...")
                 //                    table.ajax.reload();
@@ -379,19 +385,51 @@
                 y += 10;
                 style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
             }
-            const tabs = document.querySelectorAll(".nav-link")
-            // console.log(tabs)
+            const navElements = document.querySelectorAll(".nav-item");
             const removeActiveClass = (elements) => {
-                elements.forEach(i => {
-                    i.classList.remove("active")
+                elements.forEach(item => {
+                    console.log("childNodes: ");
+                    console.log(item.childNodes);
+                    item.childNodes[1].classList.remove("active");
                 })
             }
-            tabs.forEach(i => {
+            navElements.forEach(i => {
                 i.addEventListener("click", () => {
-                    removeActiveClass(tabs);
-                    i.classList.add("active");
+                    removeActiveClass(navElements)
+                    i.childNodes[1].classList.add("active");
                 })
-            });
+            })
+            const navBtn = document.querySelector(".navigate-button")
+            let opened = false;
+            const navMenu = document.querySelector(".nav-menu");
+            navBtn.addEventListener("click", () => {
+                console.log(1);
+                opened = !opened;
+                const navMenuStyle = navMenu.style
+                if (opened) {
+
+                    navBtn.innerHTML = '<ion-icon name="close-outline"></ion-icon>'
+                    document.addEventListener("click", (e) => {
+                        const classList = e.target.classList
+                        if (!classList.contains("nav-menu") && !classList.contains("hydrated")) {
+                            navMenuStyle.width = "0"
+                            opened = false;
+                            navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
+                        }
+                    })
+                    navMenuStyle.width = "300px";
+                } else {
+                    navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
+                    navMenuStyle.width = "0"
+                }
+            })
+
+            function setActive(el) {
+                document.querySelectorAll(".nav-item").forEach(i => {
+                    i.classList.remove("active")
+                })
+                el.classList.add("active")
+            }
         </script>
     </body>
 

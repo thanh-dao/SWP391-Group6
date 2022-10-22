@@ -291,14 +291,16 @@
 
     <script>
         const navElements = document.querySelectorAll(".nav-item");
-        const removeActiveClass = () => {
-            navElements.forEach(item => {
+        const removeActiveClass = (elements) => {
+            elements.forEach(item => {
+                console.log("childNodes: ");
+                console.log(item.childNodes);
                 item.childNodes[1].classList.remove("active");
             })
         }
         navElements.forEach(i => {
             i.addEventListener("click", () => {
-                removeActiveClass()
+                removeActiveClass(navElements)
                 i.childNodes[1].classList.add("active");
             })
         })
@@ -306,12 +308,15 @@
         let opened = false;
         const navMenu = document.querySelector(".nav-menu");
         navBtn.addEventListener("click", () => {
+            console.log(1);
             opened = !opened;
             const navMenuStyle = navMenu.style
             if (opened) {
+
                 navBtn.innerHTML = '<ion-icon name="close-outline"></ion-icon>'
                 document.addEventListener("click", (e) => {
-                    if (!navMenu.contains(e.target)) {
+                    const classList = e.target.classList
+                    if (!classList.contains("nav-menu") && !classList.contains("hydrated")) {
                         navMenuStyle.width = "0"
                         opened = false;
                         navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
@@ -324,6 +329,12 @@
             }
         })
 
+        function setActive(el) {
+            document.querySelectorAll(".nav-item").forEach(i => {
+                i.classList.remove("active")
+            })
+            el.classList.add("active")
+        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

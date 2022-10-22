@@ -31,6 +31,9 @@
                 height: 300px;
                 margin-bottom: 50px;
                 margin-top: 100px;
+                z-index: 1;
+                margin-right: 5px;
+                margin-left: 5px; 
             }
 
             .discount .right {

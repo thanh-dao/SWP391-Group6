@@ -34,161 +34,120 @@
         </style>
         <title>Document</title>
     </head>
-
     <body>
-        <div class="container">
-            <ul class="nav nav-tabs ">               
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Đang bán</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Hết hàng</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Đang chờ duyệt</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="#">Dashboard</a>
-                </li>
-            </ul>
-        </div>
-
-
-
-        <div class="table-responsive container p-3 ">
-            <div class="table-responsive-md container p-3">
-                <table class="table caption-top table-striped table-bordered over-flow-y table-hover border-dark">
-                    <caption>Danh sách sản phẩm đang bán</caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">SKU</th>
-                            <th scope="col">Tên sản phẩm</th>
-                            <th scope="col">Hình ảnh</th>
-                            <th scope="col">Giá tiền</th>
-                            <th scope="col">Trạng thái</th>
-                            <th scope="col">Hành động</th>
+        <c:if test="${not empty productList}">
+            <div class="container br-form">
+                <h3 style="text-align: center; ">Duyệt sản phẩm</h3>
+                <ul class="nav nav-tabs" style="margin-bottom: 20px;">               
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="<c:url value="/order/stored.do?status=ar"/>">Đang bán</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="<c:url value="/order/stored.do?status=nary"/>">Đang chờ duyệt</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="<c:url value="/order/stored.do?status=nar"/>">Không được duyệt</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="<c:url value="/order/stored.do?status=ss"/>">Ngừng bán</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="<c:url value="/order/stored.do?status=oos"/>">Hết hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#">Dashboard</a>
+                    </li>
+                </ul>
+                <table class="table table-striped" id="productTable">
+                    <thead style="background-color: #FFEFD5;">
+                        <tr id="list-header">
+                            <th class="col-1" scope="col">Ngày đăng</th>
+                            <th class="col-6" scope="col">Sản phẩm</th>
+                            <th scope="col" class="col-1">Hình ảnh</th>
+                            <th class="col-2" scope="col">Giá</th>
+                            <th class="col-2" scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="">
-                                1
-                            </td>
-                            <td>Tên sản phẩm</td>
-                            <td>
-                                <img class="img-fluid product-img" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </td>
-
-                            <td>Giá tiền</td>
-                            <td style="color: green">Thành công
-                            </td>
-                            <td>
-                                <div class="d-flex gap-3 ">
-                                    <div class="col">
-                                        <button type="button" class="btn btn-info mb-3">Chi tiết</button>
-                                        <button type="button" class="btn btn-success mb-3">Cập nhật</button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td style="">
-                                2
-                            </td>
-                            <td>Tên sản phẩm</td>
-                            <td>
-                                <img class="img-fluid product-img" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </td>
-
-                            <td>Giá tiền</td>
-                            <td style="color: green">Thành công
-                            </td>
-                            <td>
-                                <div class="d-flex gap-3 ">
-                                    <div class="col">
-                                        <button type="button" class="btn btn-info mb-3">Chi tiết</button>
-                                        <button type="button" class="btn btn-success mb-3">Cập nhật</button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td style="">
-                                3
-                            </td>
-                            <td>Tên sản phẩm</td>
-                            <td>
-                                <img class="img-fluid product-img" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </td>
-
-                            <td>Giá tiền</td>
-                            <td style="color: green">Thành công
-                            </td>
-                            <td>
-                                <div class="d-flex gap-3 ">
-                                    <div class="col">
-                                        <button type="button" class="btn btn-info mb-3">Chi tiết</button>
-                                        <button type="button" class="btn btn-success mb-3">Cập nhật</button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td style="">
-                                4
-                            </td>
-                            <td>Tên sản phẩm</td>
-                            <td>
-                                <img class="img-fluid product-img" src="<c:url value="/images/690x400.png"/>" alt="">
-                            </td>
-
-                            <td>Giá tiền</td>
-                            <td style="color: green">Thành công
-                            </td>
-                            <td>
-                                <div class="d-flex gap-3 ">
-                                    <div class="col">
-                                        <button type="button" class="btn btn-info mb-3">Chi tiết</button>
-                                        <button type="button" class="btn btn-success mb-3">Cập nhật</button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
                     </tbody>
                 </table>
             </div>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination d-flex justify-content-center">
-                    <li class="page-item "><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
-            </nav>
-        </div>
+        </c:if>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
         <script>
-            const tabs = document.querySelectorAll(".nav-link")
-            // console.log(tabs)
-            const removeActiveClass = (elements) => {
-                elements.forEach(i => {
-                    i.classList.remove("active")
-                })
+            var table;
+            var productList = ${productList};
+                        console.log(productList);
+            function formatPrice(price) {
+                return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(parseInt(price));
             }
-            tabs.forEach(i => {
-                i.addEventListener("click", () => {
-                    removeActiveClass(tabs);
-                    i.classList.add("active");
-                })
-            });
+            var modifiedUsers = [];
+            function initTableData() {
+                modifiedUsers = productList.map((p, index) => {
+                    const dt = '<button type="button" class="btn btn-info" onclick="previewProduct(' + index + ')" data-toggle="modal" data-target="#exampleModalScrollable">Chi tiết</button>';
+                    const ss = '<button type="button" class="btn btn-secondary" onclick="handleProduct(' + p.productId + ',option, this)" data-toggle="modal">Ngừng bán</button>';
+                    const as = '<button type="button" class="btn btn-primary" onclick="handleProduct(' + p.productId + ',option, this)" data-toggle="modal">Bán lại</button>';
+                    const d = '<button type="button" class="btn btn-danger mb-3" onclick="handleProduct(' + p.productId + ',option, this)">Xóa</button>';
+                    const u = '<button type="button" class="btn btn-success mb-3" onclick="handleProduct(' + p.productId + ',option)">Cập nhật</button>';
+                    if (String('${status}') == 'ar') {
+                        option = dt + ss + u
+                    } else if (String('${status}') == 'nar') {
+                        option = dt + u + d
+                    } else if (String('${status}') == 'nary') {
+                        option = dt + u + d
+                    } else if (String('${status}') == 'ss') {
+                        option = dt + as + d
+                    } else if (String('${status}') == 'oos') {
+                        option = dt + u + d
+                    }
+                    console.log(option);
+                    return {
+                        id: p.productId,
+                        date: p.date,
+                        name: `<a href="/ProjectGroup6/home/productDetail.do?productId=` + p.productId + `"> 
+                                <p class="tooltip-text">` + p.name + `<span>` + p.name + `</span></p>`,
+                        image: p.image,
+                        price: `<div style="display: flex; justify-content: flex-end; padding-top: 5px; color: red;">` + formatPrice(p.price) +
+                                `</div>`,
+                        option: option,
+                        description: p.description
+                    };
+                });
+                console.log(modifiedUsers);
+                table = $('#productTable').DataTable({
+                    "processing": true,
+                    data: modifiedUsers,
+                    columns: [
+                        {data: 'date'},
+                        {data: 'name'},
+                        {data: 'image',
+                            render: function (data) {
+                                if (data == "" || data == null) {
+                                    return null;
+                                }
+                                return '<img src="' + data.filter(i => i.isMainImg)[0].url + '"height="100" width="100"/>';
+                            }
+                        },
+                        {data: 'price'},
+                        {data: 'option'},
+                    ]
+                });
+            }
+//            const tabs = document.querySelectorAll(".nav-link")
+//            // console.log(tabs)
+//            const removeActiveClass = (elements) => {
+//                elements.forEach(i => {
+//                    i.classList.remove("active")
+//                })
+//            }
+//            tabs.forEach(i => {
+//                i.addEventListener("click", () => {
+//                    removeActiveClass(tabs);
+//                    i.classList.add("active");
+//                })
+//            });
         </script>
     </body>
-
 </html>

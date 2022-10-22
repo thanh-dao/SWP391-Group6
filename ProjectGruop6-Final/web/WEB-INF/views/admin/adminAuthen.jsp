@@ -105,20 +105,20 @@
                     </svg>
                     <span class="fs-4 text-align">Home</span>
                 </a>
-                <a class="navigate-button">
-                    <i class="fa-solid fa-bars"></i>
-                </a>
+                <button class="navigate-button position-absolute" type="button">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </button>
                 <hr>
                 <ul class="nav nav-pills flex-column overflow-hidden mb-auto ">
-                    <li class="nav-item">
-                        <a href="<c:url value="/admin/productAuthen.do?status=nary"/>" class="nav-link text-white">
+                    <li class="nav-item" onclick="setActive(this)">
+                        <a href="<c:url value="/admin/productAuthen.do?status=nary"/>" class="nav-link active text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#grid"></use>
                             </svg>
                             Sản phẩm
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" onclick="setActive(this)">
                         <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#table"></use>
@@ -136,7 +136,7 @@
                         </a>
                     </li>
                     <li class="nav-item" style="display: ${sessionScope.user.roleId == 1 ? "block":"none"}">
-                        <a href="<c:url value="/admin/adminAuthen.do?status=user"/>" class="nav-link active text-white">
+                        <a href="<c:url value="/admin/adminAuthen.do?status=user"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#people-circle"></use>
                             </svg>
@@ -146,7 +146,7 @@
                 </ul>
                 <hr>
             </div>
-        </div>   
+        </div>  
         <div class="container br-form">
 
             <c:choose>
@@ -189,154 +189,135 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript"></script>
         <script>
-            var table;
-            var reviewList = ${userList};
-            console.log(reviewList);
-            function initTableData() {
-                var modifiedUsers = reviewList.map(u => {
-                    if (u.roleId == 1) {
-                        option = "";
-                        role = 'Admin'
-                    } else if (u.roleId == 2) {
-                        role = 'Sub admin';
-                        option = `<button type="button" onclick="handleAdmin('` + u.email + `', this, 'disagree')" class="btn btn-danger mb-3">Hạ chức</button>`;
-                    } else {
-                        role = 'User';
-                        option = `<button type="button" onclick="handleAdmin('` + u.email + `', this, 'agree')" class="btn btn-success mb-3">Bổ nhiệm</button>`;
-                    }
-                    return {
-                        email: u.email,
-                        user: `<p class="font-a"><a href="#">` + u.name + `</a></p>`,
-                        avatar: u.avatar,
-                        phone: u.phone,
-                        role: role,
-                        option: option,
-                    };
-                });
-                console.log(modifiedUsers);
-                table = $('#admin').DataTable({
-                    "processing": true,
-                    data: modifiedUsers,
-                    columns: [
-                        {data: 'email'},
-                        {data: 'user'},
-                        {data: 'avatar',
-                            render: function (data) {
-                                if (data == "" || data == null) {
-                                    return null;
+                        var table;
+                        var reviewList = ${userList};
+                        console.log(reviewList);
+                        function initTableData() {
+                            var modifiedUsers = reviewList.map(u => {
+                                if (u.roleId == 1) {
+                                    option = "";
+                                    role = 'Admin'
+                                } else if (u.roleId == 2) {
+                                    role = 'Sub admin';
+                                    option = `<button type="button" onclick="handleAdmin('` + u.email + `', this, 'disagree')" class="btn btn-danger mb-3">Hạ chức</button>`;
+                                } else {
+                                    role = 'User';
+                                    option = `<button type="button" onclick="handleAdmin('` + u.email + `', this, 'agree')" class="btn btn-success mb-3">Bổ nhiệm</button>`;
                                 }
-                                return '<a class="avatar"><img src="' + data + '" alt="' + data + '"height="100" width="100"/></a>';
+                                return {
+                                    email: u.email,
+                                    user: `<p class="font-a"><a href="#">` + u.name + `</a></p>`,
+                                    avatar: u.avatar,
+                                    phone: u.phone,
+                                    role: role,
+                                    option: option,
+                                };
+                            });
+                            console.log(modifiedUsers);
+                            table = $('#admin').DataTable({
+                                "processing": true,
+                                data: modifiedUsers,
+                                columns: [
+                                    {data: 'email'},
+                                    {data: 'user'},
+                                    {data: 'avatar',
+                                        render: function (data) {
+                                            if (data == "" || data == null) {
+                                                return null;
+                                            }
+                                            return '<a class="avatar"><img src="' + data + '" alt="' + data + '"height="100" width="100"/></a>';
+                                        }
+                                    },
+                                    {data: 'phone'},
+                                    {data: 'role'},
+                                    {data: 'option'},
+                                ]});
+                        }
+                        const handleAdmin = (email, el, option) => {
+                            if (option == 'agree') {
+                                text = 'Xác nhận bổ nhiệm người dùng !!!';
+                            } else if (option == 'disagree') {
+                                text = 'Xác nhận hạ chức của sub admin !!!';
                             }
-                        },
-                        {data: 'phone'},
-                        {data: 'role'},
-                        {data: 'option'},
-                    ]});
-            }
-            const handleAdmin = (email, el, option) => {
-                if (option == 'agree') {
-                    text = 'Xác nhận bổ nhiệm người dùng !!!';
-                } else if (option == 'disagree') {
-                    text = 'Xác nhận hạ chức của sub admin !!!';
-                }
-                swal({
-                    title: "",
-                    text: text,
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                        .then((commit) => {
-                            if (commit) {
-                                $.ajax("<c:url value="/admin/adminAuthen.do"/>", {
-                                    data: {
-                                        email: email,
-                                        func: option,
-                                    },
-                                    success: function (data, textStatus, jqXHR) {
-                                        swal("Thao tác thành công", {
-                                            icon: "success",
-                                        });
-                                        const tableRow = el.parentElement.parentElement
-                                        tableRow.remove()
-                                    },
-                                    error: function (jqXHR, textStatus, errorThrown) {
-                                        swal("Thao tác thất bại!!!", {
-                                            icon: "error",
-                                        });
+                            swal({
+                                title: "",
+                                text: text,
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: true,
+                            })
+                                    .then((commit) => {
+                                        if (commit) {
+                                            $.ajax("<c:url value="/admin/adminAuthen.do"/>", {
+                                                data: {
+                                                    email: email,
+                                                    func: option,
+                                                },
+                                                success: function (data, textStatus, jqXHR) {
+                                                    swal("Thao tác thành công", {
+                                                        icon: "success",
+                                                    });
+                                                    const tableRow = el.parentElement.parentElement
+                                                    tableRow.remove()
+                                                },
+                                                error: function (jqXHR, textStatus, errorThrown) {
+                                                    swal("Thao tác thất bại!!!", {
+                                                        icon: "error",
+                                                    });
+                                                }
+                                            })
+                                        }
+                                    });
+                        }
+                        $(document).ready(function () {
+                            initTableData();
+                        });
+                        const navElements = document.querySelectorAll(".nav-item");
+                        const removeActiveClass = (elements) => {
+                            elements.forEach(item => {
+                                console.log("childNodes: ");
+                                console.log(item.childNodes);
+                                item.childNodes[1].classList.remove("active");
+                            })
+                        }
+                        navElements.forEach(i => {
+                            i.addEventListener("click", () => {
+                                removeActiveClass(navElements)
+                                i.childNodes[1].classList.add("active");
+                            })
+                        })
+                        const navBtn = document.querySelector(".navigate-button")
+                        let opened = false;
+                        const navMenu = document.querySelector(".nav-menu");
+                        navBtn.addEventListener("click", () => {
+                            console.log(1);
+                            opened = !opened;
+                            const navMenuStyle = navMenu.style
+                            if (opened) {
+
+                                navBtn.innerHTML = '<ion-icon name="close-outline"></ion-icon>'
+                                document.addEventListener("click", (e) => {
+                                    const classList = e.target.classList
+                                    if (!classList.contains("nav-menu") && !classList.contains("hydrated")) {
+                                        navMenuStyle.width = "0"
+                                        opened = false;
+                                        navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
                                     }
                                 })
+                                navMenuStyle.width = "300px";
+                            } else {
+                                navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
+                                navMenuStyle.width = "0"
                             }
-                        });
-            }
-            $(document).ready(function () {
-                initTableData();
-            });
-            const navElements = document.querySelectorAll(".nav-item");
-            const removeActiveClass = () => {
-                navElements.forEach(item => {
-                    item.childNodes[1].classList.remove("active");
-                })
-            }
-            navElements.forEach(i => {
-                i.addEventListener("click", () => {
-                    removeActiveClass()
-                    i.childNodes[1].classList.add("active");
-                })
-            })
-            const navBtn = document.querySelector(".navigate-button")
-            let opened = false;
-            const navMenu = document.querySelector(".nav-menu");
+                        })
 
-            navBtn.addEventListener("click", () => {
-                opened = !opened;
-                const navMenuStyle = navMenu.style
-                if (opened) {
-                    navBtn.innerHTML = '<ion-icon name="close-outline"></ion-icon>'
-                    document.addEventListener("click", (e) => {
-                        if (!navMenu.contains(e.target)) {
-                            navMenuStyle.width = "0"
-                            opened = false;
-                            navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
+                        function setActive(el) {
+                            document.querySelectorAll(".nav-item").forEach(i => {
+                                i.classList.remove("active")
+                            })
+                            el.classList.add("active")
                         }
-                    })
-                    navMenuStyle.width = "300px";
-                } else {
-                    navBtn.innerHTML = '<ion-icon name="menu-outline"></ion-icon>'
-                    navMenuStyle.width = "0"
-                }
-            })
-
-            google.charts.load('current', {'packages': ['corechart']});
-            google.charts.setOnLoadCallback(drawChart);
-            function drawChart() {
-                // Create the data table.
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Topping');
-                data.addColumn('number', 'Slices');
-                data.addRows([
-                    ['Mushrooms', 3],
-                    ['Onions', 5],
-                    ['Olives', 0],
-                    ['Zucchini', 8],
-                    ['Pepperoni', 4],
-                ]);
-                // Set chart options
-                var options = {
-                    'title': 'How Much Pizza I Ate Last Night',
-                    'width': 500,
-                    'height': 300
-                };
-
-                // Instantiate and draw our chart, passing in some options.
-                document.querySelectorAll("#chart_div").forEach(i => {
-                    var chart = new google.visualization.LineChart(i);
-                    chart.draw(data, options);
-                })
-            }
         </script>
 
     </body>

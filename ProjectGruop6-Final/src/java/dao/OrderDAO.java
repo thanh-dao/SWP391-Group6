@@ -10,12 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-<<<<<<< HEAD
-import javax.servlet.http.HttpSession;
-=======
 import java.util.logging.Level;
 import java.util.logging.Logger;
->>>>>>> a45207156b1b275a83a7323567f6172918000acd
 import utils.DBUtil;
 
 public class OrderDAO {
