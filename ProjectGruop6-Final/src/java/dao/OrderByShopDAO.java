@@ -35,16 +35,16 @@ public class OrderByShopDAO {
     }
 
     //check OrderByShop when order_detail null
-    public void checkOrderByShop(int orderId) throws ClassNotFoundException, SQLException {
+    public void checkOrderByShop(int orderByShopId) throws ClassNotFoundException, SQLException {
         Connection conn;
         conn = DBUtil.getConnection();
-        PreparedStatement stm = conn.prepareStatement("SELECT [order_by_shop] "
-                + "FROM [order_by_shop] WHERE orderId = ? ");
-        stm.setInt(1, orderId);
+        PreparedStatement stm = conn.prepareStatement("SELECT [order_detail_id] "
+                + "FROM [order_detail] WHERE order_by_shop_id = ? ");
+        stm.setInt(1, orderByShopId);
         ResultSet rs = stm.executeQuery();
         System.out.println(rs.next());
         if (!rs.next()) {
-//            deleteOrderByShop(orderByShopId);
+            deleteOrderByShop(orderByShopId);
         }
     }
 
@@ -93,6 +93,7 @@ public class OrderByShopDAO {
             OrderByShopDAO obs = new OrderByShopDAO();
 //            obs.addOrderByShop(16, 157);
             System.out.println(obs.getOrderByShop(16));
+//            obs.checkOrderByShop();
         } catch (Exception e) {
         }
     }

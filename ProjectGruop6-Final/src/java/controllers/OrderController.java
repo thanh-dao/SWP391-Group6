@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import config.Config;
+import dao.ProductDAO;
+import dto.UserDTO;
 //import jakarta.servlet.ServletException;
 //import jakarta.servlet.annotation.WebServlet;
 //import jakarta.servlet.http.HttpServlet;
@@ -17,11 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author ADmin
- */
 @WebServlet(name = "OrderController", urlPatterns = {"/order"})
 public class OrderController extends HttpServlet {
 
@@ -36,14 +30,93 @@ public class OrderController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
-
+        HttpSession session = (HttpSession) request.getSession();
         switch (action) {
             case "history":
                 break;
-            case "stored":
-                break;
+            case "stored": {
+                ProductDAO p = new ProductDAO();
+                if (session.getAttribute("user") == null) {
+                    request.setAttribute("controller", "user");
+                    request.setAttribute("action", "login");
+                } else {
+                    UserDTO user = (UserDTO) session.getAttribute("user");
+                    try {
+                        if (request.getParameter("func") != null) {
+                            String func = request.getParameter("func");
+                            int reviewId = Integer.parseInt(request.getParameter("productId"));
+                            switch (func) {
+                                case "ss": {
+                                    System.out.println(p.approveProduct(action, reviewId, action));
+                                }
+                                break;
+                                case "as": {
+//                                r.updateReview(user.getEmail(), reviewId, false);
+                                }
+                                break;
+                                case "d": {
+//                                r.updateReview(user.getEmail(), reviewId, false);
+                                }
+                                break;
+                                case "u": {
+//                                r.updateReview(user.getEmail(), reviewId, false);
+                                }
+                                break;
+                                default:
+                                    request.setAttribute("controller", "error");
+                                    request.setAttribute("action", "index");
+                                    request.setAttribute("message", "Error when processing the request");
+                            }
+                        } else {
+                            if (request.getParameter("status") != null) {
+                                String status = request.getParameter("status");
+                                request.setAttribute("status", status);
+                                switch (status) {
+                                    case "ar": {
+                                        request.setAttribute("productList",
+                                                p.getProductListSeller(user.getEmail(), 1, 1));
+                                    }
+                                    break;
+                                    case "nar": {
+                                        request.setAttribute("productList",
+                                                p.getProductListSeller(user.getEmail(), 2, 0));
+                                    }
+                                    break;
+                                    case "nary": {
+                                        request.setAttribute("productList",
+                                                p.getProductListSeller(user.getEmail(), 2, -1));
+                                    }
+                                    break;
+                                    case "ss": {
+                                        request.setAttribute("productList",
+                                                p.getProductListSeller(user.getEmail(), 0, 1));
+                                    }
+                                    break;
+                                    case "oos": {
+                                        request.setAttribute("productList",
+                                                p.getProductListSeller(user.getEmail(), -1, 1));
+                                    }
+                                    break;
+                                    default:
+                                        request.setAttribute("controller", "error");
+                                        request.setAttribute("action", "index");
+                                        request.setAttribute("message", "Error when processing the request");
+                                }
+                            } else {
+                                request.setAttribute("controller", "error");
+                                request.setAttribute("action", "index");
+                                request.setAttribute("message", "Error when processing the request");
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            break;
             default:
                 request.setAttribute("controller", "error");
                 request.setAttribute("action", "index");

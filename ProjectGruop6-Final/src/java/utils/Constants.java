@@ -31,8 +31,10 @@ public class Constants {
     public static final int RESULT_PER_SEARCH = 5;
 
     public static final String IMAGE_RELATIVE_DIRECTORY = "/ProjectGroup6/img";
-
-    public static final String IMAGE_ABSOLUTE_DIRECTORY = "C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/img";
+ 
+    public static final String IMAGE_ABSOLUTE_DIRECTORY = "D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/img";
+    
+//    public static final String IMAGE_ABSOLUTE_DIRECTORY = "C:/Users/ADmin/Desktop/swp-391-git/SWP391-Group6/ProjectGruop6-Final/web/img";
 
     public static void main(String[] args) {
         System.out.println(getImageDirectory());

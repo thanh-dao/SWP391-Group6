@@ -36,6 +36,15 @@ public class ProductDTO {
         return null;
     }
 
+    public ProductDTO(int productId, String name, long price, String description, Date createAt, List<ProductImageDTO> imgList) {
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.createAt = createAt;
+        this.imgList = imgList;
+    }
+
     public ProductDTO(int productId, String emailAdmin, boolean isAvalable, Date approveAt) {
         this.productId = productId;
         this.emailAdmin = emailAdmin;

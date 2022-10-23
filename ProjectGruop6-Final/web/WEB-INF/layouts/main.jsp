@@ -186,6 +186,7 @@
                 background-color: #fff;
                 width: 80%;
                 margin-top: 5px;
+                z-index:5
             }
             .search-result-layer li {
                 cursor: pointer;
@@ -340,7 +341,7 @@
                     <div class="col-md-8">
                         <div class="header__content d-flex justify-content-around">
                             <button ><a href="<c:url value="/home/main.do"/>"><i class="fas fa-home icon-header"></i>Trang chủ</a></button>
-                            <button ><a href="<c:url value="/order/stored.do"/>"><i class="fas fa-table"></i>Quản lý tin</a></button>
+                            <button ><a href="<c:url value="/order/stored.do?status=ar"/>"><i class="fas fa-table"></i>Quản lý tin</a></button>
                             <button ><a href="<c:url value="/home/uploadProduct.do"/>"><i class="fa-sharp fa-solid fa-file-pen"></i>Đăng tin</a></button>
                             <button ><a href="<c:url value="/order/history.do"/>"><i class="fa-sharp fa-solid fa-clipboard"></i>Đơn hàng</a></button>
 
@@ -459,26 +460,32 @@
                 searchResultLayer.style.display = "none"
             }
         })
+
         const searchAjax = (el) => {
             const value = el.value
-            $.ajax("/ProjectGroup6/GetProductAjax", {
-                data: {
-                    func: "getSearchResult",
-                    productName: value
-                },
-                success: function (data) {
-                    searchResultLayer.innerHTML = "";
-                    console.log(data)
-                    data.forEach(i => {
+            if (value == "") {
+                searchResultLayer.style.display = 'none'
+            } else {
+                searchResultLayer.style.display = 'block'
+                $.ajax("/ProjectGroup6/GetProductAjax", {
+                    data: {
+                        func: "getSearchResult",
+                        productName: value
+                    },
+                    success: function (data) {
+                        searchResultLayer.innerHTML = "";
+                        console.log(data)
+                        data.forEach(i => {
                         console.log("<li onclick='this.querySelector('a').click()'>" +
                                 '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
                                 '</li>')
-                        searchResultLayer.innerHTML += "<li onclick='this.querySelector('a').click()'>" +
-                                '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
-                                '</li>'
-                    })
-                }
-            })
+                            searchResultLayer.innerHTML += "<li onclick='this.querySelector('a').click()'>" +
+                                    '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
+                                    '</li>'
+                        })
+                    }
+                })
+            }
         }
     </script>
 </html>

@@ -31,6 +31,7 @@
                 transition: 0.3s;
                 height: 100vh;
                 width: 0;
+                z-index: 1;
             }
 
             td {
@@ -358,7 +359,7 @@
                                             data: {
                                                 productId: product.id,
                                                 acction: "No"
-                                                
+
                                             },
                                             success: function (data, textStatus, jqXHR) {
                                                 tableRow.remove()
@@ -366,7 +367,7 @@
                                             }
                                         })
                                     }
-                                    
+
                                     document.querySelector(".modal-footer > .btn-success").onclick = function () {
                                         $.ajax('<c:url value="/admin/approvingProduct.do"/>', {
                                             data: {
@@ -376,8 +377,8 @@
                                             success: function (data, textStatus, jqXHR) {
                                                 tableRow.remove()
                                                 document.querySelector('.close').click()
-                                                
-                                            },error: function (jqXHR, textStatus, errorThrown) {
+
+                                            }, error: function (jqXHR, textStatus, errorThrown) {
                                                 console.log(errorThrown)
                                             }
                                         })
@@ -502,7 +503,7 @@
                                     }
                                 })
 
-                                function setActive(el){
+                                function setActive(el) {
                                     document.querySelectorAll(".nav-item").forEach(i => {
                                         i.classList.remove("active")
                                     })

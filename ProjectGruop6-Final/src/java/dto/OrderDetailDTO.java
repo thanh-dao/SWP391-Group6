@@ -25,6 +25,12 @@ public class OrderDetailDTO {
         this.product = product;
     }
 
+    public OrderDetailDTO(int productId, int quantity, ProductDTO product) {
+        this.productId = productId;
+        this.quantity = quantity;
+        this.product = product;
+    }
+
     @Override
     public String toString() {
         return "OrderDetailDTO{" + "orderDetailId=" + orderDetailId + ", productId=" + productId + ", quantity=" + quantity + ", price=" + price + ", product=" + product + '}';

@@ -59,7 +59,7 @@ public class ProductDAO {
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
                 + "      ,[email_admin]\n"
-                + "      ,[status]\n"
+                + "      ,[authen]\n"
                 + "      ,[create_at]\n"
                 + "      ,[approve_at]\n"
                 + "      ,[sold_count]\n"
@@ -79,7 +79,7 @@ public class ProductDAO {
             product.setCateId(rs.getInt("category_id"));
             product.setQuantity(rs.getInt("quantity"));
             product.setEmailAdmin(rs.getString("email_admin"));
-            product.setAvalable(rs.getInt("status") == 1);
+            product.setAvalable(rs.getInt("authen") == 1);
             product.setApproveAt(rs.getDate("approve_at"));
             product.setCreateAt(rs.getDate("create_at"));
             product.setSoldCount(rs.getInt("sold_count"));
@@ -110,7 +110,7 @@ public class ProductDAO {
                 + "           ,[description]\n"
                 + "           ,[category_id]\n"
                 + "           ,[quantity]\n"
-                + "           ,[status]\n"
+                + "           ,[authen]\n"
                 + "           ,[create_at]\n"
                 + ")\n"
                 + "     VALUES "
@@ -189,7 +189,7 @@ public class ProductDAO {
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
                 + "      ,[email_admin]\n"
-                + "      ,[status]\n"
+                + "      ,[authen]\n"
                 + "      ,[create_at]\n"
                 + "      ,[approve_at] "
                 + "      ,[sold_count] from product "
@@ -210,7 +210,7 @@ public class ProductDAO {
                             rs.getInt("category_id"),
                             rs.getInt("quantity"),
                             rs.getString("email_admin"),
-                            rs.getInt("status") == 1,
+                            rs.getInt("authen") == 1,
                             rs.getDate("create_at"),
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
@@ -248,7 +248,7 @@ public class ProductDAO {
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
                 + "      ,[email_admin]\n"
-                + "      ,[status]\n"
+                + "      ,[authen]\n"
                 + "      ,[create_at]\n"
                 + "      ,[approve_at] "
                 + "      ,[sold_count] from product "
@@ -273,7 +273,7 @@ public class ProductDAO {
                             rs.getInt("category_id"),
                             rs.getInt("quantity"),
                             rs.getString("email_admin"),
-                            rs.getInt("status") == 1,
+                            rs.getInt("authen") == 1,
                             rs.getDate("create_at"),
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
@@ -295,7 +295,7 @@ public class ProductDAO {
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
                 + "      ,[email_admin]\n"
-                + "      ,[status]\n"
+                + "      ,[authen]\n"
                 + "      ,[create_at]\n"
                 + "      ,[approve_at]\n"
                 + "      ,[sold_count]"
@@ -322,7 +322,7 @@ public class ProductDAO {
                             rs.getInt("category_id"),
                             rs.getInt("quantity"),
                             rs.getString("email_admin"),
-                            rs.getInt("status") == 1,
+                            rs.getInt("authen") == 1,
                             rs.getDate("create_at"),
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
@@ -380,7 +380,7 @@ public class ProductDAO {
     }
 
     //chua su dung
-    public ProductDTO getProductById(int productId, int status, int optionAdmin) throws ClassNotFoundException, SQLException {
+    public ProductDTO getProductById(int productId, int authen, int optionAdmin) throws ClassNotFoundException, SQLException {
         String strStatus = "";
         String strOptionAdmin = "";
         if (optionAdmin == 1) {
@@ -388,10 +388,10 @@ public class ProductDAO {
         } else if (optionAdmin == 0) {
             strOptionAdmin = " AND email_admin is null ";
         }
-        if (status == 1) {
-            strStatus = "status = 1";
-        } else if (status == 0) {
-            strStatus = "status = 0";
+        if (authen == 1) {
+            strStatus = "authen = 1";
+        } else if (authen == 0) {
+            strStatus = "authen = 0";
         }
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
@@ -434,7 +434,7 @@ public class ProductDAO {
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
                 + "      ,[sold_count] FROM product "
-                + " WHERE product_id = ? AND email_admin is not null AND status = 1");
+                + " WHERE product_id = ? AND email_admin is not null AND authen = 1");
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -463,7 +463,7 @@ public class ProductDAO {
         List<ProductDTO> list = new ArrayList();
         PreparedStatement stm = conn.prepareStatement("SELECT product_id, name, "
                 + "price, quantity, sold_count  FROM product "
-                + "WHERE email_seller = ?  AND status = 1 AND quantity > 0"
+                + "WHERE email_seller = ?  AND authen = 1 AND quantity > 0"
                 + getFilter(option, trend)
                 + " OFFSET " + itemSkipped + " ROWS \n"
                 + " FETCH NEXT " + item_per_page + " ROWS ONLY;");
@@ -497,7 +497,7 @@ public class ProductDAO {
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
                 + "      ,[email_admin]\n"
-                + "      ,[status]\n"
+                + "      ,[authen]\n"
                 + "      ,[create_at]\n"
                 + "      ,[approve_at] "
                 + "      ,[sold_count] from product "
@@ -520,7 +520,7 @@ public class ProductDAO {
                             rs.getInt("category_id"),
                             rs.getInt("quantity"),
                             rs.getString("email_admin"),
-                            rs.getInt("status") == 1,
+                            rs.getInt("authen") == 1,
                             rs.getDate("create_at"),
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
@@ -545,7 +545,7 @@ public class ProductDAO {
                 + "      ,[quantity]\n"
                 + "      ,[create_at]\n"
                 + "      FROM product "
-                + " WHERE email_admin is null AND status is null "
+                + " WHERE email_admin is null AND authen is null "
                 + getFilter(option, trend));
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -605,7 +605,7 @@ public class ProductDAO {
     public boolean deleteProduct(String productId, String emailAdmin) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("UPDATE [dbo].[product]\n"
-                + "set status = 0, email_admin = ? \n"
+                + "set authen = 0, email_admin = ? \n"
                 + "WHERE product_id = ?");
         stm.setString(1, emailAdmin);
         stm.setString(2, productId);
@@ -617,7 +617,7 @@ public class ProductDAO {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement(" UPDATE [dbo].[product]\n"
                 + "SET email_admin = '" + emailAdmin + "' ,approve_at = '"
-                + java.sql.Date.valueOf(LocalDate.now()).toString() + "' ,status = ? \n"
+                + java.sql.Date.valueOf(LocalDate.now()).toString() + "' ,authen = ? \n"
                 + "WHERE product_id = " + productId);
         if (acction.equalsIgnoreCase("Yes")) {
             stm.setInt(1, 1);
@@ -633,9 +633,9 @@ public class ProductDAO {
     public List<ProductDTO> getProductApproved(int option, boolean trend) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<ProductDTO> list = new ArrayList();
-        PreparedStatement stm = conn.prepareStatement("select [product_id], [email_seller], [name], [price], [description], [category_id], [quantity], [email_admin], [status], [create_at], [approve_at], [sold_count] \n"
+        PreparedStatement stm = conn.prepareStatement("select [product_id], [email_seller], [name], [price], [description], [category_id], [quantity], [email_admin], [authen], [create_at], [approve_at], [sold_count] \n"
                 + "from product \n"
-                + " WHERE status = 1"
+                + " WHERE authen = 1"
                 + getFilter(option, trend));
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -651,7 +651,7 @@ public class ProductDAO {
                             rs.getInt("category_id"),
                             rs.getInt("quantity"),
                             rs.getString("email_admin"),
-                            rs.getInt("status") == 1,
+                            rs.getInt("authen") == 1,
                             rs.getDate("create_at"),
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
@@ -682,7 +682,68 @@ public class ProductDAO {
         }
         return arr;
     }
-    
+
+    //--product list seller
+    public List<ProductDTO> getProductListSeller(String emailSeller, int status, int authen) throws ClassNotFoundException, SQLException {
+        String strStatus = " AND";
+        switch (status) {
+            case 0: {
+                strStatus += " status = 0";
+            }
+            break;
+            case 1: {
+                strStatus += " status = 1";
+            }
+            break;
+            case -1: {
+                strStatus += " quantity <= 5";
+            }
+            break;
+            default:
+                strStatus = " ";
+        }
+        String strAuthen = " AND";
+        switch (authen) {
+            case 0: {
+                strAuthen += " authen = 0";
+            }
+            break;
+            case 1: {
+                strAuthen += " authen = 1";
+            }
+            break;
+            case -1: {
+                strAuthen += " authen is null";
+            }
+            break;
+            default:
+                strAuthen = " ";
+        }
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
+                + "      ,[name]\n"
+                + "      ,[price]\n"
+                + "      ,[description]\n"
+                + "      ,[create_at] FROM product\n"
+                + " WHERE email_seller = ? " + strStatus + strAuthen);
+        stm.setString(1, emailSeller);
+        ResultSet rs = stm.executeQuery();
+        List<ProductDTO> list = new ArrayList<>();
+        while (rs.next()) {
+            list.add(
+                    new ProductDTO(
+                            rs.getInt("product_id"),
+                            rs.getString("name"),
+                            rs.getLong("price"),
+                            rs.getString("description"),
+                            rs.getDate("create_at"),
+                            new ProductImageDAO().findAll(rs.getInt("product_id"))
+                    )
+            );
+        }
+        return list;
+    }
+
     public String getProductListJson(List<ProductDTO> productList) throws ClassNotFoundException, SQLException {
         Gson gson = new Gson();
         HashMap<String, Object> hashmap = new HashMap<>();
@@ -692,7 +753,7 @@ public class ProductDAO {
             hashmap.put("productId", String.valueOf(p.getProductId()));
             hashmap.put("date", formatter.format(p.getCreateAt()));
             hashmap.put("name", p.getName());
-            hashmap.put("image", p.getImgList());
+            hashmap.put("image", p.getMainImage());
             hashmap.put("price", String.valueOf(p.getPrice()));
             hashmap.put("description", String.valueOf(p.getDescription()));
             a += gson.toJson(hashmap) + ",";
@@ -701,25 +762,16 @@ public class ProductDAO {
     }
 
     public static void main(String[] args) {
-        ProductDAO proDAO = new ProductDAO();
+        ProductDAO p = new ProductDAO();
         try {
-            System.out.println(new Gson().toJson(proDAO.getProductListJson(proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC))));
-//                proDAO.approveProduct("PhuongNHSE150997@fpt.edu.vn", 460, "YES");
-//                System.out.println(proDAO.getProductAdmin(CREATE_AT, ASC));
-//            System.out.println(proDAO.getProductById(149));
-//            boolean test = proDAO.approveProduct("PhuongNHSE150997@fpt.edu.vn", 149, "Yes");
-//            if (test) {
-//                System.out.println("tcc");
-//            } else {
-//                System.out.println("cuts");
-//            }
-//            JSONArray jsonA = JSONArray.fromObject(mybeanList);
-//            System.out.println(jsonA);
-//=======
-//            System.out.println(proDAO.getTop10ProductByMonth(9).size());
-//            proDAO.getTop10ProductByMonth(9).forEach(i -> {
-//                System.out.println(i);
-//            });
+//            System.out.println(new Gson().toJson(proDAO.getProductListJson(proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC))));
+            List<ProductDTO> list;
+//            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 1, 1);
+//            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 2, 0);
+//            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 2, -1);
+            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 0, 1);
+//            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", -1, 1);
+            System.out.println(list);
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();
