@@ -30,6 +30,11 @@ public class UserDTO {
     private AddressDTO address;
     private int roleId;
 
+    public UserDTO(String email, AddressDTO address) {
+        this.email = email;
+        this.address = address;
+    }
+    
     public UserDTO(String email, String avatarLink, String firstName, String lastName) {
         this.email = email;
         this.avatarLink = avatarLink;

@@ -109,6 +109,7 @@ public class CartController extends HttpServlet {
                 UserDTO u = new UserDAO().findUser(sellerEmail);
                 cart.getOrderByShopList().add(new OrderByShopDTO(sellerEmail,
                         u.getFirstName() + " " + u.getLastName(),
+                        new UserDAO().getAddressUser(sellerEmail),
                         handleOrderDetail(odList, productId, 1, "add", -1)));
                 return cart;
             } else if (indexOBS != -1) {

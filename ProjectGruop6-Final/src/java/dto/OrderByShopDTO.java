@@ -19,11 +19,13 @@ public class OrderByShopDTO {
     private double transactionFee;
     private double transportFee;
     private Date shippedDate;
+    private AddressDTO Address;
     private List<OrderDetailDTO> OrderDetailList;
 
-    public OrderByShopDTO(String emailSeller, String name, List<OrderDetailDTO> OrderDetailList) {
+    public OrderByShopDTO(String emailSeller, String name, AddressDTO Address, List<OrderDetailDTO> OrderDetailList) {
         this.emailSeller = emailSeller;
         this.name = name;
+        this.Address = Address;
         this.OrderDetailList = OrderDetailList;
     }
 

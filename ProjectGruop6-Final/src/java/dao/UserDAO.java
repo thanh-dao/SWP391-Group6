@@ -243,6 +243,25 @@ public class UserDAO {
         return stm.executeUpdate() == 1;
     }
 
+    public AddressDTO getAddressUser(String userEmail) throws ClassNotFoundException, SQLException {
+        Connection conn;
+        conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT w.name as ward, "
+                + "d.name as district, c.name as city FROM (SELECT ward_id, "
+                + "district_id, city_id FROM [user] WHERE email = ? ) u\n"
+                + "LEFT JOIN ward w ON w.ward_id = u.ward_id\n"
+                + "LEFT JOIN district d ON d.district_id = u.district_id\n"
+                + "LEFT JOIN city c ON c.city_id = u.city_id");
+        stm.setString(1, userEmail);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            AddressDTO address = new AddressDTO(null, rs.getString("ward"), rs.getString("district"),
+                            rs.getString("city"));
+            return address;
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         UserDAO uDAO = new UserDAO();
         try {
