@@ -447,6 +447,12 @@
 
         </footer>
     </body>
+    <!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>-->
+    <!--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>-->
+    <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>-->
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>-->
 
     <script>
         const searchResultLayer = document.querySelector(".search-result-layer");
@@ -476,9 +482,9 @@
                         searchResultLayer.innerHTML = "";
                         console.log(data)
                         data.forEach(i => {
-                        console.log("<li onclick='this.querySelector('a').click()'>" +
-                                '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
-                                '</li>')
+                            console.log("<li onclick='this.querySelector('a').click()'>" +
+                                    '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
+                                    '</li>')
                             searchResultLayer.innerHTML += "<li onclick='this.querySelector('a').click()'>" +
                                     '<a href="/ProjectGroup6/home/productDetail.do?productId=' + i.productId + '">' + i.name + '</a>' +
                                     '</li>'

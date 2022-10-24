@@ -219,18 +219,17 @@
         <script>
             var table;
             var productList = ${productList};
-            console.log(productList);
             function formatPrice(price) {
                 return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(parseInt(price));
             }
             function initTableData() {
                 var modifiedUsers = productList.map(p => {
                     const dt = '<a href="#" class="genric-btn info circle">Chi tiết</a>';
-                    const dta = '<a class="genric-btn info circle" onclick="previewProduct(' + 1 + ')" data-toggle="modal" data-target=".bd-example-modal-lg">Chi tiết</a>';
-                    const ss = '<a class="genric-btn warning circle" onclick="handleProduct(' + p.productId + ',option, this)" data-toggle="modal">Ngừng bán</a>';
-                    const as = '<a class="genric-btn primary circle" onclick="handleProduct(' + p.productId + ',option, this)" data-toggle="modal">Bán lại</a>';
-                    const d = '<a class="genric-btn danger circle" onclick="handleProduct(' + p.productId + ',option, this)">Xóa</a>';
-                    const u = '<a class="genric-btn success circle" onclick="handleProduct(' + p.productId + ',option)">Cập nhật</a>';
+                    const dta = '<a class="genric-btn info circle" onclick="handleProduct(' + 1 + ')" data-toggle="modal" data-target=".bd-example-modal-lg">Chi tiết</a>';
+                    const ss = '<a class="genric-btn warning circle" onclick="handleProduct(' + p.productId + ', "ss", this)">Ngừng bán</a>';
+                    const as = '<a class="genric-btn primary circle" onclick="handleProduct(' + p.productId + ', "as", this)">Bán lại</a>';
+                    const d = '<a class="genric-btn danger circle" onclick="handleProduct(' + p.productId + ', "d", this)">Xóa</a>';
+                    const u = '<a class="genric-btn success circle" onclick="handleProduct(' + p.productId + ', "u", this)">Cập nhật</a>';
                     const b = '<div class="button-group-area mt-40" style="display: flex; flex-direction: column">';
                     const a = '</div>';
                     if (String('${status}') == 'ar') {
@@ -244,7 +243,6 @@
                     } else if (String('${status}') == 'oos') {
                         option = dt + u + d
                     }
-                    console.log(option);
                     return {
                         id: p.productId,
                         date: p.date,
@@ -257,7 +255,6 @@
                         description: p.description
                     };
                 });
-                console.log(modifiedUsers);
                 table = $('#productTable').DataTable({
                     "processing": true,
                     "responsive": true,
@@ -278,43 +275,73 @@
                     ]
                 });
             }
-            const handleProduct = (pId, el, option) => {
-                if (option == 'ss') {
-                    text = 'Xác nhận ngừng bán sản phẩm !!!';
-                } else if (option == 'as') {
-                    text = 'Xác nhận bán lại sản phẩm !!!';
-                }else if (option == 'd') {
-                    text = 'Xác nhận xóa sản phẩm !!!';
+            const handleProduct = (pId, option, el) => {
+                if (option == 'ss' || option == 'as') {
+                    text = option == 'ss' ? 'Xác nhận ngừng bán sản phẩm !!!'
+                            : 'Xác nhận bán lại sản phẩm !!!';
+                    console.log(text);
+                    swal({
+                        title: "",
+                        text: text,
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                            .then((commit) => {
+                                if (commit) {
+                                    $.ajax("<c:url value="/order/stored.do"/>", {
+                                        data: {
+                                            reviewId: rId,
+                                            func: option,
+                                        },
+                                        success: function (data, textStatus, jqXHR) {
+                                            swal("Thành công", {
+                                                icon: "success",
+                                            });
+                                            const tableRow = el.parentElement.parentElement
+                                            tableRow.remove()
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            swal("Thất bại!!!", {
+                                                icon: "error",
+                                            });
+                                        }
+                                    })
+                                }
+                            });
                 }
-                swal({
-                    title: "",
-                    text: text,
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                        .then((commit) => {
-                            if (commit) {
-                                $.ajax("<c:url value="/admin/reviewAuthen.do"/>", {
-                                    data: {
-                                        reviewId: rId,
-                                        func: option,
-                                    },
-                                    success: function (data, textStatus, jqXHR) {
-                                        swal("Duyệt thành công", {
-                                            icon: "success",
-                                        });
-                                        const tableRow = el.parentElement.parentElement
-                                        tableRow.remove()
-                                    },
-                                    error: function (jqXHR, textStatus, errorThrown) {
-                                        swal("Duyệt thất bại!!!", {
-                                            icon: "error",
-                                        });
-                                    }
-                                })
-                            }
-                        });
+//                 else if (option == 'd') {
+//                    text = 'Xác nhận xóa sản phẩm !!!';
+//                }
+//                swal({
+//                    title: "",
+//                    text: text,
+//                    icon: "warning",
+//                    buttons: true,
+//                    dangerMode: true,
+//                })
+//                        .then((commit) => {
+//                            if (commit) {
+//                                $.ajax("<c:url value="/order/stored.do"/>", {
+//                                    data: {
+//                                        reviewId: rId,
+//                                        func: option,
+//                                    },
+//                                    success: function (data, textStatus, jqXHR) {
+//                                        swal("Duyệt thành công", {
+//                                            icon: "success",
+//                                        });
+//                                        const tableRow = el.parentElement.parentElement
+//                                        tableRow.remove()
+//                                    },
+//                                    error: function (jqXHR, textStatus, errorThrown) {
+//                                        swal("Duyệt thất bại!!!", {
+//                                            icon: "error",
+//                                        });
+//                                    }
+//                                })
+//                            }
+//                        });
             }
             $(document).ready(function () {
                 initTableData();
