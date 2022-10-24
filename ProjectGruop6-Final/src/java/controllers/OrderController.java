@@ -2,6 +2,7 @@ package controllers;
 
 import config.Config;
 import dao.ProductDAO;
+import dto.ProductDTO;
 import dto.UserDTO;
 //import jakarta.servlet.ServletException;
 //import jakarta.servlet.annotation.WebServlet;
@@ -47,22 +48,27 @@ public class OrderController extends HttpServlet {
                     try {
                         if (request.getParameter("func") != null) {
                             String func = request.getParameter("func");
-                            int reviewId = Integer.parseInt(request.getParameter("productId"));
+                            int pId = Integer.parseInt(request.getParameter("pId"));
                             switch (func) {
                                 case "ss": {
-                                    System.out.println(p.approveProduct(action, reviewId, action));
+                                    p.handerProductSeller(pId, "ss", null);
                                 }
                                 break;
                                 case "as": {
-//                                r.updateReview(user.getEmail(), reviewId, false);
+                                    p.handerProductSeller(pId, "as", null);
                                 }
                                 break;
                                 case "d": {
-//                                r.updateReview(user.getEmail(), reviewId, false);
+                                    p.handerProductSeller(pId, "d", null);
                                 }
                                 break;
                                 case "u": {
-//                                r.updateReview(user.getEmail(), reviewId, false);
+                                    if (request.getAttribute("product") == null) {
+                                        throw new Exception();
+                                    } else {
+                                        ProductDTO product = (ProductDTO)request.getAttribute("product");
+                                        p.handerProductSeller(pId, "ss",product);
+                                    }
                                 }
                                 break;
                                 default:
@@ -77,27 +83,27 @@ public class OrderController extends HttpServlet {
                                 switch (status) {
                                     case "ar": {
                                         request.setAttribute("productList",
-                                                p.getProductListSeller(user.getEmail(), 1, 1));
+                                                p.getProductListJson(p.getProductListSeller(user.getEmail(), 1, 1)));
                                     }
                                     break;
                                     case "nar": {
                                         request.setAttribute("productList",
-                                                p.getProductListSeller(user.getEmail(), 2, 0));
+                                                p.getProductListJson(p.getProductListSeller(user.getEmail(), 2, 0)));
                                     }
                                     break;
                                     case "nary": {
                                         request.setAttribute("productList",
-                                                p.getProductListSeller(user.getEmail(), 2, -1));
+                                                p.getProductListJson(p.getProductListSeller(user.getEmail(), 2, -1)));
                                     }
                                     break;
                                     case "ss": {
                                         request.setAttribute("productList",
-                                                p.getProductListSeller(user.getEmail(), 0, 1));
+                                                p.getProductListJson(p.getProductListSeller(user.getEmail(), 0, 1)));
                                     }
                                     break;
                                     case "oos": {
                                         request.setAttribute("productList",
-                                                p.getProductListSeller(user.getEmail(), -1, 1));
+                                                p.getProductListJson(p.getProductListSeller(user.getEmail(), -1, 1)));
                                     }
                                     break;
                                     default:
@@ -121,7 +127,6 @@ public class OrderController extends HttpServlet {
                 request.setAttribute("controller", "error");
                 request.setAttribute("action", "index");
                 request.setAttribute("message", "Error when processing the request");
-
         }
         request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
     }

@@ -685,35 +685,35 @@ public class ProductDAO {
 
     //--product list seller
     public List<ProductDTO> getProductListSeller(String emailSeller, int status, int authen) throws ClassNotFoundException, SQLException {
-        String strStatus = " AND";
+        String strStatus = " AND ";
         switch (status) {
             case 0: {
-                strStatus += " status = 0";
+                strStatus += "status = 0";
             }
             break;
             case 1: {
-                strStatus += " status = 1";
+                strStatus += "status = 1";
             }
             break;
             case -1: {
-                strStatus += " quantity <= 5";
+                strStatus += "quantity <= 5";
             }
             break;
             default:
                 strStatus = " ";
         }
-        String strAuthen = " AND";
+        String strAuthen = " AND ";
         switch (authen) {
             case 0: {
-                strAuthen += " authen = 0";
+                strAuthen += "authen = 0";
             }
             break;
             case 1: {
-                strAuthen += " authen = 1";
+                strAuthen += "authen = 1";
             }
             break;
             case -1: {
-                strAuthen += " authen is null";
+                strAuthen += "authen is null";
             }
             break;
             default:
@@ -744,6 +744,35 @@ public class ProductDAO {
         return list;
     }
 
+    //--product list seller
+    public boolean handerProductSeller(int pId, String option, ProductDTO p) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        if (option.equalsIgnoreCase("ss") || option.equalsIgnoreCase("as")) {
+            PreparedStatement stm = conn.prepareStatement("UPDATE product "
+                    + "SET status = ? WHERE product_id = ? ");
+            stm.setInt(1, option.equalsIgnoreCase("ss") ? 0 : 1);
+            stm.setInt(2, pId);
+            return stm.executeUpdate() == 1;
+        } else if (option.equalsIgnoreCase("u") && p != null) {
+            PreparedStatement stm = conn.prepareStatement("UPDATE product "
+                    + "SET name = ?, price = ?, category_id = ?, [description] = ?, "
+                    + "quantity = ?  WHERE product_id = ? ");
+            stm.setString(1, p.getName());
+            stm.setLong(2, p.getPrice());
+            stm.setInt(3, p.getCateId());
+            stm.setString(4, p.getDescription());
+            stm.setInt(5, p.getQuantity());
+            stm.setInt(6, pId);
+            return stm.executeUpdate() == 1;
+        } else if (option.equalsIgnoreCase("d")) {
+            PreparedStatement stm = conn.prepareStatement("DELETE FROM product "
+                    + "WHERE product_id = ? ");
+            stm.setInt(1, pId);
+            return stm.executeUpdate() == 1;
+        }
+        return false;
+    }
+
     public String getProductListJson(List<ProductDTO> productList) throws ClassNotFoundException, SQLException {
         Gson gson = new Gson();
         HashMap<String, Object> hashmap = new HashMap<>();
@@ -753,7 +782,7 @@ public class ProductDAO {
             hashmap.put("productId", String.valueOf(p.getProductId()));
             hashmap.put("date", formatter.format(p.getCreateAt()));
             hashmap.put("name", p.getName());
-            hashmap.put("image", p.getMainImage());
+            hashmap.put("image", p.getMainImage() == null ? "" : p.getMainImage().getUrl());
             hashmap.put("price", String.valueOf(p.getPrice()));
             hashmap.put("description", String.valueOf(p.getDescription()));
             a += gson.toJson(hashmap) + ",";
@@ -765,13 +794,20 @@ public class ProductDAO {
         ProductDAO p = new ProductDAO();
         try {
 //            System.out.println(new Gson().toJson(proDAO.getProductListJson(proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC))));
-            List<ProductDTO> list;
+//            List<ProductDTO> list = new ArrayList<>();
 //            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 1, 1);
 //            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 2, 0);
 //            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 2, -1);
-            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 0, 1);
+//            List<ProductDTO> list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 0, 1);
 //            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", -1, 1);
-            System.out.println(list);
+//            for (ProductDTO productDTO : list) {
+//                if (productDTO.getMainImage() == null) {
+//                    System.out.println("OK");
+//                }
+//            }
+//            System.out.println(p.getProductListJson(list));
+            ProductDTO product = new ProductDTO("a", 2, "description", 1, 200, null);
+            System.out.println(p.handerProductSeller(474, "u", product));
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();

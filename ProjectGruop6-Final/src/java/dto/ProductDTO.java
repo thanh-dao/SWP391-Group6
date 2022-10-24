@@ -36,6 +36,15 @@ public class ProductDTO {
         return null;
     }
 
+    public ProductDTO(String name, long price, String description, int cateId, int quantity, List<ProductImageDTO> imgList) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.cateId = cateId;
+        this.quantity = quantity;
+        this.imgList = imgList;
+    }
+
     public ProductDTO(int productId, String name, long price, String description, Date createAt, List<ProductImageDTO> imgList) {
         this.productId = productId;
         this.name = name;
