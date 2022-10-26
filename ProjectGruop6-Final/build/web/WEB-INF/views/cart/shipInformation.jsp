@@ -164,12 +164,12 @@
                                 <div class="input-form">
                                     <label>Tên người dùng</label>
                                     <input type="text" required="true" name="firstName" placeholder="Nhập tên người dùng"
-                                           maxlength="50" class="input-form-item">
+                                           maxlength="50" class="input-form-item" value="${user.firstName} ${user.lastName}">
                                 </div>
                                 <div class="input-form">
                                     <label>Số điện thoại</label>
                                     <input type="text" required="true" placeholder="Nhập số điện thoại" maxlength="50"
-                                           class="input-form-item">
+                                           class="input-form-item" value="${user.phone}" name="phone">
                                 </div>
                                 <div class="input-form">
                                     <label>Ngày/Tháng/Năm Sinh</label>
@@ -198,20 +198,15 @@
                         <div class="col-md-12">
                             <div class="form-item1 input-form" style="position: relative">
                                 <label>Địa chỉ chi tiết</label><br>
+                                <!--k ấn enter cho nay-->
                                 <textarea type="textarea" required="true" name="address"
-                                          placeholder="Ví dụ: 193/14/2, đường Đỗ Văn Thi" class="input-form-item"></textarea>
+                                          placeholder="Ví dụ: 193/14/2, đường Đỗ Văn Thi" class="input-form-item">${user.address.houseNumber}</textarea>
                             </div>
-                            <!--                            <div class="form-item1 input-form" style="position: relative">
-                                                            <label style="top: 0;">Điều cần lưu ý</label>
-                                                            <textarea type="textarea" required="true" name="address"
-                                                                      placeholder="Ví dụ: Khách hàng có thể nhận hàng vào buổi sáng"
-                                                                      class="input-form-item"></textarea>
-                                                        </div>-->
                         </div>
                     </div>
                 </div>
                 <div class="confirm-button" style="display: flex; justify-content: center;">
-                    <button class="btn-buy" onclick="window.location.href = '<c:url value="/cart/cart.do"/>'">Tiếp theo</button>
+                    <button class="btn-buy" onclick="<c:url value="/cart/shipInformation.do"/>">Tiếp theo</button>
                 </div>
             </div>
         </form>

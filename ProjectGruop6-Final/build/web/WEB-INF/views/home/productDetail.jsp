@@ -179,7 +179,6 @@
                 text-overflow: ellipsis;
                 border-bottom: 1.5px solid rgba(0,0,0,.09);
             }
-
             .tooltip-text {
                 text-decoration:none;
                 position:relative;

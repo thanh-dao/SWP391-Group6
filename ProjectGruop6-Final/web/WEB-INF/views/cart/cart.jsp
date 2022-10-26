@@ -307,9 +307,23 @@
                                     </div>
                                     <div>
                                         <span class="font-bold">Địa chỉ: </span>
-                                        <span class="customer-info">
-                                            Địa chỉ nhận hàng
-                                        </span>
+
+                                        <c:choose>
+                                            <c:when test = "${empty user.address.houseNumber || 
+                                                              empty user.address.wardName || 
+                                                              empty user.address.districtName||
+                                                              empty user.address.cityName}">
+                                                    Chưa cập nhật địa chỉ nhận hàng
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="customer-info">
+                                                    ${user.address.houseNumber}, 
+                                                    ${user.address.wardName}, 
+                                                    ${user.address.districtName}, 
+                                                    ${user.address.cityName}
+                                                </span>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </div>
                             </div>
@@ -321,7 +335,16 @@
                                     </span>
                                 </span>
                             </div>
-                            <button class="btn-buy" onclick="window.location.href = '<c:url value="/cart/pay.do"/>'">Thanh Toán</button>
+                            <c:choose>
+                                <c:when test = "${empty user.address.houseNumber || 
+                                                  empty user.address.wardName || 
+                                                  empty user.address.districtName||
+                                                  empty user.address.cityName}">
+                                        <a class="genric-btn primary circle" href="<c:url value="/cart/shipInformation.do"/>">Thanh Toán</a></c:when>
+                                <c:otherwise>
+                                    <button class="btn-buy" onclick="window.location.href = '<c:url value="/cart/pay.do"/>'">Thanh Toán</button>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                 </div>

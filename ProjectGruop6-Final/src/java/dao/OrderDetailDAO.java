@@ -12,7 +12,7 @@ import utils.DBUtil;
 
 public class OrderDetailDAO {
 
-    //select
+    //select all
     public List<OrderDetailDTO> getOrderDetail(int orderByShopId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<OrderDetailDTO> list = new ArrayList();
@@ -24,7 +24,7 @@ public class OrderDetailDAO {
             ProductDAO p = new ProductDAO();
             ProductDTO product = p.getProductById(rs.getInt("product_id"));
             list.add(new OrderDetailDTO(rs.getInt("order_detail_id"), rs.getInt("product_id"),
-                    rs.getInt("quantity"), p.getProductById(rs.getInt("product_id"))));
+                    rs.getInt("quantity"), rs.getString("price") ,p.getProductById(rs.getInt("product_id"))));
         }
         return list;
     }
@@ -100,10 +100,14 @@ public class OrderDetailDAO {
         try {
 //            d.updateOrderDetail(14, 152, 3, null);
 //            d.addOrderDetail(14, 150);
-//            List<OrderDetailDTO> od = d.getOrderDetail(15);
+            List<OrderDetailDTO> od = d.getOrderDetail(20);
 //            System.out.println(od.get(0).getProduct().getMainImage().getUrl());
 //System.out.println(d.checkQuantity(14, 149, 2));
-            d.deleteOrderDetail(14, 152);
+//            d.deleteOrderDetail(14, 152);
+for (OrderDetailDTO o : od) {
+                System.out.println(o.getPrice());
+
+            }
         } catch (Exception e) {
         }
     }

@@ -104,143 +104,113 @@
                 font-weight: bold;
                 padding: 8px
             }
+            i {
+                font-size: 15px;
+                width: 16px;
+                margin-right: 12px; 
+                padding: 6px;
+            }
+            .info_user p {
+                margin-bottom: 2px;
+            }
         </style>
     </head>
 
     <body>
         <div class="container ">
             <h4>Thông tin đơn hàng</h4>
-
             <div class="row">
                 <div class="col-md-3">
-                    <div class="br-form">
-                        <h6 class="title-style">Thông tin khách hàng</h6>
-                        <div class="txt-style">
-                            <span class="font-bold">Tên: </span><span>Họ và Tên</span><br>
-                            <span class="font-bold">Email: </span><span>Email</span><br>
-                            <span class="font-bold">Số điện thoại: </span><span>Số điện thoại</span><br>
-                            <span class="font-bold">Địa chỉ nhận hàng: </span><span>Địa chỉ nhận hàng</span><br>
+                    <h6 class="d-flex justify-content-between">Thông tin khách hàng
+                        <a href="<c:url value="/user/userInformation.do"/>">Thay đổi</a></h6>
+                    <div class="info_user">
+                        <div class="d-flex">
+                            <i class="fa-regular fa-user"></i>
+                            <p>${user.firstName} ${user.lastName}</p>
+                        </div>
+                        <div class="d-flex">
+                            <i class="fa-regular fa-envelope"></i>
+                            <p>${user.email}</p>
+                        </div>
+                        <div class="d-flex">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                            <p>${user.phone}</p>
+                        </div>
+                        <div class="d-flex"><i class="fa-regular fa-address-book"></i><p>${user.address.houseNumber} -
+                                ${user.address.wardName} -
+                                ${user.address.districtName} -
+                                ${user.address.cityName}
+                            </p>
                         </div>
                     </div>
                 </div>
                 <!-- san pham -->
-                <div class="col-md-5 col-sm-6 col-xs-12">
-                    <div class="br-form">
-                        <table class="table table-striped ">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Thông tin sản phẩm</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="row" style="margin: 0">
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <div class="product-img">
-                                                <a href="<c:url value="/home/productDetail.do"/>">
-                                                    <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
-                                                    </picture>
-                                                </a>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <c:forEach items="${orderDetailList}" var="obs">
+                        <div class="br-form">
+                            <h6 class="d-flex">
+                                <div class="mr-auto p-2">
+                                    <span style="margin-right: 10px;">${obs.name}</span>
+                                    <a href="#">
+                                        Xem shop >>
+                                    </a>
+                                </div>
+                                <div class="p-2">
+                                    <c:choose>
+                                        <c:when test = "${obs.status == 0}">
+                                            <div style="color: red;">
+                                                Đã hủy
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <div class="product-content">
-                                                <a href="<c:url value="/home/productDetail.do"/>">Tên Sản Phẩm</a>
+                                        </c:when>
+                                        <c:when test = "${obs.status == 1}">
+                                            <div style="color: green;">
+                                                Giao hàng thành công
                                             </div>
-                                            <fmt:setLocale value="vi_VN" />
-                                            <div>
-                                                <span class="product-content">Giá: </span>
-                                                <fmt:formatNumber type="currency" value="">Giá sản phẩm</fmt:formatNumber>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div style="color: red;">
+                                                Đang giao hàng
                                             </div>
-                                            <div>
-                                                <span class="product-content">Số lượng:</span>
-                                                <span>số lượng sản phẩm</span>
-                                            </div>
-                                            <button type="button"
-                                                    class="button-22">Đánh
-                                                giá</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="row" style="margin: 0">
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <div class="product-img">
-                                                <a href="<c:url value="/home/productDetail.do"/>">
-                                                    <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
-                                                    </picture>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <div class="product-content">
-                                                <a href="<c:url value="/home/productDetail.do"/>">Tên Sản Phẩm</a>
-                                            </div>
-                                            <fmt:setLocale value="vi_VN" />
-                                            <div>
-                                                <span class="product-content">Giá: </span>
-                                                <fmt:formatNumber type="currency" value="">Giá sản phẩm</fmt:formatNumber>
-                                            </div>
-                                            <div>
-                                                <span class="product-content">Số lượng:</span>
-                                                <span>số lượng sản phẩm</span>
-                                            </div>
-                                            <button type="button"
-                                                    class="button-22">Đánh
-                                                giá</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="row" style="margin: 0">
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <div class="product-img">
-                                                <a href="<c:url value="/home/productDetail.do"/>">
-                                                    <picture> <img src="<c:url value="/images/690x400.png"/>" alt="">
-                                                    </picture>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <div class="product-content">
-                                                <a href="<c:url value="/home/productDetail.do"/>">Tên Sản Phẩm</a>
-                                            </div>
-                                            <fmt:setLocale value="vi_VN" />
-                                            <div>
-                                                <span class="product-content">Giá: </span>
-                                                <fmt:formatNumber type="currency" value="">Giá sản phẩm</fmt:formatNumber>
-                                            </div>
-                                            <div>
-                                                <span class="product-content">Số lượng:</span>
-                                                <span>số lượng sản phẩm</span>
-                                            </div>
-                                            <button type="button"
-                                                    class="button-22">Đánh
-                                                giá</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="txt-style">
-                            <div style="font-weight: bold">Số tiền thanh toán: </div>
-
-                            <!-- Giá gốc: <del>20.000</del><br>
-                            Giảm giá: <span>20.000</span><br> -->
-                            Phí giao hàng: <span>Phí giao</span>
-                            <div style="color: red; font-weight: bold">Tổng cộng:
-                                <span>Tổng đơn</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>                                    
+                                <a class="p-2" href="<c:url value="/cart/billInformation.do?os=${obs.orderByShopId}"/>">Xem chi tiết >></a>
+                            </h6>
+                            <c:forEach items="${obs.orderDetailList}" var="od">
+                                <!--<tr class="order-link" href="<c:url value="/cart/billInformation.do"/>">-->
+                                <div class="d-flex br-od">
+                                    <div class="product-img p-2">
+                                        <img src="<c:url value="${od.product.getMainImage().url}"/>" alt="">
+                                    </div>
+                                    <div class="d-flex flex-column p-2">
+                                        <a href="<c:url value="/home/productDetail.do?productId=${od.product.productId}"/>">
+                                            <p class="tooltip-text hinden-text">
+                                                ${od.product.name}
+                                                <!--<span>${od.product.name}</span>-->
+                                            </p></a>
+                                        x${od.quantity}
+                                    </div>
+                                    <p class="text-right ml-auto p-2">${od.price}</p>
+                                </div>
+                            </c:forEach>
+                            <p class="d-flex justify-content-end" 
+                               style="padding: 20px 10px; margin: 0;">
+                                Tổng số tiền: 
+                                ${obs.total}
+                            </p>
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary">Mua lại</button>
+                                <button type="button" class="btn btn-light">Đánh giá</button>
                             </div>
                         </div>
-
-                    </div>
+                    </c:forEach>
                 </div>
-                <div class="col-md-4 col-sm-3 col-xs-2">
+                <div class="col-md-3 col-sm-3 col-xs-2">
                     <div class="br-form">
                         <h6 class="title-style">Chi tiết đơn hàng: </h6>
                         <div class="txt-style">
-                            <span class="font-bold">Đơn vị vận chuyển: </span><span>Đơn vị vận chuyển</span><br>
-                            <span class="font-bold">Phương thức thanh toán: </span><span>Phương thức thanh toán</span><br>
+                            <i class="fa-solid fa-truck-fast"></i><span>Đơn vị vận chuyển</span><br>
+                            <i class="fa-regular fa-credit-card"></i><span>Phương thức thanh toán</span><br>
                             <h6 style="color:green; text-align:center; font-weight: 700; padding-top: 5px;">Trạng thái đơn hàng
                             </h6>
                         </div>

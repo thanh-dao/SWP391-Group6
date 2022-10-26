@@ -19,8 +19,7 @@ public class OrderDTO {
     private String emailBuyer;
     private Date orderDate;
     private AddressDTO address;
-    private List<OrderByShopDTO> OrderByShopList;
-    private float total;
+    private List<OrderByShopDTO> orderByShopList;
 
     public OrderDTO(int orderId, String emailBuyer) {
         this.orderId = orderId;
@@ -30,12 +29,12 @@ public class OrderDTO {
     public OrderDTO(String emailBuyer, AddressDTO address, List<OrderByShopDTO> OrderByShopList) {
         this.emailBuyer = emailBuyer;
         this.address = address;
-        this.OrderByShopList = OrderByShopList;
+        this.orderByShopList = OrderByShopList;
     }
 
     @Override
     public String toString() {
-        return "OrderDTO{" + "orderId=" + orderId + ", deliveryId=" + deliveryId + ", paymentId=" + paymentId + ", emailBuyer=" + emailBuyer + ", orderDate=" + orderDate + ", address=" + address + ", OrderByShopList=" + OrderByShopList + ", total=" + total + '}';
+        return "OrderDTO{" + "orderId=" + orderId + ", deliveryId=" + deliveryId + ", paymentId=" + paymentId + ", emailBuyer=" + emailBuyer + ", orderDate=" + orderDate + ", address=" + address + ", orderByShopList=" + orderByShopList + '}';
     }
 
 }

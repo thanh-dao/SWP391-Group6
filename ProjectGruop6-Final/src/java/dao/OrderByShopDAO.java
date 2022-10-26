@@ -13,13 +13,13 @@ import utils.DBUtil;
 
 public class OrderByShopDAO {
 
-    //select
+    //select all
     public List<OrderByShopDTO> getOrderByShop(int orderId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<OrderByShopDTO> list = new ArrayList();
         OrderDetailDAO od = new OrderDetailDAO();
         PreparedStatement stm = conn.prepareStatement("SELECT order_by_shop_id,"
-                + " email_seller, transaction_fee, transport_fee, shipper_date "
+                + " email_seller, status, transaction_fee, transport_fee, shipper_date "
                 + "FROM order_by_shop WHERE order_id = ? ");
         stm.setInt(1, orderId);
         ResultSet rs = stm.executeQuery();
@@ -28,10 +28,27 @@ public class OrderByShopDAO {
             UserDTO user = u.findUser(rs.getString("email_seller"));
             list.add(new OrderByShopDTO(rs.getInt("order_by_shop_id"),
                     rs.getString("email_seller"), user.getFirstName() + " " + user.getLastName(),
-                    rs.getDouble("transaction_fee"), rs.getDouble("transport_fee"),
-                    rs.getDate("shipper_date"), od.getOrderDetail(rs.getInt("order_by_shop_id"))));
+                    rs.getString("status"), rs.getDouble("transaction_fee"),
+                    rs.getDouble("transport_fee"), rs.getDate("shipper_date"), null,
+                    od.getOrderDetail(rs.getInt("order_by_shop_id")), 
+                    totalOrderByShop(rs.getInt("order_by_shop_id"))));
         }
         return list;
+    }
+
+    //total
+    public int totalOrderByShop(int orderByShopId) throws ClassNotFoundException, SQLException {
+        Connection conn;
+        conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT SUM(od.price) as total FROM\n"
+                + "(SELECT order_by_shop_id FROM order_by_shop WHERE order_by_shop_id = ? ) os\n"
+                + "LEFT JOIN order_detail od ON os.order_by_shop_id = od.order_by_shop_id");
+        stm.setInt(1, orderByShopId);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("total");
+        }
+        return -1;
     }
 
     //check OrderByShop when order_detail null
@@ -77,7 +94,7 @@ public class OrderByShopDAO {
             od.addOrderDetail(rs.getInt("order_by_shop_id"), productId);
         }
     }
-    
+
     //delete orderByShop
     public void deleteOrderByShop(int orderByShopId) throws ClassNotFoundException, SQLException {
         Connection conn;
@@ -92,7 +109,17 @@ public class OrderByShopDAO {
         try {
             OrderByShopDAO obs = new OrderByShopDAO();
 //            obs.addOrderByShop(16, 157);
-            System.out.println(obs.getOrderByShop(16));
+//            for (OrderByShopDTO o : obs.getOrderByShop(19)) {
+//                if (o.getEmailSeller().equalsIgnoreCase("HanNTGSS170622@fpt.edu.vn")) {
+//                    System.out.println("OK");
+//
+//                }
+//                System.out.println(o.getStatus());
+//            }
+System.out.println(obs.totalOrderByShop(15));
+     
+//            System.out.println(obs.getOrderByShop(16).get);
+
 //            obs.checkOrderByShop();
         } catch (Exception e) {
         }

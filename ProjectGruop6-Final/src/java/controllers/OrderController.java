@@ -1,6 +1,7 @@
 package controllers;
 
 import config.Config;
+import dao.OrderDAO;
 import dao.ProductDAO;
 import dto.ProductDTO;
 import dto.UserDTO;
@@ -35,16 +36,22 @@ public class OrderController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
         HttpSession session = (HttpSession) request.getSession();
-        switch (action) {
-            case "history":
+        if (session.getAttribute("user") == null) {
+            request.setAttribute("controller", "user");
+            request.setAttribute("action", "login");
+        } else {
+            UserDTO user = (UserDTO) session.getAttribute("user");
+            switch (action) {
+                case "history": {
+                    try {
+                        request.setAttribute("orderList", new OrderDAO().getOrder(user.getEmail()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
-            case "stored": {
-                ProductDAO p = new ProductDAO();
-                if (session.getAttribute("user") == null) {
-                    request.setAttribute("controller", "user");
-                    request.setAttribute("action", "login");
-                } else {
-                    UserDTO user = (UserDTO) session.getAttribute("user");
+                case "stored": {
+                    ProductDAO p = new ProductDAO();
                     try {
                         if (request.getParameter("func") != null) {
                             String func = request.getParameter("func");
@@ -66,8 +73,8 @@ public class OrderController extends HttpServlet {
                                     if (request.getAttribute("product") == null) {
                                         throw new Exception();
                                     } else {
-                                        ProductDTO product = (ProductDTO)request.getAttribute("product");
-                                        p.handerProductSeller(pId, "ss",product);
+                                        ProductDTO product = (ProductDTO) request.getAttribute("product");
+                                        p.handerProductSeller(pId, "ss", product);
                                     }
                                 }
                                 break;
@@ -121,12 +128,12 @@ public class OrderController extends HttpServlet {
                         e.printStackTrace();
                     }
                 }
+                break;
+                default:
+                    request.setAttribute("controller", "error");
+                    request.setAttribute("action", "index");
+                    request.setAttribute("message", "Error when processing the request");
             }
-            break;
-            default:
-                request.setAttribute("controller", "error");
-                request.setAttribute("action", "index");
-                request.setAttribute("message", "Error when processing the request");
         }
         request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
     }

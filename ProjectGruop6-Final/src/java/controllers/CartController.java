@@ -1,6 +1,8 @@
 package controllers;
 
 import config.Config;
+import dao.OrderByShopDAO;
+import dao.OrderDetailDAO;
 import dao.ProductDAO;
 import dao.UserDAO;
 import dto.OrderByShopDTO;
@@ -38,21 +40,17 @@ public class CartController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         System.out.println(action + " " + controller);
         HttpSession session = request.getSession();
-        switch (action) {
-            case "cart": {
-                try {
-                    if (session.getAttribute("user") == null) {
-                        request.setAttribute("controller", "user");
-                        request.setAttribute("action", "login");
-                    } else {
+        if (session.getAttribute("user") == null) {
+            request.setAttribute("controller", "user");
+            request.setAttribute("action", "login");
+        } else {
+            switch (action) {
+                case "cart": {
+                    try {
                         UserDTO user = (UserDTO) session.getAttribute("user");
-                        System.out.println(user);
-                        OrderDTO cart = null;
-                        if (session.getAttribute("order") == null) {
-                            cart = new OrderDTO(user.getEmail(), user.getAddress(), new ArrayList<>());
-                        } else {
-                            cart = (OrderDTO) session.getAttribute("order");
-                        }
+                        OrderDTO cart = session.getAttribute("order") == null
+                                ? new OrderDTO(user.getEmail(), user.getAddress(), new ArrayList<>())
+                                : (OrderDTO) session.getAttribute("order");
                         if (request.getParameter("func") != null) {
                             String func = request.getParameter("func");
                             System.out.println(func);
@@ -71,23 +69,36 @@ public class CartController extends HttpServlet {
                             }
                         }
                         session.setAttribute("order", cart);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
                 }
+                break;
+                case "pay":
+                    break;
+                case "shipInformation":
+                    break;
+                case "billInformation": {
+                    if (request.getParameter("osId") != null) {
+                        try {
+                            request.setAttribute("orderDetailList", new OrderDetailDAO()
+                                    .getOrderDetail(Integer.parseInt(request.getParameter("osId"))));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        request.setAttribute("controller", "error");
+                        request.setAttribute("action", "index");
+                        request.setAttribute("message", "Error when processing the request");
+                    }
+                }
+                break;
+                default:
+                    //chuyển đến trang thông báo lổi
+                    request.setAttribute("controller", "error");
+                    request.setAttribute("action", "index");
+                    request.setAttribute("message", "Error when processing the request");
             }
-            break;
-            case "pay":
-                break;
-            case "shipInformation":
-                break;
-            case "billInformation":
-                break;
-            default:
-                //chuyển đến trang thông báo lổi
-                request.setAttribute("controller", "error");
-                request.setAttribute("action", "index");
-                request.setAttribute("message", "Error when processing the request");
         }
         request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
     }
@@ -169,12 +180,7 @@ public class CartController extends HttpServlet {
         switch (option) {
             case "add": {
                 if (indexOD != -1) {
-                    System.out.println("==============");
-                    System.out.println(quantity);
-                    System.out.println(odList.get(indexOD).getQuantity() + 1);
                     odList.get(indexOD).setQuantity(odList.get(indexOD).getQuantity() + 1);
-                    System.out.println(odList.get(indexOD).getQuantity() + 1);
-                    System.out.println("==============");
                 } else {
                     odList.add(new OrderDetailDTO(productId, 1, new ProductDAO().getProductById(productId)));
                 }
