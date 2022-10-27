@@ -381,7 +381,7 @@
                                             </span>
                                         </div>
                                         <div class="user-dropdown">
-                                            <a href="<c:url value="/user/userInformation.do"/>">
+                                            <a href="<c:url value="/user/userInformation.do?id=${sessionScope.user.email}"/>">
                                                 <p>Tài khoản của tôi</p
                                             </a>
                                             <a href="<c:url value="/user/logout.do"/>">
