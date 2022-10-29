@@ -157,7 +157,7 @@
                                         <label>Quận/Huyện</label>
                                         <select class="district-picker" onchange="handleDistrictChange(this)" name="districtId">
                                         </select>
-                                        
+
                                     </div>
                                     <div class="input-form">
                                         <label>Phường/Xã</label>
@@ -279,16 +279,33 @@
 
 
                         const submit = () => {
-                            console.log(1)
                             const formData = new FormData();
                             formData.append("image", document.querySelector("#hidden-img").files[0])
-                            formData.append("func", "uploadAva")
-                            console.log(formData)
+
+                            let isEmpty = false;
+                            document.querySelectorAll("#text-form input").forEach(i => {
+                                if (i.value === "") {
+                                    isEmpty = true;
+                                }
+                            })
+                            document.querySelectorAll("select").forEach(i => {
+                                if (i.value === "") {
+                                    isEmpty = true;
+                                }
+                            })
                             fetch('<c:url value="/FileUserHandle"/>', {
                                 method: "POST",
                                 body: formData,
                             })
-                            $("#text-form").submit();
+                            if (isEmpty) {
+                                swal("Oops", "Bạn phải điền vào tất cả các ô trống", "error")
+                            }
+                            else {
+                                $("#text-form").submit();
+                                
+                                setTimeout(alert("Done", "success"),10000);
+                            }
+
                         }
                         document.querySelector("#image-label").addEventListener("click", (e) => {
                             document.querySelector("#hidden-img").click()

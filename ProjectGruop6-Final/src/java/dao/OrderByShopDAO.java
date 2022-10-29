@@ -1,7 +1,6 @@
 package dao;
 
 import dto.OrderByShopDTO;
-import dto.OrderDTO;
 import dto.UserDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,25 +13,25 @@ import utils.DBUtil;
 public class OrderByShopDAO {
 
     //select
-    public List<OrderByShopDTO> getOrderByShop(int orderId) throws ClassNotFoundException, SQLException {
-        Connection conn = DBUtil.getConnection();
-        List<OrderByShopDTO> list = new ArrayList();
-        OrderDetailDAO od = new OrderDetailDAO();
-        PreparedStatement stm = conn.prepareStatement("SELECT order_by_shop_id,"
-                + " email_seller, transaction_fee, transport_fee, shipper_date "
-                + "FROM order_by_shop WHERE order_id = ? ");
-        stm.setInt(1, orderId);
-        ResultSet rs = stm.executeQuery();
-        while (rs.next()) {
-            UserDAO u = new UserDAO();
-            UserDTO user = u.findUser(rs.getString("email_seller"));
-            list.add(new OrderByShopDTO(rs.getInt("order_by_shop_id"),
-                    rs.getString("email_seller"), user.getFirstName() + " " + user.getLastName(),
-                    rs.getDouble("transaction_fee"), rs.getDouble("transport_fee"),
-                    rs.getDate("shipper_date"), od.getOrderDetail(rs.getInt("order_by_shop_id"))));
-        }
-        return list;
-    }
+//    public List<OrderByShopDTO> getOrderByShop(int orderId) throws ClassNotFoundException, SQLException {
+//        Connection conn = DBUtil.getConnection();
+//        List<OrderByShopDTO> list = new ArrayList();
+//        OrderDetailDAO od = new OrderDetailDAO();
+//        PreparedStatement stm = conn.prepareStatement("SELECT order_by_shop_id,"
+//                + " email_seller, transaction_fee, transport_fee, shipper_date "
+//                + "FROM order_by_shop WHERE order_id = ? ");
+//        stm.setInt(1, orderId);
+//        ResultSet rs = stm.executeQuery();
+//        while (rs.next()) {
+//            UserDAO u = new UserDAO();
+//            UserDTO user = u.findUser(rs.getString("email_seller"));
+//            list.add(new OrderByShopDTO(rs.getInt("order_by_shop_id"),
+//                    rs.getString("email_seller"), user.getFirstName() + " " + user.getLastName(),
+//                    rs.getDouble("transaction_fee"), rs.getDouble("transport_fee"),
+//                    rs.getDate("shipper_date"), od.getOrderDetail(rs.getInt("order_by_shop_id"))));
+//        }
+//        return list;
+//    }
 
     //check OrderByShop when order_detail null
     public void checkOrderByShop(int orderByShopId) throws ClassNotFoundException, SQLException {
@@ -92,7 +91,7 @@ public class OrderByShopDAO {
         try {
             OrderByShopDAO obs = new OrderByShopDAO();
 //            obs.addOrderByShop(16, 157);
-            System.out.println(obs.getOrderByShop(16));
+//            System.out.println(obs.getOrderByShop(16));
 //            obs.checkOrderByShop();
         } catch (Exception e) {
         }

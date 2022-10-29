@@ -75,6 +75,10 @@ public class FileUserHandle extends HttpServlet {
                 }
             });
             String[] arr = downloadedFiles.toArray(new String[downloadedFiles.size()]);
+            HttpSession session = request.getSession();
+            UserDTO user = (UserDTO) session.getAttribute("user");
+            user.setAvatarLink(arr[0]);
+            session.setAttribute("user", user);
             renameFileBaseOnImgId(arr, userEmail);
         }catch(Exception ex) {
             ex.printStackTrace();

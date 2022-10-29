@@ -18,26 +18,26 @@ public class OrderDAO {
 
     //check status of order
     //chua dung den
-    public OrderDTO getOrder(String emailBuyer, int status) throws ClassNotFoundException, SQLException {
-        Connection conn = DBUtil.getConnection();
-        PreparedStatement stm = conn.prepareStatement("SELECT [order_id], delivery_id, "
-                + "payment_id, email_buyer, order_date, status, address, ward_id, district_id, "
-                + "city_id FROM [order] WHERE email_buyer = ? AND [status] = ?");
-        stm.setString(1, emailBuyer);
-        stm.setInt(2, status);
-        ResultSet rs = stm.executeQuery();
-        while (rs.next()) {
-            AddressDAO adr = new AddressDAO();
-            OrderByShopDAO ob = new OrderByShopDAO();
-            AddressDTO address = new AddressDTO(rs.getString("address"), adr.get(rs.getString("ward_id"), adr.WARD),
-                    adr.get(rs.getString("district_id"), adr.DISTRICT), adr.get(rs.getString("city_id"), adr.CITY));
-            OrderDTO order = new OrderDTO(rs.getInt("order_id"), rs.getInt("delivery_id"),
-                    rs.getInt("payment_id"), rs.getString("email_buyer"), rs.getDate("order_date"),
-                    address, ob.getOrderByShop(rs.getInt("order_id")), getTotal(rs.getString("email_buyer")));
-            return order;
-        }
-        return null;
-    }
+//    public OrderDTO getOrder(String emailBuyer, int status) throws ClassNotFoundException, SQLException {
+//        Connection conn = DBUtil.getConnection();
+//        PreparedStatement stm = conn.prepareStatement("SELECT [order_id], delivery_id, "
+//                + "payment_id, email_buyer, order_date, status, address, ward_id, district_id, "
+//                + "city_id FROM [order] WHERE email_buyer = ? AND [status] = ?");
+//        stm.setString(1, emailBuyer);
+//        stm.setInt(2, status);
+//        ResultSet rs = stm.executeQuery();
+//        while (rs.next()) {
+//            AddressDAO adr = new AddressDAO();
+//            OrderByShopDAO ob = new OrderByShopDAO();
+//            AddressDTO address = new AddressDTO(rs.getString("address"), adr.get(rs.getString("ward_id"), adr.WARD),
+//                    adr.get(rs.getString("district_id"), adr.DISTRICT), adr.get(rs.getString("city_id"), adr.CITY));
+//            OrderDTO order = new OrderDTO(rs.getInt("order_id"), rs.getInt("delivery_id"),
+//                    rs.getInt("payment_id"), rs.getString("email_buyer"), rs.getDate("order_date"),
+//                    address, ob.getOrderByShop(rs.getInt("order_id")), getTotal(rs.getString("email_buyer")));
+//            return order;
+//        }
+//        return null;
+//    }
 
     public float getTotal(String emailBuyer) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();

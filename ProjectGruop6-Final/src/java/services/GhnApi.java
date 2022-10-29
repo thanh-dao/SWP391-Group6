@@ -59,7 +59,6 @@ public class GhnApi {
 
     public static String getDistrictId(String cityId, String districtName) throws IOException {
         System.out.println("cityId: " + cityId);
-        System.out.println(ContentType.APPLICATION_JSON);
         String response = Request.Post("https://online-gateway.ghn.vn/shiip/public-api/master-data/district")
                 .setHeaders(getBasicHeaders())
                 .bodyString("{\n"
@@ -71,6 +70,23 @@ public class GhnApi {
 
         return getIdFromResponse(response, "DistrictName", "DistrictID", districtName);
     }
+    
+    public static String getWardId(String districtId, String wardName) throws IOException {
+        System.out.println("districtId: " + districtId);
+        String response = Request.Post("https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id")
+                .setHeaders(getBasicHeaders())
+                .bodyString("{\n"
+                        + "    \"district_id\":" + districtId + "\n"
+                        + "}", ContentType.APPLICATION_JSON)
+                .execute()
+                .returnContent()
+                .asString();
+        String data = getIdFromResponse(response, "WardName", "WardCode", wardName);
+        
+        return data == null ? null : data.replaceAll("\"", "") ;
+    }
+    
+    
 
     public static String[] getFullAddressId(String cityName, String districtName, String wardName) throws IOException {
         String districtId = getDistrictId(cityName, districtName);
@@ -109,9 +125,18 @@ public class GhnApi {
         return jobj.get("data").toString();
     }
 
-    public static int getShipingFee(String formDistrictId, String toDistrictId, String toWardId, String serviceId) throws IOException {
+    public static String hello(){
+        return "Hello";
+    }
+    
+    public static int getShipingFee( String fromCityName, String toCityName, String fromDistrictName, String toDistrictName, String toWardName, String serviceId) throws IOException {
+        String fromCityId = getCityId(fromCityName);
+        String toCityId = getCityId(toCityName);
+        String fromDistrictId = getDistrictId(fromCityId, fromDistrictName);
+        String toDistrictId = getDistrictId(toCityId, toDistrictName);
+        String toWardId = getWardId(toDistrictId, toWardName);
         String body = "{\n"
-                + "    \"from_district_id\": " + formDistrictId + ",\n"
+                + "    \"from_district_id\": " + fromDistrictId + ",\n"
                 + "    \"service_type_id\":" + serviceId + ",\n"
                 + "    \"to_district_id\":" + toDistrictId + ",\n"
                 + "    \"to_ward_code\":" + toWardId + ",\n"
@@ -226,7 +251,14 @@ public class GhnApi {
 
     public static void main(String[] args) {
         try {
-            System.out.println(getShipingFee("1493", "1454", "21012", "2"));
+            System.out.println(getCityId("Hồ Chí Minh"));
+            System.out.println(getDistrictId("202", "Quận 12"));
+            System.out.println(getWardId("1454", "Thạnh Lộc"));
+            System.out.println(GhnApi.getShipingFee(
+                                                      "Hồ Chí Minh", "Hồ Chí Minh", 
+                                                      "Quận 12","Quận " + "12",
+                                                      "Thạnh Lộc", "2")
+            );  
         } catch (IOException ex) {
             Logger.getLogger(GhnApi.class.getName()).log(Level.SEVERE, null, ex);
         }

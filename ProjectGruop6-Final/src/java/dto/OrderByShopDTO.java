@@ -29,6 +29,10 @@ public class OrderByShopDTO {
         this.OrderDetailList = OrderDetailList;
     }
 
+    public OrderByShopDTO(int aInt, String string, String string0, double aDouble, double aDouble0, java.sql.Date date, List<OrderDetailDTO> orderDetail) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @Override
     public String toString() {
         return "OrderByShopDTO{" + "orderByShopId=" + orderByShopId + ", emailSeller=" + emailSeller + ", name=" + name + ", transactionFee=" + transactionFee + ", transportFee=" + transportFee + ", shippedDate=" + shippedDate + ", OrderDetailList=" + OrderDetailList + '}';
