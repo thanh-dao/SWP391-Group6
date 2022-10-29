@@ -26,22 +26,21 @@ public class AddressDTO {
         this.cityName = cityName;
     }
 
-
-    
-    public boolean isNull(){
+    public boolean isNull() {
         return hasNameNull() || hasIdNull();
     }
+
     public boolean hasNameNull() {
         return houseNumber == null || wardName == null || districtName == null || cityName == null;
     }
-    public boolean hasIdNull(){
+
+    public boolean hasIdNull() {
         return cityId == null || districtId == null || wardId == null;
     }
 
     @Override
     public String toString() {
-        return "AddressDTO{" + "houseNumber=" + houseNumber + ", wardId=" + wardId + ", wardName=" + wardName + ", districtId=" + districtId + ", districtName=" + districtName + ", cityName=" + cityName + '}';
+        return "AddressDTO{" + "houseNumber=" + houseNumber + ", wardId=" + wardId + ", wardName=" + wardName + ", districtId=" + districtId + ", districtName=" + districtName + ", cityId=" + cityId + ", cityName=" + cityName + '}';
     }
-    
-    
+
 }

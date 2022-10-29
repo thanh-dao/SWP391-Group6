@@ -108,6 +108,10 @@
             .tooltip:hover .tooltiptext {
                 visibility: visible;
             }
+            .btn {
+                width: 100px;
+                margin-left: 10px;
+            }
 
         </style>
         <title>＃</title>
@@ -145,7 +149,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </div>                                    
-                                <a class="p-2" href="<c:url value="/cart/billInformation.do?osId=${obs.orderByShopId}"/>">Xem chi tiết >></a>
+                                <a class="p-2" href="<c:url value="/cart/billInformation.do?oId=${o.orderId}&osId=${obs.orderByShopId}"/>">Xem chi tiết >></a>
                             </h6>
                             <c:forEach items="${obs.orderDetailList}" var="od">
                                 <!--<tr class="order-link" href="<c:url value="/cart/billInformation.do"/>">-->
@@ -171,7 +175,16 @@
                             </p>
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary">Mua lại</button>
-                                <button type="button" class="btn btn-light">Đánh giá</button>
+                                <c:choose>
+                                    <c:when test = "${obs.status == 0}">
+                                    </c:when>
+                                    <c:when test = "${obs.status == 1}">
+                                        <button type="button" class="btn btn-light">Đánh giá</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="button" class="btn btn-danger">Hủy</button>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </c:forEach>

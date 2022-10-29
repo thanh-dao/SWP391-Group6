@@ -95,10 +95,13 @@ public class FileProductHandle extends HttpServlet {
 
     public void handleImage(HttpServletRequest request, int productId) throws IOException, ServletException {
         Collection<Part> part = request.getParts();
+        System.out.println(part);
         ProductImageDAO pImageDAO = new ProductImageDAO();
         HashSet<String> downloadedFiles = new HashSet<>();
+        System.out.println(part);
         part.forEach(i -> {
             String fileName = getFileName(i);
+            System.out.println(fileName);
             if (fileName != null) {
                 try {
                     i.write(fileName);
@@ -111,6 +114,7 @@ public class FileProductHandle extends HttpServlet {
             }
         });
         String[] arr = downloadedFiles.toArray(new String[downloadedFiles.size()]);
+        System.out.println(arr);
         renameFileBaseOnImgId(arr, pImageDAO, productId);
     }
 

@@ -21,6 +21,15 @@ public class OrderDTO {
     private AddressDTO address;
     private List<OrderByShopDTO> orderByShopList;
 
+    public OrderDTO(int deliveryId, int paymentId, String emailBuyer, Date orderDate, AddressDTO address, List<OrderByShopDTO> orderByShopList) {
+        this.deliveryId = deliveryId;
+        this.paymentId = paymentId;
+        this.emailBuyer = emailBuyer;
+        this.orderDate = orderDate;
+        this.address = address;
+        this.orderByShopList = orderByShopList;
+    }
+
     public OrderDTO(int orderId, String emailBuyer) {
         this.orderId = orderId;
         this.emailBuyer = emailBuyer;

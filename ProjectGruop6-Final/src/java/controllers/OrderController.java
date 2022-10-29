@@ -1,6 +1,7 @@
 package controllers;
 
 import config.Config;
+import dao.OrderByShopDAO;
 import dao.OrderDAO;
 import dao.ProductDAO;
 import dto.ProductDTO;
@@ -45,12 +46,14 @@ public class OrderController extends HttpServlet {
                 case "history": {
                     try {
                         request.setAttribute("orderList", new OrderDAO().getOrder(user.getEmail()));
+                        System.out.println(request.getAttribute("orderList"));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 break;
                 case "stored": {
+                    System.out.println("HERE");
                     ProductDAO p = new ProductDAO();
                     try {
                         if (request.getParameter("func") != null) {

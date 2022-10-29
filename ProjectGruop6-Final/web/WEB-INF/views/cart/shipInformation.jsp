@@ -150,66 +150,158 @@
             }
         </style>
     </head>
-
     <body>
         <form class="container br-form" style="padding:20px">
-            <h3 style="margin-bottom: 20px;">Địa chỉ giao hàng</h3>
-
+            <div class="d-flex justify-content-between">
+                <h3 style="margin-bottom: 20px;">Địa chỉ giao hàng </h3>
+                <a class="d-flex justify-content-end" href="<c:url value="/user/userInformation.do"/>">Thay đổi thông tin tài khoản >></a>
+            </div>
             <div class="form-container">
                 <div class="container ">
                     <div class="row form-item">
                         <div class="col-md-6">
-                            <div style=" display: flex;
-                                 flex-direction: column;">
+                            <div style=" display: flex; flex-direction: column;">
                                 <div class="input-form">
                                     <label>Tên người dùng</label>
                                     <input type="text" required="true" name="firstName" placeholder="Nhập tên người dùng"
-                                           maxlength="50" class="input-form-item" value="${user.firstName} ${user.lastName}">
+                                           maxlength="50" class="input-form-item" disabled="" value="${user.firstName} ${user.lastName}">
                                 </div>
                                 <div class="input-form">
                                     <label>Số điện thoại</label>
                                     <input type="text" required="true" placeholder="Nhập số điện thoại" maxlength="50"
-                                           class="input-form-item" value="${user.phone}" name="phone">
+                                           class="input-form-item" disabled="" value="${user.phone}" name="phone">
                                 </div>
                                 <div class="input-form">
                                     <label>Ngày/Tháng/Năm Sinh</label>
-                                    <input required="true" type="date" maxlength="50" class="input-form-item">
+                                    <input required="true" type="date" maxlength="50" disabled="" class="input-form-item">
                                 </div>
                             </div>
 
                         </div>
                         <div class="col-md-6">
                             <div class="input-form">
-                                <label>Tỉnh/Thành phố</label>
-                                <input required="true" type="text" maxlength="50" class="input-form-item" required="true"
-                                       type="text" placeholder="Chọn Tỉnh/Thành Phố">
+                                <label>Tỉnh/Thành phố</label><select class="city-picker input-form-item" required="true" name="cityId"
+                                                                     placeholder="Chọn Tỉnh/Thành Phố" onchange="handleCityChange(this)" >
+                                </select>
                             </div>
                             <div class="input-form">
-                                <label>Quận/Huyện</label>
-                                <input required="true" type="text" maxlength="50" class="input-form-item" required="true"
-                                       type="text" placeholder="Nhập Quận/Huyện">
+                                <label>Quận/Huyện</label><select class="district-picker" name="districtId" required="true"
+                                                                 placeholder="Nhập Quận/Huyện" onchange="handleDistrictChange(this)">
+                                </select>
                             </div>
                             <div class="input-form">
-                                <label>Phường/Xã</label>
-                                <input required="true" type="text" maxlength="50" class="input-form-item" required="true"
-                                       type="text" placeholder="Nhập Phường/Xã">
+                                <label>Phường/Xã</label><select class="ward-picker" name="wardId" required="true" onchange="">
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-item1 input-form" style="position: relative">
                                 <label>Địa chỉ chi tiết</label><br>
                                 <!--k ấn enter cho nay-->
-                                <textarea type="textarea" required="true" name="address"
+                                <textarea type="textarea" required="true" name="houseNumber"
                                           placeholder="Ví dụ: 193/14/2, đường Đỗ Văn Thi" class="input-form-item">${user.address.houseNumber}</textarea>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="confirm-button" style="display: flex; justify-content: center;">
-                    <button class="btn-buy" onclick="<c:url value="/cart/shipInformation.do"/>">Tiếp theo</button>
+                    <button type="submit" class="btn-buy" onclick="<c:url value="/cart/shipInformation.do"/>">Tiếp theo</button>
                 </div>
             </div>
         </form>
-    </body>
+        <script>
+                                            const selectCitySelector = ".city-picker";
+                                            const selectWardSelector = ".ward-picker";
+                                            const selectDistrictSelector = ".district-picker";
+                                            const renderOption = (selector, arr, option) => {
+                                                const el = document.querySelector(selector)
+                                                el.innerHTML = "";
+                                                let userAddress; // holds city or district or ward of user
+                                                if (option === "city") {
+                                                    userAddress = "${sessionScope.user.address.cityName}".normalize('NFC');
+                                                } else if (option === "district") {
+                                                    userAddress = "${sessionScope.user.address.districtName}".normalize('NFC');
+                                                } else {
+                                                    userAddress = "${sessionScope.user.address.wardName}".normalize('NFC');
+                                                }
+                                                let selected = ""
+                                                for (var i = 0; i < arr.length; i++) {
+                                                    const item = arr[i]
+                                                    if (userAddress.normalize('NFC') == item.name.normalize('NFC') || i == 0) {
+                                                        selected = "selected";
+                                                    } else {
+                                                        selected = ""
+                                                    }
+                                                    el.innerHTML += "<option  " + selected + " value= " + item.id + " >" + item.name + "</option>";
+                                                }
+                                                $(selector).select2({disabled: false})
+//                                                return selected
+                                            }
 
+                                            const renderCity = () => {
+                                                $.ajax("<c:url value="/AddressHandleAjax"/>", {
+                                                    data: {
+                                                        param: "city",
+                                                    },
+                                                    success: function (data) {
+                                                        arr = JSON.parse(data)
+                                                        renderOption(selectCitySelector, arr, "city", "Chọn tỉnh/thành phố")
+                                                        return arr;
+                                                    }
+                                                });
+                                            }
+                                            const renderWardOrDistrict = (unitId, parentUnitId, unit, placeHolderMsg) => {
+                                                $.ajax("<c:url value="/AddressHandleAjax"/>", {
+                                                    data: {
+                                                        param: unit,
+                                                        [unit == "district" ? "cityId" : "districtId"]: parentUnitId
+                                                    },
+                                                    success: function (data) {
+                                                        arr = JSON.parse(data)
+                                                        renderOption(unit === "district" ? selectDistrictSelector : selectWardSelector, arr, unit, placeHolderMsg)
+                                                    }
+                                                });
+                                            }
+                                            window.onload = () => {
+                                                $(selectCitySelector).select2()
+//                            document.querySelector("#img-form").addEventListener('click', (e) => {
+//                                e.preventDefault();
+//                            })
+                                                const isAddressNull = ${sessionScope.user == null ? true : sessionScope.user.address.hasIdNull()}
+                                                if (isAddressNull) {
+
+                                                    renderCity();
+                                                } else {
+                                                    const cityId = ${sessionScope.user == null ? 1 : sessionScope.user.address.cityId == null ? 1 : sessionScope.user.address.cityId};
+                                                    const districtId = ${sessionScope.user == null ? 1 : sessionScope.user.address.districtId == null ? 1 : sessionScope.user.address.districtId};
+                                                    const wardId = ${sessionScope.user == null ? 1 : sessionScope.user.address.wardId == null ? 1 : sessionScope.user.address.wardId};
+                                                    renderCity()
+                                                    renderWardOrDistrict(districtId, cityId, "district", "Chọn quận/huyện");
+                                                    renderWardOrDistrict(wardId, districtId, "ward", "Chọn phường/xã");
+                                                }
+                                                $(selectDistrictSelector).select2({disabled: isAddressNull})
+                                                $(selectWardSelector).select2({disabled: isAddressNull})
+                                            };
+
+                                            const handleCityChange = async (el) => {
+                                                const cityId = el.value;
+
+                                                console.log("1111" + cityId)
+                                                const wardId = $(selectWardSelector).value
+                                                const districtId = $(selectDistrictSelector).value
+                                                await renderWardOrDistrict(districtId, cityId, "district", "Chọn quận/huyện");
+                                                $(selectWardSelector).html("")
+                                                $(selectWardSelector).select2({disabled: true, data: []})
+
+                                            }
+
+                                            const handleDistrictChange = async (el) => {
+                                                const districtId = el.value;
+                                                const wardId = $(selectWardSelector).value;
+                                                const cityId = $(selectCitySelector).value;
+                                                console.log(districtId)
+                                                await renderWardOrDistrict(wardId, districtId, "ward", "Chọn phường/xã");
+                                            }
+        </script>
+    </body>
 </html>

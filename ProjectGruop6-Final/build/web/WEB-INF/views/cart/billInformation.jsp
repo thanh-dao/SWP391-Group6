@@ -51,14 +51,6 @@
                 background-color: #1C84FF;
             }
 
-            .br-form {
-                height: auto;
-                padding: 0;
-                /* padding-bottom: 3%; */
-                background: #F0F0F0;
-                border-radius: 5px;
-            }
-
             .font-bold {
                 font-weight: 500;
             }
@@ -113,6 +105,19 @@
             .info_user p {
                 margin-bottom: 2px;
             }
+
+            .br-form {
+                background: #F1F9FF;
+                padding: 10px;
+                border-radius: 3px;
+                margin-bottom: 20px;
+            }
+
+            .br-od{
+                padding-bottom: 20px;
+                margin-top: 15px;
+                border-bottom: 1.5px solid rgba(0,0,0,.09);
+            }
         </style>
     </head>
 
@@ -146,16 +151,17 @@
                 </div>
                 <!-- san pham -->
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    <c:forEach items="${orderDetailList}" var="obs">
-                        <div class="br-form">
-                            <h6 class="d-flex">
-                                <div class="mr-auto p-2">
-                                    <span style="margin-right: 10px;">${obs.name}</span>
-                                    <a href="#">
-                                        Xem shop >>
-                                    </a>
-                                </div>
-                                <div class="p-2">
+                    <c:forEach items="${order.orderByShopList}" var="obs">
+                        <c:if test="${obs.orderByShopId == osId}">
+                            <div class="br-form">
+                                <h6 class="d-flex">
+                                    <div class="mr-auto p-2">
+                                        <span style="margin-right: 10px;">${obs.name}</span>
+                                        <a href="#">
+                                            Xem shop >>
+                                        </a>
+                                    </div>
+                                    <!--                                <div class="p-2">
                                     <c:choose>
                                         <c:when test = "${obs.status == 0}">
                                             <div style="color: red;">
@@ -174,40 +180,56 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </div>                                    
-                                <a class="p-2" href="<c:url value="/cart/billInformation.do?os=${obs.orderByShopId}"/>">Xem chi tiết >></a>
-                            </h6>
-                            <c:forEach items="${obs.orderDetailList}" var="od">
-                                <!--<tr class="order-link" href="<c:url value="/cart/billInformation.do"/>">-->
-                                <div class="d-flex br-od">
-                                    <div class="product-img p-2">
-                                        <img src="<c:url value="${od.product.getMainImage().url}"/>" alt="">
+                                <a class="p-2" href="<c:url value="/cart/billInformation.do?os=${obs.orderByShopId}"/>">Xem chi tiết >></a>-->
+                                </h6>
+                                <c:forEach items="${obs.orderDetailList}" var="od">
+                                    <!--<tr class="order-link" href="<c:url value="/cart/billInformation.do"/>">-->
+                                    <div class="d-flex br-od">
+                                        <div class="product-img p-2">
+                                            <img src="<c:url value="${od.product.getMainImage().url}"/>" alt="">
+                                        </div>
+                                        <div class="d-flex flex-column p-2">
+                                            <a href="<c:url value="/home/productDetail.do?productId=${od.product.productId}"/>">
+                                                <p class="tooltip-text hinden-text">
+                                                    ${od.product.name}
+                                                    <!--<span>${od.product.name}</span>-->
+                                                </p></a>
+                                            x${od.quantity}
+                                        </div>
+                                        <p class="text-right ml-auto p-2">${od.price}</p>
                                     </div>
-                                    <div class="d-flex flex-column p-2">
-                                        <a href="<c:url value="/home/productDetail.do?productId=${od.product.productId}"/>">
-                                            <p class="tooltip-text hinden-text">
-                                                ${od.product.name}
-                                                <!--<span>${od.product.name}</span>-->
-                                            </p></a>
-                                        x${od.quantity}
-                                    </div>
-                                    <p class="text-right ml-auto p-2">${od.price}</p>
+                                </c:forEach>
+                                <p class="d-flex justify-content-end" 
+                                   style="padding: 20px 10px; margin: 0;">
+                                    Tổng số tiền: 
+                                    ${obs.total}
+                                </p>
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-primary">Mua lại</button>
+                                    <c:choose>
+                                        <c:when test = "${obs.status == 0}">
+                                        </c:when>
+                                        <c:when test = "${obs.status == 1}">
+                                            <button type="button" class="btn btn-light">Đánh giá</button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button type="button" class="btn btn-danger">Hủy</button>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
-                            </c:forEach>
-                            <p class="d-flex justify-content-end" 
-                               style="padding: 20px 10px; margin: 0;">
-                                Tổng số tiền: 
-                                ${obs.total}
-                            </p>
-                            <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary">Mua lại</button>
-                                <button type="button" class="btn btn-light">Đánh giá</button>
                             </div>
-                        </div>
+                        </c:if>
                     </c:forEach>
                 </div>
                 <div class="col-md-3 col-sm-3 col-xs-2">
                     <div class="br-form">
                         <h6 class="title-style">Chi tiết đơn hàng: </h6>
+                        <div class="d-flex"><i class="fa-regular fa-address-book"></i><p>${order.address.houseNumber} -
+                                ${order.address.wardName} -
+                                ${order.address.districtName} -
+                                ${order.address.cityName}
+                            </p>
+                        </div>
                         <div class="txt-style">
                             <i class="fa-solid fa-truck-fast"></i><span>Đơn vị vận chuyển</span><br>
                             <i class="fa-regular fa-credit-card"></i><span>Phương thức thanh toán</span><br>

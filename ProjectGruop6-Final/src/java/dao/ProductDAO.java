@@ -806,8 +806,9 @@ public class ProductDAO {
 //                }
 //            }
 //            System.out.println(p.getProductListJson(list));
-            ProductDTO product = new ProductDTO("a", 2, "description", 1, 200, null);
-            System.out.println(p.handerProductSeller(474, "u", product));
+System.out.println(new java.sql.Date(new Date().getTime()));
+//            ProductDTO product = new ProductDTO("a", 2, "description", 1, 200, null);
+//            System.out.println(p.handerProductSeller(474, "u", product));
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();

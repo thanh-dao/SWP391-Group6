@@ -29,29 +29,30 @@ public class OrderDetailDAO {
         return list;
     }
 
-//check status of order
-    public void addOrderDetail(int orderByShopId, int productId) throws ClassNotFoundException, SQLException {
-        Connection conn = DBUtil.getConnection();
-        PreparedStatement stm = conn.prepareStatement("SELECT quantity FROM [order_detail] "
-                + "WHERE order_by_shop_id = ? AND product_id = ?");
-        stm.setInt(1, orderByShopId);
-        stm.setInt(2, productId);
-        ResultSet rs = stm.executeQuery();
-        if (!rs.next()) {
-            createOrderDetail(orderByShopId, productId);
-        } else {
-            updateOrderDetail(orderByShopId, productId, rs.getInt("quantity") + 1, null);
-        }
-    }
+    //check status of order
+//    public void addOrderDetail(int orderByShopId, int productId) throws ClassNotFoundException, SQLException {
+//        Connection conn = DBUtil.getConnection();
+//        PreparedStatement stm = conn.prepareStatement("SELECT quantity FROM [order_detail] "
+//                + "WHERE order_by_shop_id = ? AND product_id = ?");
+//        stm.setInt(1, orderByShopId);
+//        stm.setInt(2, productId);
+//        ResultSet rs = stm.executeQuery();
+//        if (!rs.next()) {
+//            createOrderDetail(orderByShopId, productId);
+//        } else {
+//            updateOrderDetail(orderByShopId, productId, rs.getInt("quantity") + 1, null);
+//        }
+//    }
 
-    //create order when order null
-    public void createOrderDetail(int orderByShopId, int productId) throws ClassNotFoundException, SQLException {
+    //create order
+    public void createOrderDetail(int orderByShopId, OrderDetailDTO od) throws ClassNotFoundException, SQLException {
         Connection conn;
         conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("INSERT INTO [order_detail] "
-                + "(order_by_shop_id, product_id) VALUES (?, ?)");
-        stm.setInt(1, orderByShopId);
-        stm.setInt(2, productId);
+                + "(product_id, quantity, order_by_shop_id) VALUES (?, ?, ?)");
+        stm.setInt(1, od.getProductId());
+        stm.setInt(2, od.getQuantity());
+        stm.setInt(3, orderByShopId);
         stm.executeUpdate();
     }
 
