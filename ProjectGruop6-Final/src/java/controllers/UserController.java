@@ -6,8 +6,12 @@
 package controllers;
 
 import config.Config;
+import dao.BannerDAO;
+import dao.CategoryDAO;
+import dao.ProductDAO;
 import dao.UserDAO;
 import dto.AddressDTO;
+import dto.ProductDTO;
 import dto.UserDTO;
 import dto.UserGoogleDTO;
 //import jakarta.servlet.ServletException;
@@ -18,6 +22,7 @@ import dto.UserGoogleDTO;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -27,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import services.GoogleApi;
+import utils.Constants;
 
 /**
  *
@@ -57,7 +63,26 @@ public class UserController extends HttpServlet {
 //                response.sendRedirect("");
 //                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
-            case "userInformation": {
+            case "userInformation":    {
+                CategoryDAO cateDAO = new CategoryDAO();
+                ProductDAO proDAO = new ProductDAO();
+                UserDAO userDAO = new UserDAO();
+                String email = request.getParameter("email");
+                email = "LinhTKSS170602@fpt.edu.vn";
+                List<ProductDTO> productList;
+            try {
+                productList = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
+                        proDAO.SOLD_COUNT, proDAO.DESC, email);                     
+                        request.setAttribute("productList", productList);
+                        request.setAttribute("email", email);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                              
+
+                
             }
             break;
             case "updateInformation": {
