@@ -341,7 +341,7 @@
 
             /* COLumn phải */
             .customer-action {
-                padding: 20px 30px;
+                padding: 10px 10px;
                 /* border: 1px solid #111; */
                 border-radius: 4px;
                 background-color: rgb(255, 255, 255);
@@ -410,6 +410,17 @@
             .font-bold {
                 font-weight: 500;
             }
+
+            .info_user p {
+                margin-bottom: 2px;
+            }
+
+            i {
+                font-size: 15px;
+                width: 16px;
+                margin-right: 12px; 
+                padding: 6px;
+            }
         </style>
     </head>
 
@@ -459,18 +470,24 @@
                                         <h3>Giao đến</h3>
                                         <a href="<c:url value="/cart/shipInformation.do"/>">Thay đổi</a>
                                     </div>
-                                    <div class="txt-style">
-                                        <div>
-                                            <span class="font-bold">Họ và tên: </span><span>Tên người mua</span>
+                                    <div class="info_user">
+                                        <div class="d-flex">
+                                            <i class="fa-regular fa-user"></i>
+                                            <p>${user.firstName} ${user.lastName}</p>
                                         </div>
-                                        <div>
-                                            <span class="font-bold">Số điện thoại: </span><span>Số điện thoại</span><br>
+                                        <div class="d-flex">
+                                            <i class="fa-regular fa-envelope"></i>
+                                            <p>${user.email}</p>
                                         </div>
-                                        <div>
-                                            <span class="font-bold">Địa chỉ: </span>
-                                            <span class="customer-info">
-                                                Địa chỉ nhận hàng
-                                            </span>
+                                        <div class="d-flex">
+                                            <i class="fa-solid fa-mobile-screen-button"></i>
+                                            <p>${user.phone}</p>
+                                        </div>
+                                        <div class="d-flex"><i class="fa-regular fa-address-book"></i><p>${order.address.houseNumber} -
+                                                ${order.address.wardName} -
+                                                ${order.address.districtName} -
+                                                ${order.address.cityName}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -489,9 +506,8 @@
                                 <h1></h1>
                                 <h1></h1>
                                 <div id="paypal-button-container">
-                                    <button type="button" name="action" value="step3" class="btn-buy" onclick="window.location.href = '/ProjectGroup6/cart/billInformation.do'">Thanh Toán</button>
+                                    <button type="submit" class="btn-buy" onclick="window.location.href = '/ProjectGroup6/cart/pay.do'">Thanh Toán</button>
                                 </div>
-
                             </div>
                         </div>
                     </div>

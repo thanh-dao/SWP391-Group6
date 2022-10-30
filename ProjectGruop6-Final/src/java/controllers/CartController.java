@@ -1,14 +1,22 @@
 package controllers;
 
 import config.Config;
+import dao.AddressDAO;
+import dao.OrderByShopDAO;
+import dao.OrderDAO;
+import dao.OrderDetailDAO;
 import dao.ProductDAO;
 import dao.UserDAO;
+import dto.AddressDTO;
 import dto.OrderByShopDTO;
 import dto.OrderDTO;
 import dto.OrderDetailDTO;
 import dto.UserDTO;
 import java.io.EOFException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,56 +46,90 @@ public class CartController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         System.out.println(action + " " + controller);
         HttpSession session = request.getSession();
-        switch (action) {
-            case "cart": {
-                try {
-                    if (session.getAttribute("user") == null) {
-                        request.setAttribute("controller", "user");
-                        request.setAttribute("action", "login");
-                    } else {
+        if (session.getAttribute("user") == null) {
+            request.setAttribute("controller", "user");
+            request.setAttribute("action", "login");
+        } else {
+            switch (action) {
+                case "cart": {
+                    try {
                         UserDTO user = (UserDTO) session.getAttribute("user");
-                        System.out.println(user);
-                        OrderDTO cart = null;
-                        if (session.getAttribute("order") == null) {
-                            cart = new OrderDTO(user.getEmail(), user.getAddress(), new ArrayList<>());
-                        } else {
-                            cart = (OrderDTO) session.getAttribute("order");
-                        }
+                        OrderDTO cart = session.getAttribute("order") == null
+                                ? new OrderDTO(user.getEmail(), user.getAddress(), new ArrayList<>())
+                                : (OrderDTO) session.getAttribute("order");
                         if (request.getParameter("func") != null) {
                             String func = request.getParameter("func");
-                            System.out.println(func);
                             int productId = -1;
                             if (request.getParameter("pId") != null) {
                                 productId = Integer.parseInt(request.getParameter("pId"));
                             }
-                            System.out.println(productId);
                             int quan = 0;
                             if (request.getParameter("quan") != null) {
                                 quan = Integer.parseInt(request.getParameter("quan"));
                             }
-                            System.out.println(quan);
                             if (handleCart(cart, productId, quan, func) == null) {
                                 throw new Exception();
                             }
                         }
                         session.setAttribute("order", cart);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
                 }
+                break;
+                case "pay": {
+
+                }
+                break;
+                case "shipInformation": {
+                    try {
+                        if (session.getAttribute("order") != null) {
+                            OrderDTO order = (OrderDTO) session.getAttribute("order");
+                            if (request.getParameter("wardId") != null
+                                    || request.getParameter("districtId") != null
+                                    || request.getParameter("cityId") != null
+                                    || request.getParameter("houseNumber") != null) {
+                                AddressDAO ad = new AddressDAO();
+                                String wardId = request.getParameter("wardId");
+                                String districtId = request.getParameter("districtId");
+                                String cityId = request.getParameter("cityId");
+                                AddressDTO address = new AddressDTO(request.getParameter("houseNumber"),
+                                        wardId, ad.get(wardId, 3), districtId,
+                                        ad.get(districtId, 2), cityId, ad.get(cityId, 1));
+                                order.setAddress(address);
+                                request.setAttribute("controller", "cart");
+                                request.setAttribute("action", "pay");
+                            }
+                        } else {
+                            throw new Exception();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+                case "billInformation": {
+                    if (request.getParameter("osId") != null && request.getParameter("oId") != null) {
+                        try {
+                            request.setAttribute("osId", Integer.parseInt(request.getParameter("osId")));
+                            request.setAttribute("order", new OrderDAO().
+                                    getOrder(Integer.parseInt(request.getParameter("oId"))));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        request.setAttribute("controller", "error");
+                        request.setAttribute("action", "index");
+                        request.setAttribute("message", "Error when processing the request");
+                    }
+                }
+                break;
+                default:
+                    //chuyển đến trang thông báo lổi
+                    request.setAttribute("controller", "error");
+                    request.setAttribute("action", "index");
+                    request.setAttribute("message", "Error when processing the request");
             }
-            break;
-            case "pay":
-                break;
-            case "shipInformation":
-                break;
-            case "billInformation":
-                break;
-            default:
-                //chuyển đến trang thông báo lổi
-                request.setAttribute("controller", "error");
-                request.setAttribute("action", "index");
-                request.setAttribute("message", "Error when processing the request");
         }
         request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
     }
@@ -169,12 +211,7 @@ public class CartController extends HttpServlet {
         switch (option) {
             case "add": {
                 if (indexOD != -1) {
-                    System.out.println("==============");
-                    System.out.println(quantity);
-                    System.out.println(odList.get(indexOD).getQuantity() + 1);
                     odList.get(indexOD).setQuantity(odList.get(indexOD).getQuantity() + 1);
-                    System.out.println(odList.get(indexOD).getQuantity() + 1);
-                    System.out.println("==============");
                 } else {
                     odList.add(new OrderDetailDTO(productId, 1, new ProductDAO().getProductById(productId)));
                 }
@@ -194,18 +231,18 @@ public class CartController extends HttpServlet {
 
     public static void main(String[] args) throws SQLException, Exception {
 //        List<OrderByShopDTO> obsList = new ArrayList<>();
-        OrderByShopDTO os = new OrderByShopDTO();
+//        OrderByShopDTO os = new OrderByShopDTO();
 ////        obsList.add(os);
-        OrderDTO cart = new OrderDTO("tên", null, new ArrayList<>());
+//        OrderDTO cart = new OrderDTO("tên", null, new ArrayList<>());
 ////        cart.setOrderByShopList(obsList);
 //
-        if (cart.getOrderByShopList() == null) {
+//        if (cart.getOrderByShopList() == null) {
 //            List<OrderByShopDTO> obsList = new ArrayList<>();
 //            cart.setOrderByShopList(new ArrayList<>());
-        }
+//        }
 //        System.out.println(cart.getOrderByShopList().add(os));
-        cart = clearCart(cart);
-        System.out.println(cart);
+//        cart = clearCart(cart);
+//        System.out.println(cart);
 //        List<OrderByShopDTO> obsList = cart.getOrderByShopList();
 //        System.out.println(obsList==null);
 //        obsList.add(os);
@@ -215,6 +252,11 @@ public class CartController extends HttpServlet {
 //        System.out.println(checkOrderByShop(obsList, "a"));
 //        cart = handleCart(cart, 384, 0, "add");
 //        System.out.println(cart);
+
+        if (Files.exists(Paths.get("web/img/phinhse150972@fpt.edu.vn.png"))) {
+//            System.out.println(Files.deleteIfExists(Paths.get("web/img/")));
+            System.out.println("OK");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

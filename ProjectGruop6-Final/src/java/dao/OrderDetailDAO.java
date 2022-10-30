@@ -12,7 +12,7 @@ import utils.DBUtil;
 
 public class OrderDetailDAO {
 
-    //select
+    //select all
     public List<OrderDetailDTO> getOrderDetail(int orderByShopId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<OrderDetailDTO> list = new ArrayList();
@@ -24,34 +24,35 @@ public class OrderDetailDAO {
             ProductDAO p = new ProductDAO();
             ProductDTO product = p.getProductById(rs.getInt("product_id"));
             list.add(new OrderDetailDTO(rs.getInt("order_detail_id"), rs.getInt("product_id"),
-                    rs.getInt("quantity"), p.getProductById(rs.getInt("product_id"))));
+                    rs.getInt("quantity"), rs.getString("price") ,p.getProductById(rs.getInt("product_id"))));
         }
         return list;
     }
 
-//check status of order
-    public void addOrderDetail(int orderByShopId, int productId) throws ClassNotFoundException, SQLException {
-        Connection conn = DBUtil.getConnection();
-        PreparedStatement stm = conn.prepareStatement("SELECT quantity FROM [order_detail] "
-                + "WHERE order_by_shop_id = ? AND product_id = ?");
-        stm.setInt(1, orderByShopId);
-        stm.setInt(2, productId);
-        ResultSet rs = stm.executeQuery();
-        if (!rs.next()) {
-            createOrderDetail(orderByShopId, productId);
-        } else {
-            updateOrderDetail(orderByShopId, productId, rs.getInt("quantity") + 1, null);
-        }
-    }
+    //check status of order
+//    public void addOrderDetail(int orderByShopId, int productId) throws ClassNotFoundException, SQLException {
+//        Connection conn = DBUtil.getConnection();
+//        PreparedStatement stm = conn.prepareStatement("SELECT quantity FROM [order_detail] "
+//                + "WHERE order_by_shop_id = ? AND product_id = ?");
+//        stm.setInt(1, orderByShopId);
+//        stm.setInt(2, productId);
+//        ResultSet rs = stm.executeQuery();
+//        if (!rs.next()) {
+//            createOrderDetail(orderByShopId, productId);
+//        } else {
+//            updateOrderDetail(orderByShopId, productId, rs.getInt("quantity") + 1, null);
+//        }
+//    }
 
-    //create order when order null
-    public void createOrderDetail(int orderByShopId, int productId) throws ClassNotFoundException, SQLException {
+    //create order
+    public void createOrderDetail(int orderByShopId, OrderDetailDTO od) throws ClassNotFoundException, SQLException {
         Connection conn;
         conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("INSERT INTO [order_detail] "
-                + "(order_by_shop_id, product_id) VALUES (?, ?)");
-        stm.setInt(1, orderByShopId);
-        stm.setInt(2, productId);
+                + "(product_id, quantity, order_by_shop_id) VALUES (?, ?, ?)");
+        stm.setInt(1, od.getProductId());
+        stm.setInt(2, od.getQuantity());
+        stm.setInt(3, orderByShopId);
         stm.executeUpdate();
     }
 
@@ -100,10 +101,14 @@ public class OrderDetailDAO {
         try {
 //            d.updateOrderDetail(14, 152, 3, null);
 //            d.addOrderDetail(14, 150);
-//            List<OrderDetailDTO> od = d.getOrderDetail(15);
+            List<OrderDetailDTO> od = d.getOrderDetail(20);
 //            System.out.println(od.get(0).getProduct().getMainImage().getUrl());
 //System.out.println(d.checkQuantity(14, 149, 2));
-            d.deleteOrderDetail(14, 152);
+//            d.deleteOrderDetail(14, 152);
+for (OrderDetailDTO o : od) {
+                System.out.println(o.getPrice());
+
+            }
         } catch (Exception e) {
         }
     }

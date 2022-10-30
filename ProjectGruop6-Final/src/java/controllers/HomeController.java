@@ -148,23 +148,25 @@ public class HomeController extends HttpServlet {
             case "searchProduct": {
 
                 String productName = request.getParameter("name");
+                System.out.println("productName: " + productName);
                 ProductDAO proDAO = new ProductDAO();
                 List<ProductDTO> productList = null;
                 int totalProduct = 0;
                 try {
                     productList = proDAO.getProductListByProductName(1, productName);
                     totalProduct = proDAO.countProductListByProductName(productName);
+                    int pageNum = totalProduct / Constants.ITEM_PER_PAGE + (totalProduct % Constants.ITEM_PER_PAGE == 0 ? 0 : 1);
+                    request.setAttribute("productList", productList);
+                    request.setAttribute("pageNum", pageNum);
+                    request.setAttribute("action", "productList");
                 } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
                 }
-                int pageNum = totalProduct / Constants.ITEM_PER_PAGE + (totalProduct % Constants.ITEM_PER_PAGE == 0 ? 0 : 1);
-                request.setAttribute("productList", productList);
-                request.setAttribute("pageNum", pageNum);
-                request.setAttribute("action", "productList");
+
             }
             break;
             default:
-                //chuyển đến trang thông báo lổi
+                //chuyển đến trang thông báo lỗi
                 request.setAttribute("controller", "error");
                 request.setAttribute("action", "index");
                 request.setAttribute("message", "Error when processing the request");
