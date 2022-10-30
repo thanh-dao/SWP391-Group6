@@ -44,12 +44,15 @@ public class CartController extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String action = (String) request.getAttribute("action");
         String controller = (String) request.getAttribute("controller");
+                System.out.println("HERE");
+
         System.out.println(action + " " + controller);
         HttpSession session = request.getSession();
         if (session.getAttribute("user") == null) {
             request.setAttribute("controller", "user");
             request.setAttribute("action", "login");
         } else {
+            
             switch (action) {
                 case "cart": {
                     try {
@@ -78,10 +81,28 @@ public class CartController extends HttpServlet {
                 }
                 break;
                 case "pay": {
-
+                    System.out.println("pay HERE");
+                    try {
+                        if (session.getAttribute("order") != null
+                                || request.getParameter("payId") != null
+                                || request.getParameter("deliId") != null) {
+                            System.out.println("OK");
+                            OrderDTO order = (OrderDTO) session.getAttribute("order");
+                            order.setPaymentId(Integer.parseInt(request.getParameter("payId")));
+                            order.setDeliveryId(Integer.parseInt(request.getParameter("deliId")));
+                            new OrderDAO().createOrder(order);
+                            request.setAttribute("controller", "cart");
+                            request.setAttribute("action", "thanks");
+                        } else {
+                            throw new Exception();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
                 case "shipInformation": {
+                    System.out.println("shipInformation HERE");
                     try {
                         if (session.getAttribute("order") != null) {
                             OrderDTO order = (OrderDTO) session.getAttribute("order");

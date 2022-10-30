@@ -142,9 +142,6 @@
                     </script>
                 </c:if>
 
-                    <h1>
-                        ${sessionScope.user}
-                    </h1>
                 <!--thong tin user-->
                 <div>
                     <div class="user__information">
