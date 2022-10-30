@@ -3,27 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/cart/pay.jsp</file>
             <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dao/ProductDAO.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/cart/shipInformation.jsp</file>
             <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/cart/billInformation.jsp</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dao/OrderByShopDAO.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/order/history.jsp</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/CartController.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dao/OrderDAO.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/cart/cart.jsp</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/order/stored.jsp</file>
             <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/FileProductHandle.java</file>
-=======
-            <file>file:/C:/Users/Admin/OneDrive%20-%20Đại%20học%20FPT-%20FPT%20University/Desktop/SWP-391/SWP391-Group6/ProjectGruop6-Final/web/css/bootstrap.css</file>
-            <file>file:/C:/Users/Admin/OneDrive%20-%20Đại%20học%20FPT-%20FPT%20University/Desktop/SWP-391/SWP391-Group6/ProjectGruop6-Final/src/java/dao/UserDAO.java</file>
-            <file>file:/C:/Users/Admin/OneDrive%20-%20Đại%20học%20FPT-%20FPT%20University/Desktop/SWP-391/SWP391-Group6/ProjectGruop6-Final/src/java/utils/Constants.java</file>
-            <file>file:/C:/Users/Admin/OneDrive%20-%20Đại%20học%20FPT-%20FPT%20University/Desktop/SWP-391/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/AdminController.java</file>
-            <file>file:/C:/Users/Admin/OneDrive%20-%20Đại%20học%20FPT-%20FPT%20University/Desktop/SWP-391/SWP391-Group6/ProjectGruop6-Final/src/java/dao/ReviewDAO.java</file>
-            <file>file:/C:/Users/Admin/OneDrive%20-%20Đại%20học%20FPT-%20FPT%20University/Desktop/SWP-391/SWP391-Group6/ProjectGruop6-Final/src/java/dao/ProductDAO.java</file>
-            <file>file:/C:/Users/Admin/OneDrive%20-%20Đại%20học%20FPT-%20FPT%20University/Desktop/SWP-391/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/HomeController.java</file>
-            <file>file:/C:/Users/Admin/OneDrive%20-%20Đại%20học%20FPT-%20FPT%20University/Desktop/SWP-391/SWP391-Group6/ProjectGruop6-Final/nbproject/build-impl.xml</file>
->>>>>>> 756f2676ac990eb22b81871c474c7976bf24e9ac
         </group>
     </open-files>
 </project-private>

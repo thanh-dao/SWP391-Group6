@@ -339,16 +339,19 @@
                                                   empty order.address.wardName || 
                                                   empty order.address.districtName||
                                                   empty order.address.cityName ||
-                                                  empty user.phone}">
-                                        <a class="genric-btn primary circle" href="<c:url value="/cart/shipInformation.do"/>">Thanh Toán</a></c:when>
-                                <c:otherwise>
+                                                  empty user.phone ||
+                                                  not empty order.orderByShopList}">
+                                        <a class="genric-btn primary circle" href="<c:url value="/cart/shipInformation.do"/>">Thanh Toán</a>
+                                </c:when>
+                                <c:when test = "${not empty order.orderByShopList}">
                                     <button class="btn-buy" onclick="window.location.href = '<c:url value="/cart/pay.do"/>'">Thanh Toán</button>
+                                </c:when>
+                                <c:otherwise>
                                 </c:otherwise>
                             </c:choose>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <script>

@@ -205,7 +205,7 @@
                     </div>
                 </div>
                 <div class="confirm-button" style="display: flex; justify-content: center;">
-                    <button type="submit" class="btn-buy" onclick="<c:url value="/cart/shipInformation.do"/>">Tiếp theo</button>
+                    <button type="submit" class="btn-buy" href="<c:url value="/cart/shipInformation.do"/>">Tiếp theo</button>
                 </div>
             </div>
         </form>

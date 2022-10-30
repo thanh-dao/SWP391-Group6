@@ -428,20 +428,19 @@
         <div class="style-margin" style="background: rgb(245, 245, 250);">
             <div class="container" style="background: rgb(245, 245, 250);">
                 <div style="margin-bottom: 18px;"></div>
-                <form>
-
+                <form action="pay.do">
                     <div class="row">
                         <div class="col-md-8" style="background-color: rgb(255, 255, 255);">
                             <div class="container-shipper">
                                 <h3 style="padding: 10px;">Chọn hãng giao hàng</h3>
                                 <div class="row">
                                     <label class="shipper-item col-md-6 col-sm-6">
-                                        <input id="dmt1" name="dmt" type="radio" required="">
+                                        <input id="dmt1" name="deliId" value="0" type="radio" required="">
                                         <i class="fab fa-shopify"></i>
                                         <label for="dmt1">Nhận hàng trực tiếp</label><br>
                                     </label>
                                     <label class="shipper-item  col-md-6 col-sm-6">
-                                        <input id="dmt2" name="dmt" type="radio" required="">
+                                        <input id="dmt2" name="deliId" value="1" type="radio" required="">
                                         <i class="fas fa-shipping-fast"></i>
                                         <label for="dmt2" >Giao hàng tận nhà</label><br>
                                     </label>
@@ -451,12 +450,12 @@
                                 <h3 style="padding: 10px;">Chọn hình thức thanh toán </h3>
                                 <div class="CardAddingForm">
                                     <div class="card-item">
-                                        <input id="cod" value="cod" onchange="renderPaymentButton(this)" name="pmt" type="radio" required="">
+                                        <input id="cod" value="0" onchange="renderPaymentButton(this)" name="payId" type="radio" required="">
                                         <i class="fas fa-hand-holding-usd"></i>
                                         <label for="cod">Thanh toán trực tiếp khi nhận hàng</label><br>
                                     </div>
                                     <div class="card-item">
-                                        <input id="paypal" value="paypal" onchange="renderPaymentButton(this)" name="pmt" type="radio" required="">
+                                        <input id="paypal" value="1" onchange="renderPaymentButton(this)" name="payId" type="radio" required="">
                                         <i class="fas fa-credit-card"></i>
                                         <label for="paypal" >Thanh toán bằng Paypal</label><br>
                                     </div>
@@ -506,7 +505,7 @@
                                 <h1></h1>
                                 <h1></h1>
                                 <div id="paypal-button-container">
-                                    <button type="submit" class="btn-buy" onclick="window.location.href = '/ProjectGroup6/cart/pay.do'">Thanh Toán</button>
+                                    <button type="submit" class="btn-buy">Thanh Toán</button>
                                 </div>
                             </div>
                         </div>
@@ -539,7 +538,7 @@
                                                     }
                                                 }).render('#paypal-button-container');
                                             } else {
-                                                buttonContainer.innerHTML = `<button type="button" name="action" value="step3" class="btn-buy" onclick="window.location.href = '/ProjectGroup6/cart/billInformation.do'">Thanh Toán</button>`
+//                                                buttonContainer.innerHTML = `<button type="button" name="action" value="pay" class="btn-buy" onclick="window.location.href = '/ProjectGroup6/cart/pay.do'">Thanh Toán</button>`
                                             }
                                         }
         </script>
