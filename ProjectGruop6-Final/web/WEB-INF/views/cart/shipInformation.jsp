@@ -1,13 +1,7 @@
-<%-- 
-    Document   : shipInformation
-    Created on : Sep 14, 2022, 4:14:30 AM
-    Author     : ADmin
---%>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,17 +13,6 @@
                 margin: 0;
                 box-sizing: border-box;
             }
-
-            html {
-                scroll-behavior: smooth;
-                font-family: Arial, Helvetica, sans-serif;
-            }
-
-            body {
-                background: rgb(245, 245, 250);
-                /*    overflow: hidden;*/
-            }
-
             .br-form {
                 height: auto;
                 padding: 0;
@@ -37,7 +20,6 @@
                 background: #F0F0F0;
                 border-radius: 5px;
             }
-
             .form-container {
                 font-family: Verdana, Geneva, Tahoma, sans-serif;
             }
@@ -176,7 +158,6 @@
                                     <input required="true" type="date" maxlength="50" disabled="" class="input-form-item">
                                 </div>
                             </div>
-
                         </div>
                         <div class="col-md-6">
                             <div class="input-form">

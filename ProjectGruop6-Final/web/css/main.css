@@ -1,25 +1,20 @@
 a{text-decoration: none;}
 a:hover {color: none;text-decoration: none;}
-.product_content {
-    font-size: 20px;
-    font-weight: 500;
-}
-.product_content {
-    font-weight: 500;
-}
+.product_content {font-size: 20px;font-weight: 500;}
+.product_content {font-weight: 500;}
 .font-a a{color: #FDC632;}
 .br-form {background: #FFFFFF;padding: 10px;border-radius: 3px;margin-bottom: 10px;}
 .avatar {height: 50px;width: 50px;border-radius: 50%;margin-right: 20px;}
 .avatar img{width: 100%;border-radius: 50%;}
 .avatar-name{padding: 10px 0 10px 0;}
+/*background-color: #FFE5CC;*/
+/*background-color: #ffefd5 ;*/
+/*background-color: #F1F9FF;*/
+/*background-color: #DCEDFC;*/
+/*background-color: #FFFFFF;*/
+/*margin-bottom: 10px;*/
 .product__item {
-    /*background-color: #FFE5CC;*/
-    /*background-color: #ffefd5 ;*/
-    /*background-color: #F1F9FF;*/
-    /*background-color: #DCEDFC;*/
-    /*background-color: #EAF1FB;*/
-    background-color: #FFFFFF;
-    /*margin-bottom: 10px;*/
+    background-color: #EAF1FB !important;
     width: 100%;transition: 0.5s;border-radius: 2px;}
 .product__item a {color: black;font-size: 18px;}
 .product__item img {width: 180px;transition: 0.5s;height: 70%;}
@@ -27,3 +22,38 @@ a:hover {color: none;text-decoration: none;}
 .product__item div {padding: 0 10px;font-size: 18px;color: red;}
 .star{color: #FFA500;font-size:20px;}
 .star-s{color: #FFA500;font-size:15px;}
+.hinden-text {
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    line-height: 20px;
+    min-height: 47.5px;
+    word-break: break-word;
+    margin: 0;
+    font-size: 16px;
+    padding: 3px;
+    width: 100%;
+    overflow: hidden;
+    /*white-space: nowrap;*/ 
+    text-overflow: ellipsis;
+    border-bottom: 1.5px solid rgba(0,0,0,.09);
+}
+.tooltip-text {
+    text-decoration:none;
+    position:relative;
+}
+.tooltip-text span {
+    display:none;
+}
+.tooltip-text:hover span {
+    border-radius: 3px;
+    font-size: 16px;
+    padding: 1px 5px;
+    display: block;
+    position:fixed;
+    overflow:hidden;
+    background-color: #35363A;
+    color: #CCC;
+    z-index: 1000;
+    white-space: nowrap;
+}

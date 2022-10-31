@@ -23,96 +23,71 @@
             .shop__ava img {
                 width: 30%;
             }
-
-            /*            .shop__name {
-                            margin-top: 30px;
-                            margin-left: 30px;
-                        }
-            
-                        .shop__name .name {
-                            font-size: 40px;
-                            font-weight: bold;
-                        }*/
-
             .shop__button {
                 display: flex;
                 justify-content: space-around;
                 margin-top: 20px;
             }
-
-            .shop__info {
-                padding-left: 30px;
-                padding-top: 30px;
-            }
         </style>
+        <script>
+            const formatter = new Intl.NumberFormat('vn-VN', {
+                style: 'currency',
+                currency: 'VND',
+                minimumFractionDigits: 0
+            })
+        </script>
     </head>
     <body>
         <div class="container">
-            <div class="shop__content row">
+            <div class="shop__content row br-form">
                 <div class="left col-6 shop__background">
-                    <div class="d-flex">
+                    <div class="d-flex align-items-center">
                         <div class="avatar">
                             <img src="<c:url value="${seller.avatarLink}"/>" alt="">
                         </div>
                         <p class="avatar-name">${seller.firstName} ${seller.lastName}</p>
                     </div>
                 </div>
-                <div class="shop__info col-6">
-                    <p>San pham</p>
-                    <p>Danh gia</p>
-                </div>
-            </div>
-            <div class="shop__content row">
-
-            </div>
-        </div>
-        <div class="related">
-            <div class="container">
-                <div class="related__content row">
-                    <div class="product__item col-2">
-                        <img src="" alt="">
-                        <p>Ao hoodie form rong</p>
-                        <p>13000 - 65000</p>
-                        <p>Da ban 3.3k</p>
-                        <p>Ha noi</p>
+                <div class="d-flex col-6 justify-content-between">
+                    <div class="d-flex flex-column">
+                        <p>Sảm phẩm: ${count == null ? "0" : count} </p>
+                        <p>Đánh giá: ${rating == null ? "0" : count}</p>
                     </div>
-                    <div class="product__item col-2">
-                        <img src="" alt="">
-                        <p>Ao hoodie form rong</p>
-                        <p>13000 - 65000</p>
-                        <p>Da ban 3.3k</p>
-                        <p>Ha noi</p>
-                    </div>
-                    <div class="product__item col-2">
-                        <img src="" alt="">
-                        <p>Ao hoodie form rong</p>
-                        <p>13000 - 65000</p>
-                        <p>Da ban 3.3k</p>
-                        <p>Ha noi</p>
-                    </div>
-                    <div class="product__item col-2">
-                        <img src="" alt="">
-                        <p>Ao hoodie form rong</p>
-                        <p>13000 - 65000</p>
-                        <p>Da ban 3.3k</p>
-                        <p>Ha noi</p>
-                    </div>
-                    <div class="product__item col-2">
-                        <img src="" alt="">
-                        <p>Ao hoodie form rong</p>
-                        <p>13000 - 65000</p>
-                        <p>Da ban 3.3k</p>
-                        <p>Ha noi</p>
-                    </div>
-                    <div class="product__item col-2">
-                        <img src="" alt="">
-                        <p>Ao hoodie form rong</p>
-                        <p>13000 - 65000</p>
-                        <p>Da ban 3.3k</p>
-                        <p>Ha noi</p>
+                    <div class="d-flex flex-column">
+                        <p>Tỉ lệ hủy đơn: ${cr == null ? "0" : count}</p>
+                        <p>Địa chỉ: ${seller.address.cityName != null ? seller.address.cityName : "Địa chỉ chưa cập nhật"}</p>
                     </div>
                 </div>
             </div>
+            <c:if test="${!empty productList}">
+                <div class="produrct row br-form">
+                    <div  class="d-flex justify-content-between" style="width: 100%;">
+                        <h4 class="font-a">Tất cả sản phẩm</h4>
+                        <div><a href="#">Xem thêm >></a></div>
+                    </div>
+                    <div class="product__content row" style="margin: 0 -5px;">
+                        <c:forEach items="${productList}" var="i">
+                            <div class=" col-lg-2 col-md-3 col-sm-4 col-4" 
+                                 style="padding: 5px; position: static;">
+                                <div class="product__item">
+                                    <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                        <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                        <p class="tooltip-text hinden-text">${i.name}
+                                            <span>${i.name}</span>
+                                        </p>
+                                        <fmt:setLocale value="vi_VN"/>
+                                        <div id="id${i.productId}" style="display: flex; justify-content: flex-end; padding-top: 5px;">
+                                            <script>
+                                                document.querySelector("#id${i.productId}").innerHTML=formatter.format(${i.price})
+                                            </script>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+            </c:if>
         </div>
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
