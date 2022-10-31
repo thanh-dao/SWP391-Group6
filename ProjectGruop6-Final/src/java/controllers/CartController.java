@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import services.GhnApi;
 
 @WebServlet(name = "CartController", urlPatterns = {"/cart"})
 public class CartController extends HttpServlet {
@@ -83,13 +84,21 @@ public class CartController extends HttpServlet {
                 case "pay": {
                     System.out.println("pay HERE");
                     try {
+                        String payId = request.getParameter("payId");
+                        String deliId = request.getParameter("deliId");
                         if (session.getAttribute("order") != null
-                                || request.getParameter("payId") != null
-                                || request.getParameter("deliId") != null) {
+                                || payId != null
+                                || deliId != null) {
                             System.out.println("OK");
                             OrderDTO order = (OrderDTO) session.getAttribute("order");
                             order.setPaymentId(Integer.parseInt(request.getParameter("payId")));
                             order.setDeliveryId(Integer.parseInt(request.getParameter("deliId")));
+                            if(payId.equals("1")){
+                                order.setPayId(request.getParameter("paypalOrderId"));
+                            }
+                            if(deliId.equals("1")){
+//                                GhnApi.createOrder();
+                            }
                             new OrderDAO().createOrder(order);
                             request.setAttribute("controller", "cart");
                             request.setAttribute("action", "thanks");
