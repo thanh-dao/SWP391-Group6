@@ -225,7 +225,7 @@
                             <table style="margin-bottom: 1rem;">
                                 <thead>                                  
                                     <tr row>
-                                        <th><input id="selectAll" type="checkbox" onclick="handleSelectAll(this)" name=""></th>
+                                        <th><input id="selectAll" type="checkbox" onclick="createOrder()" onclick="handleSelectAll(this)" name=""></th>
                                         <th class="col-md-6 col-5">Sản phẩm</th>
                                         <th class="col-md-3 col-3">Đơn giá</th>
                                         <th class="col-md-3 col-4" style="display: flex; justify-content: space-between;">
@@ -246,17 +246,16 @@
                                             <th><input type="checkbox" onclick="handleSelectByShop(this)" name="${i.orderByShopId}"></th>
                                             <th class="col-md-6 col-5 font-a">Sản phẩm của <a href="#">${i.getName()}</a></th>
                                             <th class="col-md-3 ">
-                                                
                                             </th>
                                             <th class="col-md-4 shipping-price">
                                                 <c:if test="${sessionScope.user.address != null}">
                                                     <%--<%=GhnApi ghn = new GhnApi() %>--%>
                                                     <fmt:setLocale value="vi-VN"/>
                                                     Phí ship: 
-                                                   <fmt:formatNumber type="currency" value='${GhnApi.getShipingFee(
-                                                      i.getAddress().cityName, sessionScope.user.address.cityName, 
-                                                      i.getAddress().districtName,sessionScope.user.address.districtName,
-                                                      sessionScope.user.address.wardName, "2")}' />
+                                                    <fmt:formatNumber type="currency" value='${GhnApi.getShipingFee(
+                                                                                               i.getAddress().cityName, sessionScope.user.address.cityName, 
+                                                                                               i.getAddress().districtName,sessionScope.user.address.districtName,
+                                                                                               sessionScope.user.address.wardName, "2")}' />
                                                 </c:if>
                                             </th>
 
@@ -370,6 +369,7 @@
             </div>
         </div>
         <script>
+            let products = [];
             const handlePay = () => {
                 const price = parseInt(document.querySelector("#price").innerHTML.substring(1).replace(",", ""));
                 localStorage.setItem("vndPrice", price);
@@ -377,18 +377,42 @@
                 myHeaders.append("apikey", "Egj2knbKqmkBva9q7FsIrUWpEqQ32Dpa");
 
                 var requestOptions = {
-                  method: 'GET',
-                  redirect: 'follow',
-                  headers: myHeaders
+                    method: 'GET',
+                    redirect: 'follow',
+                    headers: myHeaders
                 };
 
                 fetch("https://api.apilayer.com/exchangerates_data/convert?to=USD&from=VND&amount=" + price.toString(), requestOptions)
-                    .then(response => response.json())
-                    .then(data => {
-                        localStorage.setItem("usdPrice", data.result);
-                    })
-                    .catch(error => console.log('error', error));
-                }
+                        .then(response => response.json())
+                        .then(data => {
+                            localStorage.setItem("usdPrice", data.result);
+                        })
+                        .catch(error => console.log('error', error));
+
+
+                $.ajax("<c:url value="/cart/pay.do"/>", {
+                    data: {
+                        pIdList: createOrder(),
+                    }
+                })
+            }
+            const createOrder = () => {
+                const els = document.querySelectorAll('.product-item')
+                els.forEach(item => {
+                    if (item.checked) {
+                        products.push(
+                                {
+                                    id: item.getAttribute("id"),
+                                    quantity: item.parentElement.parentElement.querySelector(".ip-qua-style").value,
+                                }
+                        );
+                    } else {
+                        products = products.filter(item => item.id !== item.getAttribute("id"))
+                    }
+                })
+
+                return products;
+            }
             const deleteAll = () => {
                 swal({
                     title: "",

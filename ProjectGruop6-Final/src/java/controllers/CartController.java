@@ -84,8 +84,9 @@ public class CartController extends HttpServlet {
                     System.out.println("pay HERE");
                     try {
                         if (session.getAttribute("order") != null
-                                || request.getParameter("payId") != null
-                                || request.getParameter("deliId") != null) {
+                                && request.getParameter("payId") != null
+                                && request.getParameter("deliId") != null) {
+                            System.out.println(request.getParameter("pIdList"));
                             System.out.println("OK");
                             OrderDTO order = (OrderDTO) session.getAttribute("order");
                             order.setPaymentId(Integer.parseInt(request.getParameter("payId")));
@@ -101,6 +102,7 @@ public class CartController extends HttpServlet {
                     }
                 }
                 break;
+                
                 case "shipInformation": {
                     System.out.println("shipInformation HERE");
                     try {

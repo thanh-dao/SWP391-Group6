@@ -1,8 +1,3 @@
-<%-- 
-    Document   : pay
-    Created on : Sep 14, 2022, 4:14:06 AM
-    Author     : ADmin
---%>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -19,107 +14,6 @@
                 box-sizing: border-box;
 
             }
-
-            html {
-                position: relative;
-                /* overflow: hidden; */
-            }
-
-            body {
-                background-color: rgb(245, 245, 250);
-                /*overflow: hidden;*/
-
-            }
-
-            .brand {
-                text-decoration: none;
-                color: white;
-            }
-
-            .brand:hover {
-                color: darkgrey;
-            }
-
-            .header {
-                background-color: #111;
-                color: white;
-                position: fixed;
-                z-index: 1;
-                width: 100%;
-                padding-bottom: 20px;
-                height: 7em;
-                border-bottom: 0.5px solid rgb(89, 87, 87);
-                top: 0;
-            }
-
-            .top-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 15px;
-                letter-spacing: 3px;
-                margin-bottom: 10px;
-                border-bottom: 0.5px solid rgb(89, 87, 87);
-            }
-
-            .top-left {
-                display: flex;
-            }
-
-            .top-left .brand {
-                font-weight: bolder;
-            }
-
-            .top-left .wall {
-                font-weight: bold;
-                color: darkgrey;
-                margin-left: 10px;
-            }
-
-            .sub-name {
-                display: inline;
-            }
-
-            .top-right {
-                text-transform: uppercase;
-            }
-
-            .bottom-header {
-                height: 50px;
-                padding: 30px;
-            }
-
-            .form-search {
-                display: flex;
-                justify-content: center;
-            }
-
-            .container-search {
-                margin-left: 10px;
-            }
-
-            .search-input {
-                width: 60%;
-                padding: 5px 20px;
-                border-top-left-radius: 20px;
-                border-bottom-left-radius: 20px;
-                border: none;
-                margin-bottom: 10px;
-            }
-
-            .bottom-header .search-link {
-                height: 34px;
-                width: 34px;
-                border-top-right-radius: 20px;
-                border-bottom-right-radius: 20px;
-                padding: 5px 5px 5px 15px;
-                color: white;
-            }
-
-            .container-cart {
-                display: inline;
-            }
-
             .cart-link {
                 text-decoration: none;
                 color: white;
@@ -150,7 +44,6 @@
 
             .style-margin {
                 margin-top: 50px;
-                margin-bottom: 200px;
             }
 
             .add-card-form {
@@ -425,8 +318,8 @@
     </head>
 
     <body>
-        <div class="style-margin" style="background: rgb(245, 245, 250);">
-            <div class="container" style="background: rgb(245, 245, 250);">
+        <div class="style-margin">
+            <div class="container">
                 <div style="margin-bottom: 18px;"></div>
                 <form action="pay.do">
                     <div class="row">
