@@ -58,7 +58,7 @@ public class FileUserHandle extends HttpServlet {
 
         Collection<Part> part = request.getParts();
         HashSet<String> downloadedFiles = new HashSet<>();
-        try{
+        try {
             part.forEach(i -> {
                 System.out.println(i);
                 String fileName = getFileName(i);
@@ -75,14 +75,18 @@ public class FileUserHandle extends HttpServlet {
                 }
             });
             String[] arr = downloadedFiles.toArray(new String[downloadedFiles.size()]);
-            renameFileBaseOnImgId(arr, userEmail);
-        }catch(Exception ex) {
+            for (String string : arr) {
+                System.out.println(string);
+            }
+
+            renameFileBaseOnImgId(request, arr, userEmail);
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
     }
 
-    public void renameFileBaseOnImgId(String[] arr, String userEmail) {
+    public void renameFileBaseOnImgId(HttpServletRequest request, String[] arr, String userEmail) {
         for (int i = 0; i < arr.length; i++) {
             try {
                 String currentFileName = arr[i];
@@ -90,19 +94,29 @@ public class FileUserHandle extends HttpServlet {
                 String localFileName = userEmail + "." + localFileExtension;
                 File newUserAvatar = new File(Constants.IMAGE_ABSOLUTE_DIRECTORY + "/" + currentFileName);
                 File downloadedUserAvatar = new File(Constants.IMAGE_ABSOLUTE_DIRECTORY + "/" + localFileName);
-                
-                
+
                 UserDAO uDAO = new UserDAO();
-                File oldUserFile = new File(Constants.IMAGE_ABSOLUTE_DIRECTORY + "/" + uDAO.getUserAvatar(userEmail));
                 
-                    System.out.println(oldUserFile);
-                    oldUserFile.delete();
-                
+                File dir = new File(Constants.IMAGE_RELATIVE_DIRECTORY);
+                File[] directoryListing = dir.listFiles();
+                if (directoryListing != null) {
+                    for (File image : directoryListing) {
+                        if(image.getName().contains(userEmail)){
+                            image.delete();
+                        }
+                    }
+                }else{
+                    System.out.println("directoryListing is null");
+                }
                 
                 
                 newUserAvatar.renameTo(downloadedUserAvatar);
-                UserDAO userDAO = new UserDAO();
-                userDAO.updateUserAvatar(localFileName, userEmail);
+                uDAO.updateUserAvatar(localFileName, userEmail);
+                
+                HttpSession session = request.getSession();
+                UserDTO user = (UserDTO) session.getAttribute("user");
+                user.setAvatarLink(localFileName);
+                session.setAttribute("user", user);
             } catch (ClassNotFoundException | SQLException ex) {
                 Logger.getLogger(FileProductHandle.class
                         .getName()).log(Level.SEVERE, null, ex);

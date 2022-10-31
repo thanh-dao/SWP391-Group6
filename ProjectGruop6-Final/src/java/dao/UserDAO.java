@@ -113,7 +113,7 @@ public class UserDAO {
             UserDTO user = new UserDTO(
                     rs.getString("email"), storedAvatar.contains("http") ? storedAvatar : Constants.IMAGE_RELATIVE_DIRECTORY + "/" + storedAvatar, rs.getString("first_name"),
                     rs.getString("last_name"), rs.getString("phone"),
-                    new AddressDTO(rs.getString("address"), rs.getString(7),
+                    new AddressDAO().getFullAddress(rs.getString("address"), rs.getString(7),
                             rs.getString(8), rs.getString(9))
             );
             return user;

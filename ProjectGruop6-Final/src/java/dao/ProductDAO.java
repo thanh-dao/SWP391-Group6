@@ -287,7 +287,7 @@ public class ProductDAO {
     public List<ProductDTO> getProductListByProductName(int pageNum, String productName) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<ProductDTO> list = new ArrayList<>();
-        PreparedStatement stm = conn.prepareStatement("select [product_id]\n"
+        String query = "select [product_id]\n"
                 + "      ,[email_seller]\n"
                 + "      ,[name]\n"
                 + "      ,[price]\n"
@@ -302,11 +302,17 @@ public class ProductDAO {
                 + " from product "
                 + " where name like ? "
                 + " order by sold_count "
-                + " offset 0 rows "
-                + " fetch first ? rows only");
-        stm.setString(1, "%" + productName + "%");
+                + " offset 0 rows ";
+        
         int itemSkipped = (pageNum - 1) * Constants.ITEM_PER_PAGE;
-        stm.setInt(2, itemSkipped);
+        if(itemSkipped > 1) {
+            query +=  " fetch first ? rows only";
+        }
+        PreparedStatement stm = conn.prepareStatement(query);
+        stm.setString(1, "%" + productName + "%");
+        if(itemSkipped > 1) {
+            stm.setInt(2, itemSkipped);
+        }
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
 
@@ -793,6 +799,7 @@ public class ProductDAO {
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
         try {
+            p.getProductListByProductName(1, "a").forEach(i -> System.out.println(i));
 //            System.out.println(new Gson().toJson(proDAO.getProductListJson(proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC))));
 //            List<ProductDTO> list = new ArrayList<>();
 //            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 1, 1);

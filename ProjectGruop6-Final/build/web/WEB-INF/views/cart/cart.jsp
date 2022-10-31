@@ -3,6 +3,7 @@
     Created on : Sep 14, 2022, 4:13:58 AM
     Author     : ADmin
 --%>
+<%@page import="services.GhnApi"%>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -244,8 +245,22 @@
                                         <tr row>
                                             <th><input type="checkbox" onclick="handleSelectByShop(this)" name="${i.orderByShopId}"></th>
                                             <th class="col-md-6 col-5 font-a">Sản phẩm của <a href="#">${i.getName()}</a></th>
-                                            <th class="col-md-3 col-3"></th>
-                                            <th class="col-md-3 col-4"></th>
+                                            <th class="col-md-3 ">
+                                                
+                                            </th>
+                                            <th class="col-md-4 shipping-price">
+                                                <c:if test="${sessionScope.user.address != null}">
+                                                    <%--<%=GhnApi ghn = new GhnApi() %>--%>
+                                                    <fmt:setLocale value="vi-VN"/>
+                                                    Phí ship: 
+                                                   <fmt:formatNumber type="currency" value='${GhnApi.getShipingFee(
+                                                      i.getAddress().cityName, sessionScope.user.address.cityName, 
+                                                      i.getAddress().districtName,sessionScope.user.address.districtName,
+                                                      sessionScope.user.address.wardName, "2")}' />
+                                                </c:if>
+                                            </th>
+
+                                            <!--<th class="col-md-3"></th>-->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -341,7 +356,7 @@
                                                   empty order.address.cityName ||
                                                   empty user.phone ||
                                                   not empty order.orderByShopList}">
-                                        <a class="genric-btn primary circle" href="<c:url value="/cart/shipInformation.do"/>">Thanh Toán</a>
+                                        <a class="genric-btn primary circle" onclick="handlePay()" href="<c:url value="/cart/shipInformation.do"/>">Thanh Toán</a>
                                 </c:when>
                                 <c:when test = "${not empty order.orderByShopList}">
                                     <button class="btn-buy" onclick="window.location.href = '<c:url value="/cart/pay.do"/>'">Thanh Toán</button>
@@ -355,6 +370,25 @@
             </div>
         </div>
         <script>
+            const handlePay = () => {
+                const price = parseInt(document.querySelector("#price").innerHTML.substring(1).replace(",", ""));
+                localStorage.setItem("vndPrice", price);
+                var myHeaders = new Headers();
+                myHeaders.append("apikey", "Egj2knbKqmkBva9q7FsIrUWpEqQ32Dpa");
+
+                var requestOptions = {
+                  method: 'GET',
+                  redirect: 'follow',
+                  headers: myHeaders
+                };
+
+                fetch("https://api.apilayer.com/exchangerates_data/convert?to=USD&from=VND&amount=" + price.toString(), requestOptions)
+                    .then(response => response.json())
+                    .then(data => {
+                        localStorage.setItem("usdPrice", data.result);
+                    })
+                    .catch(error => console.log('error', error));
+                }
             const deleteAll = () => {
                 swal({
                     title: "",

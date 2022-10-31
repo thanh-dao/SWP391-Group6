@@ -400,10 +400,15 @@
         const form = document.querySelector(".product-form")
         form.addEventListener("submit", (event) => {
             event.preventDefault();
+            let isEmpty = false;
+            document.querySelectorAll(".product-form input").forEach(i => {
+                if(i.value === "") isEmpty = true;
+            })
             if (arr.length == 0) {
                 document.querySelector(".notification").innerHTML = "Bạn chưa đăng hình cho sản phẩm này!!";
                 return false;
             }
+            if(isEmpty) swal("Oops", "Hãy điền vào các ô còn trống", "error");
             const categoryHidden = document.querySelector(".category-hidden");
             const descriptionHidden = document.querySelector(".description-hidden");
             categoryHidden.value = $(".select-category").val()
