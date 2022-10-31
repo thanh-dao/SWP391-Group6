@@ -9,172 +9,76 @@
         <title>Layout Demo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Bootstrap CSS -->
-        <!--<link href="D:\FPT\CN5\SWP\ProjectFEP\SWP391-Group6\ProjectGruop6-Final\web\WEB-INF\layouts\main.css" rel="stylesheet" type="text/css">-->
-        <!--<link href="main.css" rel="stylesheet" type="text/css"/>-->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <!-- main css -->
-        <link href="../css/style.css" rel="stylesheet" type="text/css"/>
         <style>
             * {
                 padding: 0;
                 margin: 0;
                 box-sizing: border-box;
             }
-
-            body {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            /* Header starts */
-            /*            @media screen and (max-width: 768px) {
-                            . {
-                                display: none;
-                            }
-                        }*/
-
-            header {
-                /*margin-top: 20px;*/
-                padding-top: 5px;
-                padding-right: 0px;
-                background-color: orange;
-                margin-bottom: 10px;
-            }
-
-            .logo img {
-                height: 100px;
-                width: 100px;
-                border-radius: 50%;
-            }
-
-            .header__content {
-                /*padding: 5px;*/
-                margin: 10px 0 20px 0;
-                /*width: 100%;*/
-            }
-
-            .header__content ul {
-                width: 100%;
-                /*padding-right: 80px;*/
-            }
-
-            header li {
-                list-style: none;
-                padding-top: 10px;
-            }
-
-            header button {
-                /*height: 50px;*/
-                /*width: 100px;*/
-                /*margin-top: 25px;*/
-                border:none;
-                background-color: orange;
-            }
-
-            header .header__content a{
-                color: black;
-                font-weight: 450;
-            }
-
-            header .header__content a:hover {
-                color: gray;
-                text-decoration: none;
-            }
-
-            i {
-                margin-right: 4px;
-            }
-
-            .category a {
-                color: black;
-            }
-
-            .category a:hover {
-                color: gray;
-                text-decoration: none;
-            }
-
-            header .category {
-                /*margin-top: 20px;*/
-                padding-bottom: 5px;
-            }
-
-            header .category ul {
-                padding-left: 0px;
-            }
-
-            /* Header ends */
-            /* Product starts */
+            body {background-color: #F0F0F0 !important;}
+            body {margin: 0;padding: 0;box-sizing: border-box;}
+            header {padding-top: 5px;padding-right: 0px;background-color: #334F6C; margin-bottom: 10px;}
+            header a:hover {text-decoration: none;}
+            /*----------header--------------------------------------------------*/
+            .br-form {background: #FFFFFF;padding: 10px;border-radius: 3px;margin-bottom: 10px;}
+            .header{background-color: #334F6C;}
+            .logo img {width: 85px;height: 85px;border-radius: 50%;padding: 10px;}
+            .header__content {margin: 0px 0 8px 0;}
+            header button {border:none;background-color: #334F6C}
+            .header__content a{color: #FDC632;font-size: 16px;}
+            .header__content a:hover {color: #FDC632;}
+            i {font-size: 12px;padding-right: 6px;}
+            .category{margin-top: 10px;padding-bottom: 5px;}
+            .category a {color: #F0F0F0;font-size: 14px;}
+            .category a:hover {color: #FDC632;}
             .product__item {
                 transition: 0.5s;
             }
-
             .product__item:hover {
                 transform: translateY(-5px);
                 transition: 0.5s;
             }
-
-            footer {
-                background-color: orange;
-                margin-bottom: 0px;
-                padding: 20px;
-                margin-top: 80px; 
-            }
-            .txt_footer{
-                line-height: 28px;
-            }
-
             .search {
                 display: flex;
                 position: relative;
-                /*padding: 2px 0 2px 0;*/
                 width: 100%;
-                height: 40px;
-                background: #fff;
+                height: 30px;
+                background: #FFFFFF;
                 border-radius: 60px;
-                box-shadow: 0 0 0 5px #ffba00;
+                box-shadow: 0 0 0 3px #FDC632;
                 border: none;
                 outline: none;
             }
-
             .input-search{
                 border-radius: 0 50% 50% 0;
                 width: 680px;
                 height: 100%;
             }
-
             .search input {
                 border-radius: 0 50% 50% 0;
                 position: absolute;
-                /*top: 0;*/
                 width: 100%;
                 height: 100%;
-                /*left: 0;*/
                 border: none;
                 outline: none;
-                font-size: 18px;
+                font-size: 14px;
             }
-
             .search-icon {
-                /*justify-content: center;*/
                 background-color: #FFFFFF;
-                padding: 7px;
+                padding: 1px 0 0 7px;
                 border-radius: 50% 0 0 50%;
                 hight: 36px;
                 width: 36px;
                 light: 0;
                 top: 0;
                 bottom: 0;
-
             }
-
             .search-result-layer {
                 display: none;
                 background-color: #fff;
@@ -200,38 +104,30 @@
                 display: inline; 
                 position: relative;
             }
-
             .user-dropdown {
                 display: none;
             }
-
             .container-account:hover .user-dropdown {
                 display: block;
+                z-index: 1;
             }
-
             .account-link {
                 display: flex;
                 height: 40px;
                 width: 40px;
                 text-decoration: none;
             }
-
             .container-cart .cart-btn,
             .container-account {
                 font-size: 20px;
                 padding: 5px 5px 5px 15px;
             }
-
-            .account-btn {
-                display: flex;
-            }
-
             .item-text {
                 white-space: nowrap;
                 display: flex;
                 flex-direction: column;
+                color: #F0F0F0;
             }
-
             .user-dropdown {
                 position: absolute;
                 border: 1px solid rgb(239, 239, 239);
@@ -243,14 +139,13 @@
                 background: rgb(255, 255, 255);
                 top: 70px;
                 left: -30px;
+                z-index: 1;
             }
-
             .user-dropdown p:hover {
                 background-color: rgb(245, 244, 245);
                 color: rgb(0, 0, 0);
                 font-size: 12px;
             }
-
             .user-dropdown p {
                 cursor: pointer;
                 /* display: flex; */
@@ -264,11 +159,9 @@
                 font-weight: 400;
                 text-decoration: none;
             }
-
             .user-dropdown a:hover {
                 opacity: 0.95;
             }
-
             .user-dropdown a {
                 text-decoration: none;
                 display: flex;
@@ -279,19 +172,14 @@
                 cursor: pointer;
                 padding: 10px 10px;
             }
-
             footer {
-                background-color: orange;
+                background-color: #334F6C;
                 margin-bottom: 0px;
                 padding: 20px;
-                margin-top: 80px; 
+                margin-top: 20px; 
             }
-
-            .txt_footer{
-                line-height: 28px;
-                text-align: center;
-            }
-
+            footer .container {background-color: #334F6C;}
+            .txt_footer{line-height: 28px;text-align: center;color: #F0F0F0}
             footer .footer__right a {
                 height: 30px;
                 width: 30px;
@@ -300,17 +188,14 @@
                 color: #000;
                 cursor: pointer;
             }
-
             footer .footer__right i{
                 font-size: 20px;
                 height: 30px;
                 width: 30px;
             }
-
             li a{
                 color: black;
             }
-
             li a:hover{
                 color: #FFA500;
             }
@@ -319,7 +204,6 @@
 
     </head>
     <body>
-
         <!--header-->
         <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -333,14 +217,14 @@
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
         <header>
             <div class="container">
-                <div class="row">
-                    <div class="header__left col-md-2">
+                <div class="row header">
+                    <div class="col-md-1">
                         <a class="logo" href="<c:url value="/home/main.do"/>">
                             <img src="<c:url value="/images/FBT.jpg"/>" alt="">
                         </a>
                     </div>
-                    <div class="col-md-8">
-                        <div class="header__content d-flex justify-content-around">
+                    <div class="col-md-10">
+                        <div class="header__content d-flex justify-content-between">
                             <button ><a href="<c:url value="/home/main.do"/>"><i class="fas fa-home icon-header"></i>Trang chủ</a></button>
                             <button ><a href="<c:url value="/order/stored.do?status=ar"/>"><i class="fas fa-table"></i>Quản lý tin</a></button>
                             <button ><a href="<c:url value="/home/uploadProduct.do"/>"><i class="fa-sharp fa-solid fa-file-pen"></i>Đăng tin</a></button>
@@ -363,22 +247,27 @@
                                 </div>
                                 <input type="submit" hidden>
                             </form>
-
+                        </div>
+                        <div class="category">
+                            <div class="d-flex justify-content-between flex-wrap">
+                                <c:forEach items="${sessionScope.cateList}" var="i">
+                                    <a href="<c:url value="/home/productList.do?cateId=${i.cateId}"/>">
+                                        <span>${i.name}</span>
+                                    </a>
+                                </c:forEach>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <c:if test ="${sessionScope.user != null}">
                             <div class="container-account">
                                 <div class="account-link">
                                     <a class="account-link" href="#" >
                                         <img style="border-radius: 50%;" src="${sessionScope.user.avatarLink}" alt="">
                                     </a>
-
                                     <div class="account-btn">
-                                        <div>
-                                            <span class="item-text">
-                                                <span class="account-title" style="font-size: 80%; padding: 5px;">${sessionScope.user.firstName} ${sessionScope.user.lastName}</span>
-                                            </span>
+                                        <div class="item-text">
+                                            <span class="account-title" style="font-size: 80%; padding: 5px;">${sessionScope.user.firstName} ${sessionScope.user.lastName}</span>
                                         </div>
                                         <div class="user-dropdown">
                                             <a href="<c:url value="/user/userInformation.do?id=${sessionScope.user.email}"/>">
@@ -389,26 +278,9 @@
                                             </a>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </c:if>
-                    </div>
-
-                </div>
-
-                <div class="category">
-                    <div class="container">
-                        <ul class="d-flex justify-content-between flex-wrap">
-                            <c:forEach items="${sessionScope.cateList}" var="i">
-                                <li class='flex-grow-2'>
-                                    <a href="<c:url value="/home/productList.do?cateId=${i.cateId}"/>">
-                                        ${i.icon}
-                                        <span>${i.name}</span>
-                                    </a>
-                                </li>
-                            </c:forEach>
-                        </ul>
                     </div>
                 </div>
             </div>

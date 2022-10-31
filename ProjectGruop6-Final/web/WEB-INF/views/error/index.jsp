@@ -10,6 +10,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Chuyển Trang Lỗi</title>
+        <style>
+            html, body {height: calc(100% - 139px);}
+        </style>
     </head>
     <body>
         <h1>Bug Rồi Bạn Ơi!</h1>

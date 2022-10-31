@@ -1,29 +1,26 @@
-<%-- 
-    Document   : index
-    Created on : Jun 7, 2022, 7:33:02 AM
-    Author     : Admin
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix = "fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Title</title>
-        <!-- Bootstrap CSS -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Layout Demo</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
+            body {
+                background-color: #F0F0F0;
+            }
             .discount {
                 position: relative;
                 margin-top: 0px;
             }
-
             @media screen and (max-width: 1200px) {
                 div.discount {
                     display: none;
                 }
             }
-
             .discount .left, .discount .right {
                 position: absolute;
                 position: fixed;
@@ -101,15 +98,13 @@
         </style>
     </head>
     <body>
-        <div class="discount">
-            <img class="left img-fluid" src="<c:url value="${banner.url}"/>"  onclick="window.location.href = '#'">
-            <img class="right img-fluid" src="<c:url value="${banner.url}"/>" onclick="window.location.href = '#'">
-        </div>
-
+        <!--        <div class="discount">
+                    <img class="left img-fluid" src="<c:url value="${banner.url}"/>"  onclick="window.location.href = '#'">
+                    <img class="right img-fluid" src="<c:url value="${banner.url}"/>" onclick="window.location.href = '#'">
+                </div>-->
         <div class="banner">
             <div class="container">
                 <div id="demo" class="carousel slide" data-ride="carousel">
-
                     <!-- Indicators -->
                     <ul class="carousel-indicators">
                         <li data-target="#demo" data-slide-to="0" class="active"></li>
@@ -118,7 +113,6 @@
                         <li data-target="#demo" data-slide-to="3"></li>
                         <li data-target="#demo" data-slide-to="4"></li>
                     </ul>
-
                     <!-- The slideshow -->
                     <div class="carousel-inner">
                         <div class="carousel-item  active">
@@ -148,12 +142,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
         <div class="product">
             <div class="container">
                 <h3>SẢN PHẨM BÁN CHẠY</h3>
@@ -171,7 +159,6 @@
                 </div>
             </div>
         </div>
-
         <div class="top__seller">
             <div class="container">
                 <h3>SẢN PHẨM BÁN CHẠY</h3>

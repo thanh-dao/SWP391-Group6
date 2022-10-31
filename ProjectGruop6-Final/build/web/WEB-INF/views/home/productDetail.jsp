@@ -1,8 +1,3 @@
-<%-- 
-    Document   : productDetail
-    Created on : Sep 14, 2022, 3:38:49 AM
-    Author     : ADmin
---%>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -12,17 +7,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Product Detail</title>
-
+        <link href="../css/main.css" rel="stylesheet" type="text/css"/>
         <style>
-
-            .link {
-                padding-top: 10px;
-                margin-bottom: 10px;
-            }
-
-            .link a {
-                font-size: 18px;
-            }
+            .link {padding-top: 10px;margin-bottom: 10px;}
+            .link a {font-size: 18px;}
             .buy button {
                 background-color: #FFA500;
                 transition: 0.5s;
@@ -34,36 +22,25 @@
                 height: 50px;
                 width: 350px;
             }
-
             .buy button:hover {
                 background-position: right center;
                 color: #fff;
                 text-decoration: none;
                 cursor: pointer;
             }
-
             .button_1{
                 margin-top: 50px;
                 margin-bottom: 20px;
             }
-
-            p{
-                font-size: 20px;
-                margin: 2px;
-                padding: 2px;
-            }
-
-            .font-bold {
+            .product_content {
                 font-size: 20px;
                 font-weight: 500;
             }
-
-            .font-bold {
+            .product_content {
                 font-weight: 500;
             }
-
             .font-a a{
-                color: #FFA500;
+                color: #FDC632;
                 text-decoration: none;
             }
 
@@ -71,68 +48,56 @@
                 color: none;
                 text-decoration: none;
             }
-
-            body {
-                background-color: #F0F0F0;
-                height: auto;
-            }
-
             .br-form {
                 background: #FFFFFF;
                 padding: 10px;
                 border-radius: 3px;
                 margin-bottom: 10px;
             }
-
             .avatar {
                 height: 50px;
                 width: 50px;
                 border-radius: 50%;
                 margin-right: 20px;
             }
-
             .avatar img{
                 width: 100%;
                 border-radius: 50%;
             }
-
             .reviewer {
                 height: 40px;
                 width: 40px;
                 border-radius: 50%;
                 margin-right: 10px;
             }
-
             .reviewer img{
                 width: 100%;
                 border-radius: 50%;
             }
-
             .review {
                 padding: 10px;
                 border-bottom: 1.5px solid rgba(0,0,0,.09);
             }
-
             .star{
                 color: #FFA500;
                 font-size:20px;
             }
-
             .star-s{
                 color: #FFA500;
                 font-size:15px;
             }
-
             .product__item {
                 /*background-color: #FFE5CC;*/
-                background-color: #ffefd5 ;
-                margin-bottom: 10px;
+                /*background-color: #ffefd5 ;*/
+                /*background-color: #F1F9FF;*/
+                /*background-color: #DCEDFC;*/
+                background-color: #EAF1FB;
+                /*background-color: #FFFFFF;*/
+                /*margin-bottom: 10px;*/
                 width: 100%;
-                height: 250px;
                 transition: 0.5s;
-                border-radius: 5px;
+                border-radius: 2px;
             }
-
             .product__item a {
                 color: black;
                 font-size: 18px;
@@ -145,16 +110,15 @@
             }
 
             .product__item a:hover {
-                color: #FFA500;
+                color: #FDC632;
                 text-decoration: none;
             }
 
             .product__item div {
                 padding: 0 10px;
-                font-size: 20px;
+                font-size: 18px;
                 color: red;
             }
-
             .img-nav-btn{
                 width: 50px; 
                 height: 50px; 
@@ -167,36 +131,6 @@
             }
             .carousel-control-next:hover, .carousel-control-prev:hover{
                 opacity: 1;
-            }
-
-            .hinden-text {
-                margin: 0;
-                font-size: 16px;
-                padding: 3px;
-                width: 100%;
-                overflow: hidden;
-                white-space: nowrap; 
-                text-overflow: ellipsis;
-                border-bottom: 1.5px solid rgba(0,0,0,.09);
-            }
-            .tooltip-text {
-                text-decoration:none;
-                position:relative;
-            }
-            .tooltip-text span {
-                display:none;
-            }
-            .tooltip-text:hover span {
-                border-radius: 3px;
-                font-size: 16px;
-                padding: 1px 5px;
-                display: block;
-                position:fixed;
-                overflow:hidden;
-                background-color: #35363A;
-                color: #CCC;
-                z-index: 1000;
-                white-space: nowrap;
             }
         </style>
     </head>
@@ -271,21 +205,20 @@
                                 <c:if test ="${rating > 4.5}"><span class="fa fa-star star"></span></c:if>
                                 </div>
                                 <div style="display: flex;">
-                                    <p style="margin-right: 30%">Đã bán: <span class="font-bold">${product.soldCount}</span></p>
-                                <p>Đánh giá: <span class="font-bold">${reviewer.size()}</span></p>
+                                    <p style="margin-right: 30%">Đã bán: <span class="product_content">${product.soldCount}</span></p>
+                                <p>Đánh giá: <span class="product_content">${reviewer.size()}</span></p>
 
                             </div>
-                            <p>Sản phẩm có sẵn: <span class="font-bold">${product.quantity}</span><p/>
+                            <p>Sản phẩm có sẵn: <span class="product_content">${product.quantity}</span><p/>
                             <h2 style="color: #E72425; text-align: right; margin-right: 20px;">
                                 <fmt:setLocale value="vi_VN"/>
                                 <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>
                             <script>
                                 var isNullUser = true
                                 <c:if test="${user != null}">
-                                    isNullUser = false
+                                isNullUser = false
                                 </c:if>
                             </script>
-
                             <div class="buy d-flex justify-content-around" style="margin: 50px 0 20px 0;">
                                 <button onclick="addOrder(${product.productId})">Mua</button>
                             </div>
@@ -349,8 +282,8 @@
                 </div>
             </div>
             <c:if test="${!empty productList}">
-                <div class="produrct">
-                    <div  style="display: flex; justify-content: space-between;">
+                <div class="produrct br-form">
+                    <div  class="d-flex justify-content-between">
                         <h3 class="font-a">Các sản phẩm khác của 
                             <a href="#">${seller.firstName} ${seller.lastName}</a>
                         </h3>
@@ -378,12 +311,12 @@
                 </div>
             </c:if>
             <c:if test="${!empty productListCategory}">
-                <div class="product">
-                    <div  style="display: flex; justify-content: space-between;">
+                <div class="product br-form">
+                    <div style="display: flex; justify-content: space-between;">
                         <h3 class="font-a">Các sản phẩm cùng loại khác </h3>
                         <a href="#">Xem thêm >></a>
                     </div>
-                    <div class="product__content row">
+                    <div class="product__content row" style="margin: 0 -5px;">
                         <c:forEach items="${productListCategory}" var="i">
                             <div class=" col-lg-2 col-md-3 col-sm-4 col-4" 
                                  style="padding: 5px; position: static;">

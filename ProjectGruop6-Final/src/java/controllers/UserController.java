@@ -59,30 +59,42 @@ public class UserController extends HttpServlet {
         String redirectUrl = "";
         switch (action) {
             case "login":
-
 //                response.sendRedirect("");
 //                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
-            case "userInformation":    {
+            case "userInformation": {
                 CategoryDAO cateDAO = new CategoryDAO();
                 ProductDAO proDAO = new ProductDAO();
                 UserDAO userDAO = new UserDAO();
                 String email = request.getParameter("email");
                 email = "LinhTKSS170602@fpt.edu.vn";
                 List<ProductDTO> productList;
-            try {
-                productList = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
-                        proDAO.SOLD_COUNT, proDAO.DESC, email);                     
-                        request.setAttribute("productList", productList);
-                        request.setAttribute("email", email);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                              
+                try {
+                    productList = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
+                            proDAO.SOLD_COUNT, proDAO.DESC, email);
+                    request.setAttribute("productList", productList);
+                    request.setAttribute("email", email);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-                
+            }
+            break;
+            case "shopInformation": {
+                if (request.getParameter("seller") != null) {
+                    String email = request.getParameter("seller");
+                    try {
+                        request.setAttribute("seller", new UserDAO().findUser(email));
+                        
+                    } catch (Exception e) {
+                    }
+                } else {
+                    request.setAttribute("controller", "error");
+                    request.setAttribute("action", "index");
+                    request.setAttribute("message", "Error when processing the request");
+                }
             }
             break;
             case "updateInformation": {
@@ -142,7 +154,7 @@ public class UserController extends HttpServlet {
                     session.setAttribute("user", userDTO);
                     redirectUrl = "/home/main.do";
                     session.setAttribute("errorLoginMessage", null);
-                    
+
                 } else {
                     redirectUrl = "/user/login.do";
                     session.setAttribute("errorLoginMessage",
@@ -150,14 +162,14 @@ public class UserController extends HttpServlet {
                 }
                 break;
             }
-            
+
             case "logout": {
                 session.removeAttribute("user");
                 redirectUrl = "/";
                 isFowarded = true;
                 break;
             }
-            
+
             default: {
                 request.setAttribute("controller", "error");
                 request.setAttribute("action", "index");
@@ -169,10 +181,8 @@ public class UserController extends HttpServlet {
         } else {
             response.sendRedirect(getServletContext().getContextPath() + redirectUrl);
         }
-        
+
     }
-    
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

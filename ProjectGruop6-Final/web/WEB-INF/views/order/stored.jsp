@@ -13,7 +13,7 @@
                 <link rel="stylesheet" href="../vendors/owl-carousel/owl.carousel.min.css" />
                 <link rel="stylesheet" href="../vendors/nice-select/css/nice-select.css" />-->
         <!-- main css -->
-        <link href="../css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/main.css" rel="stylesheet" type="text/css"/>
         <title>Document</title>
     </head>
     <body>
