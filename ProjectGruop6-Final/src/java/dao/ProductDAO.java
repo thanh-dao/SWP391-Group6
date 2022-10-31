@@ -303,14 +303,14 @@ public class ProductDAO {
                 + " where name like ? "
                 + " order by sold_count "
                 + " offset 0 rows ";
-        
+
         int itemSkipped = (pageNum - 1) * Constants.ITEM_PER_PAGE;
-        if(itemSkipped > 1) {
-            query +=  " fetch first ? rows only";
+        if (itemSkipped > 1) {
+            query += " fetch first ? rows only";
         }
         PreparedStatement stm = conn.prepareStatement(query);
         stm.setString(1, "%" + productName + "%");
-        if(itemSkipped > 1) {
+        if (itemSkipped > 1) {
             stm.setInt(2, itemSkipped);
         }
         ResultSet rs = stm.executeQuery();
@@ -489,6 +489,19 @@ public class ProductDAO {
             );
         }
         return list;
+    }
+    //count product seller
+    public int getCountProducts(String emailSeller) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT COUNT(product_id) [count] "
+                + "FROM product WHERE email_seller = ?");
+        stm.setString(1, emailSeller);
+        ResultSet rs = stm.executeQuery();
+        ProductImageDAO imageDAO = new ProductImageDAO();
+        if (rs.next()) {
+            return rs.getInt("count");
+        }
+        return -1;
     }
 
     public List<ProductDTO> getProductList(int pageNum, int item_per_page, int option, boolean trend, int cateID) throws ClassNotFoundException, SQLException {
@@ -799,23 +812,12 @@ public class ProductDAO {
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
         try {
-            p.getProductListByProductName(1, "a").forEach(i -> System.out.println(i));
-//            System.out.println(new Gson().toJson(proDAO.getProductListJson(proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC))));
-//            List<ProductDTO> list = new ArrayList<>();
-//            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 1, 1);
-//            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 2, 0);
-//            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 2, -1);
-//            List<ProductDTO> list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", 0, 1);
-//            list = p.getProductListSeller("ThinhPQSE151077@fpt.edu.vn", -1, 1);
-//            for (ProductDTO productDTO : list) {
-//                if (productDTO.getMainImage() == null) {
-//                    System.out.println("OK");
-//                }
-//            }
-//            System.out.println(p.getProductListJson(list));
-System.out.println(new java.sql.Date(new Date().getTime()));
-//            ProductDTO product = new ProductDTO("a", 2, "description", 1, 200, null);
-//            System.out.println(p.handerProductSeller(474, "u", product));
+            //            p.getProductListByProductName(1, "a").forEach(i -> System.out.println(i));
+            ;
+            System.out.println(p.getProductList(1,
+                    Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
+                    p.SOLD_COUNT, p.DESC, "LinhTKSS170602@fpt.edu.vn").toString());
+            System.out.println(p.getCountProducts("LinhTKSS170602@fpt.edu.vn"));
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();

@@ -142,13 +142,55 @@ public class OrderByShopDAO {
         stm.executeUpdate();
     }
 
+    public String getCancellationRate(String emailSeller) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT CAST("
+                + "(SELECT CAST((SELECT COUNT(status) FROM order_by_shop "
+                + "WHERE email_seller = ? AND status = 1) AS float) / \n"
+                + "CAST((SELECT COUNT(status) FROM order_by_shop "
+                + "WHERE email_seller = ?) AS float)*100) AS DECIMAL(4, 1)) as cr");
+        stm.setString(1, emailSeller);
+        stm.setString(2, emailSeller);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getString("cr");
+        }
+        return null;
+    }
+
+    public float getTotalRating(String emailSeller) throws ClassNotFoundException, SQLException {
+
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT CAST("
+                + "(SELECT SUM(r.rating)/COUNT(r.rating) FROM \n"
+                + "(SELECT email FROM [user] WHERE email = ?) u\n"
+                + "LEFT JOIN order_by_shop obs ON obs.email_seller = u.email\n"
+                + "LEFT JOIN order_detail od ON od.order_by_shop_id = obs.order_by_shop_id\n"
+                + "LEFT JOIN review r ON r.order_detail_id = od.order_detail_id) "
+                + "AS DECIMAL(4, 1)) as rating");
+        stm.setString(1, emailSeller);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getFloat("rating");
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         try {
             OrderByShopDAO obs = new OrderByShopDAO();
-            System.out.println(obs.getOrderByShop(19));
-//            }
-//            System.out.println(obs.totalOrderByShop(15));
-
+            //            System.out.println(obs.getOrderByShop(19));
+            //            }
+            //            System.out.println(obs.totalOrderByShop(15));
+            //            System.out.println(obs.getCancellationRate("ThinhPQSE151077@fpt.edu.vn"));
+            String cr = "0";
+//            System.out.println(obs.getCancellationRate("ThinhPQSE151077@fpt.edu.vn").getClass());
+            if (obs.getCancellationRate("HanNHGSS170456@fpt.edu.vn").getClass()
+                    != cr.getClass()) {
+                System.out.println("OK");
+            }
+            System.out.println(cr);
+//            System.out.println(obs.getTotalRating("ThinhPQSE151077@fpt.edu.vn"));
 //            System.out.println(obs.getOrderByShop(16).get);
 //            obs.checkOrderByShop();
         } catch (Exception e) {

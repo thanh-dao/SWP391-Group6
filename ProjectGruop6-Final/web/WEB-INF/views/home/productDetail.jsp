@@ -1,12 +1,15 @@
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Product Detail</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="../css/main.css" rel="stylesheet" type="text/css"/>
         <style>
             .link {padding-top: 10px;margin-bottom: 10px;}
@@ -86,14 +89,14 @@
                 color: #FFA500;
                 font-size:15px;
             }
-            .product__item {
-                /*background-color: #FFE5CC;*/
-                /*background-color: #ffefd5 ;*/
-                /*background-color: #F1F9FF;*/
-                /*background-color: #DCEDFC;*/
+/*            .product__item {
+                background-color: #FFE5CC;
+                background-color: #ffefd5 ;
+                background-color: #F1F9FF;
+                background-color: #DCEDFC;
                 background-color: #EAF1FB;
-                /*background-color: #FFFFFF;*/
-                /*margin-bottom: 10px;*/
+                background-color: #FFFFFF;
+                margin-bottom: 10px;
                 width: 100%;
                 transition: 0.5s;
                 border-radius: 2px;
@@ -118,7 +121,7 @@
                 padding: 0 10px;
                 font-size: 18px;
                 color: red;
-            }
+            }*/
             .img-nav-btn{
                 width: 50px; 
                 height: 50px; 
@@ -132,6 +135,7 @@
             .carousel-control-next:hover, .carousel-control-prev:hover{
                 opacity: 1;
             }
+            
         </style>
     </head>
     <body>
@@ -230,10 +234,10 @@
                 <h5>Thông tin người bán</h5>
                 <div style="display: flex">
                     <div class="col-md-5 col-sm-5 font-a" style="display: flex">
-                        <a href="<c:url value="/home/main.do"/>" class="avatar">
+                        <a href="<c:url value="/user/shopInformation.do?seller=${seller.email}"/>" class="avatar">
                             <img src="<c:url value="${seller.avatarLink}"/>" alt="">
                         </a>
-                        <p><a href="#">${seller.firstName} ${seller.lastName}</a></p>
+                        <p><a href="<c:url value="/user/shopInformation.do?seller=${seller.email}"/>">${seller.firstName} ${seller.lastName}</a></p>
                     </div>
                     <div class="col-md-7 col-sm-7">
                         <p>Số điện thoại: <span>${seller.phone}</span></p>

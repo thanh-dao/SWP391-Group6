@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Chuyển Trang Lỗi</title>
         <style>
-            html, body {height: calc(100% - 139px);}
+            html, body {height: calc(100% - 139px) !important;}
         </style>
     </head>
     <body>
