@@ -9,11 +9,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dto.AddressDTO;
+import dto.ProductDTO;
+import dto.UserDTO;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.http.Header;
-import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
 import org.apache.http.message.BasicHeader;
@@ -171,30 +174,26 @@ public class GhnApi {
         return jobj.getAsJsonObject("data").toString();
     }
 
-    public static String createOrder() throws IOException {
+    public static String createOrder(UserDTO user, UserDTO seller, List<ProductDTO> products, String cod) throws IOException {
+        AddressDTO userAddress = user.getAddress();
+        AddressDTO sellerAddress = seller.getAddress();
         String body = "{\n"
                 + "    \"payment_type_id\": 2,\n"
                 + "    \"note\": \"Tintest 123\",\n"
-                + "    \"from_name\":\"Tin\",\n"
-                + "    \"from_phone\":\"0909999999\",\n"
-                + "    \"from_address\":\"123 Đường 3/2\",\n"
-                + "    \"from_ward_name\":\"Phường 5\",\n"
-                + "    \"from_district_name\":\"Quận 11\",\n"
-                + "    \"from_province_name\":\"TP Hồ Chí Minh\",\n"
+                + "    \"from_name\":\"" + seller.getFirstName() + " " + seller.getLastName() + "\",\n"
+                + "    \"from_phone\":\"" + seller.getPhone() + "\",\n"
+                + "    \"from_address\":\"" + sellerAddress.getHouseNumber()+ "\",\n"
+                + "    \"from_ward_name\":\"" + sellerAddress.getWardName()+ "\",\n"
+                + "    \"from_district_name\":\"" + sellerAddress.getDistrictName()+ "\",\n"
+                + "    \"from_province_name\":\"" + sellerAddress.getCityName()+ "\",\n"
                 + "    \"required_note\": \"KHONGCHOXEMHANG\",\n"
-                + "    \"return_name\": \"Tin\",\n"
-                + "    \"return_phone\": \"0909999999\",\n"
-                + "    \"return_address\": \"123 Đường 3/2\",\n"
-                + "    \"return_ward_name\": \"Phường 5\",\n"
-                + "    \"return_district_name\": \"Quận 11\",\n"
-                + "    \"return_province_name\":\"TP Hồ Chí Minh\",\n"
-                + "    \"to_name\": \"Độ Mixi\",\n"
-                + "    \"to_phone\": \"0909998877\",\n"
-                + "    \"to_address\": \"Streaming house\",\n"
-                + "    \"to_ward_name\":\"Phường 14\",\n"
-                + "    \"to_district_name\":\"Quận 10\",\n"
-                + "    \"to_province_name\":\"TP Hồ Chí Minh\",\n"
-                + "    \"cod_amount\": 200000,\n"
+                + "    \"to_name\": \"" + user.getFirstName() + " " + user.getLastName() + "\",\n"
+                + "    \"to_phone\": \"" + user.getPhone() + "\",\n"
+                + "    \"to_address\": \"" + userAddress.getHouseNumber()+ "\",\n"
+                + "    \"to_ward_name\": \"" + userAddress.getWardName()+ "\",\n"
+                + "    \"to_district_name\": \"" + userAddress.getDistrictName()+ "\",\n"
+                + "    \"to_province_name\":\"" + userAddress.getCityName()+ "\",\n"
+                + "    \"cod_amount\": " + cod + ",\n"
                 + "    \"content\": \"Theo New York Times\",\n"
                 + "    \"weight\": 200,\n"
                 + "    \"length\": 1,\n"

@@ -89,7 +89,7 @@ public class OrderDAO {
         conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("INSERT INTO [order] (delivery_id, "
                 + "payment_id, email_buyer, address, ward_id, "
-                + "district_id, city_id) VALUES (?, ?, ?, ?, ?, ?, ? )");
+                + "district_id, city_id, pay_id, ship_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         stm.setInt(1, order.getDeliveryId());
         stm.setInt(2, order.getPaymentId());
         stm.setString(3, order.getEmailBuyer());
@@ -97,6 +97,8 @@ public class OrderDAO {
         stm.setString(5, order.getAddress().getWardId());
         stm.setString(6, order.getAddress().getDistrictId());
         stm.setString(7, order.getAddress().getCityId());
+        stm.setString(8, order.getPayId());
+        stm.setString(9, order.getShipId());
         stm.executeUpdate();
         for (OrderByShopDTO obs : order.getOrderByShopList()) {
             new OrderByShopDAO().createOrderByShop(getMaxId(), obs);
