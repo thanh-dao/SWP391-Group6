@@ -90,7 +90,7 @@
 
                             <c:forEach items="${productList}" var="i">
                                 <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                                    <a href="<c:url value=" /home/productDetail.do?productId=${i.productId}" />">
+                                    <a href="<c:url value="/home/productDetail.do?productId=${i.productId}" />">
                                     <img class="img-fluid" src="${i.getMainImage().url}" alt="">
                                     <p>${i.name}</p>
                                     <fmt:setLocale value="vi_VN" />
