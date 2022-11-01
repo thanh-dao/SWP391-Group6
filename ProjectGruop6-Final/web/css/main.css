@@ -17,7 +17,7 @@ a:hover {color: none;text-decoration: none;}
     background-color: #EAF1FB !important;
     width: 100%;transition: 0.5s;border-radius: 2px;}
 .product__item a {color: black;font-size: 18px;}
-.product__item img {width: 180px;transition: 0.5s;height: 70%;}
+.product__item img {width: 180px;transition: 0.5s;height: 180px;}
 .product__item a:hover {color: #FDC632;text-decoration: none;}
 .product__item div {padding: 0 10px;font-size: 18px;color: red;}
 .star{color: #FFA500;font-size:20px;}

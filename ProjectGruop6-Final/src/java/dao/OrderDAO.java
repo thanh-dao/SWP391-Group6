@@ -269,7 +269,6 @@ public class OrderDAO {
 //            System.out.println("Current dir:" + currentPath);
 //            String currentDir = System.getProperty("user.dir");
 //            System.out.println("Current dir using System:" + currentDir);
-            System.out.println(new OrderDAO().getOrder(19));
 //            for (OrderDTO o : new OrderDAO().getOrder("ThinhPQSE151077@fpt.edu.vn")) {
 //                for (OrderByShopDTO obs : o.getOrderByShopList()) {
 //                    for (OrderDetailDTO od : obs.getOrderDetailList()) {
@@ -277,6 +276,15 @@ public class OrderDAO {
 //                    }
 //                }
 //            }
+//            List<AddressDTO> ad = new ArrayList<>();
+//            ad.add(new AddressDTO("a", null, null, null));
+//            List<AddressDTO> as = ad;
+//            as.get(0).setHouseNumber("b");
+//            System.out.println(as);
+//            System.out.println(ad);
+            OrderDTO order = new OrderDTO(null, null, new ArrayList<>());
+            
+            System.out.println(order.getOrderByShopList().indexOf(order));
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -44,37 +44,64 @@ public class CartController extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String action = (String) request.getAttribute("action");
         String controller = (String) request.getAttribute("controller");
-                System.out.println("HERE");
-
+        System.out.println("HERE");
         System.out.println(action + " " + controller);
         HttpSession session = request.getSession();
+        if (request.getAttribute("order") != null) {
+            System.out.println("ORDER");
+        } else {
+            System.out.println("CART");
+        }
         if (session.getAttribute("user") == null) {
             request.setAttribute("controller", "user");
             request.setAttribute("action", "login");
         } else {
-            
             switch (action) {
                 case "cart": {
                     try {
                         UserDTO user = (UserDTO) session.getAttribute("user");
-                        OrderDTO cart = session.getAttribute("order") == null
+                        OrderDTO cart = session.getAttribute("cart") == null
                                 ? new OrderDTO(user.getEmail(), user.getAddress(), new ArrayList<>())
-                                : (OrderDTO) session.getAttribute("order");
+                                : (OrderDTO) session.getAttribute("cart");
+//                        if (request.getAttribute("order") != null) {
+//                            request.setAttribute("order", request.getAttribute("order"));
+//                        }
+                        if (request.getAttribute("order") != null) {
+                            System.out.println("ORDER");
+                        } else {
+                            System.out.println("CART");
+                        }
                         if (request.getParameter("func") != null) {
                             String func = request.getParameter("func");
-                            int productId = -1;
-                            if (request.getParameter("pId") != null) {
-                                productId = Integer.parseInt(request.getParameter("pId"));
-                            }
-                            int quan = 0;
-                            if (request.getParameter("quan") != null) {
-                                quan = Integer.parseInt(request.getParameter("quan"));
-                            }
-                            if (handleCart(cart, productId, quan, func) == null) {
-                                throw new Exception();
+                            if (func.equalsIgnoreCase("create")) {
+                                if (request.getParameter("pIdList") != null) {
+                                    String[] pIdList = request.getParameter("pIdList").replace("[", "").replace("]", "").split(",");
+                                    int[] arrpId = new int[pIdList.length];
+                                    for (int i = 0; i < pIdList.length; i++) {
+                                        arrpId[i] = Integer.parseInt(pIdList[i]);
+                                    }
+                                    OrderDTO order = new OrderDTO(cart.getEmailBuyer(),
+                                            cart.getAddress(), new ArrayList<>());
+                                    handleOrder(cart, arrpId, order);
+                                    System.out.println("========1======");
+                                    System.out.println(order);
+                                    request.setAttribute("order", order);
+//                                    request.ge
+                                    System.out.println("CREATE");
+                                    System.out.println("========2======");
+                                    System.out.println(request.getAttribute("order"));
+                                }
+                            } else {
+                                int productId = request.getParameter("pId") != null
+                                        ? Integer.parseInt(request.getParameter("pId")) : -1;
+                                int quan = request.getParameter("quan") != null
+                                        ? Integer.parseInt(request.getParameter("quan")) : 0;
+                                if (handleCart(cart, productId, quan, func) == null) {
+                                    throw new Exception();
+                                }
+                                session.setAttribute("cart", cart);
                             }
                         }
-                        session.setAttribute("order", cart);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -83,17 +110,19 @@ public class CartController extends HttpServlet {
                 case "pay": {
                     System.out.println("pay HERE");
                     try {
-                        if (session.getAttribute("order") != null
-                                && request.getParameter("payId") != null
-                                && request.getParameter("deliId") != null) {
-                            System.out.println(request.getParameter("pIdList"));
+                        if (request.getAttribute("order") != null) {
                             System.out.println("OK");
-                            OrderDTO order = (OrderDTO) session.getAttribute("order");
-                            order.setPaymentId(Integer.parseInt(request.getParameter("payId")));
-                            order.setDeliveryId(Integer.parseInt(request.getParameter("deliId")));
-                            new OrderDAO().createOrder(order);
-                            request.setAttribute("controller", "cart");
-                            request.setAttribute("action", "thanks");
+                            OrderDTO order = (OrderDTO) request.getAttribute("order");
+                            request.setAttribute("order", order);
+                            if (request.getParameter("payId") != null
+                                    && request.getParameter("deliId") != null) {
+                                order.setPaymentId(Integer.parseInt(request.getParameter("payId")));
+                                order.setDeliveryId(Integer.parseInt(request.getParameter("deliId")));
+                                new OrderDAO().createOrder(order);
+                                request.setAttribute("controller", "cart");
+                                request.setAttribute("action", "thanks");
+                            }
+                            request.setAttribute("order", order);
                         } else {
                             throw new Exception();
                         }
@@ -102,16 +131,17 @@ public class CartController extends HttpServlet {
                     }
                 }
                 break;
-                
                 case "shipInformation": {
-                    System.out.println("shipInformation HERE");
+                    System.out.println("shipInformation");
                     try {
-                        if (session.getAttribute("order") != null) {
-                            OrderDTO order = (OrderDTO) session.getAttribute("order");
+                        if (session.getAttribute("cart") != null) {
+                            OrderDTO order = request.getAttribute("order") == null ? (OrderDTO) session.getAttribute("cart")
+                                    : (OrderDTO) request.getAttribute("order");
                             if (request.getParameter("wardId") != null
-                                    || request.getParameter("districtId") != null
-                                    || request.getParameter("cityId") != null
-                                    || request.getParameter("houseNumber") != null) {
+                                    && request.getParameter("districtId") != null
+                                    && request.getParameter("cityId") != null
+                                    && request.getParameter("houseNumber") != null) {
+                                System.out.println("OK");
                                 AddressDAO ad = new AddressDAO();
                                 String wardId = request.getParameter("wardId");
                                 String districtId = request.getParameter("districtId");
@@ -122,6 +152,13 @@ public class CartController extends HttpServlet {
                                 order.setAddress(address);
                                 request.setAttribute("controller", "cart");
                                 request.setAttribute("action", "pay");
+                            }
+                            if (request.getAttribute("order") == null) {
+                                System.out.println("cart !!!");
+                                session.setAttribute("cart", order);
+                            } else {
+                                System.out.println("order !!!");
+                                request.setAttribute("order", order);
                             }
                         } else {
                             throw new Exception();
@@ -154,12 +191,37 @@ public class CartController extends HttpServlet {
                     request.setAttribute("message", "Error when processing the request");
             }
         }
+        System.out.println("=====1===1===1===");
+        System.out.println(request.getAttribute("order"));
+        System.out.println("=====2===2===2===");
         request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
     }
 
-    public static OrderDTO handleCart(OrderDTO cart, int productId, int quantity, String option) throws ClassNotFoundException, SQLException, Exception {
+    public static void handleOrder(OrderDTO cart, int[] pIdList, OrderDTO order) throws ClassNotFoundException, SQLException, Exception {
+        for (int i : pIdList) {
+            for (OrderByShopDTO obs : cart.getOrderByShopList()) {
+                for (OrderDetailDTO od : obs.getOrderDetailList()) {
+                    if (od.getProductId() == i) {
+                        int indexOBS = checkOrderByShop(order.getOrderByShopList(),
+                                obs.getEmailSeller());
+                        if (indexOBS != -1) {
+                            order.getOrderByShopList().get(indexOBS)
+                                    .getOrderDetailList().add(od);
+                        } else {
+                            OrderByShopDTO os = new OrderByShopDTO(obs.getEmailSeller(),
+                                    obs.getName(), obs.getAddress(), new ArrayList<>());
+                            os.getOrderDetailList().add(od);
+                            order.getOrderByShopList().add(os);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static OrderDTO handleCart(OrderDTO cart, int productId, int quantity,
+            String option) throws ClassNotFoundException, SQLException, Exception {
         ProductDAO p = new ProductDAO();
-        System.out.println(option);
         if (option.equalsIgnoreCase("deleteAll")) {
             cart.setOrderByShopList(new ArrayList<>());
             System.out.println(cart);
@@ -198,7 +260,6 @@ public class CartController extends HttpServlet {
                 return null;
             }
         }
-
         return null;
     }
 
@@ -256,7 +317,7 @@ public class CartController extends HttpServlet {
 //        List<OrderByShopDTO> obsList = new ArrayList<>();
 //        OrderByShopDTO os = new OrderByShopDTO();
 ////        obsList.add(os);
-//        OrderDTO cart = new OrderDTO("tên", null, new ArrayList<>());
+        OrderDTO cart = new OrderDTO("tên", null, new ArrayList<>());
 ////        cart.setOrderByShopList(obsList);
 //
 //        if (cart.getOrderByShopList() == null) {
@@ -273,13 +334,14 @@ public class CartController extends HttpServlet {
 //        System.out.println(cart);
 //        System.out.println(obsList.add(os));
 //        System.out.println(checkOrderByShop(obsList, "a"));
-//        cart = handleCart(cart, 384, 0, "add");
+        cart = handleCart(cart, 384, 0, "add");
+        System.out.println(cart);
 //        System.out.println(cart);
 
-        if (Files.exists(Paths.get("web/img/phinhse150972@fpt.edu.vn.png"))) {
-//            System.out.println(Files.deleteIfExists(Paths.get("web/img/")));
-            System.out.println("OK");
-        }
+//        if (Files.exists(Paths.get("web/img/phinhse150972@fpt.edu.vn.png"))) {
+////            System.out.println(Files.deleteIfExists(Paths.get("web/img/")));
+//            System.out.println("OK");
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

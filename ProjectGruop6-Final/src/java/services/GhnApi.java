@@ -58,7 +58,7 @@ public class GhnApi {
     }
 
     public static String getDistrictId(String cityId, String districtName) throws IOException {
-        System.out.println("cityId: " + cityId);
+//        System.out.println("cityId: " + cityId);
         String response = Request.Post("https://online-gateway.ghn.vn/shiip/public-api/master-data/district")
                 .setHeaders(getBasicHeaders())
                 .bodyString("{\n"
@@ -72,7 +72,7 @@ public class GhnApi {
     }
     
     public static String getWardId(String districtId, String wardName) throws IOException {
-        System.out.println("districtId: " + districtId);
+//        System.out.println("districtId: " + districtId);
         String response = Request.Post("https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id")
                 .setHeaders(getBasicHeaders())
                 .bodyString("{\n"
@@ -91,7 +91,7 @@ public class GhnApi {
     public static String[] getFullAddressId(String cityName, String districtName, String wardName) throws IOException {
         String districtId = getDistrictId(cityName, districtName);
         String cityId = getCityId(cityName);
-        System.out.println("districtId: " + districtId);
+//        System.out.println("districtId: " + districtId);
         System.out.println(ContentType.APPLICATION_JSON);
         String response = Request.Post("https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id")
                 .setHeaders(getBasicHeaders())
@@ -250,17 +250,17 @@ public class GhnApi {
     }
 
     public static void main(String[] args) {
-        try {
-            System.out.println(getCityId("Hồ Chí Minh"));
-            System.out.println(getDistrictId("202", "Quận 12"));
-            System.out.println(getWardId("1454", "Thạnh Lộc"));
-            System.out.println(GhnApi.getShipingFee(
-                                                      "Hồ Chí Minh", "Hồ Chí Minh", 
-                                                      "Quận 12","Quận " + "12",
-                                                      "Thạnh Lộc", "2")
-            );  
-        } catch (IOException ex) {
-            Logger.getLogger(GhnApi.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            System.out.println(getCityId("Hồ Chí Minh"));
+//            System.out.println(getDistrictId("202", "Quận 12"));
+//            System.out.println(getWardId("1454", "Thạnh Lộc"));
+//            System.out.println(GhnApi.getShipingFee(
+//                                                      "Hồ Chí Minh", "Hồ Chí Minh", 
+//                                                      "Quận 12","Quận " + "12",
+//                                                      "Thạnh Lộc", "2")
+//            );  
+//        } catch (IOException ex) {
+//            Logger.getLogger(GhnApi.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 }

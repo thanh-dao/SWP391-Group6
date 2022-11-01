@@ -88,16 +88,16 @@ public class UserController extends HttpServlet {
                     try {
                         UserDTO seller = new UserDAO().findUser(email);
                         ProductDAO p = new ProductDAO();
-                        List<ProductDTO> productList = p.getProductList(1, 
+                        List<ProductDTO> productList = p.getProductList(1,
                                 Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
                                 p.SOLD_COUNT, p.DESC, seller.getEmail());
                         OrderByShopDAO obs = new OrderByShopDAO();
-                        request.setAttribute("cr", 
-                                obs.getCancellationRate(seller.getEmail()));
-                        request.setAttribute("count", p.getCountProducts(seller.getEmail()));
-                        request.setAttribute("rating", obs.getTotalRating(seller.getEmail()));
                         request.setAttribute("seller", seller);
                         request.setAttribute("productList", productList);
+                        request.setAttribute("count", p.getCountProducts(seller.getEmail()));
+                        request.setAttribute("cr",
+                                obs.getCancellationRate(seller.getEmail()));
+                        request.setAttribute("rating", obs.getTotalRating(seller.getEmail()));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

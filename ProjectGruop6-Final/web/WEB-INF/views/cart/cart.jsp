@@ -239,7 +239,7 @@
                                     </tr>
                                 </thead>
                             </table>
-                            <c:forEach items="${order.getOrderByShopList()}" var="i">
+                            <c:forEach items="${cart.getOrderByShopList()}" var="i">
                                 <table class="table table-striped cart-table">
                                     <thead style="background-color: #FFEFD5;">                                  
                                         <tr row>
@@ -322,18 +322,18 @@
                                     <div>
                                         <span class="font-bold">Địa chỉ: </span>
                                         <c:choose>
-                                            <c:when test = "${empty order.address.houseNumber || 
-                                                              empty order.address.wardName || 
-                                                              empty order.address.districtName||
-                                                              empty order.address.cityName}">
+                                            <c:when test = "${empty cart.address.houseNumber || 
+                                                              empty cart.address.wardName || 
+                                                              empty cart.address.districtName||
+                                                              empty cart.address.cityName}">
                                                     Chưa cập nhật địa chỉ nhận hàng
                                             </c:when>
                                             <c:otherwise>
                                                 <span class="customer-info">
-                                                    ${order.address.houseNumber}, 
-                                                    ${order.address.wardName}, 
-                                                    ${order.address.districtName}, 
-                                                    ${order.address.cityName}
+                                                    ${cart.address.houseNumber}, 
+                                                    ${cart.address.wardName}, 
+                                                    ${cart.address.districtName}, 
+                                                    ${cart.address.cityName}
                                                 </span>
                                             </c:otherwise>
                                         </c:choose>
@@ -349,16 +349,16 @@
                                 </span>
                             </div>
                             <c:choose>
-                                <c:when test = "${empty order.address.houseNumber || 
-                                                  empty order.address.wardName || 
-                                                  empty order.address.districtName||
-                                                  empty order.address.cityName ||
-                                                  empty user.phone ||
-                                                  not empty order.orderByShopList}">
+                                <c:when test = "${empty cart.address.houseNumber && 
+                                                  empty cart.address.wardName && 
+                                                  empty cart.address.districtName &&
+                                                  empty cart.address.cityName &&
+                                                  empty user.phone &&
+                                                  !empty cart.orderByShopList}">
                                         <a class="genric-btn primary circle" onclick="handlePay()" href="<c:url value="/cart/shipInformation.do"/>">Thanh Toán</a>
                                 </c:when>
-                                <c:when test = "${not empty order.orderByShopList}">
-                                    <button class="btn-buy" onclick="window.location.href = '<c:url value="/cart/pay.do"/>'">Thanh Toán</button>
+                                <c:when test = "${not empty cart.orderByShopList}">
+                                    <a class="btn-buy" onclick="handlePay()" href="<c:url value="/cart/pay.do"/>">Thanh Toán</a>
                                 </c:when>
                                 <c:otherwise>
                                 </c:otherwise>
@@ -369,7 +369,7 @@
             </div>
         </div>
         <script>
-            let products = [];
+            const products = new Set();
             const handlePay = () => {
                 const price = parseInt(document.querySelector("#price").innerHTML.substring(1).replace(",", ""));
                 localStorage.setItem("vndPrice", price);
@@ -388,11 +388,14 @@
                             localStorage.setItem("usdPrice", data.result);
                         })
                         .catch(error => console.log('error', error));
-
-
-                $.ajax("<c:url value="/cart/pay.do"/>", {
+                test();
+//                window.location.href = '<c:url value="/cart/pay.do"/>
+            }
+            const test = () => {
+                $.ajax("<c:url value="/cart/cart.do"/>", {
                     data: {
-                        pIdList: createOrder(),
+                        pIdList: JSON.stringify(Array.from(createOrder())),
+                        func: "create",
                     }
                 })
             }
@@ -400,17 +403,11 @@
                 const els = document.querySelectorAll('.product-item')
                 els.forEach(item => {
                     if (item.checked) {
-                        products.push(
-                                {
-                                    id: item.getAttribute("id"),
-                                    quantity: item.parentElement.parentElement.querySelector(".ip-qua-style").value,
-                                }
-                        );
+                        products.add(parseInt(item.getAttribute("id")));
                     } else {
-                        products = products.filter(item => item.id !== item.getAttribute("id"))
+                        products.delete(parseInt(item.getAttribute("id")));
                     }
                 })
-
                 return products;
             }
             const deleteAll = () => {

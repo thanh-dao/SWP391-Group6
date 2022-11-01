@@ -61,17 +61,17 @@ public class HomeController extends HttpServlet {
                 BannerDAO b = new BannerDAO();
                 try {
                     List<CategoryDTO> cateList = cateDAO.findAll();
-                    cateList.forEach(i -> {
-                        System.out.println(i);
-                    });
+//                    cateList.forEach(i -> {
+//                        System.out.println(i);
+//                    });
                     session.setAttribute("cateList", cateList);
                     List<ProductDTO> bestSellers = proDAO.getProductList(0, ProductDAO.SOLD_COUNT, ProductDAO.DESC);
                     List<ProductDTO> newProducts = proDAO.getProductList(0, ProductDAO.APPROVE_AT, ProductDAO.DESC);
                     BannerDTO banner = b.get(0);
                     request.setAttribute("bestSellers", bestSellers);
                     request.setAttribute("newProducts", newProducts);
-                    System.out.println(banner);
-                    request.setAttribute("banner", banner);
+//                    System.out.println(banner);
+//                    request.setAttribute("banner", banner);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -92,8 +92,8 @@ public class HomeController extends HttpServlet {
                             proDAO.SOLD_COUNT, proDAO.DESC, user.getEmail());
                     List<ProductDTO> productListCategory = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
                             proDAO.SOLD_COUNT, proDAO.DESC, product.getCateId());
-                    System.out.println(user.toString());
-                    System.out.println(productListCategory);
+//                    System.out.println(user.toString());
+//                    System.out.println(productListCategory);
                     request.setAttribute("rating", rating);
                     request.setAttribute("product", product);
                     request.setAttribute("seller", user);

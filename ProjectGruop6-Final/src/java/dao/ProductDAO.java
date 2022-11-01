@@ -490,6 +490,7 @@ public class ProductDAO {
         }
         return list;
     }
+
     //count product seller
     public int getCountProducts(String emailSeller) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
@@ -814,10 +815,20 @@ public class ProductDAO {
         try {
             //            p.getProductListByProductName(1, "a").forEach(i -> System.out.println(i));
             ;
-            System.out.println(p.getProductList(1,
-                    Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
-                    p.SOLD_COUNT, p.DESC, "LinhTKSS170602@fpt.edu.vn").toString());
-            System.out.println(p.getCountProducts("LinhTKSS170602@fpt.edu.vn"));
+//            System.out.println(p.getProductList(1,
+//                    Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
+//                    p.SOLD_COUNT, p.DESC, "HanNHGSS170456@fpt.edu.vn").toString());
+            String s = "[149,125]";
+            String[] a = s.replace("[", "").replace("]", "").split(",");
+            int[] b = new int[a.length];
+            for (int i = 0; i < a.length; i++) {
+                b[i] = Integer.parseInt(a[i]);
+            }
+            for (int i = 0; i < b.length; i++) {
+                int j = b[i];
+                System.out.println(j);
+            }
+//            System.out.println(p.getCountProducts("LinhTKSS170602@fpt.edu.vn"));
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();

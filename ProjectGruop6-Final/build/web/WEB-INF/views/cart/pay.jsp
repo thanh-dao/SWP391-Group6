@@ -320,6 +320,7 @@
     <body>
         <div class="style-margin">
             <div class="container">
+                <h1>${order}</h1>
                 <div style="margin-bottom: 18px;"></div>
                 <form action="pay.do">
                     <div class="row">
@@ -438,7 +439,7 @@
                                                     }
                                                 }).render('#paypal-button-container');
                                             } else {
-//                                                buttonContainer.innerHTML = `<button type="button" name="action" value="pay" class="btn-buy" onclick="window.location.href = '/ProjectGroup6/cart/pay.do'">Thanh Toán</button>`
+                                               buttonContainer.innerHTML = `<button type="submit" class="btn-buy">Thanh Toán</button>`
                                             }
                                         }
         </script>
