@@ -16,7 +16,30 @@ import java.util.List;
 import utils.DBUtil;
 
 public class ReviewDAO {
-
+    
+    public int getReviewId(int orderDetailId, int producId) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("select review_id from review r \n"
+                + "inner join order_detail od on r.order_detail_id = od.order_detail_id\n"
+                + "where r.order_detail_id = ? and od.product_id = ? ");
+        stm.setInt(1, orderDetailId);
+        stm.setInt(2, producId);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            return rs.getInt(1);
+        }
+        return -1;
+    }
+    
+    public int getMaxReviewId() throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("select max(review_id) from review");
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            return rs.getInt(1);
+        }
+        return -1;
+    }
     public List<ReviewDTO> getReview(int productId) throws ClassNotFoundException, SQLException {
         List<ReviewDTO> list = new ArrayList<>();
         Connection conn = DBUtil.getConnection();
@@ -46,7 +69,7 @@ public class ReviewDAO {
         }
         return list;
     }
-
+    
     public double getAVGRatingOfProduct(int productId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT AVG(r.rating)\n"
@@ -60,7 +83,7 @@ public class ReviewDAO {
         rs.next();
         return Double.parseDouble(String.format("%,.1f", rs.getDouble(1)));
     }
-
+    
     public List<ReviewDTO> getListReviewForCheck(int option, boolean existAdmin) throws ClassNotFoundException, SQLException {
         String o = "status ";
         if (option == 1 && existAdmin) {
@@ -104,7 +127,7 @@ public class ReviewDAO {
         }
         return list;
     }
-
+    
     public int getTotalReview() throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select count(review.review_id) from review");
@@ -114,7 +137,7 @@ public class ReviewDAO {
         }
         return -1;
     }
-
+    
     public int getTotalReview(int month) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select count(review.review_id) from review where month([date])=  ?");
@@ -125,7 +148,7 @@ public class ReviewDAO {
         }
         return -1;
     }
-
+    
     public ArrayList<Integer> getTotalReviewCurrentMonths(int monthNumber) throws ClassNotFoundException, SQLException {
         ArrayList<Integer> arr = new ArrayList<>();
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
@@ -134,7 +157,7 @@ public class ReviewDAO {
         }
         return arr;
     }
-
+    
     public String getReviewJson(List<ReviewDTO> reviewList) throws ClassNotFoundException, SQLException {
         Gson gson = new Gson();
         HashMap<String, String> hashmap = new HashMap<>();
@@ -160,7 +183,7 @@ public class ReviewDAO {
         }
         return a + "]";
     }
-
+    
     public boolean updateReview(String emailAdmin, int reviewId, boolean status) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("UPDATE review \n"
@@ -171,11 +194,31 @@ public class ReviewDAO {
         stm.setInt(3, reviewId);
         return stm.executeUpdate() == 1;
     }
-
+    
+    public boolean createReview(ReviewDTO review) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("INSERT INTO [dbo].[review]\n"
+                + "           ([order_detail_id]\n"
+                + "           ,[rating]\n"
+                + "           ,[comment]\n"
+                + "           ,[email_admin]\n"
+                + "           ,[status]\n"
+                + "           ,[date])\n"
+                + "values \n"
+                + "(?, ?, ?, ?, ?, ?)");
+        stm.setInt(1, review.getOrderDetailId());
+        stm.setDouble(2, review.getRating());
+        stm.setString(3, review.getComment());
+        stm.setString(4, review.getEmailAdmin());
+        stm.setBoolean(5, review.isStatus());
+        stm.setDate(6, (java.sql.Date) review.getDate());
+        return stm.executeUpdate() == 1;
+    }
+    
     public static void main(String[] args) {
         ReviewDAO r = new ReviewDAO();
         try {
-            System.out.println(r.getReviewJson(r.getListReviewForCheck(1, true)));
+            System.out.println(r.getReviewId(63, 149));
 //            System.out.println(r.updateReview("ThinhPQSE151077@fpt.edu.vn", 25, true));
         } catch (Exception e) {
         }

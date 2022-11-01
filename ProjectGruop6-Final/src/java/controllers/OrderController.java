@@ -1,7 +1,6 @@
 package controllers;
 
 import config.Config;
-import dao.OrderByShopDAO;
 import dao.OrderDAO;
 import dao.ProductDAO;
 import dto.ProductDTO;
@@ -12,6 +11,8 @@ import dto.UserDTO;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,6 +38,7 @@ public class OrderController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
         HttpSession session = (HttpSession) request.getSession();
+        
         if (session.getAttribute("user") == null) {
             request.setAttribute("controller", "user");
             request.setAttribute("action", "login");

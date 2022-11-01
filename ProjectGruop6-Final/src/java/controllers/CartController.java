@@ -93,27 +93,36 @@ public class CartController extends HttpServlet {
                 case "pay": {
                     System.out.println("pay HERE");
                     try {
-                        if (session.getAttribute("order") != null) {
-                            System.out.println("OK");
+                        String payId = request.getParameter("payId");
+                        String deliId = request.getParameter("deliId");
+                        UserDTO user = (UserDTO) session.getAttribute("user");
+                        if (session.getAttribute("order") != null
+                                && request.getParameter("payId") != null
+                                && request.getParameter("deliId") != null) {
+                            System.out.println(request.getParameter("pIdList"));
                             OrderDTO order = (OrderDTO) session.getAttribute("order");
-                            if (request.getParameter("payId") != null
-                                    && request.getParameter("deliId") != null) {
-                                order.setPaymentId(Integer.parseInt(request.getParameter("payId")));
-                                order.setDeliveryId(Integer.parseInt(request.getParameter("deliId")));
-                                String payId = request.getParameter("payId");
-                                String deliId = request.getParameter("deliId");
-                                if (payId.equals("1")) {
-                                    order.setPayId(request.getParameter("paypalOrderId"));
-                                }
-                                if (deliId.equals("1")) {
-//                                GhnApi.createOrder();
-                                }
-                                new OrderDAO().createOrder(order);
-                                request.setAttribute("controller", "cart");
-                                request.setAttribute("action", "thanks");
+                            order.setPaymentId(Integer.parseInt(request.getParameter("payId")));
+                            order.setDeliveryId(Integer.parseInt(request.getParameter("deliId")));
+                            if(payId.equals("1")){
+                                System.out.println("paypal order id: " + request.getParameter("paypalOrderId"));
+                                order.setPayId(request.getParameter("paypalOrderId"));
                             }
+                            UserDAO uDAO = new UserDAO();
+                            if(deliId.equals("1")){
+                                order.getOrderByShopList().forEach(i -> {
+                                    try {
+                                        String ghnOrderCode = GhnApi.createOrder(user, uDAO.findUser(i.getEmailSeller()), i.getOrderDetailList(), payId.equals("1") ? "0" : Integer.toString(i.getTotal()));
+                                        i.setShipId(ghnOrderCode);
+                                    } catch (ClassNotFoundException | SQLException | IOException ex) {
+                                        ex.printStackTrace();
+                                    }
+                                });
+                            }
+                            new OrderDAO().createOrder(order);
+                            request.setAttribute("controller", "cart");
+                            request.setAttribute("action", "thanks");
                         } else {
-                            throw new Exception();
+                            throw new Exception("Error");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

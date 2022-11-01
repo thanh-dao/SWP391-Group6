@@ -38,12 +38,23 @@ public class CategoryDAO {
             list.add(new CategoryDTO(rs.getInt(1), rs.getString(2), rs.getString(3)));
         return list;
     }
+    
+    public CategoryDTO find(int cateId) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        List<CategoryDTO> list = new ArrayList<>();
+        PreparedStatement stm = conn.prepareStatement("select category_id, name, icon "
+                + "from category "
+                + "where category_id = ? ");
+        stm.setInt(1, cateId);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) 
+            return new CategoryDTO(rs.getInt(1), rs.getString(2), rs.getString(3));
+        return null;
+    }
     public static void main(String[] args) {
         CategoryDAO cateDAO = new CategoryDAO();
         try {
-            cateDAO.findAll().forEach(i -> {
-                System.out.println(i);
-            });
+            System.out.println(cateDAO.find(1));
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

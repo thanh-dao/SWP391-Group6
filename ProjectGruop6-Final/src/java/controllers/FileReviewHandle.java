@@ -7,11 +7,17 @@ package controllers;
 
 import dao.ProductDAO;
 import dao.ProductImageDAO;
+import dao.ReviewDAO;
+import dao.ReviewImageDAO;
+import dto.ReviewDTO;
 import dto.UserDTO;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,9 +32,9 @@ import javax.servlet.http.Part;
 import org.apache.commons.io.FilenameUtils;
 import utils.Constants;
 
-@WebServlet(name = "FileProductHandle", urlPatterns = {"/FileProductHandle"})
+@WebServlet(name = "FileReviewHandle", urlPatterns = {"/FileReviewHandle"})
 @MultipartConfig(location = Constants.IMAGE_ABSOLUTE_DIRECTORY)
-public class FileProductHandle extends HttpServlet {
+public class FileReviewHandle extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,32 +47,56 @@ public class FileProductHandle extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductDAO proDAO = new ProductDAO();
-        HttpSession session = request.getSession();
-
-        String sellerEmail = ((UserDTO) session.getAttribute("user")).getEmail();
-        try {
-            int productId = proDAO.getMaxId() + 1;
-            handleImage(request, productId);
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(FileProductHandle.class.getName()).log(Level.SEVERE, null, ex);
+        String function = request.getParameter("func");
+        ReviewDAO reviewDAO = new ReviewDAO();
+        int odid = 0;
+        int productId = 0;
+        switch (function) {
+            case "uploadReviewText": {
+            try {
+                ReviewDTO review = new ReviewDTO();
+                odid = Integer.parseInt(request.getParameter("odid"));
+                review.setOrderDetailId(odid);
+                review.setRating(Double.parseDouble(request.getParameter("rating")));
+                productId = Integer.parseInt(request.getParameter("productId"));
+                review.setProductId(productId);
+                review.setComment(request.getParameter("comment"));
+                review.setDate(new java.sql.Date(new Date().getTime()));
+                reviewDAO.createReview(review);
+                break;
+            } catch (ClassNotFoundException | SQLException ex) {
+                ex.printStackTrace();;
+            }
+            }
+            case "uploadReviewImage": {
+                try {
+                    int reviewId = reviewDAO.getReviewId(odid, productId);
+                    if (reviewId == -1) {
+                        reviewId = reviewDAO.getMaxReviewId();
+                    }
+                    handleImage(request, reviewId);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(FileReviewHandle.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
+
     }
 
-    public void renameFileBaseOnImgId(String[] arr, ProductImageDAO pImageDAO, int productId) {
+    public void renameFileBaseOnImgId(String[] arr, ReviewImageDAO rImageDAO, int reviewId) {
         for (int i = 0; i < arr.length; i++) {
             try {
                 String currentFileName = arr[i];
-                int imgId = pImageDAO.getMaxId() + 1;
+                int imgId = rImageDAO.getMaxId();
                 String localFileExtension = FilenameUtils.getExtension(currentFileName);
-                String localFileName = Integer.toString(imgId + 1) + "." + localFileExtension;
+                String localFileName ="re" + Integer.toString(imgId + 1) + "." + localFileExtension;
                 String localFileDir = Constants.IMAGE_ABSOLUTE_DIRECTORY + "/" + localFileName;
                 File file = new File(Constants.IMAGE_ABSOLUTE_DIRECTORY + "/" + currentFileName);
                 file.renameTo(new File(localFileDir));
-                pImageDAO.addImage(Integer.toString(productId), localFileName, i == 0);
+                rImageDAO.addImage(Integer.toString(reviewId), localFileName);
 
             } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(FileProductHandle.class
+                Logger.getLogger(FileReviewHandle.class
                         .getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -82,29 +112,28 @@ public class FileProductHandle extends HttpServlet {
         return contentDisposition;
     }
 
-    public void handleImage(HttpServletRequest request, int productId) throws IOException, ServletException {
+    public void handleImage(HttpServletRequest request, int reviewId) throws IOException, ServletException {
         Collection<Part> part = request.getParts();
         System.out.println(part);
-        ProductImageDAO pImageDAO = new ProductImageDAO();
+        ReviewImageDAO reviewImgDAO = new ReviewImageDAO();
         HashSet<String> downloadedFiles = new HashSet<>();
-        System.out.println(part);
         part.forEach(i -> {
             String fileName = getFileName(i);
-            System.out.println(fileName);
+            System.out.println("File: " + fileName);
             if (fileName != null) {
                 try {
                     i.write(fileName);
                     downloadedFiles.add(fileName);
 
                 } catch (IOException ex) {
-                    Logger.getLogger(FileProductHandle.class
+                    Logger.getLogger(FileReviewHandle.class
                             .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
         String[] arr = downloadedFiles.toArray(new String[downloadedFiles.size()]);
         System.out.println(arr);
-        renameFileBaseOnImgId(arr, pImageDAO, productId);
+        renameFileBaseOnImgId(arr, reviewImgDAO, reviewId);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
