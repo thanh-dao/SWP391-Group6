@@ -320,7 +320,6 @@
     <body>
         <div class="style-margin">
             <div class="container">
-                <h1>${order}</h1>
                 <div style="margin-bottom: 18px;"></div>
                 <form action="pay.do" id="form" method="POST">
                     <div class="row">

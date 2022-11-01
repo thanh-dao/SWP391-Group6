@@ -191,98 +191,98 @@
             </div>
         </form>
         <script>
-                                            const selectCitySelector = ".city-picker";
-                                            const selectWardSelector = ".ward-picker";
-                                            const selectDistrictSelector = ".district-picker";
-                                            const renderOption = (selector, arr, option) => {
-                                                const el = document.querySelector(selector)
-                                                el.innerHTML = "";
-                                                let userAddress; // holds city or district or ward of user
-                                                if (option === "city") {
-                                                    userAddress = "${sessionScope.user.address.cityName}".normalize('NFC');
-                                                } else if (option === "district") {
-                                                    userAddress = "${sessionScope.user.address.districtName}".normalize('NFC');
-                                                } else {
-                                                    userAddress = "${sessionScope.user.address.wardName}".normalize('NFC');
-                                                }
-                                                let selected = ""
-                                                for (var i = 0; i < arr.length; i++) {
-                                                    const item = arr[i]
-                                                    if (userAddress.normalize('NFC') == item.name.normalize('NFC') || i == 0) {
-                                                        selected = "selected";
-                                                    } else {
-                                                        selected = ""
-                                                    }
-                                                    el.innerHTML += "<option  " + selected + " value= " + item.id + " >" + item.name + "</option>";
-                                                }
-                                                $(selector).select2({disabled: false})
+            const selectCitySelector = ".city-picker";
+            const selectWardSelector = ".ward-picker";
+            const selectDistrictSelector = ".district-picker";
+            const renderOption = (selector, arr, option) => {
+                const el = document.querySelector(selector)
+                el.innerHTML = "";
+                let userAddress; // holds city or district or ward of user
+                if (option === "city") {
+                    userAddress = "${sessionScope.user.address.cityName}".normalize('NFC');
+                } else if (option === "district") {
+                    userAddress = "${sessionScope.user.address.districtName}".normalize('NFC');
+                } else {
+                    userAddress = "${sessionScope.user.address.wardName}".normalize('NFC');
+                }
+                let selected = ""
+                for (var i = 0; i < arr.length; i++) {
+                    const item = arr[i]
+                    if (userAddress.normalize('NFC') == item.name.normalize('NFC') || i == 0) {
+                        selected = "selected";
+                    } else {
+                        selected = ""
+                    }
+                    el.innerHTML += "<option  " + selected + " value= " + item.id + " >" + item.name + "</option>";
+                }
+                $(selector).select2({disabled: false})
 //                                                return selected
-                                            }
+            }
 
-                                            const renderCity = () => {
-                                                $.ajax("<c:url value="/AddressHandleAjax"/>", {
-                                                    data: {
-                                                        param: "city",
-                                                    },
-                                                    success: function (data) {
-                                                        arr = JSON.parse(data)
-                                                        renderOption(selectCitySelector, arr, "city", "Chọn tỉnh/thành phố")
-                                                        return arr;
-                                                    }
-                                                });
-                                            }
-                                            const renderWardOrDistrict = (unitId, parentUnitId, unit, placeHolderMsg) => {
-                                                $.ajax("<c:url value="/AddressHandleAjax"/>", {
-                                                    data: {
-                                                        param: unit,
-                                                        [unit == "district" ? "cityId" : "districtId"]: parentUnitId
-                                                    },
-                                                    success: function (data) {
-                                                        arr = JSON.parse(data)
-                                                        renderOption(unit === "district" ? selectDistrictSelector : selectWardSelector, arr, unit, placeHolderMsg)
-                                                    }
-                                                });
-                                            }
-                                            window.onload = () => {
-                                                $(selectCitySelector).select2()
+            const renderCity = () => {
+                $.ajax("<c:url value="/AddressHandleAjax"/>", {
+                    data: {
+                        param: "city",
+                    },
+                    success: function (data) {
+                        arr = JSON.parse(data)
+                        renderOption(selectCitySelector, arr, "city", "Chọn tỉnh/thành phố")
+                        return arr;
+                    }
+                });
+            }
+            const renderWardOrDistrict = (unitId, parentUnitId, unit, placeHolderMsg) => {
+                $.ajax("<c:url value="/AddressHandleAjax"/>", {
+                    data: {
+                        param: unit,
+                        [unit == "district" ? "cityId" : "districtId"]: parentUnitId
+                    },
+                    success: function (data) {
+                        arr = JSON.parse(data)
+                        renderOption(unit === "district" ? selectDistrictSelector : selectWardSelector, arr, unit, placeHolderMsg)
+                    }
+                });
+            }
+            window.onload = () => {
+                $(selectCitySelector).select2()
 //                            document.querySelector("#img-form").addEventListener('click', (e) => {
 //                                e.preventDefault();
 //                            })
-                                                const isAddressNull = ${sessionScope.user == null ? true : sessionScope.user.address.hasIdNull()}
-                                                if (isAddressNull) {
+                const isAddressNull = ${sessionScope.user == null ? true : sessionScope.user.address.hasIdNull()}
+                if (isAddressNull) {
 
-                                                    renderCity();
-                                                } else {
-                                                    const cityId = ${sessionScope.user == null ? 1 : sessionScope.user.address.cityId == null ? 1 : sessionScope.user.address.cityId};
-                                                    const districtId = ${sessionScope.user == null ? 1 : sessionScope.user.address.districtId == null ? 1 : sessionScope.user.address.districtId};
-                                                    const wardId = ${sessionScope.user == null ? 1 : sessionScope.user.address.wardId == null ? 1 : sessionScope.user.address.wardId};
-                                                    renderCity()
-                                                    renderWardOrDistrict(districtId, cityId, "district", "Chọn quận/huyện");
-                                                    renderWardOrDistrict(wardId, districtId, "ward", "Chọn phường/xã");
-                                                }
-                                                $(selectDistrictSelector).select2({disabled: isAddressNull})
-                                                $(selectWardSelector).select2({disabled: isAddressNull})
-                                            };
+                    renderCity();
+                } else {
+                    const cityId = ${sessionScope.user == null ? 1 : sessionScope.user.address.cityId == null ? 1 : sessionScope.user.address.cityId};
+                    const districtId = ${sessionScope.user == null ? 1 : sessionScope.user.address.districtId == null ? 1 : sessionScope.user.address.districtId};
+                    const wardId = ${sessionScope.user == null ? 1 : sessionScope.user.address.wardId == null ? 1 : sessionScope.user.address.wardId};
+                    renderCity()
+                    renderWardOrDistrict(districtId, cityId, "district", "Chọn quận/huyện");
+                    renderWardOrDistrict(wardId, districtId, "ward", "Chọn phường/xã");
+                }
+                $(selectDistrictSelector).select2({disabled: isAddressNull})
+                $(selectWardSelector).select2({disabled: isAddressNull})
+            };
 
-                                            const handleCityChange = async (el) => {
-                                                const cityId = el.value;
+            const handleCityChange = async (el) => {
+                const cityId = el.value;
 
-                                                console.log("1111" + cityId)
-                                                const wardId = $(selectWardSelector).value
-                                                const districtId = $(selectDistrictSelector).value
-                                                await renderWardOrDistrict(districtId, cityId, "district", "Chọn quận/huyện");
-                                                $(selectWardSelector).html("")
-                                                $(selectWardSelector).select2({disabled: true, data: []})
+                console.log("1111" + cityId)
+                const wardId = $(selectWardSelector).value
+                const districtId = $(selectDistrictSelector).value
+                await renderWardOrDistrict(districtId, cityId, "district", "Chọn quận/huyện");
+                $(selectWardSelector).html("")
+                $(selectWardSelector).select2({disabled: true, data: []})
 
-                                            }
+            }
 
-                                            const handleDistrictChange = async (el) => {
-                                                const districtId = el.value;
-                                                const wardId = $(selectWardSelector).value;
-                                                const cityId = $(selectCitySelector).value;
-                                                console.log(districtId)
-                                                await renderWardOrDistrict(wardId, districtId, "ward", "Chọn phường/xã");
-                                            }
+            const handleDistrictChange = async (el) => {
+                const districtId = el.value;
+                const wardId = $(selectWardSelector).value;
+                const cityId = $(selectCitySelector).value;
+                console.log(districtId)
+                await renderWardOrDistrict(wardId, districtId, "ward", "Chọn phường/xã");
+            }
         </script>
     </body>
 </html>

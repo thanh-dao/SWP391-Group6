@@ -48,11 +48,6 @@ public class CartController extends HttpServlet {
         System.out.println("HERE");
         System.out.println(action + " " + controller);
         HttpSession session = request.getSession();
-        if (request.getAttribute("order") != null) {
-            System.out.println("ORDER");
-        } else {
-            System.out.println("CART");
-        }
         if (session.getAttribute("user") == null) {
             request.setAttribute("controller", "user");
             request.setAttribute("action", "login");
@@ -64,14 +59,6 @@ public class CartController extends HttpServlet {
                         OrderDTO cart = session.getAttribute("cart") == null
                                 ? new OrderDTO(user.getEmail(), user.getAddress(), new ArrayList<>())
                                 : (OrderDTO) session.getAttribute("cart");
-//                        if (request.getAttribute("order") != null) {
-//                            request.setAttribute("order", request.getAttribute("order"));
-//                        }
-                        if (request.getAttribute("order") != null) {
-                            System.out.println("ORDER");
-                        } else {
-                            System.out.println("CART");
-                        }
                         if (request.getParameter("func") != null) {
                             String func = request.getParameter("func");
                             if (func.equalsIgnoreCase("create")) {
@@ -84,13 +71,8 @@ public class CartController extends HttpServlet {
                                     OrderDTO order = new OrderDTO(cart.getEmailBuyer(),
                                             cart.getAddress(), new ArrayList<>());
                                     handleOrder(cart, arrpId, order);
-                                    System.out.println("========1======");
-                                    System.out.println(order);
-                                    request.setAttribute("order", order);
-//                                    request.ge
+                                    session.setAttribute("order", order);
                                     System.out.println("CREATE");
-                                    System.out.println("========2======");
-                                    System.out.println(request.getAttribute("order"));
                                 }
                             } else {
                                 int productId = request.getParameter("pId") != null
@@ -111,41 +93,25 @@ public class CartController extends HttpServlet {
                 case "pay": {
                     System.out.println("pay HERE");
                     try {
-<<<<<<< HEAD
-                        if (request.getAttribute("order") != null) {
+                        if (session.getAttribute("order") != null) {
                             System.out.println("OK");
-                            OrderDTO order = (OrderDTO) request.getAttribute("order");
-                            request.setAttribute("order", order);
+                            OrderDTO order = (OrderDTO) session.getAttribute("order");
                             if (request.getParameter("payId") != null
                                     && request.getParameter("deliId") != null) {
                                 order.setPaymentId(Integer.parseInt(request.getParameter("payId")));
                                 order.setDeliveryId(Integer.parseInt(request.getParameter("deliId")));
+                                String payId = request.getParameter("payId");
+                                String deliId = request.getParameter("deliId");
+                                if (payId.equals("1")) {
+                                    order.setPayId(request.getParameter("paypalOrderId"));
+                                }
+                                if (deliId.equals("1")) {
+//                                GhnApi.createOrder();
+                                }
                                 new OrderDAO().createOrder(order);
                                 request.setAttribute("controller", "cart");
                                 request.setAttribute("action", "thanks");
                             }
-                            request.setAttribute("order", order);
-=======
-                        String payId = request.getParameter("payId");
-                        String deliId = request.getParameter("deliId");
-                        if (session.getAttribute("order") != null
-                                && request.getParameter("payId") != null
-                                && request.getParameter("deliId") != null) {
-                            System.out.println(request.getParameter("pIdList"));
-                            System.out.println("OK");
-                            OrderDTO order = (OrderDTO) session.getAttribute("order");
-                            order.setPaymentId(Integer.parseInt(request.getParameter("payId")));
-                            order.setDeliveryId(Integer.parseInt(request.getParameter("deliId")));
-                            if(payId.equals("1")){
-                                order.setPayId(request.getParameter("paypalOrderId"));
-                            }
-                            if(deliId.equals("1")){
-//                                GhnApi.createOrder();
-                            }
-                            new OrderDAO().createOrder(order);
-                            request.setAttribute("controller", "cart");
-                            request.setAttribute("action", "thanks");
->>>>>>> 4f762daa19e0b3ccd7929b07358ead49af20764a
                         } else {
                             throw new Exception();
                         }
@@ -158,8 +124,8 @@ public class CartController extends HttpServlet {
                     System.out.println("shipInformation");
                     try {
                         if (session.getAttribute("cart") != null) {
-                            OrderDTO order = request.getAttribute("order") == null ? (OrderDTO) session.getAttribute("cart")
-                                    : (OrderDTO) request.getAttribute("order");
+                            OrderDTO order = session.getAttribute("order") == null ? (OrderDTO) session.getAttribute("cart")
+                                    : (OrderDTO) session.getAttribute("order");
                             if (request.getParameter("wardId") != null
                                     && request.getParameter("districtId") != null
                                     && request.getParameter("cityId") != null
@@ -173,15 +139,15 @@ public class CartController extends HttpServlet {
                                         wardId, ad.get(wardId, 3), districtId,
                                         ad.get(districtId, 2), cityId, ad.get(cityId, 1));
                                 order.setAddress(address);
-                                request.setAttribute("controller", "cart");
-                                request.setAttribute("action", "pay");
-                            }
-                            if (request.getAttribute("order") == null) {
-                                System.out.println("cart !!!");
-                                session.setAttribute("cart", order);
-                            } else {
-                                System.out.println("order !!!");
-                                request.setAttribute("order", order);
+                                if (session.getAttribute("order") == null) {
+                                    session.setAttribute("cart", order);
+                                    request.setAttribute("controller", "cart");
+                                    request.setAttribute("action", "cart");
+                                } else {
+                                    request.setAttribute("order", order);
+                                    request.setAttribute("controller", "cart");
+                                    request.setAttribute("action", "pay");
+                                }
                             }
                         } else {
                             throw new Exception();
@@ -214,9 +180,6 @@ public class CartController extends HttpServlet {
                     request.setAttribute("message", "Error when processing the request");
             }
         }
-        System.out.println("=====1===1===1===");
-        System.out.println(request.getAttribute("order"));
-        System.out.println("=====2===2===2===");
         request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
     }
 
