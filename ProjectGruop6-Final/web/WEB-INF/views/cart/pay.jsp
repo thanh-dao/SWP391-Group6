@@ -452,7 +452,6 @@
                                                 } else {
 //                                                buttonContainer.innerHTML = `<button type="button" name="action" value="pay" class="btn-buy" onclick="window.location.href = '/ProjectGroup6/cart/pay.do'">Thanh Toán</button>`
                                                 }
->>>>>>> 4f762daa19e0b3ccd7929b07358ead49af20764a
                                             }
         </script>
     </body>

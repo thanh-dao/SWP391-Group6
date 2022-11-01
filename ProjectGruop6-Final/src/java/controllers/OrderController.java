@@ -73,11 +73,12 @@ public class OrderController extends HttpServlet {
                                 }
                                 break;
                                 case "u": {
-                                    if (request.getAttribute("product") == null) {
+                                    if (request.getParameter("product") == null) {
                                         throw new Exception();
                                     } else {
-                                        ProductDTO product = (ProductDTO) request.getAttribute("product");
-                                        p.handerProductSeller(pId, "ss", product);
+                                        System.out.println(request.getParameter("product"));
+                                        String product = request.getParameter("product");
+//                                        p.handerProductSeller(pId, "u", product);
                                     }
                                 }
                                 break;

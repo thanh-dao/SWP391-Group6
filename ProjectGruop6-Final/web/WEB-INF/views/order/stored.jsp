@@ -286,7 +286,7 @@
                                         data: {
                                             pId: pId,
                                             func: option,
-                                            objJson: objJson,
+                                            product: objJson,
                                         },
                                         success: function (data, textStatus, jqXHR) {
                                             swal("Thành công", {
