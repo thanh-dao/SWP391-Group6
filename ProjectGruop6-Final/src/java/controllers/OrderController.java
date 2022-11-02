@@ -1,5 +1,6 @@
 package controllers;
 
+import com.google.gson.Gson;
 import config.Config;
 import dao.OrderByShopDAO;
 import dao.OrderDAO;
@@ -12,13 +13,19 @@ import dto.UserDTO;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Paths;
+import java.util.Collection;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
+@MultipartConfig
 @WebServlet(name = "OrderController", urlPatterns = {"/order"})
 public class OrderController extends HttpServlet {
 
@@ -74,11 +81,23 @@ public class OrderController extends HttpServlet {
                                 break;
                                 case "u": {
                                     if (request.getParameter("product") == null) {
-                                        throw new Exception();
+                                        System.out.println("OK");
+                                        request.setAttribute("product", p.getProductById(pId));
+                                        request.setAttribute("controller", "home");
+                                        request.setAttribute("action", "uploadProduct");
                                     } else {
-                                        System.out.println(request.getParameter("product"));
-                                        String product = request.getParameter("product");
-//                                        p.handerProductSeller(pId, "u", product);
+//                                        if (request.getPart("img1")==null) {
+//                                            System.out.println("GAy");
+//                                        }else{
+//                                            System.out.println("CO");
+//                                        }
+//                                        System.out.println("IMG");
+//                                        Part part = request.getPart("img1");
+                                        Collection<Part> part = request.getParts();
+//                                        String realPath = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+                                        System.out.println("==============");
+                                        System.out.println(part);
+//                                        System.out.println(realPath);
                                     }
                                 }
                                 break;

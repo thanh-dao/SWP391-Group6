@@ -1,6 +1,7 @@
 package dao;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import dto.ProductDTO;
 import java.sql.Connection;
 import java.util.Date;
@@ -808,6 +809,19 @@ public class ProductDAO {
             a += gson.toJson(hashmap) + ",";
         }
         return a + "]";
+    }
+
+    public ProductDTO getProductToJson(String json) {
+        Gson gson = new Gson();
+        JsonObject jobj = gson.fromJson(json, JsonObject.class);
+        ProductDTO product = new ProductDTO();
+        product.setProductId(jobj.get("pId").getAsInt());
+        product.setName(jobj.get("name").getAsString());
+        product.setPrice(jobj.get("price").getAsInt());
+        product.setDescription(jobj.get("description").getAsString());
+        product.setCateId(jobj.get("cateId").getAsInt());
+        product.setQuantity(jobj.get("quantity").getAsInt());
+        return product;
     }
 
     public static void main(String[] args) {

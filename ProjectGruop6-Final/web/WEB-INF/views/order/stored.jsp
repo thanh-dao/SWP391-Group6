@@ -20,7 +20,7 @@
         <c:choose>
             <c:when test="${not empty productList}">
                 <div class="container latest_blog_area" style="padding: 0;">
-                    <h2 style="text-align: center; ">Duyệt sản phẩm</h2>
+                    <h2 style="text-align: center; ">Duyệt sản phẩm ${productModal}</h2>
                     <ul class="nav nav-tabs registration_area" style="margin-bottom: 20px;">               
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="<c:url value="/order/stored.do?status=ar"/>">Đang bán</a>
@@ -57,7 +57,6 @@
                 </div>
                 <!-- Large modal -->
                 <!--<button type="button" class="btn btn-primary" >Large modal</button>-->
-
                 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -65,7 +64,7 @@
                                 <form class="product-form">
                                     <div class="row">
                                         <div class="col-lg-5 col-md-5 col-sm-5">
-                                            a
+                                            ${productModal}
                                         </div>
                                         <div class="col-lg-7 col-md-7 col-sm-7">
                                             <div class="input-group mb-3">
@@ -139,7 +138,7 @@
                                                                                     a
                                                                                 </div>-->
                                     </div>
-                                    <a class="genric-btn success circle" onclick="handleProduct(0, 'u', this)">Cập nhật</a>
+                                    <a class="genric-btn success circle" onclick="handleProduct(${productModal.productId}, 'u', this)">Cập nhật</a>
                                 </form>
                             </div>
                         </div>
@@ -164,12 +163,13 @@
             function initTableData() {
                 var modifiedUsers = productList.map(p => {
 //                    onclick="handleProduct(' + p.productId + ', \'u\', this)
+// data-toggle="modal" data-target=".bd-example-modal-lg"
                     const dt = '<a href="/ProjectGroup6/home/productDetail.do?productId=' + p.productId + '" target="_blank" class="genric-btn info circle">Chi tiết</a>';
                     const dta = '<a class="genric-btn info circle" onclick="handleProduct(' + 1 + ')" data-toggle="modal" data-target=".bd-example-modal-lg">Chi tiết</a>';
                     const ss = '<a class="genric-btn warning circle" onclick="handleProduct(' + p.productId + ', \'ss\', this)">Ngừng bán</a>';
                     const as = '<a class="genric-btn primary circle" onclick="handleProduct(' + p.productId + ', \'as\', this)">Bán lại</a>';
                     const d = '<a class="genric-btn danger circle" onclick="handleProduct(' + p.productId + ', \'d\', this)">Xóa</a>';
-                    const u = '<a class="genric-btn success circle" data-toggle="modal" data-target=".bd-example-modal-lg">Cập nhật</a>';
+                    const u = '<a class="genric-btn success circle" href="/ProjectGroup6/order/stored.do?pId=' + p.productId + '&func=u">Cập nhật</a>';
                     const b = '<div class="button-group-area mt-40" style="display: flex; flex-direction: column">';
                     const a = '</div>';
                     if (String('${status}') == 'ar') {
@@ -215,19 +215,21 @@
                     ]
                 })
             }
-            var objJson = {
-                name: "a",
-                price: 2,
-                description: "description",
-                cateId: 1,
-                quantity: $("input[name='quantity']").val(),
-                img1: '1',
-                img2: '2',
-                img3: '3',
-                img4: '4',
-                img5: '5'
-            };
-            console.log(objJson);
+            const getProduct = (pId, option) => {
+                $.ajax('<c:url value="/GetProductAjax"/>', {
+                    data: {
+                        pId: pId,
+                        func: "getProduct"
+                    },
+                    success: function (data) {
+                        console.log("ok")
+                        fetch('<c:url value="/FileProductHandle"/>', {
+                            method: "POST",
+                            body: formData,
+                        })
+                    }
+                })
+            }
             const handleProduct = (pId, option, el) => {
                 if (option == 'ss' || option == 'as' || option == 'd') {
                     switch (option) {
@@ -273,6 +275,19 @@
                                 }
                             });
                 } else if (option == 'u') {
+                    var objJson = {
+                        pId: pId,
+                        name: "a",
+                        price: 2,
+                        description: "description",
+                        cateId: 1,
+                        quantity: $("input[name='quantity']").val(),
+                        img1: '1',
+                        img2: '2',
+                        img3: '3',
+                        img4: '4',
+                        img5: '5'
+                    };
                     swal({
                         title: "",
                         text: 'Xác nhận cập nhật sản phẩm !!!',
@@ -286,7 +301,7 @@
                                         data: {
                                             pId: pId,
                                             func: option,
-                                            product: objJson,
+                                            product: JSON.stringify(objJson),
                                         },
                                         success: function (data, textStatus, jqXHR) {
                                             swal("Thành công", {

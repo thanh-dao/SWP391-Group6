@@ -62,7 +62,15 @@ public class GetProductAjax extends HttpServlet {
                     out.print(b);
                     break;
                 }
-                case "init productName":{
+                case "getProduct": {
+                    int pId = Integer.parseInt(request.getParameter("pId"));
+                    if (!request.getParameter("func").equalsIgnoreCase("u")) {
+                        throw new Exception();
+                    }
+                    out.print(gson.toJson(new ProductDAO().getProductById(pId)));
+                    break;
+                }
+                case "init productName": {
                     String name = request.getParameter("name");
                     request.getSession().setAttribute("productName", name);
                     out.print(gson.toJson(name));
@@ -73,7 +81,6 @@ public class GetProductAjax extends HttpServlet {
                 }
             }
 
-            
         } catch (Exception ex) {
             ex.printStackTrace();
         }

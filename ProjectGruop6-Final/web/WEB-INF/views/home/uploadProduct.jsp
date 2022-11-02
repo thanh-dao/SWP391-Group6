@@ -80,18 +80,25 @@
                 padding: 0;
                 margin-bottom: 0;
             }
-
             .carousel-indicators {
                 margin-bottom: 0;
             }
-
             .select-category {
                 margin-bottom: 10px; 
+            }
+            .box-img{
+                width: 100px;
+                height: 100px;
+                border: 1px dashed #334F6C;
+                margin: 5px;
+            }
+            .box-img img{
+                width: 100%;
+                height: 100%;
             }
         </style>
     </head>
     <body>
-
         <div class="product__details">
             <div class="container">
                 <c:if test="${sessionScope.user == null}">
@@ -109,7 +116,7 @@
                 <div class="product__content">
                     <form  method="GET" class="product-form">
                         <div class="row ">
-                            <div class="upload col-lg-5 col-md-5 col-sm-5">
+                            <div class="upload col-lg-6 col-md-6 col-sm-6">
                                 <button class="upload-button" type="button" onclick="toggleFile()">
                                     <i class="fa-solid fa-camera"></i>
                                 </button>
@@ -133,16 +140,36 @@
                                         </a>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img1')">
+                                        <input id="img1" name="img1" class="input-image" type="file" multiple hidden accept="image/*">
+                                        <img src="../images/plus.png" alt=""/>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img2')">
+                                        <input id="img2" name="img2" class="input-image" type="file" multiple hidden accept="image/*">
+                                        <img src="../images/plus.png" alt=""/>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img3')">
+                                        <input id="img2" name="img3" class="input-image" type="file" multiple hidden accept="image/*">
+                                        <img src="../images/plus.png" alt=""/>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img4')">
+                                        <input id="img2" name="img4" class="input-image" type="file" multiple hidden accept="image/*">
+                                        <img src="../images/plus.png" alt=""/>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img5')">
+                                        <input id="img2" name="img5" class="input-image" type="file" multiple hidden accept="image/*">
+                                        <img src="../images/plus.png" alt=""/>
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="col-lg-7 col-md-7 col-sm-7">
-
+                            <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">Tên sản Phẩm</span>
                                     </div>
                                     <input type="text" class="form-control product-name"
-                                           name="name"
+                                           name="name" value="${product.name}"
                                            placeholder="Tên sản Phẩm" aria-label="Tên sản Phẩm" aria-describedby="basic-addon1">
                                 </div>
                                 <h5>Danh mục sản phẩm</h5>
@@ -156,7 +183,7 @@
                                         <span class="input-group-text">Giá sản phẩm</span>
                                     </div>
                                     <input type="text" id="formattedMoneyField"
-                                           name="price"
+                                           name="price" value="${product.price}"
                                            class="form-control" aria-label="Amount (to the nearest dollar)">
                                     <div class="input-group-append">
                                         <span class="input-group-text">₫</span>
@@ -167,7 +194,7 @@
                                         <span class="input-group-text">Số lượng sản phẩm</span>
                                     </div>
                                     <input type="text"id="formattedNumberField"
-                                           name="quantity"
+                                           name="quantity" value="${product.quantity}"
                                            class="form-control" aria-label="Amount (to the nearest dollar)">
 
                                 </div>
@@ -196,6 +223,9 @@
                                        hidden class="category-hidden">
                             </div>
                             <div class="buy d-flex justify-content-center button_1">
+                                <c:if test="${!empty product}">
+                                    <a href="stored.do?pId=${product.productId}&func=u">Lưu</a>
+                                </c:if>
                                 <button type="submit">Lưu</button>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable" onclick="previewProduct()" data-toggle="modal" data-target=".bd-example-modal-xl">Xem trước</button>
                             </div>
@@ -402,13 +432,15 @@
             event.preventDefault();
             let isEmpty = false;
             document.querySelectorAll(".product-form input").forEach(i => {
-                if(i.value === "") isEmpty = true;
+                if (i.value === "")
+                    isEmpty = true;
             })
             if (arr.length == 0) {
                 document.querySelector(".notification").innerHTML = "Bạn chưa đăng hình cho sản phẩm này!!";
                 return false;
             }
-            if(isEmpty) swal("Oops", "Hãy điền vào các ô còn trống", "error");
+            if (isEmpty)
+                swal("Oops", "Hãy điền vào các ô còn trống", "error");
             const categoryHidden = document.querySelector(".category-hidden");
             const descriptionHidden = document.querySelector(".description-hidden");
             categoryHidden.value = $(".select-category").val()
@@ -443,7 +475,10 @@
         const toggleFile = () => {
             fileInput.click()
         }
-
+        const togFile = (id) => {
+            const fi = document.querySelector(id);
+            fi.click()
+        }
     </script>
     <script>
         window.addEventListener("DOMContentLoaded", () => {
