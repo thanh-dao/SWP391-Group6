@@ -21,7 +21,6 @@ public class OrderDTO {
     private AddressDTO address;
     private List<OrderByShopDTO> orderByShopList;
     private String payId;
-    private String shipId;
 
     public OrderDTO(int orderId, int deliveryId, int paymentId, String emailBuyer, Date orderDate, AddressDTO address, List<OrderByShopDTO> orderByShopList) {
         this.orderId = orderId;

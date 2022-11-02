@@ -409,6 +409,7 @@
         </div>
         <script src="https://www.paypal.com/sdk/js?client-id=AcSATbC34qNTc0kDCzZGDxWFgnsdQpuWt8HMIPQwHfGU2UBgNx6lAPkoOtczUGEpWuHK0dm-ZOupi3iY" data-namespace="paypal_sdk"></script>
         <script>
+<<<<<<< HEAD
                                             function renderPaymentButton(el) {
                                                 const buttonContainer = document.querySelector("#paypal-button-container");
                                                 const radioValue = el.value;
@@ -454,6 +455,50 @@
                                                 }
                                             }
         </script>
+=======
+                function renderPaymentButton(el) {
+                    const buttonContainer = document.querySelector("#paypal-button-container");
+                    const radioValue = el.value;
+                    if (radioValue === "1") {
+                        buttonContainer.innerHTML = "";
+                        const price = localStorage.getItem("usdPrice");
+                        console.log(price)
+                        if (price == null) {
+                            window.location.href = "/ProjectGroup6/user/login.do"
+                        }
+                            
+                        paypal_sdk.Buttons({
+                            createOrder: function (data, actions) {
+                                return actions.order.create({
+                                    purchase_units: [{
+                                        amount: {
+                                            value: (Math.round(price * 100) / 100).toString(),
+                                        }
+                                    }]
+                                })
+                            },
+                            onApprove: function (data, actions) {
+                                return actions.order.capture().then(function (details) {
+                                    // This function shows a transaction success message to your buyer.
+                                    console.log(details)
+                                    document.querySelector("#paypalOrderId").value = details.id;
+                                    document.querySelector("#form").submit();
+                                });
+                            },
+                            style: {
+                                layout: 'vertical',
+                                color: 'blue',
+                                shape: 'rect',
+                                label: 'paypal'
+                            }
+                        }).render('#paypal-button-container');
+                    } else {
+                        buttonContainer.innerHTML = '<button type="submit" class="btn-buy">Thanh Toán</button>'
+                    }
+
+                }
+            </script>
+>>>>>>> c26b42e4183c2799e3835ae645828f5f7bb425b7
     </body>
 
 </html>

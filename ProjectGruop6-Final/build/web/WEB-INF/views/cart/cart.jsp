@@ -371,7 +371,8 @@
         <script>
             const products = new Set();
             const handlePay = () => {
-                const price = parseInt(document.querySelector("#price").innerHTML.substring(1).replace(",", ""));
+                const price = parseInt(document.querySelector("#price").innerHTML.substring(1).replaceAll(",", ""));
+                localStorage.removeItem("vndPrice");
                 localStorage.setItem("vndPrice", price);
                 var myHeaders = new Headers();
                 myHeaders.append("apikey", "Egj2knbKqmkBva9q7FsIrUWpEqQ32Dpa");

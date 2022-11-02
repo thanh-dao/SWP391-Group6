@@ -97,7 +97,7 @@ public class OrderByShopDAO {
         stm.setString(2, obs.getEmailSeller());
         stm.setDouble(3, obs.getTransactionFee());
         stm.setDouble(4, obs.getTransportFee());
-        stm.setString(5, obs.getShip_id());
+        stm.setString(5, obs.getShipId());
         stm.executeUpdate();
         for (OrderDetailDTO od : obs.getOrderDetailList()) {
             new OrderDetailDAO().createOrderDetail(getMaxId(), od);

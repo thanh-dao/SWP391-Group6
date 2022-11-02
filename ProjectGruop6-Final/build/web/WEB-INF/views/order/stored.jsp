@@ -38,7 +38,7 @@
                             <a class="nav-link " href="<c:url value="/order/stored.do?status=oos"/>">Hết hàng</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#">Dashboard</a>
+                            <a class="nav-link " href="dashboard.do">Dashboard</a>
                         </li>
                     </ul>
                     <table class="table table-striped" id="productTable">

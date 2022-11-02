@@ -9,14 +9,19 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dao.CategoryDAO;
 import dto.AddressDTO;
+import dto.OrderDetailDTO;
 import dto.ProductDTO;
 import dto.UserDTO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.http.Header;
+import org.apache.http.HeaderElement;
+import org.apache.http.ParseException;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
 import org.apache.http.message.BasicHeader;
@@ -73,7 +78,7 @@ public class GhnApi {
 
         return getIdFromResponse(response, "DistrictName", "DistrictID", districtName);
     }
-    
+
     public static String getWardId(String districtId, String wardName) throws IOException {
 //        System.out.println("districtId: " + districtId);
         String response = Request.Post("https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id")
@@ -85,11 +90,9 @@ public class GhnApi {
                 .returnContent()
                 .asString();
         String data = getIdFromResponse(response, "WardName", "WardCode", wardName);
-        
-        return data == null ? null : data.replaceAll("\"", "") ;
+
+        return data == null ? null : data.replaceAll("\"", "");
     }
-    
-    
 
     public static String[] getFullAddressId(String cityName, String districtName, String wardName) throws IOException {
         String districtId = getDistrictId(cityName, districtName);
@@ -128,11 +131,7 @@ public class GhnApi {
         return jobj.get("data").toString();
     }
 
-    public static String hello(){
-        return "Hello";
-    }
-    
-    public static int getShipingFee( String fromCityName, String toCityName, String fromDistrictName, String toDistrictName, String toWardName, String serviceId) throws IOException {
+    public static int getShipingFee(String fromCityName, String toCityName, String fromDistrictName, String toDistrictName, String toWardName, String serviceId) throws IOException {
         String fromCityId = getCityId(fromCityName);
         String toCityId = getCityId(toCityName);
         String fromDistrictId = getDistrictId(fromCityId, fromDistrictName);
@@ -174,25 +173,30 @@ public class GhnApi {
         return jobj.getAsJsonObject("data").toString();
     }
 
-    public static String createOrder(UserDTO user, UserDTO seller, List<ProductDTO> products, String cod) throws IOException {
+    public static String createOrder(UserDTO user, UserDTO seller, List<OrderDetailDTO> orderDetails, String cod) throws IOException, SQLException, ClassNotFoundException {
         AddressDTO userAddress = user.getAddress();
         AddressDTO sellerAddress = seller.getAddress();
+        Header[] headers = new Header[3];
+        Header[] basicHeaders = getBasicHeaders();
+        headers[0] = basicHeaders[0];
+        headers[1] = basicHeaders[1];
+        headers[2] = new BasicHeader("ShopId", shopId);
         String body = "{\n"
                 + "    \"payment_type_id\": 2,\n"
                 + "    \"note\": \"Tintest 123\",\n"
                 + "    \"from_name\":\"" + seller.getFirstName() + " " + seller.getLastName() + "\",\n"
                 + "    \"from_phone\":\"" + seller.getPhone() + "\",\n"
-                + "    \"from_address\":\"" + sellerAddress.getHouseNumber()+ "\",\n"
-                + "    \"from_ward_name\":\"" + sellerAddress.getWardName()+ "\",\n"
-                + "    \"from_district_name\":\"" + sellerAddress.getDistrictName()+ "\",\n"
-                + "    \"from_province_name\":\"" + sellerAddress.getCityName()+ "\",\n"
+                + "    \"from_address\":\"" + sellerAddress.getHouseNumber() + "\",\n"
+                + "    \"from_ward_name\":\"" + sellerAddress.getWardName() + "\",\n"
+                + "    \"from_district_name\":\"" + sellerAddress.getDistrictName() + "\",\n"
+                + "    \"from_province_name\":\"" + sellerAddress.getCityName() + "\",\n"
                 + "    \"required_note\": \"KHONGCHOXEMHANG\",\n"
                 + "    \"to_name\": \"" + user.getFirstName() + " " + user.getLastName() + "\",\n"
                 + "    \"to_phone\": \"" + user.getPhone() + "\",\n"
-                + "    \"to_address\": \"" + userAddress.getHouseNumber()+ "\",\n"
-                + "    \"to_ward_name\": \"" + userAddress.getWardName()+ "\",\n"
-                + "    \"to_district_name\": \"" + userAddress.getDistrictName()+ "\",\n"
-                + "    \"to_province_name\":\"" + userAddress.getCityName()+ "\",\n"
+                + "    \"to_address\": \"" + userAddress.getHouseNumber() + "\",\n"
+                + "    \"to_ward_name\": \"" + userAddress.getWardName() + "\",\n"
+                + "    \"to_district_name\": \"" + userAddress.getDistrictName() + "\",\n"
+                + "    \"to_province_name\":\"" + userAddress.getCityName() + "\",\n"
                 + "    \"cod_amount\": " + cod + ",\n"
                 + "    \"content\": \"Theo New York Times\",\n"
                 + "    \"weight\": 200,\n"
@@ -201,65 +205,58 @@ public class GhnApi {
                 + "    \"height\": 10,\n"
                 + "    \"service_id\": 53320,\n"
                 + "    \"service_type_id\":2,\n"
-                + "    \"items\": [\n"
-                + "        {\n"
-                + "            \"name\":\"Áo Polo\",\n"
-                + "            \"code\":\"Polo123\",\n"
-                + "            \"quantity\": 1,\n"
-                + "            \"price\": 200000,\n"
-                + "            \"length\": 12,\n"
-                + "            \"width\": 12,\n"
-                + "            \"height\": 12,\n"
-                + "            \"category\": \n"
-                + "            {\n"
-                + "                \"level1\":\"Áo\"\n"
-                + "            }\n"
-                + "        },\n"
-                + "        {\n"
-                + "            \"name\":\"Áo Polo\",\n"
-                + "            \"code\":\"Polo123\",\n"
-                + "            \"quantity\": 1,\n"
-                + "            \"price\": 200000,\n"
-                + "            \"length\": 12,\n"
-                + "            \"width\": 12,\n"
-                + "            \"height\": 12,\n"
-                + "            \"category\": \n"
-                + "            {\n"
-                + "                \"level1\":\"Áo\"\n"
-                + "            }\n"
-                + "        },\n"
-                + "        {\n"
-                + "            \"name\":\"Áo Polo\",\n"
-                + "            \"code\":\"Polo123\",\n"
-                + "            \"quantity\": 1,\n"
-                + "            \"price\": 200000,\n"
-                + "            \"length\": 12,\n"
-                + "            \"width\": 12,\n"
-                + "            \"height\": 12,\n"
-                + "            \"category\": \n"
-                + "            {\n"
-                + "                \"level1\":\"Áo\"\n"
-                + "            }\n"
-                + "        }\n"
-                + "    ]\n"
+                + "    \"items\": [\n";
+        CategoryDAO cateDAO = new CategoryDAO();
+        for (int i = 0; i < orderDetails.size(); i++) {
+            OrderDetailDTO orderDetail = orderDetails.get(i);
+            ProductDTO product = orderDetail.getProduct();
+            body += "        {\n"
+                    + "            \"name\":\"" + product.getName() + "\",\n"
+                    + "            \"code\":\"" + Integer.toString(orderDetail.getProductId()) + "\",\n"
+                    + "            \"quantity\": " + Integer.toString(orderDetail.getQuantity()) + ",\n"
+                    + "            \"price\": 0,\n"
+                    + "            \"length\": 12,\n"
+                    + "            \"width\": 12,\n"
+                    + "            \"height\": 12,\n"
+                    + "            \"category\": \n"
+                    + "            {\n"
+                    + "                \"level1\":\"" + cateDAO.find(product.getCateId()).getName() + "\"\n"
+                    + "            }\n"
+                    + "        }\n";
+            if(i != orderDetails.size() -1 ){
+                body += " , ";
+            }
+        }
+        body += "    ]\n"
                 + "    \n"
                 + "}";
-        return null;
-        
+        System.out.println(body);
+        String response = Request.Post("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create")
+                .setHeaders(headers)
+                .bodyString(body, ContentType.APPLICATION_JSON)
+                .execute()
+                .returnContent()
+                .asString();
+        JsonObject jobj = gson.fromJson(response, JsonObject.class);
+        return jobj.getAsJsonObject("data").get("order_code").toString();
+
     }
 
     public static void main(String[] args) {
-//        try {
+        try {
+            //        try {
 //            System.out.println(getCityId("Hồ Chí Minh"));
 //            System.out.println(getDistrictId("202", "Quận 12"));
 //            System.out.println(getWardId("1454", "Thạnh Lộc"));
-//            System.out.println(GhnApi.getShipingFee(
-//                                                      "Hồ Chí Minh", "Hồ Chí Minh", 
-//                                                      "Quận 12","Quận " + "12",
-//                                                      "Thạnh Lộc", "2")
-//            );  
-//        } catch (IOException ex) {
-//            Logger.getLogger(GhnApi.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+            System.out.println(GhnApi.getShipingFee(
+                    "Hồ Chí Minh", "Hồ Chí Minh",
+                    "Quận 12", "Quận " + "12",
+                    "Thạnh Lộc", "2"));
+            //        } catch (IOException ex) {
+            //            Logger.getLogger(GhnApi.class.getName()).log(Level.SEVERE, null, ex);
+            //        }
+        } catch (IOException ex) {
+            Logger.getLogger(GhnApi.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
