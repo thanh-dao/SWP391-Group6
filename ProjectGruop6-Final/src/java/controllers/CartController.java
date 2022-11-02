@@ -119,6 +119,13 @@ public class CartController extends HttpServlet {
                                 });
                             }
                             new OrderDAO().createOrder(order);
+                            OrderDTO cart = (OrderDTO) session.getAttribute("cart");
+                            for (OrderByShopDTO os : order.getOrderByShopList()) {
+                                for (OrderDetailDTO od : os.getOrderDetailList()) {
+                                    handleCart(cart, od.getProductId(), -1, "delete");
+                                }
+                            }
+                            session.setAttribute("cart", cart);
                             request.setAttribute("controller", "cart");
                             request.setAttribute("action", "thanks");
                         } else {

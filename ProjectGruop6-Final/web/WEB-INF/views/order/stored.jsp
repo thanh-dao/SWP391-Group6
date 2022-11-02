@@ -15,6 +15,12 @@
         <!-- main css -->
         <link href="../css/main.css" rel="stylesheet" type="text/css"/>
         <title>Document</title>
+        <style>
+            .btn {
+                width: 110px;
+                margin: 5px 5px 0 0 ;
+            }
+        </style>
     </head>
     <body>
         <c:choose>
@@ -164,12 +170,12 @@
                 var modifiedUsers = productList.map(p => {
 //                    onclick="handleProduct(' + p.productId + ', \'u\', this)
 // data-toggle="modal" data-target=".bd-example-modal-lg"
-                    const dt = '<a href="/ProjectGroup6/home/productDetail.do?productId=' + p.productId + '" target="_blank" class="genric-btn info circle">Chi tiết</a>';
-                    const dta = '<a class="genric-btn info circle" onclick="handleProduct(' + 1 + ')" data-toggle="modal" data-target=".bd-example-modal-lg">Chi tiết</a>';
-                    const ss = '<a class="genric-btn warning circle" onclick="handleProduct(' + p.productId + ', \'ss\', this)">Ngừng bán</a>';
-                    const as = '<a class="genric-btn primary circle" onclick="handleProduct(' + p.productId + ', \'as\', this)">Bán lại</a>';
-                    const d = '<a class="genric-btn danger circle" onclick="handleProduct(' + p.productId + ', \'d\', this)">Xóa</a>';
-                    const u = '<a class="genric-btn success circle" href="/ProjectGroup6/order/stored.do?pId=' + p.productId + '&func=u">Cập nhật</a>';
+                    const dt = '<a href="/ProjectGroup6/home/productDetail.do?productId=' + p.productId + '" target="_blank" class="btn btn-info">Chi tiết</a>';
+                    const dta = '<button class="btn btn-info" onclick="handleProduct(' + 1 + ')" data-toggle="modal" data-target=".bd-example-modal-lg">Chi tiết</button>';
+                    const ss = '<button class="btn btn-warning" onclick="handleProduct(' + p.productId + ', \'ss\', this)">Ngừng bán</button>';
+                    const as = '<button class="btn btn-success" onclick="handleProduct(' + p.productId + ', \'as\', this)">Bán lại</button>';
+                    const d = '<button class="btn btn-danger" onclick="handleProduct(' + p.productId + ', \'d\', this)">Xóa</button>';
+                    const u = '<button class="btn btn-primary" href="/ProjectGroup6/order/stored.do?pId=' + p.productId + '&func=u">Cập nhật</a>';
                     const b = '<div class="button-group-area mt-40" style="display: flex; flex-direction: column">';
                     const a = '</div>';
                     if (String('${status}') == 'ar') {

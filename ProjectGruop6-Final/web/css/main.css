@@ -38,13 +38,8 @@ a:hover {color: none;text-decoration: none;}
     text-overflow: ellipsis;
     border-bottom: 1.5px solid rgba(0,0,0,.09);
 }
-.tooltip-text {
-    text-decoration:none;
-    position:relative;
-}
-.tooltip-text span {
-    display:none;
-}
+.tooltip-text {text-decoration:none;position:relative;}
+.tooltip-text span {display:none;}
 .tooltip-text:hover span {
     border-radius: 3px;
     font-size: 16px;

@@ -12,14 +12,11 @@ import dto.UserDTO;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-<<<<<<< HEAD
 import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.Collection;
-=======
 import java.util.ArrayList;
 import java.util.List;
->>>>>>> c26b42e4183c2799e3835ae645828f5f7bb425b7
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
