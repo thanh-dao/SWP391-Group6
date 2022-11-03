@@ -717,6 +717,10 @@ public class ProductDAO {
             }
             break;
             case -1: {
+                strStatus += "authen is null";
+            }
+            break;
+            case -2: {
                 strStatus += "quantity <= 5";
             }
             break;

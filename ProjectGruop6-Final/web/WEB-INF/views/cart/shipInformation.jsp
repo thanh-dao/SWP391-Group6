@@ -153,10 +153,6 @@
                                     <input type="text" required="true" placeholder="Nhập số điện thoại" maxlength="50"
                                            class="input-form-item" disabled="" value="${user.phone}" name="phone">
                                 </div>
-                                <div class="input-form">
-                                    <label>Ngày/Tháng/Năm Sinh</label>
-                                    <input required="true" type="date" maxlength="50" disabled="" class="input-form-item">
-                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">

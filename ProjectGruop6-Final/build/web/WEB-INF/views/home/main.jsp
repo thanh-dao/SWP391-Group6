@@ -8,6 +8,7 @@
         <title>Layout Demo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="../css/main.css" rel="stylesheet" type="text/css"/>
         <style>
             body {
                 background-color: #F0F0F0;
@@ -51,40 +52,6 @@
                 margin-top: 50px;
             }
 
-            .product__item {
-                width: 100%;
-                margin-top: 30px;
-                transition: 0.5s;
-            }
-
-            .product__item a {
-                color: black;
-                font-size: 18px;
-            }
-
-            .product__item img {
-                transition: 0.5s;
-            }
-
-            .product__item img:hover {
-                transform: translateY(-5px);
-                transition: 0.5s;
-            }
-
-            .product__item a:hover {
-                color:blue;
-                text-decoration: none;
-            }
-
-            .product__item img {
-                height: 230px;
-            }
-
-            .product__item span {
-                font-size: 20px;
-                color: red;
-            }
-
             .top__seller .container {
                 margin-top: 50px;
             }
@@ -102,75 +69,91 @@
                     <img class="left img-fluid" src="<c:url value="${banner.url}"/>"  onclick="window.location.href = '#'">
                     <img class="right img-fluid" src="<c:url value="${banner.url}"/>" onclick="window.location.href = '#'">
                 </div>-->
-        <div class="banner">
-            <div class="container">
-                <div id="demo" class="carousel slide" data-ride="carousel">
-                    <!-- Indicators -->
-                    <ul class="carousel-indicators">
-                        <li data-target="#demo" data-slide-to="0" class="active"></li>
-                        <li data-target="#demo" data-slide-to="1"></li>
-                        <li data-target="#demo" data-slide-to="2"></li>
-                        <li data-target="#demo" data-slide-to="3"></li>
-                        <li data-target="#demo" data-slide-to="4"></li>
-                    </ul>
-                    <!-- The slideshow -->
-                    <div class="carousel-inner">
-                        <div class="carousel-item  active">
-                            <img class="img-fluid" src="<c:url value="/images/sach.jpg"/>" onclick="window.location.href = '<c:url value="/home/productList.do?cateId=8"/>'">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="img-fluid" src="<c:url value="/images/nuocHoa.jpg"/>" onclick="window.location.href = '<c:url value="/home/productList.do?cateId=5"/>'">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="img-fluid" src="<c:url value="/images/doGiaDung.jpg"/>" onclick="window.location.href = '<c:url value="/home/productList.do?cateId=3"/>'">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="img-fluid" src="<c:url value="/images/thucAn.jpg"/>" onclick="window.location.href = '<c:url value="/home/productList.do?cateId=1"/>'">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="img-fluid" src="<c:url value="/images/thuCung.jpg"/>"  onclick="window.location.href = '<c:url value="/home/productList.do?cateId=6"/>'">
-                        </div>
+        <div class="container br-form">
+            <div id="demo" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ul class="carousel-indicators">
+                    <li data-target="#demo" data-slide-to="0" class="active"></li>
+                    <li data-target="#demo" data-slide-to="1"></li>
+                    <li data-target="#demo" data-slide-to="2"></li>
+                    <li data-target="#demo" data-slide-to="3"></li>
+                    <li data-target="#demo" data-slide-to="4"></li>
+                </ul>
+                <!-- The slideshow -->
+                <div class="carousel-inner">
+                    <div class="carousel-item  active">
+                        <img class="img-fluid" src="<c:url value="/images/sach.jpg"/>" onclick="window.location.href = '<c:url value="/home/productList.do?cateId=8"/>'">
                     </div>
-
-                    <!-- Left and right controls -->
-                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                    </a>
-                    <a class="carousel-control-next" href="#demo" data-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                    </a>
+                    <div class="carousel-item">
+                        <img class="img-fluid" src="<c:url value="/images/nuocHoa.jpg"/>" onclick="window.location.href = '<c:url value="/home/productList.do?cateId=5"/>'">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="img-fluid" src="<c:url value="/images/doGiaDung.jpg"/>" onclick="window.location.href = '<c:url value="/home/productList.do?cateId=3"/>'">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="img-fluid" src="<c:url value="/images/thucAn.jpg"/>" onclick="window.location.href = '<c:url value="/home/productList.do?cateId=1"/>'">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="img-fluid" src="<c:url value="/images/thuCung.jpg"/>"  onclick="window.location.href = '<c:url value="/home/productList.do?cateId=6"/>'">
+                    </div>
                 </div>
+
+                <!-- Left and right controls -->
+                <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-control-next" href="#demo" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </a>
             </div>
         </div>
-        <div class="product">
-            <div class="container">
-                <h3>SẢN PHẨM BÁN CHẠY</h3>
-                <div class="product__content row">
+        <div class="container br-form">
+            <div class="product">
+                <div style="display: flex; justify-content: space-between;">
+                    <h3 class="font-a">SẢN PHẨM BÁN CHẠY</h3>
+                    <a href="#">Xem thêm >></a>
+                </div>
+                <div class="product__content row" style="margin: 0 -5px;">
                     <c:forEach items="${bestSellers}" var="i">
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
-                                <img class="img-fluid" src="${i.getMainImage().url}" alt="">
-                                <p>${i.name}</p>
-                                <fmt:setLocale value="vi_VN"/>
-                                <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
-                            </a>
+                        <div class=" col-lg-2 col-md-3 col-sm-4 col-4" 
+                             style="padding: 5px; position: static;">
+                            <div class="product__item">
+                                <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                    <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                    <p class="tooltip-text hinden-text">${i.name}
+                                        <span>${i.name}</span>
+                                    </p>
+                                    <fmt:setLocale value="vi_VN"/>
+                                    <div style="display: flex; justify-content: flex-end; padding-top: 5px;">
+                                        <fmt:formatNumber value="${i.price}" type="currency"/>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </c:forEach>
                 </div>
             </div>
-        </div>
-        <div class="top__seller">
-            <div class="container">
-                <h3>SẢN PHẨM BÁN CHẠY</h3>
-                <div class="product__content row">
+            <div class="product br-form">
+                <div style="display: flex; justify-content: space-between;">
+                    <h3 class="font-a">SẢN PHẨM MỚi</h3>
+                    <a href="#">Xem thêm >></a>
+                </div>
+                <div class="product__content row" style="margin: 0 -5px;">
                     <c:forEach items="${newProducts}" var="i">
-                        <div class="product__item col-lg-3 col-md-4 col-sm-6">
-                            <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
-                                <img class="img-fluid" src="${i.getMainImage().url}" alt="">
-                                <p>${i.name}</p>
-                                <fmt:setLocale value="vi_VN"/>
-                                <span><fmt:formatNumber value="${i.price}" type="currency"/></span>
-                            </a>
+                        <div class=" col-lg-2 col-md-3 col-sm-4 col-4" 
+                             style="padding: 5px; position: static;">
+                            <div class="product__item">
+                                <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                    <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                    <p class="tooltip-text hinden-text">${i.name}
+                                        <span>${i.name}</span>
+                                    </p>
+                                    <fmt:setLocale value="vi_VN"/>
+                                    <div style="display: flex; justify-content: flex-end; padding-top: 5px;">
+                                        <fmt:formatNumber value="${i.price}" type="currency"/>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </c:forEach>
                 </div>

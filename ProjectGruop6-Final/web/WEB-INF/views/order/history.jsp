@@ -126,7 +126,7 @@
                             <h6 class="d-flex">
                                 <div class="mr-auto p-2">
                                     <span style="margin-right: 10px;">${obs.name}</span>
-                                    <a href="#">
+                                    <a href="<c:url value="/user/shopInformation.do?seller=${obs.emailSeller}"/>">
                                         Xem shop >>
                                     </a>
                                 </div>
@@ -198,6 +198,9 @@
             function formatPrice(price) {
                 return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(parseInt(price));
             }
+            const priceFormat = document.querySelectorAll(".text-right");
+//            priceFormat.valueOf()
+//            document.getElementById("price").innerHTML = formatPrice();
             const orderLinks = document.querySelectorAll(".order-link");
             console.log(orderLinks)
             orderLinks.forEach(i => {
