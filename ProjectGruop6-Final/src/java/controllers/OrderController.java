@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import config.Config;
 import dao.OrderDAO;
 import dao.ProductDAO;
-import dto.ProductDTO;
+import dao.UserDAO;
 import dto.UserDTO;
 //import jakarta.servlet.ServletException;
 //import jakarta.servlet.annotation.WebServlet;
@@ -12,11 +12,8 @@ import dto.UserDTO;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Paths;
 import java.util.Collection;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -45,7 +42,7 @@ public class OrderController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
         HttpSession session = (HttpSession) request.getSession();
-        
+
         if (session.getAttribute("user") == null) {
             request.setAttribute("controller", "user");
             request.setAttribute("action", "login");
@@ -138,6 +135,22 @@ public class OrderController extends HttpServlet {
                                                 p.getProductListJson(p.getProductListSeller(user.getEmail(), -1, 1)));
                                     }
                                     break;
+                                    case "dashboard": {
+                                        int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+                                        for (int i = 0; i < currentMonth; i++) {
+
+                                        }
+                                        String userEmail = user.getEmail();
+                                        Gson gson = new Gson();
+                                        request.setAttribute("productList",
+                                                gson.toJson(p.getTop10ProductByShop(userEmail,currentMonth, ProductDAO.DESC)));
+                                        System.out.println(gson.toJson((p.getTop10ProductByShop(userEmail, currentMonth, ProductDAO.ASC))));
+                                        request.setAttribute("top10ProductLeastSell", gson.toJson((p.getTop10ProductByShop(userEmail, currentMonth, ProductDAO.ASC))));
+                                        UserDAO u = new UserDAO();
+                                        request.setAttribute("top10SoldCountUser", gson.toJson(u.getTop10UserBuyByShop(userEmail, currentMonth, ProductDAO.DESC, true)));
+                                        request.setAttribute("top10SoldPriceUser", gson.toJson(u.getTop10UserBuyByShop(userEmail, currentMonth, ProductDAO.DESC, false)));
+                                        break;
+                                    }
                                     default:
                                         request.setAttribute("controller", "error");
                                         request.setAttribute("action", "index");

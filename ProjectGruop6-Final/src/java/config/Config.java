@@ -5,6 +5,8 @@
  */
 package config;
 
+import java.util.Calendar;
+
 /**
  *
  * @author Admin
@@ -12,5 +14,6 @@ package config;
 public class Config {
 
     public static final String LAYOUT = "/WEB-INF/layouts/main.jsp";
-
+    public static void main(String[] args) {
+    }
 }

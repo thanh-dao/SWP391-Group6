@@ -6,6 +6,7 @@
 package dao;
 
 import com.google.gson.Gson;
+import static dao.ProductDAO.ASC;
 import dto.AddressDTO;
 import dto.UserDTO;
 import java.sql.Connection;
@@ -22,6 +23,42 @@ import utils.DBUtil;
 
 public class UserDAO {
 
+    
+    public HashMap<String, Integer> getTop10UserBuyByShop(String sellerEmail, int month, boolean trend, boolean isquantity)
+            throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        String query = "SELECT TOP 10 SUM(od.";
+        if (isquantity) {
+            query += "quantity";
+        } else {
+            query += "price";
+        }
+        query += ") as param , o.email_buyer FROM\n"
+                + "(SELECT email FROM [user] WHERE email = ?) u\n"
+                + "LEFT JOIN product p ON p.email_seller = u.email\n"
+                + "LEFT JOIN order_detail od ON od.product_id = p.product_id\n"
+                + "LEFT JOIN order_by_shop os ON os.order_by_shop_id = od.order_by_shop_id\n"
+                + "LEFT JOIN [order] o ON o.order_id = os.order_id\n"
+                + "WHERE o.email_buyer is not null\n"
+                + "GROUP BY o.email_buyer\n"
+                + "order by param ";
+        if (trend == ASC) {
+            query += "\n asc";
+        } else {
+            query += "\n desc";
+        }
+        System.out.println(query);
+        PreparedStatement stm = conn.prepareStatement(query);
+        stm.setString(1, sellerEmail);
+        HashMap<String, Integer> list = new HashMap<>();
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            list.put(rs.getString("email_buyer"), rs.getInt("param"));
+        }
+        return list;
+    }
+    
+    
     /**
      * find a user in database
      *
@@ -133,7 +170,7 @@ public class UserDAO {
 
     public LinkedHashMap<String, String> getTop10SellerByMonth(int month) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
-        PreparedStatement stm = conn.prepareStatement("SELECT TOP 10 SUM(od.quantity) , os.email_seller FROM \n"
+        PreparedStatement stm = conn.prepareStatement("SELECT DISTINCT TOP 10 SUM(od.quantity) , os.email_seller FROM \n"
                 + "(SELECT order_id FROM [order] WHERE MONTH([order_date]) = ?) o\n"
                 + "LEFT JOIN order_by_shop os ON o.order_id = os.order_id\n"
                 + "LEFT JOIN order_detail od ON od.order_by_shop_id = os.order_by_shop_id\n"
@@ -279,6 +316,9 @@ public class UserDAO {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+            uDAO.getTop10UserBuyByShop("thanhddse151068@fpt.edu.vn", 11, ProductDAO.DESC, false).forEach((k, v) -> {
+                System.out.println(k + " " + v);
+            });
             System.out.println(uDAO.getUserByRole(false).size());
             System.out.println(uDAO.getUserByRole(true).size());
         } catch (Exception ex) {

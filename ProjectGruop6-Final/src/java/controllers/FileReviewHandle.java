@@ -53,20 +53,21 @@ public class FileReviewHandle extends HttpServlet {
         int productId = 0;
         switch (function) {
             case "uploadReviewText": {
-            try {
-                ReviewDTO review = new ReviewDTO();
-                odid = Integer.parseInt(request.getParameter("odid"));
-                review.setOrderDetailId(odid);
-                review.setRating(Double.parseDouble(request.getParameter("rating")));
-                productId = Integer.parseInt(request.getParameter("productId"));
-                review.setProductId(productId);
-                review.setComment(request.getParameter("comment"));
-                review.setDate(new java.sql.Date(new Date().getTime()));
-                reviewDAO.createReview(review);
+                try {
+                    ReviewDTO review = new ReviewDTO();
+                    odid = Integer.parseInt(request.getParameter("odid"));
+                    review.setOrderDetailId(odid);
+                    review.setRating(Double.parseDouble(request.getParameter("rating")));
+                    productId = Integer.parseInt(request.getParameter("productId"));
+                    review.setProductId(productId);
+                    review.setComment(request.getParameter("comment"));
+                    review.setDate(new java.sql.Date(new Date().getTime()));
+                    reviewDAO.createReview(review);
+                    
+                } catch (ClassNotFoundException | SQLException ex) {
+                    ex.printStackTrace();;
+                }
                 break;
-            } catch (ClassNotFoundException | SQLException ex) {
-                ex.printStackTrace();;
-            }
             }
             case "uploadReviewImage": {
                 try {

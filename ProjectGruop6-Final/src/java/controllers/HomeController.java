@@ -61,9 +61,6 @@ public class HomeController extends HttpServlet {
                 BannerDAO b = new BannerDAO();
                 try {
                     List<CategoryDTO> cateList = cateDAO.findAll();
-//                    cateList.forEach(i -> {
-//                        System.out.println(i);
-//                    });
                     session.setAttribute("cateList", cateList);
                     List<ProductDTO> bestSellers = proDAO.getProductList(0, ProductDAO.SOLD_COUNT, ProductDAO.DESC);
                     List<ProductDTO> newProducts = proDAO.getProductList(0, ProductDAO.APPROVE_AT, ProductDAO.DESC);
@@ -146,25 +143,49 @@ public class HomeController extends HttpServlet {
             case "reviewProduct":
                 break;
             case "searchProduct": {
-
                 String productName = request.getParameter("name");
                 System.out.println("productName: " + productName);
                 ProductDAO proDAO = new ProductDAO();
                 List<ProductDTO> productList = null;
                 int totalProduct = 0;
                 try {
-                    productList = proDAO.getProductListByProductName(1, productName);
+                    productList = proDAO.getProductListByProductName(1, productName, ProductDAO.SOLD_COUNT, ProductDAO.DESC);
                     totalProduct = proDAO.countProductListByProductName(productName);
                     int pageNum = totalProduct / Constants.ITEM_PER_PAGE + (totalProduct % Constants.ITEM_PER_PAGE == 0 ? 0 : 1);
                     request.setAttribute("productList", productList);
-                    request.setAttribute("pageNum", pageNum);
+                    request.setAttribute("pageNum", pageNum - 1);
                     request.setAttribute("action", "productList");
                 } catch (ClassNotFoundException | SQLException ex) {
                     ex.printStackTrace();
                 }
-
+                break;
             }
-            break;
+            case "top" : {
+                ProductDAO proDAO = new ProductDAO();
+                List<ProductDTO> productList = null;
+                int totalProduct = 0;
+                String top = request.getParameter("top");
+                try {
+                    switch(top) {
+                        case "newest": {
+                            productList = proDAO.getProductListByProductName(1, "", ProductDAO.APPROVE_AT, ProductDAO.DESC);
+                            break;
+                        }case "soldCount": {
+                            productList = proDAO.getProductListByProductName(1, "", ProductDAO.SOLD_COUNT, ProductDAO.DESC);
+                            break;
+                        }
+                    }
+                    
+                    totalProduct = proDAO.countProductListByProductName("");
+                    int pageNum = totalProduct / Constants.ITEM_PER_PAGE + (totalProduct % Constants.ITEM_PER_PAGE == 0 ? 0 : 1);
+                    request.setAttribute("productList", productList);
+                    request.setAttribute("pageNum", pageNum - 1);
+                    request.setAttribute("action", "productList");
+                } catch (ClassNotFoundException | SQLException ex) {
+                    ex.printStackTrace();
+                }
+                break;
+            }
             default:
                 //chuyển đến trang thông báo lỗi
                 request.setAttribute("controller", "error");

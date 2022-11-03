@@ -144,7 +144,10 @@
         </div>
         <div class="product">
             <div class="container">
-                <h3>SẢN PHẨM BÁN CHẠY</h3>
+                <div class="d-flex justify-content-between">
+                    <h3>SẢN PHẨM BÁN CHẠY</h3>
+                    <a href="<c:url value="/home/top.do?top=soldCount"/>">Xem thêm</a>
+                </div>
                 <div class="product__content row">
                     <c:forEach items="${bestSellers}" var="i">
                         <div class="product__item col-lg-3 col-md-4 col-sm-6">
@@ -161,7 +164,10 @@
         </div>
         <div class="top__seller">
             <div class="container">
-                <h3>SẢN PHẨM BÁN CHẠY</h3>
+                <div class="d-flex justify-content-between">
+                    <h3>SẢN PHẨM MỚI NHẤT</h3>
+                    <a href="<c:url value="/home/top.do?top=newest"/>">Xem thêm</a>
+                </div>
                 <div class="product__content row">
                     <c:forEach items="${newProducts}" var="i">
                         <div class="product__item col-lg-3 col-md-4 col-sm-6">

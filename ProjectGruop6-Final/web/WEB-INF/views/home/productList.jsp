@@ -140,13 +140,13 @@
                     //            và trả về count + 1. Tại sao lại là count + 1, vì khi debug mới phát hiện ra 
 
                     //            pagination
-                    const getCateId = () => {
+                    const getRequestParam = (key) => {
                         const queryString = window.location.search;
                         const urlParams = new URLSearchParams(queryString);
                         // url params = các query string của url 
                         //                vd: home.do?a=1&b=2&c=3
                         //                  thì sau dấu ? nó là query string với các parameter là a, b, c
-                        return urlParams.get("cateId");
+                        return urlParams.get(key);
                         // return giá trị của thằng parameter tên là cateId
                     }
                     const formatVND = (currency) => {
@@ -189,12 +189,14 @@
                     const sortAjax = (id, el) => {
                         document.querySelector(".btn.btn-primary.dropdown-toggle").innerHTML = el.innerHTML;
                         // thay đổi nội dung bên trong button sort 
+                        localStorage.setItem("sortId", id);
                         $.ajax("/ProjectGroup6/GetProductAjax", {
                             data: {
                                 func: 'getSortedProductList',
                                 option: id,
-                                cateId: getCateId(),
+                                cateId: getRequestParam("cateId"),
                                 pageNum: getPageNumber(),
+                                name: getRequestParam("name")
                             },
                             success: function (data) {
                                 //                        console.log(data)
@@ -209,17 +211,28 @@
                         el.parentElement.classList.add("active")
                         // thêm class active vào nút pagin mà mình đã bấm
                         console.log(getPageNumber())
-
+                        console.log("sort id: " + localStorage.getItem("sortId"))
                         $.ajax("/ProjectGroup6/GetProductAjax", {
                             data: {
-                                cateId: getCateId(),
+                                cateId: getRequestParam("cateId"),
                                 func: 'getSortedProductList',
                                 pageNum: getPageNumber(),
+                                name: getRequestParam("name"),
+                                option: localStorage.getItem("sortId")
                             },
                             success: function (data) {
                                 renderData(data)
                             }
                         })
+                    }
+                    const sortBtn = document.querySelector(".btn.btn-primary.dropdown-toggle");
+                    switch (getRequestParam("top")) {
+                        case "soldCount": 
+                            sortBtn.innerHTML = "Bán chạy"
+                            break;
+                        case "newest": 
+                            sortBtn.innerHTML = "Mới nhất"
+                            break;
                     }
                 </script>
 

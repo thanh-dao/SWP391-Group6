@@ -44,7 +44,7 @@
                             <a class="nav-link " href="<c:url value="/order/stored.do?status=oos"/>">Hết hàng</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="dashboard.do">Dashboard</a>
+                            <a class="nav-link " href="<c:url value="/order/stored.do?status=dashboard"/>">Dashboard</a>
                         </li>
                     </ul>
                     <table class="table table-striped" id="productTable">
@@ -60,6 +60,73 @@
                         <tbody>
                         </tbody>
                     </table>
+
+                </div>
+                <div class="container-fluid" id="dashboard">
+                    <div class="row">
+                        
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-striped table-hover" id="topSeller">
+                                <thead>
+                                    <tr>
+                                        <th class="col-2" scope="col">ID</th>
+                                        <th class="col-2" scope="col">Tên sản phẩm</th>
+                                        <th></th>
+                                        <th class="col-2" scope="col">Bán được</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-striped  table-hover" id="leastSeller">
+                                <thead>
+                                    <tr>
+                                        <th class="col-2" scope="col">ID</th>
+                                        <th class="col-2" scope="col">Tên sản phẩm</th>
+                                        <th></th>
+                                        <th class="col-2" scope="col">Bán được</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-striped table-hover" id="topBuyUserBySoldCount">
+                                <thead>
+                                    <tr>
+                                        <th class="col-2" colspan="2" scope="col">Email người dùng</th>
+                                        <th class="col-2" colspan="2" scope="col">Số lượt mua</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-striped  table-hover" id="topBuyUserBySoldPrice">
+                                <thead>
+                                    <tr>
+                                        <th class="col-2" colspan="2" scope="col">Email người dùng</th>
+                                        <th class="col-2" colspan="2" scope="col">Số tiền đã chi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <!-- Large modal -->
                 <!--<button type="button" class="btn btn-primary" >Large modal</button>-->
@@ -128,21 +195,7 @@
                                         <div class="col-lg-2 col-md-2 col-sm-2">
                                             <input type="file" name="img" multiple accept="image/*"/>
                                         </div>
-                                        <!--                                        <div class="col-lg-2 col-md-2 col-sm-2">
-                                                                                    a
-                                                                                </div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2">
-                                                                                    a
-                                                                                </div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2">
-                                                                                    a
-                                                                                </div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2">
-                                                                                    a
-                                                                                </div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2">
-                                                                                    a
-                                                                                </div>-->
+
                                     </div>
                                     <a class="genric-btn success circle" onclick="handleProduct(${productModal.productId}, 'u', this)">Cập nhật</a>
                                 </form>
@@ -163,6 +216,19 @@
         <script>
             var table;
             var productList = ${productList};
+            var newProductList = []
+
+            productList.forEach(i => {
+                newProductList.push({
+                    id: i.productId,
+                    name: i.name,
+                    soldCount: i.soldCount
+                })
+            })
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            console.log(params.status)
             function formatPrice(price) {
                 return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(parseInt(price));
             }
@@ -327,9 +393,66 @@
                 }
 
             }
+
+        </script>
+        <script>
+            function filterArray(i) {
+                return {
+                    id: i.productId, soldCount: i.soldCount, name: i.name,
+                }
+            }
+
             $(document).ready(function () {
-                initTableData();
-            });
+                if (params.status != "dashboard") {
+                    document.querySelector("#dashboard").style.display = "none";
+                    initTableData();
+                } else {
+                    
+                    const tableHeader = document.querySelector("#list-header");
+                    
+                    
+                    while (tableHeader.hasChildNodes()) {
+                        tableHeader.removeChild(tableHeader.firstChild);
+                    }
+                    var top10ProductLeastSell = ${top10ProductLeastSell == null ? [] : top10ProductLeastSell}.map(filterArray)
+                    var top10SoldPriceUser = ${top10SoldPriceUser == null ? [] : top10SoldPriceUser}
+                    var top10SoldCountUser = ${top10SoldCountUser == null ? [] : top10SoldCountUser}
+                    console.log(top10SoldCountUser)
+                    newProductList.forEach(i => {
+                        document.querySelector("#topSeller").innerHTML +=
+                                '<tr>' +
+                                '<td >' + i.id + '</td>' +
+                                '<td colspan="2">' + i.name + '</td>' +
+                                '<td >' + i.soldCount + '</td>' +
+                                '</tr>'
+                    });
+                    top10ProductLeastSell.forEach(i => {
+                        document.querySelector("#leastSeller").innerHTML +=
+                                '<tr>' +
+                                '<td >' + i.id + '</td>' +
+                                '<td colspan="2">' + i.name + '</td>' +
+                                '<td >' + i.soldCount + '</td>' +
+                                '</tr>'
+                    });
+                    
+                    
+                    for (const [key, value] of Object.entries(top10SoldPriceUser)) {
+                      document.querySelector("#topBuyUserBySoldPrice").innerHTML +=
+                                '<tr>' +
+                                '<td colspan="2">' + key + '</td>' +
+                                '<td colspan="2">' + value + '</td>' +
+                                '</tr>'
+                    }
+                    
+                    for (const [key, value] of Object.entries(top10SoldCountUser)) {
+                      document.querySelector("#topBuyUserBySoldCount").innerHTML +=
+                                '<tr>' +
+                                '<td colspan="2">' + key + '</td>' +
+                                '<td colspan="2">' + value + '</td>' +
+                                '</tr>'
+                    }
+                }
+            })
         </script>
     </body>
 </html>
