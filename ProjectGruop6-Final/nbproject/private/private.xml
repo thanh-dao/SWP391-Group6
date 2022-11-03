@@ -3,7 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/E:/FALL2022/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/GetsellerAjax.java</file>
+=======
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dao/ProductDAO.java</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/CartController.java</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/OrderController.java</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/home/uploadProduct.jsp</file>
+>>>>>>> 0424e0e60f9c51e1fa3f4e2c490fcc0615d3a6e6
         </group>
     </open-files>
 </project-private>

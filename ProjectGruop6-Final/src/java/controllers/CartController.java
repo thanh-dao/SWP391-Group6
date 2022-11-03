@@ -226,7 +226,6 @@ public class CartController extends HttpServlet {
         ProductDAO p = new ProductDAO();
         if (option.equalsIgnoreCase("deleteAll")) {
             cart.setOrderByShopList(new ArrayList<>());
-            System.out.println(cart);
             return cart;
         }
         if (p.getProductById(productId) != null) {

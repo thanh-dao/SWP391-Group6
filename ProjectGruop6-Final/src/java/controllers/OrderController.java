@@ -85,14 +85,14 @@ public class OrderController extends HttpServlet {
                                         request.setAttribute("controller", "home");
                                         request.setAttribute("action", "uploadProduct");
                                     } else {
-//                                        if (request.getPart("img1")==null) {
-//                                            System.out.println("GAy");
-//                                        }else{
-//                                            System.out.println("CO");
-//                                        }
-//                                        System.out.println("IMG");
-//                                        Part part = request.getPart("img1");
-                                        Collection<Part> part = request.getParts();
+                                        if (request.getPart("img0")==null) {
+                                            System.out.println("GAy");
+                                        }else{
+                                            System.out.println("CO");
+                                        }
+                                        Part part = request.getPart("img0");
+                                        System.out.println(part);
+//                                        Collection<Part> part = request.getParts();
 //                                        String realPath = Paths.get(part.getSubmittedFileName()).getFileName().toString();
                                         System.out.println("==============");
                                         System.out.println(part);
@@ -132,7 +132,7 @@ public class OrderController extends HttpServlet {
                                     break;
                                     case "oos": {
                                         request.setAttribute("productList",
-                                                p.getProductListJson(p.getProductListSeller(user.getEmail(), -1, 1)));
+                                                p.getProductListJson(p.getProductListSeller(user.getEmail(), -2, 1)));
                                     }
                                     break;
                                     case "dashboard": {

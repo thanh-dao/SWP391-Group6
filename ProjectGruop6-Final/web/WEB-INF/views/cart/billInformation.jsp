@@ -12,6 +12,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <link href="../css/main.css" rel="stylesheet" type="text/css"/>
         <style>
             /* CSS */
             .button-22 {
@@ -130,11 +131,12 @@
 
     <body>
         <div class="container ">
-            <h4>Thông tin đơn hàng</h4>
+            <h4 class="title_header">Thông tin đơn hàng</h4>
             <div class="row">
-                <div class="col-md-3">
+<!--                <div class="col-md-3">
                     <h6 class="d-flex justify-content-between">Thông tin khách hàng
-                        <a href="<c:url value="/user/userInformation.do"/>">Thay đổi</a></h6>
+                        <a href="<c:url value="/user/userInformation.do"/>">Thay đổi</a>
+                    </h6>
                     <div class="info_user">
                         <div class="d-flex">
                             <i class="fa-regular fa-user"></i>
@@ -155,20 +157,20 @@
                             </p>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <!-- san pham -->
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="col-md-8 col-sm-8 col-xs-12">
                     <c:forEach items="${order.orderByShopList}" var="obs">
                         <c:if test="${obs.orderByShopId == osId}">
                             <div class="br-form">
                                 <h6 class="d-flex">
-                                    <div class="mr-auto p-2">
+                                    <div class="mr-auto ">
                                         <span style="margin-right: 10px;">${obs.name}</span>
                                         <a href="#">
                                             Xem shop >>
                                         </a>
                                     </div>
-                                    <!--                                <div class="p-2">
+                                    <!--                                <div class="">
                                     <c:choose>
                                         <c:when test = "${obs.status == 0}">
                                             <div style="color: red;">
@@ -187,16 +189,16 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </div>                                    
-                                <a class="p-2" href="<c:url value="/cart/billInformation.do?os=${obs.orderByShopId}"/>">Xem chi tiết >></a>-->
+                                <a class="" href="<c:url value="/cart/billInformation.do?os=${obs.orderByShopId}"/>">Xem chi tiết >></a>-->
                                 </h6>
                                 <c:forEach items="${obs.orderDetailList}" var="od">
                                     <!--<tr class="order-link" href="<c:url value="/cart/billInformation.do"/>">-->
                                     <div class="d-flex br-od justify-content-between">
                                         <div class="d-flex">
-                                            <div class="product-img p-2">
+                                            <div class="product-img ">
                                                 <img src="<c:url value="${od.product.getMainImage().url}"/>" alt="">
                                             </div>
-                                            <div class="d-flex flex-column p-2">
+                                            <div class="d-flex flex-column ">
                                                 <a href="<c:url value="/home/productDetail.do?productId=${od.product.productId}"/>">
                                                     <p class="tooltip-text hinden-text">
                                                         ${od.product.name}
@@ -206,11 +208,11 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <p class=" d-flex justify-content-center align-items-center text-right ml-auto p-2">${od.price}</p>  
+                                            <p class=" d-flex justify-content-center align-items-center text-right ml-auto ">${od.price}</p>  
                                             <c:if test="${obs.status == 1}">
                                                 <div class="d-flex justify-content-center align-items-center m0-auto">
                                                     <!-- Button trigger modal -->
-                                                    <button type="button" onclick="toggleModal('${od.product.name}', this, '${od.product.productId}', '${od.orderDetailId}')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                                    <button type="button" onclick="toggleModal('${od.product.name}', this, '${od.product.productId}', '${od.orderDetailId}')" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
                                                         Đánh giá
                                                     </button>
 
@@ -253,9 +255,8 @@
                                 </c:forEach>
                                 <input type="text" hidden id="odid">
                                 <p class="d-flex justify-content-end" 
-                                   style="padding: 20px 10px; margin: 0;">
-                                    Tổng số tiền: 
-                                    ${obs.total}
+                                   style="padding: 20px 10px; margin: 0; color: red; font-weight: bold;">
+                                    Tổng tiền: ${obs.total}
                                 </p>
                                 <div class="d-flex justify-content-end">
                                     <button type="button" class="btn btn-primary">Mua lại</button>
@@ -275,7 +276,7 @@
                         </c:if>
                     </c:forEach>
                 </div>
-                <div class="col-md-3 col-sm-3 col-xs-2">
+<!--                <div class="col-md-3 col-sm-3 col-xs-2">
                     <div class="br-form">
                         <h6 class="title-style">Chi tiết đơn hàng: </h6>
                         <div class="d-flex"><i class="fa-regular fa-address-book"></i><p>${order.address.houseNumber} -
@@ -291,12 +292,12 @@
                             </h6>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
-        <div type="button" style="margin:1%; display:block; text-align: center;">
-            <button type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="/home/main.do"/>'">Trang chủ</button>
-        </div>
+        <!--        <div type="button" style="margin:1%; display:block; text-align: center;">
+                    <button type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="/home/main.do"/>'">Trang chủ</button>
+                </div>-->
     </body>
     <script>
         function toggleFile() {
@@ -342,7 +343,7 @@
         })
         function handleFileChange(el) {
             const files = el.files;
-            
+
             imgComtainer.innerHTML = "";
             if (files.length > 4) {
                 arr = []
@@ -377,7 +378,7 @@
                     method: "POST",
                     body: formData,
                 }).then(res => {
-                    swal("","Đánh giá thành công", "success").then((value) => {
+                    swal("", "Đánh giá thành công", "success").then((value) => {
 
                     });
                 })

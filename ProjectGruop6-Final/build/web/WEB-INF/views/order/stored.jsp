@@ -26,7 +26,7 @@
         <c:choose>
             <c:when test="${not empty productList}">
                 <div class="container latest_blog_area" style="padding: 0;">
-                    <h2 style="text-align: center; ">Duyệt sản phẩm ${productModal}</h2>
+                    <h2 style="text-align: center; ">Quản lý cửa hàng</h2>
                     <ul class="nav nav-tabs registration_area" style="margin-bottom: 20px;">               
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="<c:url value="/order/stored.do?status=ar"/>">Đang bán</a>
@@ -238,16 +238,16 @@
 // data-toggle="modal" data-target=".bd-example-modal-lg"
                     const dt = '<a href="/ProjectGroup6/home/productDetail.do?productId=' + p.productId + '" target="_blank" class="btn btn-info">Chi tiết</a>';
                     const dta = '<button class="btn btn-info" onclick="handleProduct(' + 1 + ')" data-toggle="modal" data-target=".bd-example-modal-lg">Chi tiết</button>';
-                    const ss = '<button class="btn btn-warning" onclick="handleProduct(' + p.productId + ', \'ss\', this)">Ngừng bán</button>';
+                    const ss = '<button class="btn btn-secondary" onclick="handleProduct(' + p.productId + ', \'ss\', this)">Ngừng bán</button>';
                     const as = '<button class="btn btn-success" onclick="handleProduct(' + p.productId + ', \'as\', this)">Bán lại</button>';
                     const d = '<button class="btn btn-danger" onclick="handleProduct(' + p.productId + ', \'d\', this)">Xóa</button>';
-                    const u = '<button class="btn btn-primary" href="/ProjectGroup6/order/stored.do?pId=' + p.productId + '&func=u">Cập nhật</a>';
+                    const u = '<a class="btn btn-primary" target="_blank" href="/ProjectGroup6/order/stored.do?pId=' + p.productId + '&func=u">Cập nhật</a>';
                     const b = '<div class="button-group-area mt-40" style="display: flex; flex-direction: column">';
                     const a = '</div>';
                     if (String('${status}') == 'ar') {
                         option = dt + u + ss
                     } else if (String('${status}') == 'nar') {
-                        option = dt + u + d
+                        option = dta + u + d
                     } else if (String('${status}') == 'nary') {
                         option = dta + u + d
                     } else if (String('${status}') == 'ss') {
@@ -258,10 +258,10 @@
                     return {
                         id: p.productId,
                         date: p.date,
-                        name: `<a href="/ProjectGroup6/home/productDetail.do?productId=` + p.productId + `"> 
-                                  <p class="tooltip-text">` + p.name + `<span>` + p.name + `</span></p>`,
+                        name: `<div class="product__item-name"><a href="/ProjectGroup6/home/productDetail.do?productId=` + p.productId + `"> 
+                                  <p class="tooltip-text">` + p.name + `<span>` + p.name + `</span></p></div>`,
                         image: p.image,
-                        price: `<div style="display: flex; justify-content: flex-end; padding-top: 5px; color: red;">` + formatPrice(p.price) +
+                        price: `<div style="display: flex; justify-content: flex-start; padding-top: 5px; color: red;">` + formatPrice(p.price) +
                                 `</div>`,
                         option: b + option + a,
                         description: p.description
