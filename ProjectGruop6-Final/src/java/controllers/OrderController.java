@@ -15,11 +15,12 @@ import java.io.FilenameFilter;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Calendar;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -143,16 +144,26 @@ public class OrderController extends HttpServlet {
                                         String userEmail = user.getEmail();
                                         Gson gson = new Gson();
                                         request.setAttribute("productList",
-                                                gson.toJson(p.getTop10ProductByShop(userEmail,currentMonth, ProductDAO.DESC)));
+                                                gson.toJson(p.getTop10ProductByShop(userEmail, currentMonth, ProductDAO.DESC)));
                                         System.out.println(gson.toJson((p.getTop10ProductByShop(userEmail, currentMonth, ProductDAO.ASC))));
                                         request.setAttribute("top10ProductLeastSell", gson.toJson((p.getTop10ProductByShop(userEmail, currentMonth, ProductDAO.ASC))));
                                         UserDAO u = new UserDAO();
                                         request.setAttribute("top10SoldCountUser", gson.toJson(u.getTop10UserBuyByShop(userEmail, currentMonth, ProductDAO.DESC, true)));
                                         request.setAttribute("top10SoldPriceUser", gson.toJson(u.getTop10UserBuyByShop(userEmail, currentMonth, ProductDAO.DESC, false)));
-                                        new ReviewDAO().getTotalReviewCurrentRating("ThinhPQSE151077@fpt.edu.vn", 4);
-                                        new ReviewDAO().getTop5Review("ThinhPQSE151077@fpt.edu.vn");
-                                        new OrderDAO().getOrderByCategory("LinhTKSS170602@fpt.edu.vn", 1);
-                                        new OrderDAO().getOrderByPrice("ThinhPQSE151077@fpt.edu.vn");
+                                        ReviewDAO rDAO = new ReviewDAO();
+                                        OrderDAO orDAO = new OrderDAO();
+                                        
+                                        
+                                        
+                                        request.setAttribute("totalReviewRating", gson.toJson(rDAO.getTotalReviewCurrentRating(userEmail)));
+                                        System.out.println(gson.toJson(rDAO.getTop5Review(userEmail)));
+                                        request.setAttribute("top5Review", gson.toJson(rDAO.getTop5Review(userEmail)));
+                                        List<Float> ordersByCate = new ArrayList<Float>();
+                                        for (int i = 0; i < 10; i++) {
+                                            ordersByCate.add(orDAO.getOrderByCategory(userEmail, i));
+                                        }
+                                        request.setAttribute("ordersByCate", gson.toJson(ordersByCate));
+                                        request.setAttribute("ordersByPrice", gson.toJson(orDAO.getOrderByPrice(userEmail)));
                                         break;
                                     }
                                     default:
