@@ -61,8 +61,10 @@ public class CartController extends HttpServlet {
                                         new ArrayList<>(), user.getFirstName() + " "
                                         + user.getLastName(), user.getPhone())
                                 : (OrderDTO) session.getAttribute("cart");
+                        session.setAttribute("cart", cart);
                         if (request.getParameter("func") != null) {
                             String func = request.getParameter("func");
+                            System.out.println(func);
                             if (func.equalsIgnoreCase("create")) {
                                 if (request.getParameter("pIdList") != null) {
                                     String[] pIdList = request.getParameter("pIdList").replace("[", "").replace("]", "").split(",");
@@ -74,8 +76,8 @@ public class CartController extends HttpServlet {
                                             cart.getAddress(), new ArrayList<>(),
                                             cart.getUserName(), cart.getPhone());
                                     handleOrder(cart, arrpId, order);
-                                    session.setAttribute("order", order);
                                     System.out.println("CREATE");
+                                    session.setAttribute("order", order);
                                 }
                             } else {
                                 int productId = request.getParameter("pId") != null
@@ -96,13 +98,13 @@ public class CartController extends HttpServlet {
                 case "pay": {
                     System.out.println("pay HERE");
                     try {
-                        String payId = request.getParameter("payId");
-                        String deliId = request.getParameter("deliId");
                         UserDTO user = (UserDTO) session.getAttribute("user");
                         if (session.getAttribute("order") != null
                                 && request.getParameter("payId") != null
                                 && request.getParameter("deliId") != null) {
                             System.out.println(request.getParameter("pIdList"));
+                            String payId = request.getParameter("payId");
+                            String deliId = request.getParameter("deliId");
                             OrderDTO order = (OrderDTO) session.getAttribute("order");
                             order.setPaymentId(Integer.parseInt(request.getParameter("payId")));
                             order.setDeliveryId(Integer.parseInt(request.getParameter("deliId")));
@@ -131,8 +133,6 @@ public class CartController extends HttpServlet {
                             session.setAttribute("cart", cart);
                             request.setAttribute("controller", "cart");
                             request.setAttribute("action", "thanks");
-                        } else {
-                            throw new Exception("Error");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -145,18 +145,18 @@ public class CartController extends HttpServlet {
                         if (session.getAttribute("cart") != null) {
                             OrderDTO order = session.getAttribute("order") == null ? (OrderDTO) session.getAttribute("cart")
                                     : (OrderDTO) session.getAttribute("order");
+                            System.out.println(session.getAttribute("order") == null ? "---null---"
+                                    : "---not null---");
                             if (request.getParameter("wardId") != null
                                     && request.getParameter("districtId") != null
                                     && request.getParameter("cityId") != null
                                     && request.getParameter("houseNumber") != null
                                     && request.getParameter("userName") != null
                                     && request.getParameter("phone") != null) {
-                                System.out.println("OK");
                                 AddressDAO ad = new AddressDAO();
                                 String wardId = request.getParameter("wardId");
                                 String districtId = request.getParameter("districtId");
                                 String cityId = request.getParameter("cityId");
-                                System.out.println("--1--");
                                 String userName = request.getParameter("userName");
                                 String phone = request.getParameter("phone");
                                 AddressDTO address = new AddressDTO(request.getParameter("houseNumber"),
@@ -165,14 +165,11 @@ public class CartController extends HttpServlet {
                                 order.setAddress(address);
                                 order.setUserName(userName);
                                 order.setPhone(phone);
-                                System.out.println(order);
                                 if (session.getAttribute("order") == null) {
-                                    System.out.println("cart");
                                     session.setAttribute("cart", order);
                                     request.setAttribute("controller", "cart");
                                     request.setAttribute("action", "cart");
                                 } else {
-                                    System.out.println("order");
                                     request.setAttribute("order", order);
                                     request.setAttribute("controller", "cart");
                                     request.setAttribute("action", "pay");

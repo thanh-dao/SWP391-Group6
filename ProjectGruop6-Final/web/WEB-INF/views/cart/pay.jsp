@@ -365,17 +365,15 @@
                                     <div class="info_user">
                                         <div class="d-flex">
                                             <i class="fa-regular fa-user"></i>
-                                            <p>${user.firstName} ${user.lastName}</p>
-                                        </div>
-                                        <div class="d-flex">
-                                            <i class="fa-regular fa-envelope"></i>
-                                            <p>${user.email}</p>
+                                            <p>${order.userName}</p>
                                         </div>
                                         <div class="d-flex">
                                             <i class="fa-solid fa-mobile-screen-button"></i>
-                                            <p>${user.phone}</p>
+                                            <p>${order.phone}</p>
                                         </div>
-                                        <div class="d-flex"><i class="fa-regular fa-address-book"></i><p>${order.address.houseNumber} -
+                                        <div class="d-flex">
+                                            <i class="fa-regular fa-address-book"></i>
+                                            <p>${order.address.houseNumber} -
                                                 ${order.address.wardName} -
                                                 ${order.address.districtName} -
                                                 ${order.address.cityName}
@@ -409,48 +407,48 @@
         </div>
         <script src="https://www.paypal.com/sdk/js?client-id=AcSATbC34qNTc0kDCzZGDxWFgnsdQpuWt8HMIPQwHfGU2UBgNx6lAPkoOtczUGEpWuHK0dm-ZOupi3iY" data-namespace="paypal_sdk"></script>
         <script>
-                function renderPaymentButton(el) {
-                    const buttonContainer = document.querySelector("#paypal-button-container");
-                    const radioValue = el.value;
-                    if (radioValue === "1") {
-                        buttonContainer.innerHTML = "";
-                        const price = localStorage.getItem("usdPrice");
-                        console.log(price)
-                        if (price == null) {
-                            window.location.href = "/ProjectGroup6/user/login.do"
-                        }
-                            
-                        paypal_sdk.Buttons({
-                            createOrder: function (data, actions) {
-                                return actions.order.create({
-                                    purchase_units: [{
-                                        amount: {
-                                            value: (Math.round(price * 100) / 100).toString(),
-                                        }
-                                    }]
-                                })
-                            },
-                            onApprove: function (data, actions) {
-                                return actions.order.capture().then(function (details) {
-                                    // This function shows a transaction success message to your buyer.
-                                    console.log(details)
-                                    document.querySelector("#paypalOrderId").value = details.id;
-                                    document.querySelector("#form").submit();
-                                });
-                            },
-                            style: {
-                                layout: 'vertical',
-                                color: 'blue',
-                                shape: 'rect',
-                                label: 'paypal'
-                            }
-                        }).render('#paypal-button-container');
-                    } else {
-                        buttonContainer.innerHTML = '<button type="submit" class="btn-buy">Thanh Toán</button>'
-                    }
+                                            function renderPaymentButton(el) {
+                                                const buttonContainer = document.querySelector("#paypal-button-container");
+                                                const radioValue = el.value;
+                                                if (radioValue === "1") {
+                                                    buttonContainer.innerHTML = "";
+                                                    const price = localStorage.getItem("usdPrice");
+                                                    console.log(price)
+                                                    if (price == null) {
+                                                        window.location.href = "/ProjectGroup6/user/login.do"
+                                                    }
 
-                }
-            </script>
+                                                    paypal_sdk.Buttons({
+                                                        createOrder: function (data, actions) {
+                                                            return actions.order.create({
+                                                                purchase_units: [{
+                                                                        amount: {
+                                                                            value: (Math.round(price * 100) / 100).toString(),
+                                                                        }
+                                                                    }]
+                                                            })
+                                                        },
+                                                        onApprove: function (data, actions) {
+                                                            return actions.order.capture().then(function (details) {
+                                                                // This function shows a transaction success message to your buyer.
+                                                                console.log(details)
+                                                                document.querySelector("#paypalOrderId").value = details.id;
+                                                                document.querySelector("#form").submit();
+                                                            });
+                                                        },
+                                                        style: {
+                                                            layout: 'vertical',
+                                                            color: 'blue',
+                                                            shape: 'rect',
+                                                            label: 'paypal'
+                                                        }
+                                                    }).render('#paypal-button-container');
+                                                } else {
+                                                    buttonContainer.innerHTML = '<button type="submit" class="btn-buy">Thanh Toán</button>'
+                                                }
+
+                                            }
+        </script>
     </body>
 
 </html>

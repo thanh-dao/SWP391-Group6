@@ -143,10 +143,12 @@
                     <div class="row form-item">
                         <div class="col-md-6">
                             <div style=" display: flex; flex-direction: column;">
+                                ${order==order?"order":"cart"}
                                 <div class="input-form">
                                     <label>Tên người dùng</label>
                                     <input type="text" required="true" name="userName" placeholder="Nhập tên người dùng"
-                                           maxlength="30" class="input-form-item" value="${user.firstName} ${user.lastName}">
+                                           maxlength="30" class="input-form-item" 
+                                           value="${empty order.userName ? cart.userName : order.userName}">
                                 </div>
                                 <div class="input-form">
                                     <label>Số điện thoại</label>

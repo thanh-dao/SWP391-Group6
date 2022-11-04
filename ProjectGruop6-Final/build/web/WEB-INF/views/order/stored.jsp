@@ -213,8 +213,12 @@
         <!--        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
                 crossorigin="anonymous"></script>-->
+        
         <script>
-            var table;
+            
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
             var productList = ${productList};
             var newProductList = []
 
@@ -225,9 +229,95 @@
                     soldCount: i.soldCount
                 })
             })
-            const params = new Proxy(new URLSearchParams(window.location.search), {
-                get: (searchParams, prop) => searchParams.get(prop),
-            });
+            function filterArray(i) {
+                return {
+                    id: i.productId, soldCount: i.soldCount, name: i.name,
+                }
+            }
+            const navBars = document.querySelectorAll(".nav-item > a");
+            const removeActiveClass = () => {
+                navBars.forEach(i => {
+                   i.classList.remove("active"); 
+                });
+            }
+            $(document).ready(function () {
+                var activeIndex = 0;
+                switch(params.status){
+                    case "nary": {
+                        activeIndex = 1;
+                        break;
+                    }
+                    case "nar": {
+                        activeIndex = 2;
+                        break;
+                    }
+                    case "ss": {
+                        activeIndex = 3;
+                        break;
+                    }
+                    case "oos": {
+                        activeIndex = 4;
+                        break;
+                    }
+                }
+                removeActiveClass();
+                navBars[activeIndex].classList.add("active");
+                if (params.status != "dashboard") {
+                    document.querySelector("#dashboard").style.display = "none";
+                    initTableData();
+                } else {
+                    removeActiveClass();
+                    navBars[5].classList.add("active");
+                    const tableHeader = document.querySelector("#list-header");
+                    
+                    
+                    while (tableHeader.hasChildNodes()) {
+                        tableHeader.removeChild(tableHeader.firstChild);
+                    }
+                    var top10ProductLeastSell = ${top10ProductLeastSell == null ? [] : top10ProductLeastSell}.map(filterArray)
+                    var top10SoldPriceUser = ${top10SoldPriceUser == null ? [] : top10SoldPriceUser}
+                    var top10SoldCountUser = ${top10SoldCountUser == null ? [] : top10SoldCountUser}
+                    console.log(top10SoldCountUser)
+                    newProductList.forEach(i => {
+                        document.querySelector("#topSeller").innerHTML +=
+                                '<tr>' +
+                                '<td >' + i.id + '</td>' +
+                                '<td colspan="2">' + i.name + '</td>' +
+                                '<td >' + i.soldCount + '</td>' +
+                                '</tr>'
+                    });
+                    top10ProductLeastSell.forEach(i => {
+                        document.querySelector("#leastSeller").innerHTML +=
+                                '<tr>' +
+                                '<td >' + i.id + '</td>' +
+                                '<td colspan="2">' + i.name + '</td>' +
+                                '<td >' + i.soldCount + '</td>' +
+                                '</tr>'
+                    });
+                    
+                    
+                    for (const [key, value] of Object.entries(top10SoldPriceUser)) {
+                      document.querySelector("#topBuyUserBySoldPrice").innerHTML +=
+                                '<tr>' +
+                                '<td colspan="2">' + key + '</td>' +
+                                '<td colspan="2">' + value + '</td>' +
+                                '</tr>'
+                    }
+                    
+                    for (const [key, value] of Object.entries(top10SoldCountUser)) {
+                      document.querySelector("#topBuyUserBySoldCount").innerHTML +=
+                                '<tr>' +
+                                '<td colspan="2">' + key + '</td>' +
+                                '<td colspan="2">' + value + '</td>' +
+                                '</tr>'
+                    }
+                }
+            })
+        </script>
+        
+        <script>
+            var table;
+            
             console.log(params.status)
             function formatPrice(price) {
                 return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(parseInt(price));
@@ -394,65 +484,6 @@
 
             }
 
-        </script>
-        <script>
-            function filterArray(i) {
-                return {
-                    id: i.productId, soldCount: i.soldCount, name: i.name,
-                }
-            }
-
-            $(document).ready(function () {
-                if (params.status != "dashboard") {
-                    document.querySelector("#dashboard").style.display = "none";
-                    initTableData();
-                } else {
-                    
-                    const tableHeader = document.querySelector("#list-header");
-                    
-                    
-                    while (tableHeader.hasChildNodes()) {
-                        tableHeader.removeChild(tableHeader.firstChild);
-                    }
-                    var top10ProductLeastSell = ${top10ProductLeastSell == null ? [] : top10ProductLeastSell}.map(filterArray)
-                    var top10SoldPriceUser = ${top10SoldPriceUser == null ? [] : top10SoldPriceUser}
-                    var top10SoldCountUser = ${top10SoldCountUser == null ? [] : top10SoldCountUser}
-                    console.log(top10SoldCountUser)
-                    newProductList.forEach(i => {
-                        document.querySelector("#topSeller").innerHTML +=
-                                '<tr>' +
-                                '<td >' + i.id + '</td>' +
-                                '<td colspan="2">' + i.name + '</td>' +
-                                '<td >' + i.soldCount + '</td>' +
-                                '</tr>'
-                    });
-                    top10ProductLeastSell.forEach(i => {
-                        document.querySelector("#leastSeller").innerHTML +=
-                                '<tr>' +
-                                '<td >' + i.id + '</td>' +
-                                '<td colspan="2">' + i.name + '</td>' +
-                                '<td >' + i.soldCount + '</td>' +
-                                '</tr>'
-                    });
-                    
-                    
-                    for (const [key, value] of Object.entries(top10SoldPriceUser)) {
-                      document.querySelector("#topBuyUserBySoldPrice").innerHTML +=
-                                '<tr>' +
-                                '<td colspan="2">' + key + '</td>' +
-                                '<td colspan="2">' + value + '</td>' +
-                                '</tr>'
-                    }
-                    
-                    for (const [key, value] of Object.entries(top10SoldCountUser)) {
-                      document.querySelector("#topBuyUserBySoldCount").innerHTML +=
-                                '<tr>' +
-                                '<td colspan="2">' + key + '</td>' +
-                                '<td colspan="2">' + value + '</td>' +
-                                '</tr>'
-                    }
-                }
-            })
         </script>
     </body>
 </html>
