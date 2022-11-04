@@ -6,6 +6,8 @@ import dao.OrderDAO;
 import dao.ProductDAO;
 import dto.ProductDTO;
 import dto.UserDTO;
+import java.io.File;
+import java.io.FilenameFilter;
 //import jakarta.servlet.ServletException;
 //import jakarta.servlet.annotation.WebServlet;
 //import jakarta.servlet.http.HttpServlet;
@@ -13,6 +15,7 @@ import dto.UserDTO;
 //import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import utils.Constants;
 
 @MultipartConfig
 @WebServlet(name = "OrderController", urlPatterns = {"/order"})
@@ -45,7 +49,7 @@ public class OrderController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
         HttpSession session = (HttpSession) request.getSession();
-        
+
         if (session.getAttribute("user") == null) {
             request.setAttribute("controller", "user");
             request.setAttribute("action", "login");
@@ -88,18 +92,11 @@ public class OrderController extends HttpServlet {
                                         request.setAttribute("controller", "home");
                                         request.setAttribute("action", "uploadProduct");
                                     } else {
-                                        if (request.getPart("img0")==null) {
-                                            System.out.println("GAy");
-                                        }else{
-                                            System.out.println("CO");
-                                        }
-                                        Part part = request.getPart("img0");
+                                        System.out.println("----------------");
+                                        Collection<Part> part = request.getParts();
                                         System.out.println(part);
-//                                        Collection<Part> part = request.getParts();
-//                                        String realPath = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-                                        System.out.println("==============");
-                                        System.out.println(part);
-//                                        System.out.println(realPath);
+                                        handleImage(part, String.valueOf(pId));
+                                        System.out.println("----------------");
                                     }
                                 }
                                 break;
@@ -161,6 +158,39 @@ public class OrderController extends HttpServlet {
             }
         }
         request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
+    }
+
+    public void handleImage(Collection<Part> part, String pId) throws IOException {
+        int index = 0;
+        for (Part p : part) {
+            String fileName = p.getSubmittedFileName();
+            if (fileName != null && !fileName.isEmpty()) {
+                try {
+                    String e = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+                    index++;
+                    String newName = pId + "_" + String.valueOf(index);
+                    findImage(newName);
+                    p.write(Constants.IMAGE_ABSOLUTE_DIRECTORY + "/" + newName + e);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void findImage(String urlImage) {
+        File f = new File(Paths.get(Constants.IMAGE_ABSOLUTE_DIRECTORY).toString());
+        File[] matchingFiles = f.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                if (name.startsWith(urlImage)) {
+                    try {
+                        Files.deleteIfExists(Paths.get(Constants.IMAGE_ABSOLUTE_DIRECTORY + "/" + name));
+                    } catch (IOException ex) {
+                    }
+                }
+                return name.startsWith(urlImage);
+            }
+        });
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

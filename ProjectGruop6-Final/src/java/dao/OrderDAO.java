@@ -89,7 +89,8 @@ public class OrderDAO {
         conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("INSERT INTO [order] (delivery_id, "
                 + "payment_id, email_buyer, address, ward_id, "
-                + "district_id, city_id, pay_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                + "district_id, city_id, pay_id, user_name, phone) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         stm.setInt(1, order.getDeliveryId());
         stm.setInt(2, order.getPaymentId());
         stm.setString(3, order.getEmailBuyer());
@@ -98,6 +99,8 @@ public class OrderDAO {
         stm.setString(6, order.getAddress().getDistrictId());
         stm.setString(7, order.getAddress().getCityId());
         stm.setString(8, order.getPayId());
+        stm.setString(9, order.getUserName());
+        stm.setString(10, order.getPhone());
         stm.executeUpdate();
         for (OrderByShopDTO obs : order.getOrderByShopList()) {
             new OrderByShopDAO().createOrderByShop(getMaxId(), obs);
@@ -283,9 +286,9 @@ public class OrderDAO {
 //            as.get(0).setHouseNumber("b");
 //            System.out.println(as);
 //            System.out.println(ad);
-            OrderDTO order = new OrderDTO(null, null, new ArrayList<>());
+//            OrderDTO order = new OrderDTO(null, null, new ArrayList<>());
             
-            System.out.println(order.getOrderByShopList().indexOf(order));
+//            System.out.println(order.getOrderByShopList().indexOf(order));
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

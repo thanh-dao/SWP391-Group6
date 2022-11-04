@@ -84,7 +84,11 @@
                     </script>
                 </c:if>
                 <div class="product__content">
-                    <form  method="GET" class="product-form">
+                    <h1>${controller == "home" ? "dung" : "sai"}</h1>
+                    <h1>${action}</h1>
+                    <h1>${pId}</h1>
+                    <form ${controller == "home" ? 'method="post" enctype="multipart/form-data" 
+                            action = "stored.do?pId=150&func=u&product=1"' : 'method="GET"'}  class="product-form">
                         <div class="row ">
                             <div class="upload col-lg-6 col-md-6 col-sm-6">
                                 <button class="upload-button" type="button" onclick="toggleFile()">
@@ -110,10 +114,8 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="row">                                        
-                                    <input id="img1" name="img1" class="input-image" type="file" hidden accept="image/*">
-                                    <div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img1')">
-                                        <input id="img1" name="img1" class="input-image" type="file" hidden accept="image/*">
+                                <div class="row"><div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img1')">
+                                        <input id="img1" name="img1" class="input-image" type="file" accept="image/*">
                                         <!--<img src="../images/plus.png" alt=""/>-->
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img2')">
@@ -194,8 +196,8 @@
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-end">
                                 <c:if test="${!empty product}">
-                                    <button type="button" class="btn btn-success">Success</button>
-                                    <a class="btn btn-success" href="stored.do?pId=${product.productId}&func=u">Lưu</a>
+                                    <input type="submit" value="ADD"/>
+                                    <button class="btn btn-success" type="submit">Lưu</button>
                                 </c:if>
                                 <button type="submit" class="btn btn-success">Lưu</button>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable" onclick="previewProduct()" data-toggle="modal" data-target=".bd-example-modal-xl">Xem trước</button>
@@ -328,7 +330,7 @@
         </div>
 
         <script src="<c:url value="/ckeditor5/ckeditor_build/ckeditor.js" />" type="text/javascript"></script>
-        <script>
+<!--        <script>
                                                     $(".select-category").select2()
                                                     const currency = new AutoNumeric('#formattedMoneyField', {
                                                         allowDecimalPadding: false,
@@ -472,6 +474,6 @@
                 readAndPreview(arr, indicatiorModal, carouselInnerModal);
             }
 
-        </script>
+        </script>-->
     </body>
 </html>

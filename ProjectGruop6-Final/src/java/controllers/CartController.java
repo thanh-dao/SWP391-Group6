@@ -57,7 +57,9 @@ public class CartController extends HttpServlet {
                     try {
                         UserDTO user = (UserDTO) session.getAttribute("user");
                         OrderDTO cart = session.getAttribute("cart") == null
-                                ? new OrderDTO(user.getEmail(), user.getAddress(), new ArrayList<>())
+                                ? new OrderDTO(user.getEmail(), user.getAddress(),
+                                        new ArrayList<>(), user.getFirstName() + " "
+                                        + user.getLastName(), user.getPhone())
                                 : (OrderDTO) session.getAttribute("cart");
                         if (request.getParameter("func") != null) {
                             String func = request.getParameter("func");
@@ -69,7 +71,8 @@ public class CartController extends HttpServlet {
                                         arrpId[i] = Integer.parseInt(pIdList[i]);
                                     }
                                     OrderDTO order = new OrderDTO(cart.getEmailBuyer(),
-                                            cart.getAddress(), new ArrayList<>());
+                                            cart.getAddress(), new ArrayList<>(),
+                                            cart.getUserName(), cart.getPhone());
                                     handleOrder(cart, arrpId, order);
                                     session.setAttribute("order", order);
                                     System.out.println("CREATE");
@@ -103,12 +106,12 @@ public class CartController extends HttpServlet {
                             OrderDTO order = (OrderDTO) session.getAttribute("order");
                             order.setPaymentId(Integer.parseInt(request.getParameter("payId")));
                             order.setDeliveryId(Integer.parseInt(request.getParameter("deliId")));
-                            if(payId.equals("1")){
+                            if (payId.equals("1")) {
                                 System.out.println("paypal order id: " + request.getParameter("paypalOrderId"));
                                 order.setPayId(request.getParameter("paypalOrderId"));
                             }
                             UserDAO uDAO = new UserDAO();
-                            if(deliId.equals("1")){
+                            if (deliId.equals("1")) {
                                 order.getOrderByShopList().forEach(i -> {
                                     try {
                                         String ghnOrderCode = GhnApi.createOrder(user, uDAO.findUser(i.getEmailSeller()), i.getOrderDetailList(), payId.equals("1") ? "0" : Integer.toString(i.getTotal()));
@@ -145,21 +148,31 @@ public class CartController extends HttpServlet {
                             if (request.getParameter("wardId") != null
                                     && request.getParameter("districtId") != null
                                     && request.getParameter("cityId") != null
-                                    && request.getParameter("houseNumber") != null) {
+                                    && request.getParameter("houseNumber") != null
+                                    && request.getParameter("userName") != null
+                                    && request.getParameter("phone") != null) {
                                 System.out.println("OK");
                                 AddressDAO ad = new AddressDAO();
                                 String wardId = request.getParameter("wardId");
                                 String districtId = request.getParameter("districtId");
                                 String cityId = request.getParameter("cityId");
+                                System.out.println("--1--");
+                                String userName = request.getParameter("userName");
+                                String phone = request.getParameter("phone");
                                 AddressDTO address = new AddressDTO(request.getParameter("houseNumber"),
                                         wardId, ad.get(wardId, 3), districtId,
                                         ad.get(districtId, 2), cityId, ad.get(cityId, 1));
                                 order.setAddress(address);
+                                order.setUserName(userName);
+                                order.setPhone(phone);
+                                System.out.println(order);
                                 if (session.getAttribute("order") == null) {
+                                    System.out.println("cart");
                                     session.setAttribute("cart", order);
                                     request.setAttribute("controller", "cart");
                                     request.setAttribute("action", "cart");
                                 } else {
+                                    System.out.println("order");
                                     request.setAttribute("order", order);
                                     request.setAttribute("controller", "cart");
                                     request.setAttribute("action", "pay");
@@ -318,7 +331,7 @@ public class CartController extends HttpServlet {
 //        List<OrderByShopDTO> obsList = new ArrayList<>();
 //        OrderByShopDTO os = new OrderByShopDTO();
 ////        obsList.add(os);
-        OrderDTO cart = new OrderDTO("tên", null, new ArrayList<>());
+//        OrderDTO cart = new OrderDTO("tên", null, new ArrayList<>());
 ////        cart.setOrderByShopList(obsList);
 //
 //        if (cart.getOrderByShopList() == null) {
@@ -335,8 +348,8 @@ public class CartController extends HttpServlet {
 //        System.out.println(cart);
 //        System.out.println(obsList.add(os));
 //        System.out.println(checkOrderByShop(obsList, "a"));
-        cart = handleCart(cart, 384, 0, "add");
-        System.out.println(cart);
+//        cart = handleCart(cart, 384, 0, "add");
+//        System.out.println(cart);
 //        System.out.println(cart);
 
 //        if (Files.exists(Paths.get("web/img/phinhse150972@fpt.edu.vn.png"))) {
