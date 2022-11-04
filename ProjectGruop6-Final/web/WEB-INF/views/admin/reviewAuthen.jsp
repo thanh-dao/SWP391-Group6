@@ -118,9 +118,7 @@
     </head>
 
     <body>
-        <div class="col d-flex">
-            <!--Div that will hold the pie chart-->
-            <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
+        <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
                 <a href="#" class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
                     <svg class="bi me-2" width="40" height="32">
                     <use xlink:href="#bootstrap"></use>
@@ -133,7 +131,7 @@
                 <hr>
                 <ul class="nav nav-pills flex-column overflow-hidden mb-auto ">
                     <li class="nav-item">
-                        <a href="<c:url value="/admin/productAuthen.do?status=nary"/>" class="nav-link active text-white">
+                        <a href="<c:url value="/admin/productAuthen.do?status=nary"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#grid"></use>
                             </svg>
@@ -150,7 +148,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="<c:url value="/admin/reviewAuthen.do?status=nary"/>" class="nav-link text-white">
+                        <a href="<c:url value="/admin/reviewAuthen.do?status=nary"/>" class=" active nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#people-circle"></use>
                             </svg>
@@ -168,6 +166,9 @@
                 </ul>
                 <hr>
             </div>
+        <div class="col d-flex">
+            <!--Div that will hold the pie chart-->
+            
         </div> 
 
         <c:choose>

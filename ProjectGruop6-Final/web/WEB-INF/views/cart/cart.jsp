@@ -253,9 +253,9 @@
                                                     <fmt:setLocale value="vi-VN"/>
                                                     Phí ship: 
                                                     <fmt:formatNumber type="currency" value='${GhnApi.getShipingFee(
-                                                                                               i.getAddress().cityName, sessionScope.user.address.cityName, 
-                                                                                               i.getAddress().districtName,sessionScope.user.address.districtName,
-                                                                                               sessionScope.user.address.wardName, "2")}' />
+                                                                                               i.getAddress().cityName, cart.address.cityName, 
+                                                                                               i.getAddress().districtName,cart.address.districtName,
+                                                                                               cart.address.wardName, "2")}' />
                                                 </c:if>
                                             </th>
 
@@ -314,10 +314,10 @@
                                 </div>
                                 <div class="txt-style">
                                     <div>
-                                        <span class="font-bold">Họ và tên: </span><span>${user.firstName} ${user.lastName}</span>
+                                        <span class="font-bold">Họ và tên: </span><span>${cart.userName}</span>
                                     </div>
                                     <div>
-                                        <span class="font-bold">Số điện thoại: </span><span>${user.phone}</span><br>
+                                        <span class="font-bold">Số điện thoại: </span><span>${cart.phone}</span><br>
                                     </div>
                                     <div>
                                         <span class="font-bold">Địa chỉ: </span>
@@ -355,10 +355,10 @@
                                                   empty cart.address.cityName &&
                                                   empty user.phone &&
                                                   !empty cart.orderByShopList}">
-                                        <a class="genric-btn primary circle" onclick="handlePay()" href="<c:url value="/cart/shipInformation.do"/>">Thanh Toán</a>
+                                        <a class="genric-btn primary circle" onclick="handlePay(event)" href="<c:url value="/cart/shipInformation.do"/>">Thanh Toán</a>
                                 </c:when>
                                 <c:when test = "${not empty cart.orderByShopList}">
-                                    <a class="btn-buy" onclick="handlePay()" href="<c:url value="/cart/pay.do"/>">Thanh Toán</a>
+                                    <a class="btn-buy" onclick="handlePay(event)" href="<c:url value="/cart/pay.do"/>">Thanh Toán</a>
                                 </c:when>
                                 <c:otherwise>
                                 </c:otherwise>
@@ -370,7 +370,15 @@
         </div>
         <script>
             const products = new Set();
-            const handlePay = () => {
+            const handlePay = (event) => {
+                if(createOrder().size == 0){
+                    swal("Chưa chọn bất kỳ sản phẩm nào!!!", {
+                        icon: "error",
+                        buttons: false,
+                        timer: 1000
+                    });
+                    event.preventDefault();
+                }
                 const price = parseInt(document.querySelector("#price").innerHTML.substring(1).replaceAll(",", ""));
                 localStorage.removeItem("vndPrice");
                 localStorage.setItem("vndPrice", price);

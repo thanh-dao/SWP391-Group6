@@ -61,10 +61,12 @@ public class OrderByShopDAO {
     public int totalOrderByShop(int orderByShopId) throws ClassNotFoundException, SQLException {
         Connection conn;
         conn = DBUtil.getConnection();
-        PreparedStatement stm = conn.prepareStatement("SELECT SUM(od.price) as total FROM\n"
-                + "(SELECT order_by_shop_id FROM order_by_shop WHERE order_by_shop_id = ? ) os\n"
+        PreparedStatement stm = conn.prepareStatement("SELECT ((SELECT (transaction_fee + transport_fee)"
+                + "FROM order_by_shop WHERE order_by_shop_id = ? )  + SUM(od.price)) as total FROM\n"
+                + "(SELECT order_by_shop_id FROM order_by_shop WHERE order_by_shop_id = ? ) os \n"
                 + "LEFT JOIN order_detail od ON os.order_by_shop_id = od.order_by_shop_id");
         stm.setInt(1, orderByShopId);
+        stm.setInt(2, orderByShopId);
         ResultSet rs = stm.executeQuery();
         if (rs.next()) {
             return rs.getInt("total");
@@ -179,20 +181,8 @@ public class OrderByShopDAO {
     public static void main(String[] args) {
         try {
             OrderByShopDAO obs = new OrderByShopDAO();
-            //            System.out.println(obs.getOrderByShop(19));
-            //            }
-            //            System.out.println(obs.totalOrderByShop(15));
-            //            System.out.println(obs.getCancellationRate("ThinhPQSE151077@fpt.edu.vn"));
-            String cr = "0";
-//            System.out.println(obs.getCancellationRate("ThinhPQSE151077@fpt.edu.vn").getClass());
-            if (obs.getCancellationRate("HanNHGSS170456@fpt.edu.vn").getClass()
-                    != cr.getClass()) {
-                System.out.println("OK");
-            }
-            System.out.println(cr);
-//            System.out.println(obs.getTotalRating("ThinhPQSE151077@fpt.edu.vn"));
-//            System.out.println(obs.getOrderByShop(16).get);
-//            obs.checkOrderByShop();
+            System.out.println(obs.totalOrderByShop(15));
+            ;
         } catch (Exception e) {
         }
     }

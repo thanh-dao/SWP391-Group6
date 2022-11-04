@@ -16,7 +16,7 @@ import java.util.List;
 import utils.DBUtil;
 
 public class ReviewDAO {
-    
+
     public int getReviewId(int orderDetailId, int producId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select review_id from review r \n"
@@ -30,7 +30,7 @@ public class ReviewDAO {
         }
         return -1;
     }
-    
+
     public int getMaxReviewId() throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select max(review_id) from review");
@@ -40,6 +40,7 @@ public class ReviewDAO {
         }
         return -1;
     }
+
     public List<ReviewDTO> getReview(int productId) throws ClassNotFoundException, SQLException {
         List<ReviewDTO> list = new ArrayList<>();
         Connection conn = DBUtil.getConnection();
@@ -69,7 +70,7 @@ public class ReviewDAO {
         }
         return list;
     }
-    
+
     public double getAVGRatingOfProduct(int productId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT AVG(r.rating)\n"
@@ -83,7 +84,7 @@ public class ReviewDAO {
         rs.next();
         return Double.parseDouble(String.format("%,.1f", rs.getDouble(1)));
     }
-    
+
     public List<ReviewDTO> getListReviewForCheck(int option, boolean existAdmin) throws ClassNotFoundException, SQLException {
         String o = "status ";
         if (option == 1 && existAdmin) {
@@ -127,7 +128,7 @@ public class ReviewDAO {
         }
         return list;
     }
-    
+
     public int getTotalReview() throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select count(review.review_id) from review");
@@ -137,7 +138,35 @@ public class ReviewDAO {
         }
         return -1;
     }
-    
+
+    public int getCountRating(String emailSeller, int rating) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT COUNT(r.review_id) as [count] FROM\n"
+                + "(SELECT product_id FROM product WHERE email_seller = ? ) u\n"
+                + "LEFT JOIN order_detail od ON u.product_id = od.product_id\n"
+                + "LEFT JOIN review r ON r.order_detail_id = od.order_detail_id\n"
+                + "LEFT JOIN order_by_shop os ON os.order_by_shop_id = od.order_by_shop_id\n"
+                + "LEFT JOIN [order] o ON o.order_id = os.order_id\n"
+                + "WHERE r.rating >= ? AND r.rating < ? ");
+        stm.setString(1, emailSeller);
+        stm.setInt(2, rating);
+        stm.setInt(3, rating + 1);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return -1;
+    }
+
+    public ArrayList<Integer> getTotalReviewCurrentRating(String emailSeller, int monthNumber) throws ClassNotFoundException, SQLException {
+        ArrayList<Integer> arr = new ArrayList<>();
+        int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        for (int i = 0; i >= currentMonth - monthNumber; i--) {
+            arr.add(getCountRating(emailSeller, i));
+        }
+        return arr;
+    }
+
     public int getTotalReview(int month) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("select count(review.review_id) from review where month([date])=  ?");
@@ -148,7 +177,7 @@ public class ReviewDAO {
         }
         return -1;
     }
-    
+
     public ArrayList<Integer> getTotalReviewCurrentMonths(int monthNumber) throws ClassNotFoundException, SQLException {
         ArrayList<Integer> arr = new ArrayList<>();
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
@@ -157,7 +186,7 @@ public class ReviewDAO {
         }
         return arr;
     }
-    
+
     public String getReviewJson(List<ReviewDTO> reviewList) throws ClassNotFoundException, SQLException {
         Gson gson = new Gson();
         HashMap<String, String> hashmap = new HashMap<>();
@@ -183,7 +212,7 @@ public class ReviewDAO {
         }
         return a + "]";
     }
-    
+
     public boolean updateReview(String emailAdmin, int reviewId, boolean status) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("UPDATE review \n"
@@ -194,7 +223,7 @@ public class ReviewDAO {
         stm.setInt(3, reviewId);
         return stm.executeUpdate() == 1;
     }
-    
+
     public boolean createReview(ReviewDTO review) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("INSERT INTO [dbo].[review]\n"
@@ -214,7 +243,7 @@ public class ReviewDAO {
         stm.setDate(6, (java.sql.Date) review.getDate());
         return stm.executeUpdate() == 1;
     }
-    
+
     public static void main(String[] args) {
         ReviewDAO r = new ReviewDAO();
         try {

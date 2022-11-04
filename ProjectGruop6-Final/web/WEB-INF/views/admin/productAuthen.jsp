@@ -100,9 +100,7 @@
     </head>
 
     <body>
-        <div class="col d-flex">
-            <!--            Div that will hold the pie chart-->
-            <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
+        <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
                 <a href="#" class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
                     <svg class="bi me-2" width="40" height="32">
                     <use xlink:href="#bootstrap"></use>
@@ -122,7 +120,7 @@
                             Sản phẩm
                         </a>
                     </li>
-                    <li class="nav-item" onclick="setActive(this)">
+                    <li class="nav-item " onclick="setActive(this)">
                         <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#table"></use>
@@ -150,6 +148,9 @@
                 </ul>
                 <hr>
             </div>
+        <div class="col d-flex">
+            <!--            Div that will hold the pie chart-->
+            
         </div>
         <c:if test="${not empty productList}">
             <div class="container br-form">

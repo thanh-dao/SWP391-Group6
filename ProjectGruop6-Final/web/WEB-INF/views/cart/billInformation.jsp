@@ -159,7 +159,7 @@
                     </div>
                 </div>-->
                 <!-- san pham -->
-                <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="col-md-9 col-sm-9 col-xs-12">
                     <c:forEach items="${order.orderByShopList}" var="obs">
                         <c:if test="${obs.orderByShopId == osId}">
                             <div class="br-form">
@@ -276,9 +276,22 @@
                         </c:if>
                     </c:forEach>
                 </div>
-<!--                <div class="col-md-3 col-sm-3 col-xs-2">
-                    <div class="br-form">
+                <div class="col-md-3 col-sm-3 col-xs-2" style="padding-left: 0;">
+                    <div class="br-form" style="padding: 0;">
                         <h6 class="title-style">Chi tiết đơn hàng: </h6>
+                        <div class="info_user">
+                        <div class="d-flex">
+                            <i class="fa-regular fa-user"></i>
+                            <p>${order.userName}</p>
+                        </div>
+                        <div class="d-flex">
+                            <i class="fa-regular fa-envelope"></i>
+                            <p>${user.email}</p>
+                        </div>
+                        <div class="d-flex">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                            <p>${order.phone}</p>
+                        </div>
                         <div class="d-flex"><i class="fa-regular fa-address-book"></i><p>${order.address.houseNumber} -
                                 ${order.address.wardName} -
                                 ${order.address.districtName} -
@@ -292,7 +305,7 @@
                             </h6>
                         </div>
                     </div>
-                </div>-->
+                </div>
             </div>
         </div>
         <!--        <div type="button" style="margin:1%; display:block; text-align: center;">

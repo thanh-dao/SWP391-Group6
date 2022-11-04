@@ -21,6 +21,9 @@ public class OrderDTO {
     private AddressDTO address;
     private List<OrderByShopDTO> orderByShopList;
     private String payId;
+    private String userName;
+    private String phone;
+//    private int total;
 
     public OrderDTO(int orderId, int deliveryId, int paymentId, String emailBuyer, Date orderDate, AddressDTO address, List<OrderByShopDTO> orderByShopList) {
         this.orderId = orderId;
@@ -31,11 +34,7 @@ public class OrderDTO {
         this.address = address;
         this.orderByShopList = orderByShopList;
     }
-    
-    
-    
-    
-    
+
     public OrderDTO(int deliveryId, int paymentId, String emailBuyer, Date orderDate, AddressDTO address, List<OrderByShopDTO> orderByShopList) {
         this.deliveryId = deliveryId;
         this.paymentId = paymentId;
@@ -50,15 +49,17 @@ public class OrderDTO {
         this.emailBuyer = emailBuyer;
     }
 
-    public OrderDTO(String emailBuyer, AddressDTO address, List<OrderByShopDTO> OrderByShopList) {
+    public OrderDTO(String emailBuyer, AddressDTO address, List<OrderByShopDTO> orderByShopList, String userName, String phone) {
         this.emailBuyer = emailBuyer;
         this.address = address;
-        this.orderByShopList = OrderByShopList;
+        this.orderByShopList = orderByShopList;
+        this.userName = userName;
+        this.phone = phone;
     }
 
     @Override
     public String toString() {
-        return "OrderDTO{" + "orderId=" + orderId + ", deliveryId=" + deliveryId + ", paymentId=" + paymentId + ", emailBuyer=" + emailBuyer + ", orderDate=" + orderDate + ", address=" + address + ", orderByShopList=" + orderByShopList + '}';
+        return "OrderDTO{" + "orderId=" + orderId + ", deliveryId=" + deliveryId + ", paymentId=" + paymentId + ", emailBuyer=" + emailBuyer + ", orderDate=" + orderDate + ", address=" + address + ", orderByShopList=" + orderByShopList + ", payId=" + payId + ", userName=" + userName + ", phone=" + phone + '}';
     }
 
 }
