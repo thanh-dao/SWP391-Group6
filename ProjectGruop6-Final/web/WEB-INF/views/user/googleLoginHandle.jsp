@@ -9,7 +9,7 @@
 <script>
     let redirectUrl;
     const previousUrl = localStorage.getItem("previousUrl");
-    redirectUrl = previousUrl == null ? "/ProjectGroup6/user/login.do" : previousUrl;
+    redirectUrl = previousUrl === null ? "/ProjectGroup6/user/login.do" : previousUrl;
     localStorage.removeItem("previousUrl");
     window.location.href = redirectUrl;
 </script>
