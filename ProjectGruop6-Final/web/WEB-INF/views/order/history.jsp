@@ -117,6 +117,12 @@
         <title>＃</title>
     </head>
     <body>
+        <script>
+            let ghnOrderCode;
+            function formatPrice(price) {
+                return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(parseInt(price));
+            }
+        </script>
         <div class="container">
             <h3>Lịch sử đơn hàng</h3>
             <div class="table-responsive container p-3 mt-5 mb-5">
@@ -143,9 +149,46 @@
                                             </div>
                                         </c:when>
                                         <c:otherwise>
-                                            <div style="color: red;">
+                                            <div id="status${obs.orderByShopId}" style="color: blue;">
                                                 Đang giao hàng
                                             </div>
+                                            <script>
+                                                ghnOrderCode = ${obs.shipId == null ? 1 : obs.shipId}
+                                                if(ghnOrderCode != 1)
+                                                    fetch('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/detail?', {
+                                                        method: "POST",
+                                                        headers: {
+                                                            'token': 'd67c06a0-2e7c-11ed-b824-262f869eb1a7',
+                                                            'Content-Type': 'application/json'
+                                                        },
+                                                        body: JSON.stringify({
+                                                            order_code: ghnOrderCode
+                                                        })
+                                                    })
+                                                    .then(res => res.json())
+                                                    .then(data => {
+                                                        const status = data.data.status;
+                                                        const noti = document.querySelector("#status${obs.orderByShopId}");
+                                                        console.log(noti)
+                                                        switch(status) {
+                                                            case "cancel": {
+                                                                noti.style.color = "red"
+                                                                noti.innerHTML = "Đã hủy"
+                                                                break;
+                                                            }case "finish": {
+                                                                noti.style.color = "green";
+                                                                noti.innerHTML = "Giao hàng thành công";
+                                                                break;
+                                                            }default :{
+                                                                noti.style.color = "blue";
+                                                                noti.innerHTML = "Đang giao hàng";
+                                                                break;
+                                                            }
+                                                        }
+                                                    })
+                                                    .catch(err => console.log(err))
+                                            </script>
+                                            
                                         </c:otherwise>
                                     </c:choose>
                                 </div>                                    
@@ -158,21 +201,27 @@
                                         <img src="<c:url value="${od.product.getMainImage().url}"/>" alt="">
                                     </div>
                                     <div class="d-flex flex-column p-2">
-                                        <a href="<c:url value="/home/productDetail.do?productId=${od.product.productId}"/>">
+                                        <a href="<c:url value="/home/productDetail.do?productId=${od.productId}"/>">
                                             <p class="tooltip-text hinden-text">
                                                 ${od.product.name}
                                                 <!--<span>${od.product.name}</span>-->
                                             </p></a>
                                         x${od.quantity}
                                     </div>
-                                    <p class="text-right ml-auto p-2">${od.price}</p>
+                                    <p class="text-right ml-auto p-2 price${od.productId}${od.orderDetailId}">
+                                        <script>
+                                            document.querySelector(".price${od.productId}${od.orderDetailId}").innerHTML = formatPrice(${od.price})
+                                        </script>
+                                    </p>
                                 </div>
                             </c:forEach>
-                            <p class="d-flex justify-content-end" 
+                            <h3 class="d-flex justify-content-end total${obs.orderByShopId}" 
                                style="padding: 20px 10px; margin: 0;">
                                 Tổng số tiền: 
-                                ${obs.total}
-                            </p>
+                                <script>
+                                    document.querySelector(".total${obs.orderByShopId}").innerHTML = formatPrice(${obs.total})
+                                </script>
+                            </h3>
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary">Mua lại</button>
                                 <c:choose>
@@ -195,9 +244,6 @@
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
         <script>
-            function formatPrice(price) {
-                return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(parseInt(price));
-            }
             const priceFormat = document.querySelectorAll(".text-right");
 //            priceFormat.valueOf()
 //            document.getElementById("price").innerHTML = formatPrice();
