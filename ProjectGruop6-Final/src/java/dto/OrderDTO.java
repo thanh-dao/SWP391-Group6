@@ -23,7 +23,20 @@ public class OrderDTO {
     private String payId;
     private String userName;
     private String phone;
-//    private int total;
+    private int total;
+
+    public OrderDTO(int orderId, int deliveryId, int paymentId, String emailBuyer, Date orderDate, AddressDTO address, List<OrderByShopDTO> orderByShopList, String payId, String userName, String phone) {
+        this.orderId = orderId;
+        this.deliveryId = deliveryId;
+        this.paymentId = paymentId;
+        this.emailBuyer = emailBuyer;
+        this.orderDate = orderDate;
+        this.address = address;
+        this.orderByShopList = orderByShopList;
+        this.payId = payId;
+        this.userName = userName;
+        this.phone = phone;
+    }
 
     public OrderDTO(int orderId, int deliveryId, int paymentId, String emailBuyer, Date orderDate, AddressDTO address, List<OrderByShopDTO> orderByShopList) {
         this.orderId = orderId;

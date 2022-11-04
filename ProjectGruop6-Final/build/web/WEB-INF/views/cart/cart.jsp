@@ -287,9 +287,9 @@
                                                 </td>
                                                 <td>
                                                     <div class="quantity-button">
-                                                        <button class="btn-style-left" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, 'minus', this)">-</button>
-                                                        <input type="number"   class="ip-qua-style" pattern="/^[1-9]\d*$/" oninput="updateMoneyPerProduct(this, ${p.getQuantity()},${p.getProductId()}, ${i.orderByShopId})" value=${p.getQuantity()}>
-                                                        <button class="btn-style-right" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, 'sum', this)">+</button>
+                                                        <button class="btn-style-left" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, 'minus', this, ${p.product.quantity})">-</button>
+                                                        <input type="number"   class="ip-qua-style" pattern="/^[1-9]\d*$/" onchange="updateMoneyPerProduct(this, ${p.getQuantity()},${p.getProductId()}, ${i.orderByShopId}, ${p.product.quantity})" value=${p.getQuantity()}>
+                                                        <button class="btn-style-right" onclick="handleCart(${p.getProductId()}, ${i.orderByShopId}, 'sum', this, ${p.product.quantity})">+</button>
                                                         <div class=" style-product-cart delete-icon " onclick="deleteOrderDetail(${p.getProductId()}, ${i.orderByShopId}, this)" 
                                                              style="justify-content: center">
                                                             <a class="show-cart" style="color: white"><i
@@ -371,7 +371,7 @@
         <script>
             const products = new Set();
             const handlePay = (event) => {
-                if(createOrder().size == 0){
+                if (createOrder().size == 0) {
                     swal("Chưa chọn bất kỳ sản phẩm nào!!!", {
                         icon: "error",
                         buttons: false,
@@ -419,6 +419,20 @@
                 })
                 return products;
             }
+            const checkQuantity = (quantity, max) => {
+                console.log(quantity);
+                if (quantity > max) {
+                    swal({
+                        text: "Số lượng còn lại của sản phẩm này là " + max,
+                        icon: "warning",
+                        buttons: false,
+                        timer: 1000
+                    })
+                    quantity = max;
+                    return false;
+                }
+                return true;
+            }
             const deleteAll = () => {
                 swal({
                     title: "",
@@ -455,22 +469,44 @@
                             }
                         });
             }
-            function updateMoneyPerProduct(el, quantity, pId, osId) {
-                const intValue = parseInt(el.value)
+            function updateMoneyPerProduct(el, quantity, pId, osId, max) {
+                let intValue = parseInt(el.value)
                 if (intValue < 1) {
                     el.value = quantity;
                 } else {
+                    const isCheck = checkQuantity(el.value, max);
+                    if (!isCheck) {
+                        intValue = max;
+                        el.value = max;
+                    }
                     $.ajax("<c:url value="/cart/cart.do"/>", {
                         data: {
                             pId: pId,
                             func: 'update',
                             quan: intValue,
                             osId: osId,
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            if (isCheck) {
+                                console.log(el);
+                                console.log("OK");
+                                swal("Thành công", {
+                                    icon: "success",
+                                    buttons: false,
+                                    timer: 1000,
+                                });
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            swal("Thất bại!!!", {
+                                icon: "error",
+                                buttons: false,
+                                timer: 1000,
+                            });
                         }
                     })
-                    document.getElementById("price").innerHTML = total();
+//                        document.getElementById("price").innerHTML = total();
                 }
-
             }
             const deleteOrderDetail = (pId, osId, el) => {
                 swal({
@@ -514,29 +550,33 @@
                             }
                         });
             }
-            const handleCart = (pId, osId, option, el) => {
+            const handleCart = (pId, osId, option, el, max) => {
                 let quantity = parseInt(el.parentElement.querySelector(".ip-qua-style").value)
-                if (option == 'minus') {
-                    quantity -= 1;
-                    if (quantity < 1) {
-                        quantity = 1;
-                        deleteOrderDetail(pId, osId, el);
-                    }
-
-                } else if (option == 'sum') {
-                    quantity += 1;
+                if (checkQuantity(quantity, max)) {
+                console.log(quantity);
+                console.log(max);
+                console.log(checkQuantity(quantity, max));
+                    if (option == 'minus') {
+                        quantity -= 1;
+                        if (quantity < 1) {
+                            quantity = 1;
+                            deleteOrderDetail(pId, osId, el);
+                        }
+                    } else if (option == 'sum') {
+                        quantity += 1;
 //                    console.log(quantity);
-                }
-                el.parentElement.querySelector(".ip-qua-style").value = quantity;
-                $.ajax("<c:url value="/cart/cart.do"/>", {
-                    data: {
-                        pId: pId,
-                        func: 'update',
-                        quan: quantity,
-                        osId: osId,
                     }
-                })
-                document.getElementById("price").innerHTML = total();
+                    el.parentElement.querySelector(".ip-qua-style").value = quantity;
+                    $.ajax("<c:url value="/cart/cart.do"/>", {
+                        data: {
+                            pId: pId,
+                            func: 'update',
+                            quan: quantity,
+                            osId: osId,
+                        }
+                    })
+                }
+//                document.getElementById("price").innerHTML = total();
             }
             const handleSelectByShop = (el) => {
                 const container = el.parentElement.parentElement.parentElement.parentElement;

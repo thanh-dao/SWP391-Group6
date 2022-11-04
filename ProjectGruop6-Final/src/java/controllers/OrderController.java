@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import config.Config;
 import dao.OrderDAO;
 import dao.ProductDAO;
+import dao.ReviewDAO;
 import dao.UserDAO;
 import dto.UserDTO;
 import java.io.File;
@@ -148,6 +149,10 @@ public class OrderController extends HttpServlet {
                                         UserDAO u = new UserDAO();
                                         request.setAttribute("top10SoldCountUser", gson.toJson(u.getTop10UserBuyByShop(userEmail, currentMonth, ProductDAO.DESC, true)));
                                         request.setAttribute("top10SoldPriceUser", gson.toJson(u.getTop10UserBuyByShop(userEmail, currentMonth, ProductDAO.DESC, false)));
+                                        new ReviewDAO().getTotalReviewCurrentRating("ThinhPQSE151077@fpt.edu.vn", 4);
+                                        new ReviewDAO().getTop5Review("ThinhPQSE151077@fpt.edu.vn");
+                                        new OrderDAO().getOrderByCategory("LinhTKSS170602@fpt.edu.vn", 1);
+                                        new OrderDAO().getOrderByPrice("ThinhPQSE151077@fpt.edu.vn");
                                         break;
                                     }
                                     default:

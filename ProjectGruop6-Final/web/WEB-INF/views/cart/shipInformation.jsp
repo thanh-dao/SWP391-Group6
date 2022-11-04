@@ -153,7 +153,7 @@
                                 <div class="input-form">
                                     <label>Số điện thoại</label>
                                     <input type="text" required="true" placeholder="Nhập số điện thoại" maxlength="15"
-                                           class="input-form-item" value="${user.phone}" name="phone">
+                                           class="input-form-item" value="${empty order.phone ? cart.phone : order.phone}" name="phone">
                                 </div>
                             </div>
                         </div>
@@ -178,7 +178,7 @@
                                 <label>Địa chỉ chi tiết</label><br>
                                 <!--k ấn enter cho nay-->
                                 <textarea type="textarea" required="true" name="houseNumber"
-                                          placeholder="Ví dụ: 193/14/2, đường Đỗ Văn Thi" class="input-form-item">${user.address.houseNumber}</textarea>
+                                          placeholder="Ví dụ: 193/14/2, đường Đỗ Văn Thi" class="input-form-item">${empty order.address.houseNumber ? cart.address.houseNumber : order.address.houseNumber}</textarea>
                             </div>
                         </div>
                     </div>

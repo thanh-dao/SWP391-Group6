@@ -157,7 +157,7 @@ public class OrderDAO {
         PreparedStatement stm = conn.prepareStatement("SELECT order_id, delivery_id, "
                 + "payment_id, email_buyer, order_date, address, ward_id, district_id, "
                 + "city_id, pay_id, user_name, phone FROM [order] "
-                + "WHERE email_buyer = ? ");
+                + "WHERE email_buyer = ? ORDER BY order_date DESC");
         stm.setString(1, emailBuyer);
         ResultSet rs = stm.executeQuery();
         List<OrderDTO> list = new ArrayList<>();
@@ -254,6 +254,52 @@ public class OrderDAO {
         return -1;
     }
 
+    public float getOrderByCategory(String emailSeller, int category) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT CAST((SELECT CAST(("
+                + "SELECT SUM(quantity) FROM order_detail WHERE product_id in\n"
+                + "(SELECT product_id FROM product WHERE category_id = ? AND "
+                + "email_seller = ? )) AS float) / CAST((SELECT SUM(quantity) "
+                + "FROM product WHERE category_id = ? AND email_seller = ?) AS float)*100) "
+                + "AS DECIMAL(8, 6)) as cr");
+        stm.setInt(1, category);
+        stm.setString(2, emailSeller);
+        stm.setInt(3, category);
+        stm.setString(4, emailSeller);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getFloat("cr");
+        }
+        return -1;
+    }
+
+    public int getOrderByPrice(String emailSeller, int min, int max) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT SUM(od.quantity) as [sum] FROM\n"
+                + "(SELECT product_id FROM product WHERE email_seller = ? ) u\n"
+                + "LEFT JOIN order_detail od ON u.product_id = od.product_id\n"
+                + "LEFT JOIN order_by_shop os ON os.order_by_shop_id = od.order_by_shop_id\n"
+                + "LEFT JOIN [order] o ON o.order_id = os.order_id\n"
+                + "WHERE od.price >= ? AND od.price <= ?");
+        stm.setString(1, emailSeller);
+        stm.setInt(2, min);
+        stm.setInt(3, max);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("sum");
+        }
+        return -1;
+    }
+
+    public ArrayList<Integer> getOrderByPrice(String emailSeller) throws ClassNotFoundException, SQLException {
+        ArrayList<Integer> arr = new ArrayList<>();
+        int[] price = {10000, 100000, 500000, 1000000, 2000000, 5000000};
+        for (int i = 0; i < price.length - 1; i++) {
+            arr.add(getOrderByPrice(emailSeller, price[i], price[i + 1]));
+        }
+        return arr;
+    }
+
     public ArrayList<Integer> getTotalOrderCurrentMonths(int monthNumber) throws ClassNotFoundException, SQLException {
         ArrayList<Integer> arr = new ArrayList<>();
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
@@ -276,26 +322,7 @@ public class OrderDAO {
 
         String currentPath;
         try {
-//            currentPath = new java.io.File(".").getCanonicalPath();
-//            System.out.println("Current dir:" + currentPath);
-//            String currentDir = System.getProperty("user.dir");
-//            System.out.println("Current dir using System:" + currentDir);
-//            for (OrderDTO o : new OrderDAO().getOrder("ThinhPQSE151077@fpt.edu.vn")) {
-//                for (OrderByShopDTO obs : o.getOrderByShopList()) {
-//                    for (OrderDetailDTO od : obs.getOrderDetailList()) {
-//                        System.out.println(od.getOrderDetailId());
-//                    }
-//                }
-//            }
-//            List<AddressDTO> ad = new ArrayList<>();
-//            ad.add(new AddressDTO("a", null, null, null));
-//            List<AddressDTO> as = ad;
-//            as.get(0).setHouseNumber("b");
-//            System.out.println(as);
-//            System.out.println(ad);
-//            OrderDTO order = new OrderDTO(null, null, new ArrayList<>());
-
-//            System.out.println(order.getOrderByShopList().indexOf(order));
+            System.out.println(new OrderDAO().getOrderByCategory("LinhTKSS170602@fpt.edu.vn", 1));
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

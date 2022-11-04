@@ -158,10 +158,10 @@ public class ReviewDAO {
         return -1;
     }
 
-    public ArrayList<Integer> getTotalReviewCurrentRating(String emailSeller, int monthNumber) throws ClassNotFoundException, SQLException {
+    public ArrayList<Integer> getTotalReviewCurrentRating(String emailSeller, int rating) throws ClassNotFoundException, SQLException {
         ArrayList<Integer> arr = new ArrayList<>();
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
-        for (int i = 0; i >= currentMonth - monthNumber; i--) {
+        for (int i = 0; i <= 5; i++) {
             arr.add(getCountRating(emailSeller, i));
         }
         return arr;
@@ -176,6 +176,26 @@ public class ReviewDAO {
             return rs.getInt(1);
         }
         return -1;
+    }
+
+    public HashMap<String, Integer> getTop5Review(String emailSeller) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT TOP 5 COUNT(r.review_id) as [count], o.email_buyer FROM\n"
+                + "(SELECT product_id FROM product WHERE email_seller = ? ) u\n"
+                + "LEFT JOIN order_detail od ON u.product_id = od.product_id\n"
+                + "LEFT JOIN review r ON r.order_detail_id = od.order_detail_id\n"
+                + "LEFT JOIN order_by_shop os ON os.order_by_shop_id = od.order_by_shop_id\n"
+                + "LEFT JOIN [order] o ON o.order_id = os.order_id\n"
+                + "WHERE r.status = 1\n"
+                + "GROUP BY o.email_buyer \n"
+                + "ORDER BY COUNT(r.review_id) DESC");
+        stm.setString(1, emailSeller);
+        ResultSet rs = stm.executeQuery();
+        HashMap<String, Integer> list = new HashMap<>();
+        while (rs.next()) {
+            list.put(rs.getString("email_buyer"), rs.getInt("count"));
+        }
+        return list;
     }
 
     public ArrayList<Integer> getTotalReviewCurrentMonths(int monthNumber) throws ClassNotFoundException, SQLException {
@@ -247,8 +267,8 @@ public class ReviewDAO {
     public static void main(String[] args) {
         ReviewDAO r = new ReviewDAO();
         try {
-            System.out.println(r.getReviewId(63, 149));
-//            System.out.println(r.updateReview("ThinhPQSE151077@fpt.edu.vn", 25, true));
+//            System.out.println(r.getTotalReviewCurrentRating("ThinhPQSE151077@fpt.edu.vn", 4));
+            System.out.println(r.getTop5Review("ThinhPQSE151077@fpt.edu.vn"));
         } catch (Exception e) {
         }
     }
