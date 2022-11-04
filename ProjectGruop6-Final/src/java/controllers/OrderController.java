@@ -58,7 +58,7 @@ public class OrderController extends HttpServlet {
                 case "history": {
                     try {
                         request.setAttribute("orderList", new OrderDAO().getOrder(user.getEmail()));
-                        System.out.println(request.getAttribute("orderList"));
+//                        System.out.println(request.getAttribute("orderList"));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

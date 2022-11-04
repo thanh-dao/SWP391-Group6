@@ -156,22 +156,29 @@ public class OrderDAO {
         conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT order_id, delivery_id, "
                 + "payment_id, email_buyer, order_date, address, ward_id, district_id, "
-                + "city_id FROM [order] "
-                + "WHERE email_buyer = ?");
+                + "city_id, pay_id, user_name, phone FROM [order] "
+                + "WHERE email_buyer = ? ");
         stm.setString(1, emailBuyer);
         ResultSet rs = stm.executeQuery();
         List<OrderDTO> list = new ArrayList<>();
         AddressDAO ad = new AddressDAO();
-        OrderByShopDAO obs = new OrderByShopDAO();
         while (rs.next()) {
             list.add(new OrderDTO(rs.getInt("order_id"), rs.getInt("delivery_id"),
                     rs.getInt("payment_id"), rs.getString("email_buyer"),
-                    rs.getDate("order_date"),
-                    new AddressDTO(rs.getString("address"), ad.get(rs.getString("ward_id"), 3),
-                            ad.get(rs.getString("district_id"), 2), ad.get(rs.getString("city_id"), 1)),
-                    obs.getOrderByShop(rs.getInt("order_id"))));
+                    rs.getDate("order_date"), new AddressDTO(rs.getString("address"),
+                    ad.get(rs.getString("ward_id"), 3), ad.get(rs.getString("district_id"), 2),
+                    ad.get(rs.getString("city_id"), 1)), new OrderByShopDAO().getOrderByShop(rs.getInt("order_id")),
+                    rs.getString("pay_id"), rs.getString("user_name"), rs.getString("phone")));
         }
         return list;
+    }
+
+    public int getTotalOrder(List<OrderByShopDTO> list) {
+        int total = 0;
+        for (OrderByShopDTO os : list) {
+            total = os.getTotal();
+        }
+        return total;
     }
 
     public OrderDTO getOrder(int orderId) throws ClassNotFoundException, SQLException {
@@ -179,7 +186,7 @@ public class OrderDAO {
         conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT order_id, delivery_id, "
                 + "payment_id, email_buyer, order_date, address, ward_id, district_id, "
-                + "city_id FROM [order] "
+                + "city_id, pay_id, user_name, phone FROM [order] "
                 + "WHERE order_id = ?");
         stm.setInt(1, orderId);
         ResultSet rs = stm.executeQuery();
@@ -187,10 +194,10 @@ public class OrderDAO {
         if (rs.next()) {
             OrderDTO o = new OrderDTO(rs.getInt("order_id"), rs.getInt("delivery_id"),
                     rs.getInt("payment_id"), rs.getString("email_buyer"),
-                    rs.getDate("order_date"),
-                    new AddressDTO(rs.getString("address"), ad.get(rs.getString("ward_id"), 3),
-                            ad.get(rs.getString("district_id"), 2), ad.get(rs.getString("city_id"), 1)),
-                    new OrderByShopDAO().getOrderByShop(rs.getInt("order_id")));
+                    rs.getDate("order_date"), new AddressDTO(rs.getString("address"),
+                    ad.get(rs.getString("ward_id"), 3), ad.get(rs.getString("district_id"), 2),
+                    ad.get(rs.getString("city_id"), 1)), new OrderByShopDAO().getOrderByShop(rs.getInt("order_id")),
+                    rs.getString("pay_id"), rs.getString("user_name"), rs.getString("phone"));
             return o;
         }
         return null;
@@ -287,7 +294,7 @@ public class OrderDAO {
 //            System.out.println(as);
 //            System.out.println(ad);
 //            OrderDTO order = new OrderDTO(null, null, new ArrayList<>());
-            
+
 //            System.out.println(order.getOrderByShopList().indexOf(order));
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);

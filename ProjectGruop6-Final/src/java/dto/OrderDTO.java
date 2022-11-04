@@ -23,7 +23,7 @@ public class OrderDTO {
     private String payId;
     private String userName;
     private String phone;
-    private int total;
+//    private int total;
 
     public OrderDTO(int orderId, int deliveryId, int paymentId, String emailBuyer, Date orderDate, AddressDTO address, List<OrderByShopDTO> orderByShopList) {
         this.orderId = orderId;
