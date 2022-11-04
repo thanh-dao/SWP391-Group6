@@ -128,7 +128,7 @@ public class AdminController extends HttpServlet {
                     request.setAttribute("totalIncomeCurrentMonths", gson.toJson(totalIncomeCurrentMonths));
                     request.setAttribute("totalReviewCurrentMonths", gson.toJson(totalReviewCurrentMonths));
 
-                    int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+                    int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
                     System.out.println(currentMonth);
                     LinkedHashMap<String, String> top10Seller = userDAO.getTop10SellerByMonth(currentMonth);
                     List<ProductDTO> top10Product = proDAO.getTop10ProductByMonth(currentMonth);

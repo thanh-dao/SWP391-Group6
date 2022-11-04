@@ -107,13 +107,13 @@
                 </a>
             </div>
         </div>
-        <div class="container br-form">
-            <div class="product">
-                <div style="display: flex; justify-content: space-between;">
-                    <h3 class="font-a">SẢN PHẨM BÁN CHẠY</h3>
-                    <a href="#">Xem thêm >></a>
+        <div class="product">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <h3>SẢN PHẨM BÁN CHẠY</h3>
+                    <a href="<c:url value="/home/top.do?top=soldCount"/>">Xem thêm</a>
                 </div>
-                <div class="product__content row" style="margin: 0 -5px;">
+                <div class="product__content row">
                     <c:forEach items="${bestSellers}" var="i">
                         <div class=" col-lg-2 col-md-3 col-sm-4 col-4" 
                              style="padding: 5px; position: static;">
@@ -133,22 +133,16 @@
                     </c:forEach>
                 </div>
             </div>
-            <div class="product br-form">
-                <div style="display: flex; justify-content: space-between;">
-                    <h3 class="font-a">SẢN PHẨM MỚi</h3>
-                    <a href="#">Xem thêm >></a>
+        </div>
+        <div class="top__seller">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <h3>SẢN PHẨM MỚI NHẤT</h3>
+                    <a href="<c:url value="/home/top.do?top=newest"/>">Xem thêm</a>
                 </div>
-                <div class="product__content row" style="margin: 0 -5px;">
+                <div class="product__content row">
                     <c:forEach items="${newProducts}" var="i">
                         <div class=" col-lg-2 col-md-3 col-sm-4 col-4" 
-                             style="padding: 5px; position: static;">
-                            <div class="product__item">
-                                <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
-                                    <img class="img-fluid" src="${i.getMainImage().url}" alt="">
-                                    <p class="tooltip-text hinden-text">${i.name}
-                                        <span>${i.name}</span>
-                                    </p>
-                                    <fmt:setLocale value="vi_VN"/>
                                     <div style="display: flex; justify-content: flex-end; padding-top: 5px;">
                                         <fmt:formatNumber value="${i.price}" type="currency"/>
                                     </div>

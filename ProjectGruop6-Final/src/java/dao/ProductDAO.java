@@ -3,12 +3,12 @@ package dao;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import dto.ProductDTO;
+import dto.UserDTO;
 import java.sql.Connection;
 import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -48,6 +48,37 @@ public class ProductDAO {
             return rs.getInt(1);
         }
         return 0;
+    }
+
+    public List<ProductDTO> getTop10ProductByShop(String sellerEmail, int month, boolean trend)
+            throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        String query = "SELECT TOP 10 od.product_id, p.name, SUM(od.quantity) as sold_count FROM\n"
+                + "(SELECT email FROM [user] WHERE email = ? ) u\n"
+                + "LEFT JOIN product p ON p.email_seller = u.email\n"
+                + "LEFT JOIN order_detail od ON od.product_id = p.product_id\n"
+                + "LEFT JOIN order_by_shop os ON os.order_by_shop_id = od.order_by_shop_id\n"
+                + "LEFT JOIN [order] o ON o.order_id = os.order_id\n"
+                + "WHERE MONTH([order_date]) = ?\n"
+                + "GROUP BY od.product_id, p.name";
+        if (trend == ASC) {
+            query += "\n order by sum(od.quantity)";
+        } else {
+            query += "\n order by sum(od.quantity) desc";
+        }
+        PreparedStatement stm = conn.prepareStatement(query);
+        stm.setString(1, sellerEmail);
+        stm.setInt(2, month);
+        List<ProductDTO> list = new ArrayList();
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            ProductDTO product = new ProductDTO();
+            product.setProductId(rs.getInt("product_id"));
+            product.setName(rs.getString("name"));
+            product.setSoldCount(rs.getInt("sold_count"));
+            list.add(product);
+        }
+        return list;
     }
 
     public ProductDTO getProductBySellerAndName(String sellerEmail, String productName) throws ClassNotFoundException, SQLException {
@@ -194,6 +225,7 @@ public class ProductDAO {
                 + "      ,[create_at]\n"
                 + "      ,[approve_at] "
                 + "      ,[sold_count] from product "
+                + "where email_admin is not null  "
                 + getFilter(option, trend)
                 + " OFFSET " + itemSkipped + " ROWS \n"
                 + " FETCH NEXT " + Constants.ITEM_PER_PAGE + " ROWS ONLY;");
@@ -253,7 +285,8 @@ public class ProductDAO {
                 + "      ,[create_at]\n"
                 + "      ,[approve_at] "
                 + "      ,[sold_count] from product "
-                + " where category_ID = ?"
+                + " where category_ID = ? "
+                + " and email_admin is not null"
                 + getFilter(option, trend)
                 + " OFFSET " + itemSkipped + " ROWS \n"
                 + " FETCH NEXT " + Constants.ITEM_PER_PAGE + " ROWS ONLY;");
@@ -285,7 +318,7 @@ public class ProductDAO {
         return list;
     }
 
-    public List<ProductDTO> getProductListByProductName(int pageNum, String productName) throws ClassNotFoundException, SQLException {
+    public List<ProductDTO> getProductListByProductName(int pageNum, String productName, int option, boolean trend) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<ProductDTO> list = new ArrayList<>();
         String query = "select [product_id]\n"
@@ -302,18 +335,16 @@ public class ProductDAO {
                 + "      ,[sold_count]"
                 + " from product "
                 + " where name like ? "
-                + " order by sold_count "
-                + " offset 0 rows ";
-
+                + " and email_admin is not null "
+                + getFilter(option, trend)
+                + " offset ? rows "
+                + " fetch NEXT ? rows only";
         int itemSkipped = (pageNum - 1) * Constants.ITEM_PER_PAGE;
-        if (itemSkipped > 1) {
-            query += " fetch first ? rows only";
-        }
+
         PreparedStatement stm = conn.prepareStatement(query);
         stm.setString(1, "%" + productName + "%");
-        if (itemSkipped > 1) {
-            stm.setInt(2, itemSkipped);
-        }
+        stm.setInt(2, itemSkipped);
+        stm.setInt(3, Constants.ITEM_PER_PAGE);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
 
@@ -371,7 +402,8 @@ public class ProductDAO {
         List<ProductDTO> list = new ArrayList<>();
         PreparedStatement stm = conn.prepareStatement("select product_id, name from product "
                 + "where name like ? "
-                + "order by name "
+                + " and email_admin  is not null"
+                + " order by name "
                 + " offset 0 rows "
                 + "fetch first ? rows only");
         stm.setString(1, "%" + productName + "%");
@@ -523,6 +555,7 @@ public class ProductDAO {
                 + "      ,[approve_at] "
                 + "      ,[sold_count] from product "
                 + " where category_ID = ?"
+                + " and email_admin  is not null "
                 + getFilter(option, trend)
                 + " OFFSET " + itemSkipped + " ROWS \n"
                 + " FETCH NEXT " + item_per_page + " ROWS ONLY;");
@@ -685,7 +718,7 @@ public class ProductDAO {
 
     public List<ProductDTO> getTop10ProductByMonth(int month) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
-        PreparedStatement stm = conn.prepareStatement("SELECT TOP 10 p.product_id, od.quantity, p.name FROM \n"
+        PreparedStatement stm = conn.prepareStatement("SELECT DISTINCT TOP 10 p.product_id, od.quantity, p.name FROM \n"
                 + "(SELECT order_id FROM [order] WHERE MONTH([order_date]) = ?) o\n"
                 + "LEFT JOIN order_by_shop os ON o.order_id = os.order_id\n"
                 + "LEFT JOIN order_detail od ON od.order_by_shop_id = os.order_by_shop_id\n"
@@ -831,21 +864,9 @@ public class ProductDAO {
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
         try {
-            //            p.getProductListByProductName(1, "a").forEach(i -> System.out.println(i));
-            ;
-//            System.out.println(p.getProductList(1,
-//                    Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
-//                    p.SOLD_COUNT, p.DESC, "HanNHGSS170456@fpt.edu.vn").toString());
-            String s = "[149,125]";
-            String[] a = s.replace("[", "").replace("]", "").split(",");
-            int[] b = new int[a.length];
-            for (int i = 0; i < a.length; i++) {
-                b[i] = Integer.parseInt(a[i]);
-            }
-            for (int i = 0; i < b.length; i++) {
-                int j = b[i];
-                System.out.println(j);
-            }
+            p.getTop10ProductByMonth(10).forEach(i -> {
+                System.out.println(i);
+            });
 //            System.out.println(p.getCountProducts("LinhTKSS170602@fpt.edu.vn"));
         } catch (Exception e) {
 //            e.fillInStackTrace();
