@@ -1,8 +1,3 @@
-<%-- 
-    Document   : productDetail
-    Created on : Sep 14, 2022, 3:38:49 AM
-    Author     : ADmin
---%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="dto.CategoryDTO"%>
 <%@page import="com.google.gson.Gson"%>
@@ -114,9 +109,11 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="row"><div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img1')">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 box-img">
                                         <input id="img1" name="img1" class="input-image" type="file" accept="image/*">
                                         <!--<img src="../images/plus.png" alt=""/>-->
+                                        <a onclick="togFile('#img1')">Thêm ảnh</a>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img2')">
                                         <input id="img2" name="img2" class="input-image" type="file" hidden accept="image/*">
@@ -330,150 +327,150 @@
         </div>
 
         <script src="<c:url value="/ckeditor5/ckeditor_build/ckeditor.js" />" type="text/javascript"></script>
-<!--        <script>
-                                                    $(".select-category").select2()
-                                                    const currency = new AutoNumeric('#formattedMoneyField', {
-                                                        allowDecimalPadding: false,
-                                                        createLocalList: false,
-                                                        decimalPlaces: 0,
-                                                        maximumValue: "1000000000000",
-                                                        minimumValue: "0",
-                                                        onInvalidPaste: "replace"
-                                                    });
-                                                    const quantity = new AutoNumeric('#formattedNumberField', {
-                                                        allowDecimalPadding: false,
-                                                        createLocalList: false,
-                                                        decimalPlaces: 0,
-                                                        maximumValue: "1000000000000",
-                                                        minimumValue: "0",
-                                                        onInvalidPaste: "replace"
-                                                    })
-        </script>
-        <script>
-
-            //        const imageNameRegex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
-            function readAndPreview(files, indicatior, carousel) {
-                indicatior.innerHTML = "";
-                carousel.innerHTML = "";
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    const reader = new FileReader();
-                    console.log(carousel)
-                    reader.addEventListener("load", () => {
-                        indicatior.innerHTML +=
-                                '<li data-target="#carouselExampleCaptions2" data-slide-to="' + i.toString() + '" class="' + (i == 0 ? "active" : "") + '"></li>';
-                        carousel.innerHTML +=
-                                '<div class="carousel-item ' + (i == 0 ? 'active' : '') + '" >' +
-                                '<img src="' + reader.result + ' " class="d-block w-100" alt="">' +
-                                '<div class="carousel-caption d-none d-md-block">' +
-                                '<p>' + file.name + '</p>' +
-                                `</div>
-                                                    </div>`
-                    }, false);
-                    reader.readAsDataURL(file);
-                }
-            }
-            var arr = []
-            const handleFileChange = (el) => {
-                const fileCount = el.files.length;
-                const files = el.files;
-                if (fileCount > 0)
-                    document.querySelector(".bd-example").style.display = "block";
-                for (var i = 0; i < files.length; i++) {
-                    if (arr.length >= 5) {
-                        arr.shift()
-                    }
-                    const file = files[i]
-                    var path = (window.URL || window.webkitURL).createObjectURL(file);
-                    arr.push(file)
-                }
-                const indicatiors = document.querySelector(".carousel-indicators");
-                const carouselInners = document.querySelector(".carousel-inner");
-                readAndPreview(arr, indicatiors, carouselInners);
-
-            }
-            const formData = new FormData()
-            const form = document.querySelector(".product-form")
-            form.addEventListener("submit", (event) => {
-                event.preventDefault();
-                let isEmpty = false;
-                document.querySelectorAll(".product-form input").forEach(i => {
-                    if (i.value === "")
-                        isEmpty = true;
-                })
-                if (arr.length == 0) {
-                    document.querySelector(".notification").innerHTML = "Bạn chưa đăng hình cho sản phẩm này!!";
-                    return false;
-                }
-                if (isEmpty)
-                    swal("Oops", "Hãy điền vào các ô còn trống", "error");
-                const categoryHidden = document.querySelector(".category-hidden");
-                const descriptionHidden = document.querySelector(".description-hidden");
-                categoryHidden.value = $(".select-category").val()
-                descriptionHidden.value = editor.getData();
-                console.log(document.querySelector(".description-hidden").value)
-                formData.delete("image")
-                if (arr.length > 0) {
-                    for (let i = 0; i < arr.length; i++) {
-                        const element = arr[i];
-                        formData.append("image", element)
-                    }
-                    form.submit();
-
-                    $.ajax('<c:url value="/GetProductAjax"/>', {
-                        data: {
-                            name: document.querySelector(".product-name").value,
-                            func: "init productName"
-                        },
-                        success: function (data) {
-                            console.log("ok")
-                            fetch('<c:url value="/FileProductHandle"/>', {
-                                method: "POST",
-                                body: formData,
-                            })
+        <!--        <script>
+                                                            $(".select-category").select2()
+                                                            const currency = new AutoNumeric('#formattedMoneyField', {
+                                                                allowDecimalPadding: false,
+                                                                createLocalList: false,
+                                                                decimalPlaces: 0,
+                                                                maximumValue: "1000000000000",
+                                                                minimumValue: "0",
+                                                                onInvalidPaste: "replace"
+                                                            });
+                                                            const quantity = new AutoNumeric('#formattedNumberField', {
+                                                                allowDecimalPadding: false,
+                                                                createLocalList: false,
+                                                                decimalPlaces: 0,
+                                                                maximumValue: "1000000000000",
+                                                                minimumValue: "0",
+                                                                onInvalidPaste: "replace"
+                                                            })
+                </script>
+                <script>
+        
+                    //        const imageNameRegex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
+                    function readAndPreview(files, indicatior, carousel) {
+                        indicatior.innerHTML = "";
+                        carousel.innerHTML = "";
+                        for (let i = 0; i < files.length; i++) {
+                            const file = files[i];
+                            const reader = new FileReader();
+                            console.log(carousel)
+                            reader.addEventListener("load", () => {
+                                indicatior.innerHTML +=
+                                        '<li data-target="#carouselExampleCaptions2" data-slide-to="' + i.toString() + '" class="' + (i == 0 ? "active" : "") + '"></li>';
+                                carousel.innerHTML +=
+                                        '<div class="carousel-item ' + (i == 0 ? 'active' : '') + '" >' +
+                                        '<img src="' + reader.result + ' " class="d-block w-100" alt="">' +
+                                        '<div class="carousel-caption d-none d-md-block">' +
+                                        '<p>' + file.name + '</p>' +
+                                        `</div>
+                                                            </div>`
+                            }, false);
+                            reader.readAsDataURL(file);
                         }
+                    }
+                    var arr = []
+                    const handleFileChange = (el) => {
+                        const fileCount = el.files.length;
+                        const files = el.files;
+                        if (fileCount > 0)
+                            document.querySelector(".bd-example").style.display = "block";
+                        for (var i = 0; i < files.length; i++) {
+                            if (arr.length >= 5) {
+                                arr.shift()
+                            }
+                            const file = files[i]
+                            var path = (window.URL || window.webkitURL).createObjectURL(file);
+                            arr.push(file)
+                        }
+                        const indicatiors = document.querySelector(".carousel-indicators");
+                        const carouselInners = document.querySelector(".carousel-inner");
+                        readAndPreview(arr, indicatiors, carouselInners);
+        
+                    }
+                    const formData = new FormData()
+                    const form = document.querySelector(".product-form")
+                    form.addEventListener("submit", (event) => {
+                        event.preventDefault();
+                        let isEmpty = false;
+                        document.querySelectorAll(".product-form input").forEach(i => {
+                            if (i.value === "")
+                                isEmpty = true;
+                        })
+                        if (arr.length == 0) {
+                            document.querySelector(".notification").innerHTML = "Bạn chưa đăng hình cho sản phẩm này!!";
+                            return false;
+                        }
+                        if (isEmpty)
+                            swal("Oops", "Hãy điền vào các ô còn trống", "error");
+                        const categoryHidden = document.querySelector(".category-hidden");
+                        const descriptionHidden = document.querySelector(".description-hidden");
+                        categoryHidden.value = $(".select-category").val()
+                        descriptionHidden.value = editor.getData();
+                        console.log(document.querySelector(".description-hidden").value)
+                        formData.delete("image")
+                        if (arr.length > 0) {
+                            for (let i = 0; i < arr.length; i++) {
+                                const element = arr[i];
+                                formData.append("image", element)
+                            }
+                            form.submit();
+        
+                            $.ajax('<c:url value="/GetProductAjax"/>', {
+                                data: {
+                                    name: document.querySelector(".product-name").value,
+                                    func: "init productName"
+                                },
+                                success: function (data) {
+                                    console.log("ok")
+                                    fetch('<c:url value="/FileProductHandle"/>', {
+                                        method: "POST",
+                                        body: formData,
+                                    })
+                                }
+                            })
+        
+                        }
+                        console.log(formData.getAll("image"))
                     })
-
-                }
-                console.log(formData.getAll("image"))
-            })
-            const fileInput = document.querySelector('#file');
-            const toggleFile = () => {
-                fileInput.click()
-            }
-            const togFile = (id) => {
-                const fi = document.querySelector(id);
-                fi.click()
-            }
-        </script>
-        <script>
-            window.addEventListener("DOMContentLoaded", () => {
-                ClassicEditor
-                        .create(document.querySelector('#description'))
-                        .then(newEditor => {
-                            editor = newEditor;
-                        })
-                        .catch(error => {
-                            console.error(error);
-                        })
-            });
-
-        </script>
-        <script>
-            function  previewProduct() {
-                const category = $(".select-category").find(':selected')[0].innerHTML;
-                document.querySelector("#description-preview").innerHTML = editor.getData();
-                const quantity = document.querySelector("#formattedNumberField").value
-                document.querySelector(".product-quantity").innerHTML = quantity
-                const productName = document.querySelector(".product-name").value
-                document.querySelector(".product-name-modal").innerHTML = productName
-                const indicatiorModal = document.querySelector(".carousel-indicators-modal");
-                const carouselInnerModal = document.querySelector(".carousel-inner-modal");
-                console.log(indicatiorModal)
-                console.log(carouselInnerModal)
-                readAndPreview(arr, indicatiorModal, carouselInnerModal);
-            }
-
-        </script>-->
+                    const fileInput = document.querySelector('#file');
+                    const toggleFile = () => {
+                        fileInput.click()
+                    }
+                    const togFile = (id) => {
+                        const fi = document.querySelector(id);
+                        fi.click()
+                    }
+                </script>
+                <script>
+                    window.addEventListener("DOMContentLoaded", () => {
+                        ClassicEditor
+                                .create(document.querySelector('#description'))
+                                .then(newEditor => {
+                                    editor = newEditor;
+                                })
+                                .catch(error => {
+                                    console.error(error);
+                                })
+                    });
+        
+                </script>
+                <script>
+                    function  previewProduct() {
+                        const category = $(".select-category").find(':selected')[0].innerHTML;
+                        document.querySelector("#description-preview").innerHTML = editor.getData();
+                        const quantity = document.querySelector("#formattedNumberField").value
+                        document.querySelector(".product-quantity").innerHTML = quantity
+                        const productName = document.querySelector(".product-name").value
+                        document.querySelector(".product-name-modal").innerHTML = productName
+                        const indicatiorModal = document.querySelector(".carousel-indicators-modal");
+                        const carouselInnerModal = document.querySelector(".carousel-inner-modal");
+                        console.log(indicatiorModal)
+                        console.log(carouselInnerModal)
+                        readAndPreview(arr, indicatiorModal, carouselInnerModal);
+                    }
+        
+                </script>-->
     </body>
 </html>

@@ -94,6 +94,9 @@ public class OrderController extends HttpServlet {
                                     } else {
                                         System.out.println("----------------");
                                         Collection<Part> part = request.getParts();
+                                        if (request.getPart("img1") == null) {
+                                            System.out.println("GAY");
+                                        }
                                         System.out.println(part);
                                         handleImage(part, String.valueOf(pId));
                                         System.out.println("----------------");
@@ -143,7 +146,7 @@ public class OrderController extends HttpServlet {
                                         String userEmail = user.getEmail();
                                         Gson gson = new Gson();
                                         request.setAttribute("productList",
-                                                gson.toJson(p.getTop10ProductByShop(userEmail,currentMonth, ProductDAO.DESC)));
+                                                gson.toJson(p.getTop10ProductByShop(userEmail, currentMonth, ProductDAO.DESC)));
                                         System.out.println(gson.toJson((p.getTop10ProductByShop(userEmail, currentMonth, ProductDAO.ASC))));
                                         request.setAttribute("top10ProductLeastSell", gson.toJson((p.getTop10ProductByShop(userEmail, currentMonth, ProductDAO.ASC))));
                                         UserDAO u = new UserDAO();
