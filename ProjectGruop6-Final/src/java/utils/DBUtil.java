@@ -29,10 +29,7 @@ public class DBUtil {
 
     public static void main(String[] args) {
         try{
-            File file = new File(Constants.IMAGE_ABSOLUTE_DIRECTORY + "/asdsadsadsadd.png");
-            System.out.println(file.toString());
-            System.out.println(file.getAbsolutePath());
-            System.out.println(file.delete());
+            System.out.println(getConnection());
         }catch(Exception e){
             e.printStackTrace();
         }

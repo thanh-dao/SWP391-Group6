@@ -101,56 +101,56 @@
 
     <body>
         <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
-                <a href="#" class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
-                    <svg class="bi me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap"></use>
-                    </svg>
-                    <span class="fs-4 text-align">Home</span>
-                </a>
-                <button class="navigate-button position-absolute" type="button">
-                    <ion-icon name="menu-outline"></ion-icon>
-                </button>
-                <hr>
-                <ul class="nav nav-pills flex-column overflow-hidden mb-auto ">
-                    <li class="nav-item" onclick="setActive(this)">
-                        <a href="<c:url value="/admin/productAuthen.do?status=nary"/>" class="nav-link active text-white">
-                            <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#grid"></use>
-                            </svg>
-                            Sản phẩm
-                        </a>
-                    </li>
-                    <li class="nav-item " onclick="setActive(this)">
-                        <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link text-white">
-                            <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#table"></use>
-                            </svg>
-                            Dashboard
-                        </a>
-                    </li>
+            <a href="#" class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
+                <svg class="bi me-2" width="40" height="32">
+                <use xlink:href="#bootstrap"></use>
+                </svg>
+                <span class="fs-4 text-align">Home</span>
+            </a>
+            <button class="navigate-button position-absolute" type="button">
+                <ion-icon name="menu-outline"></ion-icon>
+            </button>
+            <hr>
+            <ul class="nav nav-pills flex-column overflow-hidden mb-auto ">
+                <li class="nav-item" onclick="setActive(this)">
+                    <a href="<c:url value="/admin/productAuthen.do?status=nary"/>" class="nav-link active text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#grid"></use>
+                        </svg>
+                        Sản phẩm
+                    </a>
+                </li>
+                <li class="nav-item " onclick="setActive(this)">
+                    <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#table"></use>
+                        </svg>
+                        Dashboard
+                    </a>
+                </li>
 
-                    <li class="nav-item">
-                        <a href="<c:url value="/admin/reviewAuthen.do?status=nary"/>" class="nav-link text-white">
-                            <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#people-circle"></use>
-                            </svg>
-                            Đánh giá
-                        </a>
-                    </li>
-                    <li class="nav-item" style="display: ${sessionScope.user.roleId == 1 ? "block":"none"}">
-                        <a href="<c:url value="/admin/adminAuthen.do?status=user"/>" class="nav-link text-white">
-                            <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#people-circle"></use>
-                            </svg>
-                            Admin
-                        </a>
-                    </li>
-                </ul>
-                <hr>
-            </div>
+                <li class="nav-item">
+                    <a href="<c:url value="/admin/reviewAuthen.do?status=nary"/>" class="nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#people-circle"></use>
+                        </svg>
+                        Đánh giá
+                    </a>
+                </li>
+                <li class="nav-item" style="display: ${sessionScope.user.roleId == 1 ? "block":"none"}">
+                    <a href="<c:url value="/admin/adminAuthen.do?status=user"/>" class="nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#people-circle"></use>
+                        </svg>
+                        Admin
+                    </a>
+                </li>
+            </ul>
+            <hr>
+        </div>
         <div class="col d-flex">
             <!--            Div that will hold the pie chart-->
-            
+
         </div>
         <c:if test="${not empty productList}">
             <div class="container br-form">
@@ -212,17 +212,17 @@
                                                             <ol class="carousel-indicators-modal">
 
                                                             </ol>
-                                                            <div class="carousel-inner-modal">
+                                                            <div class="carousel-inner">
 
                                                             </div>
-                                                            <!--                                                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                                                                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                                                                            <span class="sr-only">Previous</span>
-                                                                                                                        </a>
-                                                                                                                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                                                                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                                                                            <span class="sr-only">Next</span>
-                                                                                                                        </a>-->
+                                                            <a style="background-color:  #4c1a1b;" class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                <span class="sr-only">Previous</span>
+                                                            </a>
+                                                            <a  style="background-color:  #4c1a1b;"  class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                <span class="sr-only">Next</span>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -311,6 +311,9 @@
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
         <script>
+                                const params = new Proxy(new URLSearchParams(window.location.search), {
+                                    get: (searchParams, prop) => searchParams.get(prop),
+                                });
                                 function redirect(productId) {
                                     window.open('/ProjectGroup6/admin/checkProductAd.do?productId=' + productId, '_blank');
                                 }
@@ -333,7 +336,6 @@
                                         },
                                         success: function (data) {
                                             data = JSON.parse(data)
-                                            console.log(data)
                                             document.querySelector(".avatar img").src = data.avatarLink;
                                             document.querySelector(".seller-name").innerHTML = data.firstName + " " + data.lastName;
                                             document.querySelector(".seller-phone").innerHTML = data.phone;
@@ -344,9 +346,10 @@
                                     document.querySelector("#description-preview").innerHTML = product.description;
                                     document.querySelector(".product-name-modal").innerHTML = product.name;
                                     const indicatiorModal = document.querySelector(".carousel-indicators-modal");
-                                    const carouselInnerModal = document.querySelector(".carousel-inner-modal");
+                                    const carouselInnerModal = document.querySelector(".carousel-inner");
                                     for (var i = 0; i < product.image.length; i++) {
-                                        const img = product.image[i]
+                                        const img = product.image[i];
+                                        console.log("img" + JSON.stringify(img))
                                         carouselInnerModal.innerHTML +=
                                                 '<div class="carousel-item ' + (i == 0 ? 'active' : '') + '" >' +
                                                 '<img src="' + img.url + ' " class="d-block w-100" alt="">' +
@@ -354,7 +357,6 @@
                                                 </div>`
                                     }
                                     const tableRow = document.querySelectorAll('tbody tr')[index]
-                                    console.log(tableRow)
                                     document.querySelector(".modal-footer > .btn-danger").onclick = function () {
                                         $.ajax('<c:url value="/admin/approvingProduct.do"/>', {
                                             data: {
@@ -386,9 +388,19 @@
                                     }
                                 }
 
+                                function formatDate(date) {
+                                    const today = new Date(date);
+                                    const yyyy = today.getFullYear();
+                                    let mm = today.getMonth() + 1; // Months start at 0!
+                                    let dd = today.getDate();
 
+                                    if (dd < 10)
+                                        dd = '0' + dd;
+                                    if (mm < 10)
+                                        mm = '0' + mm;
 
-
+                                    return dd + '/' + mm + '/' + yyyy;
+                                }
                                 function initTableData() {
                                     modifiedUsers = productList.map((p, index) => {
                                         if (String('${status}') == 'nary') {
@@ -397,13 +409,12 @@
                                         } else if (String('${status}') == 'ar') {
                                             option = `<button type="button" onclick="deleteProduct(` + p.productId + `, this)" class="btn btn-danger mb-3">Xóa</button>`;
                                         }
-                                        console.log(option);
                                         return {
                                             id: p.productId,
-                                            date: p.date,
+                                            date: formatDate(p.createAt),
                                             name: `<a href="/ProjectGroup6/home/productDetail.do?productId=` + p.productId + `"> 
                                 <p class="tooltip-text">` + p.name + `<span>` + p.name + `</span></p>`,
-                                            image: p.image,
+                                            image: p.imgList,
                                             price: `<div style="display: flex; justify-content: flex-end; padding-top: 5px; color: red;">` + formatPrice(p.price) +
                                                     `</div>`,
                                             option: option,
@@ -422,7 +433,8 @@
                                                     if (data == "" || data == null) {
                                                         return null;
                                                     }
-                                                    return '<img src="' + data.filter(i => i.isMainImg)[0].url + '"height="100" width="100"/>';
+                                                    const mainImg = data.filter(i => i.isMainImg);
+                                                    return '<img src="' + data[0].url + '"height="100" width="100"/>';
                                                 }
                                             },
                                             {data: 'price'},
@@ -431,10 +443,9 @@
                                     });
                                 }
                                 const navElements = document.querySelectorAll(".nav-item");
-                                const removeActiveClass = (elements) => {
+                                const removeActiveClass = (selector) => {
+                                    const elements = document.querySelector(selector).querySelectorAll(".nav-item");
                                     elements.forEach(item => {
-                                        console.log("childNodes: ");
-                                        console.log(item.childNodes);
                                         item.childNodes[1].classList.remove("active");
                                     })
                                 }
@@ -447,7 +458,18 @@
                                 const navBtn = document.querySelector(".navigate-button")
                                 let opened = false;
                                 const navMenu = document.querySelector(".nav-menu");
+                                
                                 $(document).ready(function () {
+                                    
+                                    switch (params.status) {
+                                        case "nary": 
+                                            document.querySelector('body > div > div.container.br-form > ul > li:nth-child(1) > a').classList.add("active");
+                                        break;
+                                        case "ar" :
+                                            console.log(1)
+                                            removeActiveClass('.nav.nav-tabs')
+                                            document.querySelector('body > div > div.container.br-form > ul > li:nth-child(2) > a').classList.add("active");
+                                    }
                                     initTableData();
                                 });
                                 const deleteProduct = (pId, el) => {

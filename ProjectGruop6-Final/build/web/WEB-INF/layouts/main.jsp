@@ -15,6 +15,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <link href="css/main.css" rel="stylesheet" type="text/css"/>
         <style>
             * {
                 padding: 0;
@@ -201,7 +203,6 @@
             }
             /*==============================================================================*/
         </style>
-
     </head>
     <body>
         <!--header-->
@@ -302,9 +303,9 @@
                         </p>
                     </div>
                     <div style="width: " class="footer__right col-lg-2 col-md-3 col-sm-4">
-                        <a href="<c:url value="https://www.facebook.com/fptaround"/>" target="_blank"><i style="color: black" class="fa-brands fa-facebook"></i>18.595K Fans</a><br>
-                        <a href="<c:url value="https://www.instagram.com/fptuniversityhcm/"/>" target="_blank"><i style="color: black" class="fa-brands fa-instagram"></i>2.203K Followers</a><br>
-                        <a href="<c:url value="https://www.youtube.com/c/FPTUniversityHCM"/>" target="_blank"><i style="color: black" class="fa-brands fa-youtube"></i>7.33K Subscribers</a>
+                        <a style="color: white"  href="<c:url value="https://www.facebook.com/fptaround"/>" target="_blank"><i class="fa-brands fa-facebook"></i>18.595K Fans</a><br>
+                        <a style="color: white"  href="<c:url value="https://www.instagram.com/fptuniversityhcm/"/>" target="_blank"><i class="fa-brands fa-instagram"></i>2.203K Followers</a><br>
+                        <a style="color: white"  href="<c:url value="https://www.youtube.com/c/FPTUniversityHCM"/>" target="_blank"><i  class="fa-brands fa-youtube"></i>7.33K Subscribers</a>
                     </div>
                 </div>
             </div>

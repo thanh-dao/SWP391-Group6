@@ -14,6 +14,4 @@ import java.util.Calendar;
 public class Config {
 
     public static final String LAYOUT = "/WEB-INF/layouts/main.jsp";
-    public static void main(String[] args) {
-    }
 }

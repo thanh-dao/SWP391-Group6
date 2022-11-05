@@ -152,12 +152,12 @@ public class AdminController extends HttpServlet {
                         switch (status) {
                             case "nary": {
                                 request.setAttribute("productList",
-                                        proDAO.getProductListJson(proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC)));
+                                        new Gson().toJson(proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC)));
                             }
                             break;
                             case "ar": {
                                 request.setAttribute("productList",
-                                        proDAO.getProductListJson(proDAO.getProductApproved(ProductDAO.APPROVE_AT, ProductDAO.DESC)));
+                                        new Gson().toJson(proDAO.getProductApproved(ProductDAO.APPROVE_AT, ProductDAO.DESC)));
                             }
                             break;
                             default:
