@@ -1,8 +1,3 @@
-<%-- 
-    Document   : productDetail
-    Created on : Sep 14, 2022, 3:38:49 AM
-    Author     : ADmin
---%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="dto.CategoryDTO"%>
 <%@page import="com.google.gson.Gson"%>
@@ -21,20 +16,16 @@
             .product__details {
                 margin-bottom: 50px;
             }
-
             .upload-button {
                 height: 200px;
                 width: 200px;
             }
-
             .upload button i {
                 font-size: 100px;
             }
-
             /*            .describe {
                             height: 200px;
                         }*/
-
             input {
                 width: 100%;
                 margin-bottom: 10px;
@@ -114,9 +105,11 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="row"><div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img1')">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 box-img">
                                         <input id="img1" name="img1" class="input-image" type="file" accept="image/*">
                                         <!--<img src="../images/plus.png" alt=""/>-->
+                                        <a onclick="togFile('#img1')">Thêm ảnh</a>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img2')">
                                         <input id="img2" name="img2" class="input-image" type="file" hidden accept="image/*">
@@ -330,7 +323,7 @@
         </div>
 
         <script src="<c:url value="/ckeditor5/ckeditor_build/ckeditor.js" />" type="text/javascript"></script>
-<!--        <script>
+        <script>
                                                     $(".select-category").select2()
                                                     const currency = new AutoNumeric('#formattedMoneyField', {
                                                         allowDecimalPadding: false,
@@ -350,7 +343,7 @@
                                                     })
         </script>
         <script>
-
+        
             //        const imageNameRegex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
             function readAndPreview(files, indicatior, carousel) {
                 indicatior.innerHTML = "";
@@ -390,7 +383,7 @@
                 const indicatiors = document.querySelector(".carousel-indicators");
                 const carouselInners = document.querySelector(".carousel-inner");
                 readAndPreview(arr, indicatiors, carouselInners);
-
+        
             }
             const formData = new FormData()
             const form = document.querySelector(".product-form")
@@ -419,7 +412,7 @@
                         formData.append("image", element)
                     }
                     form.submit();
-
+        
                     $.ajax('<c:url value="/GetProductAjax"/>', {
                         data: {
                             name: document.querySelector(".product-name").value,
@@ -433,7 +426,7 @@
                             })
                         }
                     })
-
+        
                 }
                 console.log(formData.getAll("image"))
             })
@@ -457,7 +450,7 @@
                             console.error(error);
                         })
             });
-
+        
         </script>
         <script>
             function  previewProduct() {
@@ -473,7 +466,7 @@
                 console.log(carouselInnerModal)
                 readAndPreview(arr, indicatiorModal, carouselInnerModal);
             }
-
-        </script>-->
+        
+        </script>
     </body>
 </html>

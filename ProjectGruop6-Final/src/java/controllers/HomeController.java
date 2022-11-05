@@ -5,8 +5,8 @@
  */
 package controllers;
 
+import java.nio.file.Paths;
 import config.Config;
-import dao.BannerDAO;
 import dao.CategoryDAO;
 import dao.ProductDAO;
 import dao.ReviewDAO;
@@ -20,21 +20,25 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import utils.Constants;
 
 /**
  *
  * @author Admin
  */
+@MultipartConfig
 @WebServlet(name = "HomeController", urlPatterns = {"/home"})
 
 public class HomeController extends HttpServlet {
@@ -50,6 +54,7 @@ public class HomeController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("==");
         String action = (String) request.getAttribute("action");
         String controller = (String) request.getAttribute("controller");
         System.out.println(action + " " + controller);
@@ -58,16 +63,15 @@ public class HomeController extends HttpServlet {
             case "main": {
                 CategoryDAO cateDAO = new CategoryDAO();
                 ProductDAO proDAO = new ProductDAO();
-                BannerDAO b = new BannerDAO();
+//                BannerDAO b = new BannerDAO();
                 try {
                     List<CategoryDTO> cateList = cateDAO.findAll();
                     session.setAttribute("cateList", cateList);
                     List<ProductDTO> bestSellers = proDAO.getProductList(0, ProductDAO.SOLD_COUNT, ProductDAO.DESC);
                     List<ProductDTO> newProducts = proDAO.getProductList(0, ProductDAO.APPROVE_AT, ProductDAO.DESC);
-                    BannerDTO banner = b.get(0);
+//                    BannerDTO banner = b.get(0);
                     request.setAttribute("bestSellers", bestSellers);
                     request.setAttribute("newProducts", newProducts);
-//                    System.out.println(banner);
 //                    request.setAttribute("banner", banner);
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -160,22 +164,23 @@ public class HomeController extends HttpServlet {
                 }
                 break;
             }
-            case "top" : {
+            case "top": {
                 ProductDAO proDAO = new ProductDAO();
                 List<ProductDTO> productList = null;
                 int totalProduct = 0;
                 String top = request.getParameter("top");
                 try {
-                    switch(top) {
+                    switch (top) {
                         case "newest": {
                             productList = proDAO.getProductListByProductName(1, "", ProductDAO.APPROVE_AT, ProductDAO.DESC);
                             break;
-                        }case "soldCount": {
+                        }
+                        case "soldCount": {
                             productList = proDAO.getProductListByProductName(1, "", ProductDAO.SOLD_COUNT, ProductDAO.DESC);
                             break;
                         }
                     }
-                    
+
                     totalProduct = proDAO.countProductListByProductName("");
                     int pageNum = totalProduct / Constants.ITEM_PER_PAGE + (totalProduct % Constants.ITEM_PER_PAGE == 0 ? 0 : 1);
                     request.setAttribute("productList", productList);
@@ -186,6 +191,19 @@ public class HomeController extends HttpServlet {
                 }
                 break;
             }
+            case "uploadtest": {
+                if (request.getParameter("p") != null) {
+                    System.out.println("----------------");
+                    Collection<Part> part = request.getParts();
+//                    if (request.getPart("img1") == null) {
+//                        System.out.println("GAY");
+//                    }
+//                    System.out.println(part);
+//                handleImage(part, String.valueOf(pId));
+                    System.out.println("----------------");
+                }
+            }
+            break;
             default:
                 //chuyển đến trang thông báo lỗi
                 request.setAttribute("controller", "error");

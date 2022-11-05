@@ -21,12 +21,16 @@
                 margin: 5px 5px 0 0 ;
             }
             canvas{
-                width:  400px !important;
-                height: 400px !important;
+                width:  100% !important;
+                /*height: 400px !important;*/
 
             }
             .canvas-container {
-                margin-bottom: 20px;
+                width: 40% !important;
+                margin-bottom: 40px;
+            }
+            h3 {
+               margin-top: 60px; 
             }
         </style>
     </head>
@@ -90,6 +94,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
+                            <h3 style="text-align: center">Top 10 sản phẩm bán nhiều nhất</h3>
                             <table class="table table-striped table-hover" id="topSeller">
                                 <thead>
                                     <tr>
@@ -105,6 +110,7 @@
                             </table>
                         </div>
                         <div class="col-md-6">
+                            <h3 style="text-align: center">Top 10 sản phẩm bán ít nhất</h3>
                             <table class="table table-striped  table-hover" id="leastSeller">
                                 <thead>
                                     <tr>
@@ -122,6 +128,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
+                            <h3 style="text-align: center">Top 10 người dùng có lượt mua nhiều nhất</h3>
                             <table class="table table-striped table-hover" id="topBuyUserBySoldCount">
                                 <thead>
                                     <tr>
@@ -135,7 +142,9 @@
                             </table>
                         </div>
                         <div class="col-md-6">
+                            <h3 style="text-align: center">Top 10 người dùng chi nhiều nhất</h3>
                             <table class="table table-striped  table-hover" id="topBuyUserBySoldPrice">
+                                
                                 <thead>
                                     <tr>
                                         <th class="col-2" colspan="2" scope="col">Email người dùng</th>
@@ -439,7 +448,13 @@
                                                             y: {
                                                                 beginAtZero: true
                                                             }
-                                                        }
+                                                        },
+                                                        plugins: {
+                                                                title: {
+                                                                    display: true,
+                                                                    text: 'Tỉ lệ các đơn hàng theo danh mục'
+                                                                }
+                                                            }
                                                     }
                                                 });
                                                 const ordersByPriceChart = new Chart(getChartContext('ordersByPrice'), {
@@ -481,10 +496,16 @@
                                                                 beginAtZero: true,
                                                                 ticks: {
                                                                     callback: function (value) {
-
+                                                                        return formatPrice(value)
                                                                     }
                                                                 }
                                                             }
+                                                        },
+                                                        plugins: {
+                                                                title: {
+                                                                    display: true,
+                                                                    text: 'Tỉ lệ đơn hàng theo các mức giá'
+                                                                }
                                                         }
                                                     }
                                                 });
@@ -495,6 +516,7 @@
 
                                                 var top10ProductLeastSell = ${top10ProductLeastSell == null ? [] : top10ProductLeastSell}.map(filterArray)
                                                 var top10SoldPriceUser = ${top10SoldPriceUser == null ? [] : top10SoldPriceUser}
+                                                
                                                 var top10SoldCountUser = ${top10SoldCountUser == null ? [] : top10SoldCountUser}
                                                 console.log(top10SoldCountUser)
                                                 newProductList.forEach(i => {
@@ -514,16 +536,25 @@
                                                             '</tr>'
                                                 });
 
-
+                                                var top10SoldPriceUserArr = []
+                                                var top10SoldCountUserArr = []
                                                 for (const [key, value] of Object.entries(top10SoldPriceUser)) {
+                                                    top10SoldPriceUserArr.push({email: key,count: value})
+                                                }
+                                                top10SoldPriceUserArr.sort(function(a, b){
+                                                    return  parseInt(b.count) - parseInt(a.count);
+                                                })
+                                                console.log(top10SoldPriceUserArr)
+                                                top10SoldPriceUserArr.forEach(i => {
                                                     document.querySelector("#topBuyUserBySoldPrice").innerHTML +=
                                                             '<tr>' +
-                                                            '<td colspan="2">' + key + '</td>' +
-                                                            '<td colspan="2">' + value + '</td>' +
+                                                            '<td colspan="2">' + i.email + '</td>' +
+                                                            '<td colspan="2">' + formatPrice(i.count) + '</td>' +
                                                             '</tr>'
-                                                }
-
+                                                })
+                                                
                                                 for (const [key, value] of Object.entries(top10SoldCountUser)) {
+                                                    top10SoldCountUserArr.push({key, value})
                                                     document.querySelector("#topBuyUserBySoldCount").innerHTML +=
                                                             '<tr>' +
                                                             '<td colspan="2">' + key + '</td>' +

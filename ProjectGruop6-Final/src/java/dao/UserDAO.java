@@ -33,20 +33,21 @@ public class UserDAO {
         } else {
             query += "price";
         }
-        query += ") as param , o.email_buyer FROM\n"
+        query += ") as [param] , o.email_buyer FROM\n"
                 + "(SELECT email FROM [user] WHERE email = ?) u\n"
                 + "LEFT JOIN product p ON p.email_seller = u.email\n"
                 + "LEFT JOIN order_detail od ON od.product_id = p.product_id\n"
                 + "LEFT JOIN order_by_shop os ON os.order_by_shop_id = od.order_by_shop_id\n"
                 + "LEFT JOIN [order] o ON o.order_id = os.order_id\n"
                 + "WHERE o.email_buyer is not null\n"
-                + "GROUP BY o.email_buyer\n"
-                + "order by param ";
-        if (trend == ASC) {
-            query += "\n asc";
-        } else {
-            query += "\n desc";
-        }
+                + "GROUP BY o.email_buyer "
+                + "order by param asc";
+//        if (trend == ProductDAO.ASC) {
+//            query += "asc";
+//            System.out.println("");
+//        } else {
+//            query += "desc";
+//        }
         System.out.println(query);
         PreparedStatement stm = conn.prepareStatement(query);
         stm.setString(1, sellerEmail);
@@ -316,9 +317,12 @@ public class UserDAO {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-            uDAO.getTop10UserBuyByShop("thanhddse151068@fpt.edu.vn", 11, ProductDAO.DESC, false).forEach((k, v) -> {
+            uDAO.getTop10UserBuyByShop("thinhpqse151077@fpt.edu.vn", 11, ProductDAO.DESC, true).forEach((k,v) -> {
                 System.out.println(k + " " + v);
             });
+//            uDAO.getTop10UserBuyByShop("thanhddse151068@fpt.edu.vn", 11, ProductDAO.DESC, false).forEach((k, v) -> {
+//                System.out.println(k + " " + v);
+//            });
             System.out.println(uDAO.getUserByRole(false).size());
             System.out.println(uDAO.getUserByRole(true).size());
         } catch (Exception ex) {
