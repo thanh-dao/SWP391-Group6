@@ -1,19 +1,14 @@
-<%-- 
-    Document   : cart
-    Created on : Sep 14, 2022, 4:13:58 AM
-    Author     : ADmin
---%>
 <%@page import="services.GhnApi"%>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Thông tin sản phẩm</title>
+        <link href="../css/main.css" rel="stylesheet" type="text/css"/>
         <style>
             * {
                 padding: 0;
@@ -98,39 +93,17 @@
             }
 
             .price-content span {
+                font-weight: 500;
                 color: red;
-                font-weight: bold;
             }
-
-            .btn-buy {
-                background-color: #FF9900;
+            .btn {
                 margin-top: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 50px;
                 width: 100%;
-                padding: 10px;
-                color: white;
-                text-transform: uppercase;
-                font-weight: 600;
-                box-shadow: rgb(0 0 0 / 17%) 0px -23px 25px 0px inset, rgb(0 0 0 / 15%) 0px -36px 30px 0px inset, rgb(0 0 0 / 10%) 0px -79px 40px 0px inset, rgb(0 0 0 / 6%) 0px 2px 1px, rgb(0 0 0 / 9%) 0px 4px 2px;
-                border-radius: 50px;
             }
-
-            .btn-buy::after {
-                position: relative;
-                content: "\276f";
-                padding: 0.5em;
-                right: 0;
-                transition: 0.5s;
-            }
-
-            .btn-buy:hover {
-                background: #f69679;
-            }
-
-            .btn-buy:hover::after {
-                right: -10px;
-                transition: 0.15s linear;
-            }
-
             .delete-icon {
                 padding-left: 8%;
             }
@@ -156,14 +129,6 @@
                 text-align: center;
                 color: #3d3a3a;
                 border: 3px solid #ffffff;
-            }
-
-            .br-form {
-                height: auto;
-                padding: 5px;
-                padding-bottom: 3%;
-                background: #F0F0F0;
-                border-radius: 5px;
             }
 
             .txt-style {
@@ -210,6 +175,11 @@
             input[type=number] {
                 -moz-appearance: textfield;
             }
+            .shipping-price {
+                font-size: 15px;
+                color: red;
+                font-weight: 500;
+            }
         </style>
     </head>
 
@@ -219,47 +189,50 @@
                 <div class="row">
                     <div class="col-md-8 font-a">
                         <div class="br-form">
-                            <div class="block-header" style="padding: 10px;">
+                            <div class="block-header">
                                 <h3>Giỏ hàng</h3>
                             </div>
                             <table style="margin-bottom: 1rem;">
                                 <thead>                                  
                                     <tr row>
-                                        <th><input id="selectAll" type="checkbox" onclick="createOrder()" onclick="handleSelectAll(this)" name=""></th>
+                                        <th><input id="selectAll" type="checkbox" onclick="handleSelectAll(this)" name=""></th>
                                         <th class="col-md-6 col-5">Sản phẩm</th>
                                         <th class="col-md-3 col-3">Đơn giá</th>
-                                        <th class="col-md-3 col-4" style="display: flex; justify-content: space-between;">
-                                            <span>Số lượng</span>
-                                            <div class=" style-product-cart delete-icon " onclick="deleteAll()" 
-                                                 style="justify-content: center">
-                                                <a class="show-cart" style="color: white"><i
-                                                        class="fas fa-trash delete-trash"></i></a>
+                                        <th class="col-md-3 col-4">
+                                            <div class="d-flex justify-content-between">
+                                                <div>Số lượng</div>
+                                                <div class="style-product-cart delete-icon" onclick="deleteAll(this)">
+                                                    <a class="show-cart" style="color: white">
+                                                        <i class="fas fa-trash delete-trash"></i></a>
+                                                </div>
                                             </div>
                                         </th>
                                     </tr>
                                 </thead>
                             </table>
                             <c:forEach items="${cart.getOrderByShopList()}" var="i">
-                                <table class="table table-striped cart-table">
-                                    <thead style="background-color: #FFEFD5;">                                  
+                                <table class="table table-striped cart-table" style="padding: -5px; margin: 0;">
+                                    <thead style="background-color: #EAF1FB;">                                  
                                         <tr row>
                                             <th><input type="checkbox" onclick="handleSelectByShop(this)" name="${i.orderByShopId}"></th>
-                                            <th class="col-md-6 col-5 font-a">Sản phẩm của <a href="#">${i.getName()}</a></th>
+                                            <th class="col-md-6 col-5 font-a">Sản phẩm của 
+                                                <a href="<c:url value="/user/shopInformation.do?seller=${i.emailSeller}"/>">${i.getName()}</a>
+                                            </th>
                                             <th class="col-md-3 ">
                                             </th>
-                                            <th class="col-md-4 shipping-price">
+                                            <th class="col-md-4" style="font-weight: normal;">
+                                                Phí vận chuyển
                                                 <c:if test="${sessionScope.user.address != null}">
                                                     <%--<%=GhnApi ghn = new GhnApi() %>--%>
-                                                    <fmt:setLocale value="vi-VN"/>
-                                                    Phí ship: 
-                                                    <fmt:formatNumber type="currency" value='${GhnApi.getShipingFee(
-                                                                                               i.getAddress().cityName, cart.address.cityName, 
-                                                                                               i.getAddress().districtName,cart.address.districtName,
-                                                                                               cart.address.wardName, "2")}' />
+                                                    <div price="${GhnApi.getShipingFee(
+                                                                  i.getAddress().cityName, cart.address.cityName, 
+                                                                  i.getAddress().districtName,cart.address.districtName,
+                                                                  cart.address.wardName, "2")}" class="shipping-price">
+
+
+                                                    </div>
                                                 </c:if>
                                             </th>
-
-                                            <!--<th class="col-md-3"></th>-->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -283,7 +256,7 @@
                                                 </td>
                                                 <td class="price-content">
                                                     <fmt:setLocale value="vi_VN"/>
-                                                    <fmt:formatNumber value="${p.getProduct().getPrice()}" type="currency"/>
+                                                    <fmt:formatNumber value="${p.product.price}" type="currency"/>
                                                 </td>
                                                 <td>
                                                     <div class="quantity-button">
@@ -341,10 +314,20 @@
                                 </div>
                             </div>
                             <!-- thanh toán -->
-                            <span class="title-style">Tổng cộng</span>
+                            <span class="title-style">Đơn giá</span>
                             <div class="price-content txt-style">
-                                <span>Thành tiền : 
+                                <span class="d-flex justify-content-between" 
+                                      style="font-weight: normal; color: black;">Phí giao hàng: 
+                                    <span id="price-ship" class="price-content">
+                                    </span>
+                                </span>
+                                <span class="d-flex justify-content-between"
+                                      style="font-weight: normal; color: black;">Tạm tính: 
                                     <span id="price" class="price-content">
+                                    </span>
+                                </span>
+                                <span class="d-flex justify-content-between" style="font-weight: bold;">Thành tiền: 
+                                    <span id="price-total" class="price-content">
                                     </span>
                                 </span>
                             </div>
@@ -355,10 +338,10 @@
                                                   empty cart.address.cityName &&
                                                   empty user.phone &&
                                                   !empty cart.orderByShopList}">
-                                        <a class="genric-btn primary circle" onclick="handlePay(event)" href="<c:url value="/cart/shipInformation.do"/>">Thanh Toán</a>
+                                        <a class="btn btn-primary" onclick="handlePay(event)" href="<c:url value="/cart/shipInformation.do"/>">Thanh Toán</a>
                                 </c:when>
                                 <c:when test = "${not empty cart.orderByShopList}">
-                                    <a class="btn-buy" onclick="handlePay(event)" href="<c:url value="/cart/pay.do"/>">Thanh Toán</a>
+                                    <a class="btn btn-primary" onclick="handlePay(event)" href="<c:url value="/cart/pay.do"/>">Thanh Toán</a>
                                 </c:when>
                                 <c:otherwise>
                                 </c:otherwise>
@@ -433,41 +416,42 @@
                 }
                 return true;
             }
-            const deleteAll = () => {
-                swal({
-                    title: "",
-                    text: "Xác nhận xóa sản phẩm này?",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                        .then((willDelete) => {
-                            if (willDelete) {
-                                $.ajax("<c:url value="/cart/cart.do"/>", {
-                                    data: {
-                                        func: "deleteAll",
-                                    },
-                                    success: function (data, textStatus, jqXHR) {
-                                        swal("Đã xóa thành công", {
-                                            icon: "success",
-                                            buttons: false,
-                                            timer: 1000,
-                                        });
-                                        document.querySelectorAll(".cart-table").forEach(i => {
-                                            i.remove()
-                                        })
-                                        document.getElementById("price").innerHTML = total();
-                                    },
-                                    error: function (jqXHR, textStatus, errorThrown) {
-                                        swal("Xóa thất bại!!!", {
-                                            icon: "error",
-                                            buttons: false,
-                                            timer: 1000,
-                                        });
-                                    }
-                                })
-                            }
-                        });
+            const deleteAll = (el) => {
+                if (document.querySelectorAll("td").length != 0) {
+                    swal({
+                        text: "Xác nhận xóa tất cả sản phẩm?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    $.ajax("<c:url value="/cart/cart.do"/>", {
+                                        data: {
+                                            func: "deleteAll",
+                                        },
+                                        success: function (data, textStatus, jqXHR) {
+                                            swal("Đã xóa thành công", {
+                                                icon: "success",
+                                                buttons: false,
+                                                timer: 1000,
+                                            });
+                                            document.querySelectorAll(".cart-table").forEach(i => {
+                                                i.remove()
+                                            })
+                                            total();
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            swal("Xóa thất bại!!!", {
+                                                icon: "error",
+                                                buttons: false,
+                                                timer: 1000,
+                                            });
+                                        }
+                                    })
+                                }
+                            });
+                }
             }
             function updateMoneyPerProduct(el, quantity, pId, osId, max) {
                 let intValue = parseInt(el.value)
@@ -505,7 +489,7 @@
                             });
                         }
                     })
-//                        document.getElementById("price").innerHTML = total();
+                    total();
                 }
             }
             const deleteOrderDetail = (pId, osId, el) => {
@@ -537,7 +521,7 @@
                                         if (tableBody.innerHTML.trim() === "") {
                                             tableElement.remove();
                                         }
-                                        document.getElementById("price").innerHTML = total();
+                                        total();
                                     },
                                     error: function (jqXHR, textStatus, errorThrown) {
                                         swal("Xóa thất bại!!!", {
@@ -553,9 +537,9 @@
             const handleCart = (pId, osId, option, el, max) => {
                 let quantity = parseInt(el.parentElement.querySelector(".ip-qua-style").value)
                 if (checkQuantity(quantity, max)) {
-                console.log(quantity);
-                console.log(max);
-                console.log(checkQuantity(quantity, max));
+                    console.log(quantity);
+                    console.log(max);
+                    console.log(checkQuantity(quantity, max));
                     if (option == 'minus') {
                         quantity -= 1;
                         if (quantity < 1) {
@@ -576,7 +560,7 @@
                         }
                     })
                 }
-//                document.getElementById("price").innerHTML = total();
+                total();
             }
             const handleSelectByShop = (el) => {
                 const container = el.parentElement.parentElement.parentElement.parentElement;
@@ -587,13 +571,14 @@
                 container.querySelectorAll("tbody input[type=checkbox]").forEach(i => {
                     i.checked = el.checked;
                 })
-                document.getElementById("price").innerHTML = total();
+                total();
             }
             const handleSelectAll = (el) => {
                 const container = document.querySelectorAll("input[type=checkbox]").forEach(i => {
                     i.checked = el.checked;
+                    console.log(el.checked);
                 })
-                document.getElementById("price").innerHTML = total();
+                total();
             }
             const handleSelect = (el) => {
                 if (el.checked == false) {
@@ -601,13 +586,10 @@
                     selectByShop[0].checked = false
                     const selectAll = document.getElementById("selectAll")
                     selectAll.checked = false
-                } else if (el.checked == true) {
-
                 }
-
-                document.getElementById("price").innerHTML = total();
+                total();
             }
-            const total = () => {
+            const totalProductPrice = () => {
                 var price = 0;
                 document.querySelectorAll('.product-item').forEach(i => {
                     if (i.checked == true) {
@@ -616,16 +598,44 @@
                         console.log(price)
                     }
                 })
-                const formatter = new Intl.NumberFormat('vn-VN', {
-                    style: 'currency',
-                    currency: 'VND',
-                    minimumFractionDigits: 0
-                })
-                return formatter.format(price)
-            }
 
+                document.getElementById("price").innerHTML = formatter.format(price);
+                return price
+            }
+            const formatter = new Intl.NumberFormat('vn-VN', {
+                style: 'currency',
+                currency: 'VND',
+                minimumFractionDigits: 0
+            })
+            const totalShipPrice = () => {
+                var price = 0;
+                document.querySelectorAll('.shipping-price').forEach(i => {
+                    const p = i.parentElement.parentElement.parentElement.parentElement.querySelectorAll('.product-item');
+                    let check = false;
+                    console.log(i.getAttribute("price"));
+                    p.forEach(j => {
+                        if (j.checked == true && !check) {
+                            check = true;
+                            const sp = parseInt(i.getAttribute("price"));
+                            price += sp;
+                        }
+                    })
+                })
+                document.getElementById("price-ship").innerHTML = formatter.format(price);
+                return price;
+            }
+            const total = () => {
+                var price = totalProductPrice() + totalShipPrice();
+                document.getElementById("price-total").innerHTML = formatter.format(price);
+            }
+            const setDefaul = () => {
+                document.querySelectorAll('.shipping-price').forEach(i => {
+                    i.innerHTML = formatter.format(parseInt(i.getAttribute("price")));
+                })
+            }
             $(document).ready(function () {
                 total();
+                setDefaul();
             });
         </script>
     </body>

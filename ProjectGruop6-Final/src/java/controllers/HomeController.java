@@ -54,7 +54,6 @@ public class HomeController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("==");
         String action = (String) request.getAttribute("action");
         String controller = (String) request.getAttribute("controller");
         System.out.println(action + " " + controller);

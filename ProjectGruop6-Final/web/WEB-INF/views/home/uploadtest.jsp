@@ -14,7 +14,7 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <form action="uploadtest" method="POST" enctype="multipart/form-data" class="product-form">
+        <form method="POST" enctype="multipart/form-data" class="product-form">
             <div class="row ">
                 <div class="col-lg-2 col-md-2 col-sm-2 box-img">
                     <input id="img1" name="img1" class="input-image" type="file" accept="image/*">

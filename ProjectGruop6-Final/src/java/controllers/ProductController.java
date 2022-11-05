@@ -25,20 +25,21 @@ public class ProductController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String controller = (String) request.getAttribute("controller");
-        String action = (String) request.getAttribute("action");
-        String a = request.getContextPath();
-        System.out.println(a);
-        String b = request.getServletPath();
-        System.out.println(b);
-        System.out.println(controller);
-        System.out.println(action);
+//        String name = (String) request.getAttribute("name");
+//        int price = Integer.parseInt((String)request.getAttribute("price"));
+//        float quantity = Float.parseFloat((String)request.getAttribute("quantity"));
+        System.out.println("name: " + (String) request.getParameter("name"));
+        System.out.println("price: " + (String) request.getParameter("price"));
+        System.out.println("quantity: " + (String) request.getParameter("quantity"));
         System.out.println("----------------");
         Collection<Part> part = request.getParts();
+        part.forEach(i -> {
+            System.out.println(i.getSubmittedFileName());
+        });
         System.out.println(part);
 //        handleImage(part, String.valueOf(pId));
         System.out.println("----------------");
-        
+
     }
 
     public void handleImage(Collection<Part> part, String pId) throws IOException {

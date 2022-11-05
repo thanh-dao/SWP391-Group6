@@ -7,6 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Thông tin thanh toán</title>
         <style>
+            a{text-decoration: none;}
+            a:hover {color: none;text-decoration: none;}
             /* reset CSS */
             * {
                 padding: 0;
@@ -88,17 +90,15 @@
             }
 
             .btn-buy {
-                background-color: #FFA500;
+                background-color: #EAF1FB;
                 /* margin-top: 20px; */
                 width: 100%;
                 padding: 10px;
                 color: white;
                 text-transform: uppercase;
                 font-weight: 600;
-                box-shadow: rgb(0 0 0 / 17%) 0px -23px 25px 0px inset, rgb(0 0 0 / 15%) 0px -36px 30px 0px inset, rgb(0 0 0 / 10%) 0px -79px 40px 0px inset, rgb(0 0 0 / 6%) 0px 2px 1px, rgb(0 0 0 / 9%) 0px 4px 2px;
                 border-radius: 50px;
             }
-
             .btn-buy::after {
                 position: relative;
                 content: "\276f";
@@ -106,9 +106,10 @@
                 right: 0;
                 transition: 0.5s;
             }
-
             .btn-buy:hover {
-                background: #f69679;
+                opacity: 0.8;
+                color: white;
+                /*background: #f69679;*/
             }
 
             .btn-buy:hover::after {

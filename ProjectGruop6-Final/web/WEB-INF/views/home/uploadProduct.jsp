@@ -51,8 +51,22 @@
                 height: 100px;
                 border: 1px dashed #334F6C;
                 margin: 5px;
+                /*padding: 0;*/
             }
             .box-img img{
+                width: 100%;
+                height: 100%;
+            }
+            .box-img + a {
+                padding: 10px;
+                color: #FDC632 !important;
+            }
+            .review-image{
+                display: none;
+                width: 540px;
+                height: 540px;
+            }
+            .review-image img{
                 width: 100%;
                 height: 100%;
             }
@@ -75,11 +89,7 @@
                     </script>
                 </c:if>
                 <div class="product__content">
-                    <h1>${controller == "home" ? "dung" : "sai"}</h1>
-                    <h1>${action}</h1>
-                    <h1>${pId}</h1>
-                    <form ${controller == "home" ? 'method="post" enctype="multipart/form-data" 
-                            action = "stored.do?pId=150&func=u&product=1"' : 'method="GET"'}  class="product-form">
+                    <form method="POST" enctype="multipart/form-data" class="product-form">
                         <div class="row ">
                             <div class="upload col-lg-6 col-md-6 col-sm-6">
                                 <button class="upload-button" type="button" onclick="toggleFile()">
@@ -105,31 +115,51 @@
                                         </a>
                                     </div>
                                 </div>
+                                <div class="review-image">
+                                    <img src=""/>
+                                </div>
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-2 col-sm-2 box-img">
-                                        <input id="img1" name="img1" class="input-image" type="file" accept="image/*">
-                                        <!--<img src="../images/plus.png" alt=""/>-->
-                                        <a onclick="togFile('#img1')">Thêm ảnh</a>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <p style="margin: 0 0 0 10px;">Ảnh bìa <span style="color: red;">*</span></p>
+                                        <div class="box-img" onclick="showImage(this)" onchange="getImage(this)">
+                                            <input id="img1" name="img1" required="" class="input-image" type="file" hidden accept="image/*">
+                                            <img src="../images/plus.png" alt=""/>
+                                        </div>
+                                        <a onclick="togFile('#img1')">Thêm ảnh bìa</a>
                                     </div>
-                                    <div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img2')">
-                                        <input id="img2" name="img2" class="input-image" type="file" hidden accept="image/*">
-                                        <img src="../images/plus.png" alt=""/>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img3')">
-                                        <input id="img2" name="img3" class="input-image" type="file" hidden accept="image/*">
-                                        <img src="../images/plus.png" alt=""/>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img4')">
-                                        <input id="img2" name="img4" class="input-image" type="file" hidden accept="image/*">
-                                        <img src="../images/plus.png" alt=""/>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 col-sm-2 box-img" onclick="togFile('#img5')">
-                                        <input id="img2" name="img5" class="input-image" type="file" hidden accept="image/*">
-                                        <img src="../images/plus.png" alt=""/>
+                                    <div class="d-flex col-lg-12 col-md-12 col-sm-12">
+                                        <div class="col-lg-3" style="padding: 0;">
+                                            <div class="box-img" onclick="getImage(this)">
+                                                <input id="img2" name="img2" class="input-image" type="file" hidden accept="image/*">
+                                                <img src="../images/plus.png" alt=""/>
+                                            </div>
+                                            <a onclick="togFile('#img2')">Thêm ảnh</a>
+                                        </div>
+                                        <div class="col-lg-3" style="padding: 0;">
+                                            <div class="box-img" onclick="getImage(this)">
+                                                <input id="img3" name="img3" class="input-image" type="file" hidden accept="image/*">
+                                                <img src="../images/plus.png" alt=""/>
+                                            </div>
+                                            <a onclick="togFile('#img3')">Thêm ảnh</a>
+                                        </div>
+                                        <div class="col-lg-3" style="padding: 0;">
+                                            <div class="box-img" onclick="getImage(this)">
+                                                <input id="img4" name="img4" class="input-image" type="file" hidden accept="image/*">
+                                                <img src="../images/plus.png" alt=""/>
+                                            </div>
+                                            <a onclick="togFile('#img4')">Thêm ảnh</a>
+                                        </div>
+                                        <div class="col-lg-3" style="padding: 0;">
+                                            <div class="box-img" onclick="getImage(this)">
+                                                <input id="img5" name="img5" class="input-image" type="file" hidden accept="image/*">
+                                                <img src="../images/plus.png" alt=""/>
+                                            </div>
+                                            <a onclick="togFile('#img5')">Thêm ảnh</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-lg-6">
                                 <input id="img0" name="img0" class="input-image" type="file" accept="image/*">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -188,11 +218,8 @@
                                        hidden class="category-hidden">
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-end">
-                                <c:if test="${!empty product}">
-                                    <input type="submit" value="ADD"/>
-                                    <button class="btn btn-success" type="submit">Lưu</button>
-                                </c:if>
-                                <button type="submit" class="btn btn-success">Lưu</button>
+                                <button type="submit" formaction="/ProjectGroup6/create" 
+                                        class="btn btn-success" action ="uploadtest" >GO</button>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable" onclick="previewProduct()" data-toggle="modal" data-target=".bd-example-modal-xl">Xem trước</button>
                             </div>
                             <!-- Modal -->
@@ -343,7 +370,7 @@
                                                     })
         </script>
         <script>
-        
+
             //        const imageNameRegex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
             function readAndPreview(files, indicatior, carousel) {
                 indicatior.innerHTML = "";
@@ -366,6 +393,33 @@
                     reader.readAsDataURL(file);
                 }
             }
+            const togFile = (id) => {
+                const fi = document.querySelector(id);
+                fi.click()
+            }
+            const showImage = (el) => {
+                const reviewImg = document.querySelector('.review-image').querySelector("img");
+                const img = el.querySelector("img");
+                console.log(img);
+                const reader = new FileReader();
+                reviewImg.src = img.src;
+                document.querySelector('.review-image').style.display = "block";
+            }
+            const getImage = (el) => {
+                const file = el.querySelector('input[type=file]').files[0];
+                const img = el.querySelector("img");
+                const reader = new FileReader();
+                reader.addEventListener("load", () => {
+                    img.src = reader.result;
+                }, false);
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            }
+            function previewImage(file, el) {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+            }
             var arr = []
             const handleFileChange = (el) => {
                 const fileCount = el.files.length;
@@ -383,61 +437,58 @@
                 const indicatiors = document.querySelector(".carousel-indicators");
                 const carouselInners = document.querySelector(".carousel-inner");
                 readAndPreview(arr, indicatiors, carouselInners);
-        
+
             }
             const formData = new FormData()
             const form = document.querySelector(".product-form")
-            form.addEventListener("submit", (event) => {
-                event.preventDefault();
-                let isEmpty = false;
-                document.querySelectorAll(".product-form input").forEach(i => {
-                    if (i.value === "")
-                        isEmpty = true;
-                })
-                if (arr.length == 0) {
-                    document.querySelector(".notification").innerHTML = "Bạn chưa đăng hình cho sản phẩm này!!";
-                    return false;
-                }
-                if (isEmpty)
-                    swal("Oops", "Hãy điền vào các ô còn trống", "error");
-                const categoryHidden = document.querySelector(".category-hidden");
-                const descriptionHidden = document.querySelector(".description-hidden");
-                categoryHidden.value = $(".select-category").val()
-                descriptionHidden.value = editor.getData();
-                console.log(document.querySelector(".description-hidden").value)
-                formData.delete("image")
-                if (arr.length > 0) {
-                    for (let i = 0; i < arr.length; i++) {
-                        const element = arr[i];
-                        formData.append("image", element)
-                    }
-                    form.submit();
-        
-                    $.ajax('<c:url value="/GetProductAjax"/>', {
-                        data: {
-                            name: document.querySelector(".product-name").value,
-                            func: "init productName"
-                        },
-                        success: function (data) {
-                            console.log("ok")
-                            fetch('<c:url value="/FileProductHandle"/>', {
-                                method: "POST",
-                                body: formData,
-                            })
-                        }
-                    })
-        
-                }
-                console.log(formData.getAll("image"))
-            })
+//            form.addEventListener("submit", (event) => {
+//                event.preventDefault();
+//                let isEmpty = false;
+//                document.querySelectorAll(".product-form input").forEach(i => {
+//                    if (i.value === "")
+//                        isEmpty = true;
+//                })
+//                if (arr.length == 0) {
+//                    document.querySelector(".notification").innerHTML = "Bạn chưa đăng hình cho sản phẩm này!!";
+//                    return false;
+//                }
+//                if (isEmpty)
+//                    swal("Oops", "Hãy điền vào các ô còn trống", "error");
+//                const categoryHidden = document.querySelector(".category-hidden");
+//                const descriptionHidden = document.querySelector(".description-hidden");
+//                categoryHidden.value = $(".select-category").val()
+//                descriptionHidden.value = editor.getData();
+//                console.log(document.querySelector(".description-hidden").value)
+//                formData.delete("image")
+//                if (arr.length > 0) {
+//                    for (let i = 0; i < arr.length; i++) {
+//                        const element = arr[i];
+//                        formData.append("image", element)
+//                    }
+//                    form.submit();
+//
+//                    $.ajax('<c:url value="/GetProductAjax"/>', {
+//                        data: {
+//                            name: document.querySelector(".product-name").value,
+//                            func: "init productName"
+//                        },
+//                        success: function (data) {
+//                            console.log("ok")
+//                            fetch('<c:url value="/FileProductHandle"/>', {
+//                                method: "POST",
+//                                body: formData,
+//                            })
+//                        }
+//                    })
+//
+//                }
+//                console.log(formData.getAll("image"))
+//            })
             const fileInput = document.querySelector('#file');
             const toggleFile = () => {
                 fileInput.click()
             }
-            const togFile = (id) => {
-                const fi = document.querySelector(id);
-                fi.click()
-            }
+
         </script>
         <script>
             window.addEventListener("DOMContentLoaded", () => {
@@ -450,7 +501,7 @@
                             console.error(error);
                         })
             });
-        
+
         </script>
         <script>
             function  previewProduct() {
@@ -466,7 +517,7 @@
                 console.log(carouselInnerModal)
                 readAndPreview(arr, indicatiorModal, carouselInnerModal);
             }
-        
+
         </script>
     </body>
 </html>

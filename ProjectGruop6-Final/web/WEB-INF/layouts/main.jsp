@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="css/main.css" rel="stylesheet" type="text/css"/>
         <style>
             * {
                 padding: 0;
@@ -105,11 +106,12 @@
                 position: relative;
             }
             .user-dropdown {
+                position: absolute;
                 display: none;
             }
             .container-account:hover .user-dropdown {
                 display: block;
-                z-index: 1;
+
             }
             .account-link {
                 display: flex;
@@ -131,15 +133,13 @@
             .user-dropdown {
                 position: absolute;
                 border: 1px solid rgb(239, 239, 239);
-                width: auto;
                 border-radius: 3px;
-                box-shadow: rgb(0 0 0 / 18%) 0px 6px 12px 0px;
                 padding: 0;
                 box-shadow: rgb(0 0 0 / 18%) 0px 6px 12px 0px;
                 background: rgb(255, 255, 255);
                 top: 70px;
                 left: -30px;
-                z-index: 1;
+                z-index: 9;
             }
             .user-dropdown p:hover {
                 background-color: rgb(245, 244, 245);
@@ -261,6 +261,14 @@
                     <div class="col-md-1">
                         <c:if test ="${sessionScope.user != null}">
                             <div class="container-account">
+                                <div class="user-dropdown">
+                                    <a href="<c:url value="/user/userInformation.do?id=${sessionScope.user.email}"/>">
+                                        <p>Tài khoản của tôi</p
+                                    </a>
+                                    <a href="<c:url value="/user/logout.do"/>">
+                                        <p>Đăng xuất</p>
+                                    </a>
+                                </div>
                                 <div class="account-link">
                                     <a class="account-link" href="#" >
                                         <img style="border-radius: 50%;" src="${sessionScope.user.avatarLink}" alt="">
@@ -268,14 +276,6 @@
                                     <div class="account-btn">
                                         <div class="item-text">
                                             <span class="account-title" style="font-size: 80%; padding: 5px;">${sessionScope.user.firstName} ${sessionScope.user.lastName}</span>
-                                        </div>
-                                        <div class="user-dropdown">
-                                            <a href="<c:url value="/user/userInformation.do?id=${sessionScope.user.email}"/>">
-                                                <p>Tài khoản của tôi</p
-                                            </a>
-                                            <a href="<c:url value="/user/logout.do"/>">
-                                                <p>Đăng xuất</p>
-                                            </a>
                                         </div>
                                     </div>
                                 </div>
