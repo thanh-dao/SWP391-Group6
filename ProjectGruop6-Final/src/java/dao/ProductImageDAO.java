@@ -41,9 +41,10 @@ public class ProductImageDAO {
         stm.setInt(1, productID);
         ResultSet rs = stm.executeQuery();
         while (rs.next()) {
+            String url = rs.getString("url");
             list.add(new ProductImageDTO(
                     rs.getInt("image_id"),
-                    rs.getString("url"),
+                    url.contains("http") ? url : "/ProjectGroup6/img/" + url,
                     rs.getInt("is_main_img") == 1 ? true : false)
             );
         }

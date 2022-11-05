@@ -140,6 +140,11 @@
     </head>
     <body>
         <div class="container" >
+            <c:if test="${product == null}">
+                <h1 style="text-align: center; height: 600px;">Sản phẩm không tồn tại</h1>
+            </c:if>
+            <c:if test="${product != null}">
+            
             <div class="br-form">
                 <div class="link font-a">
                     <a href="<c:url value="/home/main.do"/>">Trang chủ</a> >>
@@ -340,6 +345,7 @@
                         </c:forEach>
                     </div>
                 </div>
+            </c:if>
             </c:if>
         </div>
     </body>
