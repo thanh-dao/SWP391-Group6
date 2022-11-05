@@ -158,9 +158,8 @@ public class ReviewDAO {
         return -1;
     }
 
-    public ArrayList<Integer> getTotalReviewCurrentRating(String emailSeller, int rating) throws ClassNotFoundException, SQLException {
+    public ArrayList<Integer> getTotalReviewCurrentRating(String emailSeller) throws ClassNotFoundException, SQLException {
         ArrayList<Integer> arr = new ArrayList<>();
-        int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
         for (int i = 0; i <= 5; i++) {
             arr.add(getCountRating(emailSeller, i));
         }

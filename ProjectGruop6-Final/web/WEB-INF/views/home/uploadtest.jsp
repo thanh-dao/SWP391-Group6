@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,7 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <form action="uploadtest.do" method="POST" enctype="multipart/form-data" class="product-form">
+        <form action="uploadtest" method="POST" enctype="multipart/form-data" class="product-form">
             <div class="row ">
                 <div class="col-lg-2 col-md-2 col-sm-2 box-img">
                     <input id="img1" name="img1" class="input-image" type="file" accept="image/*">
@@ -65,8 +66,8 @@
                 </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-end">
-                <input type="submit" value="ADD"/>
-                <button type="submit" class="btn btn-success">Lưu</button>
+                <!--<input type="submit" value="ADD"/>-->
+                <button type="submit" formaction="/ProjectGroup6/create" action ="uploadtest" >GO</button>
             </div>
         </form>
     </body>
