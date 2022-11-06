@@ -1,5 +1,7 @@
 package controllers;
 
+import config.Config;
+import dao.ProductImageDAO;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -7,6 +9,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -25,38 +28,76 @@ public class ProductController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-//        String name = (String) request.getAttribute("name");
-//        int price = Integer.parseInt((String)request.getAttribute("price"));
-//        float quantity = Float.parseFloat((String)request.getAttribute("quantity"));
-        System.out.println("name: " + (String) request.getParameter("name"));
-        System.out.println("price: " + (String) request.getParameter("price"));
-        System.out.println("quantity: " + (String) request.getParameter("quantity"));
-        System.out.println("----------------");
-        Collection<Part> part = request.getParts();
-        part.forEach(i -> {
-            System.out.println(i.getSubmittedFileName());
-        });
-        System.out.println(part);
-//        handleImage(part, String.valueOf(pId));
-        System.out.println("----------------");
+        try {
+            if (request.getParameter("pId") != null) {
+                request.setAttribute("pId", request.getParameter("pId"));
+                if (request.getParameter("func") != null
+                        && request.getParameter("listId") != null) {
+                    if (request.getParameter("func").equalsIgnoreCase("delete")) {
+                        String[] pIdList = request.getParameter("listId")
+                                .replace("[", "").replace("]", "").split(",");
+                        int[] arrpId = new int[pIdList.length];
+                        for (int i = 0; i < pIdList.length; i++) {
+                            if (!pIdList[i].isEmpty()) {
+                                arrpId[i] = Integer.parseInt(pIdList[i]);
+                                System.out.println(arrpId[i]);
+//                                new ProductImageDAO().deleteImgProduct(arrpId[i]);
+                            }
+                        }
+                    }
+                } else {
+                    int pId = Integer.parseInt(request.getParameter("pId"));
+                    System.out.println("-i-");
+                    //        String name = (String) request.getParameter("name");
+//        int price = Integer.parseInt((String)request.getParameter("price"));
+//        float quantity = Float.parseFloat((String)request.getParameter("quantity"));
+                    System.out.println("name: " + (String) request.getParameter("name"));
+                    System.out.println("price: " + (String) request.getParameter("price"));
+                    System.out.println("quantity: " + (String) request.getParameter("quantity"));
+                    System.out.println("---------1-------");
+                    Collection<Part> part = request.getParts();
+                    part.forEach(i -> {
+                        System.out.println(i.getSubmittedFileName());
+                    });
+                    System.out.println(part);
+                    Part p1 = request.getPart("img1");
+                    Part p2 = request.getPart("img2");
+                    Part p3 = request.getPart("img3");
+                    Part p4 = request.getPart("img4");
+                    LinkedHashMap<String, Part> arr = new LinkedHashMap();
+                    arr.put(pId + "_img1", p1);
+                    arr.put(pId + "_img2", p2);
+                    arr.put(pId + "_img3", p3);
+                    arr.put(pId + "_img4", p4);
+                    arr.forEach((key, value) -> {
+                        try {
+                            handleImage(key, value);
+                        } catch (IOException ex) {
+                            Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                    System.out.println("part1 " + p1.getSubmittedFileName());
 
+                    System.out.println("--------2--------");
+                }
+            } else {
+                request.setAttribute("controller", "error");
+                request.setAttribute("action", "index");
+                request.setAttribute("message", "Error when processing the request");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
     }
 
-    public void handleImage(Collection<Part> part, String pId) throws IOException {
-        int index = 0;
-        for (Part p : part) {
-            String fileName = p.getSubmittedFileName();
-            if (fileName != null && !fileName.isEmpty()) {
-                try {
-                    String e = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-                    index++;
-                    String newName = pId + "_" + String.valueOf(index);
-                    findImage(newName);
-                    p.write(Constants.IMAGE_ABSOLUTE_DIRECTORY + "/" + newName + e);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+    public void handleImage(String key, Part part) throws IOException {
+        String fileName = part.getSubmittedFileName();
+        if (fileName != null && !fileName.isEmpty()) {
+            String e = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+            findImage(key);
+            //insert
+            part.write(Constants.IMAGE_ABSOLUTE_DIRECTORY + "/" + key + e);
         }
     }
 

@@ -164,6 +164,14 @@ public class ProductImageDAO {
         return false;
     }
 
+    public boolean deleteImgProduct(int rId) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("DELETE FROM image_product "
+                + "WHERE image_id = ? ");
+        stm.setInt(1, rId);
+        return stm.executeUpdate() == 1;
+    }
+
     public static void main(String[] args) {
         ProductImageDAO p = new ProductImageDAO();
         try {

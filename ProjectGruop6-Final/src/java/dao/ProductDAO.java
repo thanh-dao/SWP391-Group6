@@ -864,10 +864,8 @@ public class ProductDAO {
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
         try {
-            p.getTop10ProductByMonth(10).forEach(i -> {
-                System.out.println(i);
-            });
-//            System.out.println(p.getCountProducts("LinhTKSS170602@fpt.edu.vn"));
+            String s = 1 + "_img";
+            System.out.println(s);
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();

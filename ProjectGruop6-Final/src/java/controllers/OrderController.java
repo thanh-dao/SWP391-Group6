@@ -6,6 +6,7 @@ import dao.OrderDAO;
 import dao.ProductDAO;
 import dao.ReviewDAO;
 import dao.UserDAO;
+import dto.ProductDTO;
 import dto.UserDTO;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -87,20 +88,17 @@ public class OrderController extends HttpServlet {
                                 }
                                 break;
                                 case "u": {
-                                    if (request.getParameter("product") == null) {
-                                        System.out.println("OK");
-                                        request.setAttribute("product", p.getProductById(pId));
+                                    System.out.println("UPDATE");
+                                    ProductDTO product = p.getProductById(pId);
+                                    if (!product.getEmailSeller().equalsIgnoreCase(user.getEmail())) {
+                                        request.setAttribute("controller", "error");
+                                        request.setAttribute("action", "index");
+                                        request.setAttribute("message", "Error when processing the request");
+                                    } else {
+                                        request.setAttribute("product", product);
+                                        request.setAttribute("imgList", new Gson().toJson(product.getImgList()));
                                         request.setAttribute("controller", "home");
                                         request.setAttribute("action", "uploadProduct");
-                                    } else {
-                                        System.out.println("----------------");
-                                        Collection<Part> part = request.getParts();
-                                        if (request.getPart("img1") == null) {
-                                            System.out.println("GAY");
-                                        }
-                                        System.out.println(part);
-                                        handleImage(part, String.valueOf(pId));
-                                        System.out.println("----------------");
                                     }
                                 }
                                 break;
@@ -141,7 +139,7 @@ public class OrderController extends HttpServlet {
                                     break;
                                     case "dashboard": {
                                         int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
-                                       
+
                                         String userEmail = user.getEmail();
                                         Gson gson = new Gson();
                                         request.setAttribute("productList",
@@ -149,13 +147,11 @@ public class OrderController extends HttpServlet {
                                         System.out.println(gson.toJson((p.getTop10ProductByShop(userEmail, currentMonth, ProductDAO.ASC))));
                                         request.setAttribute("top10ProductLeastSell", gson.toJson((p.getTop10ProductByShop(userEmail, currentMonth, ProductDAO.ASC))));
                                         UserDAO u = new UserDAO();
-                                        request.setAttribute("top10SoldCountUser", gson.toJson(u.getTop10UserBuyByShop(userEmail, currentMonth , ProductDAO.DESC, true)));
+                                        request.setAttribute("top10SoldCountUser", gson.toJson(u.getTop10UserBuyByShop(userEmail, currentMonth, ProductDAO.DESC, true)));
                                         request.setAttribute("top10SoldPriceUser", gson.toJson(u.getTop10UserBuyByShop(userEmail, currentMonth, ProductDAO.DESC, false)));
                                         ReviewDAO rDAO = new ReviewDAO();
                                         OrderDAO orDAO = new OrderDAO();
-                                        
-                                        
-                                        
+
                                         request.setAttribute("totalReviewRating", gson.toJson(rDAO.getTotalReviewCurrentRating(userEmail)));
                                         System.out.println(gson.toJson(rDAO.getTop5Review(userEmail)));
                                         request.setAttribute("top5Review", gson.toJson(rDAO.getTop5Review(userEmail)));
@@ -254,7 +250,6 @@ public class OrderController extends HttpServlet {
         processRequest(request, response);
     }
 
-    
     /**
      * Returns a short description of the servlet.
      *

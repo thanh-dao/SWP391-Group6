@@ -68,7 +68,6 @@
                 height: 100%;
             }
             .icon {top:4px;right:0;font-size:20px;position:absolute;color:#CD5C05;display:none;}
-            .massage{color: red;font-size: 15px;}
             .select2 {height: 100%;}
             .select2{
                 height: 100% !important;
@@ -105,16 +104,26 @@
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                         <p style="margin: 0 0 0 10px;">Ảnh bìa <span style="color: red;">*</span></p>
-                                        <input id="img1" name="img1" onchange="getImage(this)"
+                                        <input id="img0" name="img0" onchange="getImage(this)"
                                                type="file" hidden accept="image/*">
                                         <div class="box-img" style="position: relative;"
                                              onclick="showImage(this)">
                                             <i class="fa-regular fa-circle-xmark icon" onclick="deleteImage(this)"></i>
                                             <img src="../images/plus.png" alt=""/>
                                         </div>
-                                        <a onclick="togFile('#img1')">Thêm ảnh bìa</a>
+                                        <a onclick="togFile('#img0')">Thêm ảnh bìa</a>
                                     </div>
                                     <div class="d-flex col-lg-12 col-md-12 col-sm-12">
+                                        <div class="col-lg-3" style="padding: 0;">
+                                            <input id="img1" name="img1" onchange="getImage(this)"
+                                                   type="file" hidden accept="image/*">
+                                            <div class="box-img" style="position: relative;"
+                                                 onclick="showImage(this)">
+                                                <i class="fa-regular fa-circle-xmark icon" onclick="deleteImage(this)"></i>
+                                                <img src="../images/plus.png" alt=""/>
+                                            </div>
+                                            <a onclick="togFile('#img1')">Thêm ảnh</a>
+                                        </div>
                                         <div class="col-lg-3" style="padding: 0;">
                                             <input id="img2" name="img2" onchange="getImage(this)"
                                                    type="file" hidden accept="image/*">
@@ -145,20 +154,11 @@
                                             </div>
                                             <a onclick="togFile('#img4')">Thêm ảnh</a>
                                         </div>
-                                        <div class="col-lg-3" style="padding: 0;">
-                                            <input id="img5" name="img5" onchange="getImage(this)"
-                                                   type="file" hidden accept="image/*">
-                                            <div class="box-img" style="position: relative;"
-                                                 onclick="showImage(this)">
-                                                <i class="fa-regular fa-circle-xmark icon" onclick="deleteImage(this)"></i>
-                                                <img src="../images/plus.png" alt=""/>
-                                            </div>
-                                            <a onclick="togFile('#img5')">Thêm ảnh</a>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
+                                <input name="pId" value="${product.productId}" hidden/>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">Tên sản Phẩm</span>
@@ -220,8 +220,9 @@
                                        hidden class="category-hidden">
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-between">
-                                <p class="massage">
-                                </p>
+                                <div>
+                                    <a href="<c:url value="/order/stored.do?status=ar"/>" class="btn btn-secondary">Quay lại</a>
+                                </div>
                                 <div class="d-flex justify-content-end">
                                     <button type="submit" formaction="/ProjectGroup6/product" 
                                             class="btn btn-success">GO</button>
@@ -404,10 +405,8 @@
                     const checked = i.parentElement.querySelector('img').getAttribute('src') == '../images/plus.png';
                     if (!checked) {
                         i.style.display = "block";
-                        console.log("block");
                     } else if (checked) {
                         i.style.display = "none";
-                        console.log("none");
                     }
                 })
             }
@@ -474,16 +473,72 @@
                     }
                 }
             }
+            const createListImg = () => {
+                const listImg = new Set();
+                list.forEach(l => {
+                    listImg.add(l.imageID);
+                    for (var i = 0; i < 5; i++) {
+                        const img = document.querySelector('#img' + i).parentElement.querySelector("img");
+                        if (l.url == img.getAttribute('src')) {
+                            listImg.delete(l.imageID);
+                        }
+                    }
+                })
+                return listImg;
+            }
             const form = document.querySelector(".product-form")
             form.addEventListener("submit", (event) => {
-                if (document.querySelector('#img1').files[0] == null) {
+                if (document.querySelector('#img0').files[0] == null
+                        && document.querySelector('#img0').parentElement.
+                        querySelector("img").getAttribute('src') == '../images/plus.png') {
                     event.preventDefault();
                     swal("Sản phẩm chưa có ảnh bìa !!!", {
                         buttons: false,
                         timer: 2000
                     });
+                } else {
+                    $.ajax('<c:url value="/product"/>', {
+                        data: {
+                            pId: ${product.productId},
+                            listId: JSON.stringify(Array.from(createListImg())),
+                            func: 'delete'
+                        }
+                    })
                 }
             })
+            var list = ${imgList};
+            const initImages = () => {
+                list.forEach(i => {
+                    if (i.isMainImg) {
+                        const img = document.querySelector('#img0').parentElement.querySelector("img");
+                        img.src = i.url;
+                    } else {
+                        const imgId = i.url.split('_');
+                        if (imgId[1] != null) {
+                            if (imgId[1].substring(0, 3) == img) {
+                                for (var j = 1; j < 5; j++) {
+                                    if (i.url.split('_img')[2] == j) {
+                                        const img = document.querySelector('#img' + j).parentElement.querySelector("img");
+                                        img.src = i.url;
+                                    }
+                                }
+                            }
+                        } else {
+                            for (var j = 1; j < 5; j++) {
+                                const img = document.querySelector('#img' + j).parentElement.querySelector("img");
+                                if (img.getAttribute('src') == '../images/plus.png') {
+                                    img.src = i.url;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                })
+                hindenIconDelete();
+            }
+            $(document).ready(function () {
+                initImages();
+            });
 //            var arr = []
 //            const handleFileChange = (el) => {
 //                const fileCount = el.files.length;

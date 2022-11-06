@@ -53,7 +53,7 @@ public class ReviewImageDAO {
     public static void main(String[] args) {
         ReviewImageDAO ri = new ReviewImageDAO();
         try {
-            System.out.println(ri.getReviewImage(8));
+//            System.out.println(ri.deleteImgProduct(906));
         } catch (Exception e) {
         }
     }
