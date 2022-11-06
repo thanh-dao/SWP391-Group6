@@ -15,17 +15,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
               integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
-<<<<<<< HEAD
-=======
-        
->>>>>>> a6301ae5f3a91371e63a5b6299cbb1e061ce8a8f
         <link href="css/main.css" rel="stylesheet" type="text/css"/>
         <style>
-            * {
-                padding: 0;
-                margin: 0;
-                box-sizing: border-box;
-            }
             body {background-color: #F0F0F0 !important;}
             body {margin: 0;padding: 0;box-sizing: border-box;}
             header {padding-top: 5px;padding-right: 0px;background-color: #334F6C; margin-bottom: 10px;}

@@ -43,9 +43,6 @@
             .carousel-indicators {
                 margin-bottom: 0;
             }
-            .select-category {
-                margin-bottom: 10px; 
-            }
             .box-img{
                 width: 100px;
                 height: 100px;
@@ -70,12 +67,20 @@
                 width: 100%;
                 height: 100%;
             }
+            .icon {top:4px;right:0;font-size:20px;position:absolute;color:#CD5C05;display:none;}
+            .massage{color: red;font-size: 15px;}
+            .select2 {height: 100%;}
+            .select2{
+                height: 100% !important;
+            }
         </style>
     </head>
     <body>
         <div class="product__details">
             <div class="container">
-                <h2 style="text-align: left; margin-bottom: 20px;">Đăng sản phẩm mới</h2>
+                <h2 style="text-align: left; margin-bottom: 12px;">
+                    ${product == null ? "Đăng sản phẩm mới" : "Cập nhật sản phẩm"}
+                </h2>
                 <c:if test="${sessionScope.user == null}">
                     <script>
                         window.location.href = "/ProjectGroup6/user/login.do";
@@ -92,66 +97,60 @@
                     <form method="POST" enctype="multipart/form-data" class="product-form">
                         <div class="row ">
                             <div class="upload col-lg-6 col-md-6 col-sm-6">
-                                <button class="upload-button" type="button" onclick="toggleFile()">
-                                    <i class="fa-solid fa-camera"></i>
-                                </button>
-                                <p class="notification"></p>
-                                <input id="file" onchange="handleFileChange(this)" class="input-image" type="file" multiple hidden accept="image/*">
-                                <div class="bd-example">
-                                    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-                                        <ol class="carousel-indicators">
-
-                                        </ol>
-                                        <div class="carousel-inner mt-5">
-
-                                        </div>
-                                        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="review-image">
-                                    <img src=""/>
-                                </div>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="review-image">
+                                            <img src=""/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
                                         <p style="margin: 0 0 0 10px;">Ảnh bìa <span style="color: red;">*</span></p>
-                                        <div class="box-img" onclick="showImage(this)" onchange="getImage(this)">
-                                            <input id="img1" name="img1" required="" class="input-image" type="file" hidden accept="image/*">
+                                        <input id="img1" name="img1" onchange="getImage(this)"
+                                               type="file" hidden accept="image/*">
+                                        <div class="box-img" style="position: relative;"
+                                             onclick="showImage(this)">
+                                            <i class="fa-regular fa-circle-xmark icon" onclick="deleteImage(this)"></i>
                                             <img src="../images/plus.png" alt=""/>
                                         </div>
                                         <a onclick="togFile('#img1')">Thêm ảnh bìa</a>
                                     </div>
                                     <div class="d-flex col-lg-12 col-md-12 col-sm-12">
                                         <div class="col-lg-3" style="padding: 0;">
-                                            <div class="box-img" onclick="getImage(this)">
-                                                <input id="img2" name="img2" class="input-image" type="file" hidden accept="image/*">
+                                            <input id="img2" name="img2" onchange="getImage(this)"
+                                                   type="file" hidden accept="image/*">
+                                            <div class="box-img" style="position: relative;"
+                                                 onclick="showImage(this)">
+                                                <i class="fa-regular fa-circle-xmark icon" onclick="deleteImage(this)"></i>
                                                 <img src="../images/plus.png" alt=""/>
                                             </div>
                                             <a onclick="togFile('#img2')">Thêm ảnh</a>
                                         </div>
                                         <div class="col-lg-3" style="padding: 0;">
-                                            <div class="box-img" onclick="getImage(this)">
-                                                <input id="img3" name="img3" class="input-image" type="file" hidden accept="image/*">
+                                            <input id="img3" name="img3" onchange="getImage(this)"
+                                                   type="file" hidden accept="image/*">
+                                            <div class="box-img" style="position: relative;"
+                                                 onclick="showImage(this)">
+                                                <i class="fa-regular fa-circle-xmark icon" onclick="deleteImage(this)"></i>
                                                 <img src="../images/plus.png" alt=""/>
                                             </div>
                                             <a onclick="togFile('#img3')">Thêm ảnh</a>
                                         </div>
                                         <div class="col-lg-3" style="padding: 0;">
-                                            <div class="box-img" onclick="getImage(this)">
-                                                <input id="img4" name="img4" class="input-image" type="file" hidden accept="image/*">
+                                            <input id="img4" name="img4" onchange="getImage(this)"
+                                                   type="file" hidden accept="image/*">
+                                            <div class="box-img" style="position: relative;"
+                                                 onclick="showImage(this)">
+                                                <i class="fa-regular fa-circle-xmark icon" onclick="deleteImage(this)"></i>
                                                 <img src="../images/plus.png" alt=""/>
                                             </div>
                                             <a onclick="togFile('#img4')">Thêm ảnh</a>
                                         </div>
                                         <div class="col-lg-3" style="padding: 0;">
-                                            <div class="box-img" onclick="getImage(this)">
-                                                <input id="img5" name="img5" class="input-image" type="file" hidden accept="image/*">
+                                            <input id="img5" name="img5" onchange="getImage(this)"
+                                                   type="file" hidden accept="image/*">
+                                            <div class="box-img" style="position: relative;"
+                                                 onclick="showImage(this)">
+                                                <i class="fa-regular fa-circle-xmark icon" onclick="deleteImage(this)"></i>
                                                 <img src="../images/plus.png" alt=""/>
                                             </div>
                                             <a onclick="togFile('#img5')">Thêm ảnh</a>
@@ -160,26 +159,29 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <input id="img0" name="img0" class="input-image" type="file" accept="image/*">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">Tên sản Phẩm</span>
                                     </div>
                                     <input type="text" class="form-control product-name"
-                                           name="name" value="${product.name}"
+                                           name="name" value="${product.name}" required=""
                                            placeholder="Tên sản Phẩm" aria-label="Tên sản Phẩm" aria-describedby="basic-addon1">
                                 </div>
-                                <h5>Danh mục sản phẩm</h5>
-                                <select class="select-category">
-                                    <c:forEach items="${sessionScope.cateList}" var="i" >
-                                        <option value="${i.cateId}">${i.name}</option>
-                                    </c:forEach>
-                                </select>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Danh mục sản phẩm</span>
+                                    </div>
+                                    <select class="select-category form-control">
+                                        <c:forEach items="${sessionScope.cateList}" var="i" >
+                                            <option value="${i.cateId}">${i.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
                                 <div class="input-group mb-3 mt-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Giá sản phẩm</span>
                                     </div>
-                                    <input type="text" id="formattedMoneyField"
+                                    <input type="text" id="formattedMoneyField" required=""
                                            name="price" value="${product.price}"
                                            class="form-control" aria-label="Amount (to the nearest dollar)">
                                     <div class="input-group-append">
@@ -190,7 +192,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Số lượng sản phẩm</span>
                                     </div>
-                                    <input type="text"id="formattedNumberField"
+                                    <input type="text"id="formattedNumberField" required=""
                                            name="quantity" value="${product.quantity}"
                                            class="form-control" aria-label="Amount (to the nearest dollar)">
                                 </div>
@@ -210,164 +212,168 @@
                                            name="sellerEmail"
                                            type="email" placeholder="Email" readonly value="${sessionScope.user.email}">
                                 </div>
-                                <input class="description-hidden" 
+                                <input class="description-hidden"
                                        name="descriptionHidden"
                                        type="text" readonly hidden  >
-                                <input readonly 
+                                <input readonly
                                        name="cateId"
                                        hidden class="category-hidden">
                             </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-end">
-                                <button type="submit" formaction="/ProjectGroup6/create" 
-                                        class="btn btn-success" action ="uploadtest" >GO</button>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable" onclick="previewProduct()" data-toggle="modal" data-target=".bd-example-modal-xl">Xem trước</button>
-                            </div>
-                            <!-- Modal -->
-                            <div class="modal fade bd-example-modal-xl" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-scrollable  modal-xl" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalScrollableTitle">Xem trước sản phẩm</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                                            <html>
-                                                <head>
-                                                    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-                                                    <title>Product Detail</title>
-                                                    <link href="../css/main.css" rel="stylesheet" type="text/css"/>
-                                                </head>
-                                                <body>
-                                                    <div class="container" >
-                                                        <div class="br-form">
-                                                            <div class="product__content">
-                                                                <div class="row">
-                                                                    <div id="demo" class="carousel slide col-lg-6 col-md-6 col-sm-6" data-ride="carousel">
-                                                                        <div class="bd-example">
-                                                                            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                                                                <ol class="carousel-indicators-modal">
-
-                                                                                </ol>
-                                                                                <div class="carousel-inner-modal">
-
-                                                                                </div>
-                                                                                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                                    <span class="sr-only">Previous</span>
-                                                                                </a>
-                                                                                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                                    <span class="sr-only">Next</span>
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                                        <h3 class="product-name-modal"></h3>
-
-                                                                        <div style="display: flex;">
-                                                                            <p style="margin-right: 30%">Đã bán: <span class="font-bold">0</span></p>
-                                                                            <p>Đánh giá: <span class="font-bold">0</span></p>
-
-                                                                        </div>
-                                                                        <p>Số lượng sản phẩm: <span class="font-bold product-quantity"></span><p/>
-                                                                        <h2 style="color: #E72425; text-align: right; margin-right: 20px;">
-                                                                            <fmt:setLocale value="vi_VN"/>
-                                                                            <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>
-                                                                        <div class="buy d-flex justify-content-around" style="margin: 50px 0 20px 0;">
-                                                                            <button type="button" onclick="return false">Mua</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="br-form">
-                                                            <h5>Thông tin người bán</h5>
-                                                            <div style="display: flex">
-                                                                <div class="col-md-5 col-sm-5 font-a" style="display: flex">
-                                                                    <a href="#" class="avatar">
-                                                                        <img src="<c:url value="${sessionScope.user.avatarLink}"/>" alt="">
-                                                                    </a>
-                                                                    <p><a href="#">${sessionScope.user.firstName} ${sessionScope.user.lastName}</a></p>
-                                                                </div>
-                                                                <div class="col-md-7 col-sm-7">
-                                                                    <p>Số điện thoại: <span>${sessionScope.user.phone}</span></p>
-                                                                </div>
-                                                            </div><p>Địa chỉ: <span>${sessionScope.user.address.houseNumber} ${sessionScope.user.address.wardName}
-                                                                    ${sessionScope.user.address.districtName} ${sessionScope.user.address.cityName}</span></p>
-                                                        </div>
-                                                        <div class="br-form">
-                                                            <h5>Mô tả chi tiết: </h5>
-                                                            <p id="description-preview"style="padding: 10px 0 10px 0;">${product.description}</p>
-                                                        </div>
-                                                    </div>
-                                                </body>
-                                                <script>
-                                                    const tooltips = document.querySelectorAll('.tooltip-text span');
-                                                    //        window.onmousemove = function (e) {
-                                                    //            var x = (e.clientX + 20) + 'px',
-                                                    //                    y = (e.clientY + 20) + 'px';
-                                                    //            for (var i = 0; i < tooltips.length; i++) {
-                                                    //                tooltips[i].style.top = y;
-                                                    //                tooltips[i].style.left = x;
-                                                    //            }
-                                                    //        };
-                                                    var style = document.createElement('style');
-                                                    document.head.appendChild(style);
-                                                    var matchingElements = [];
-                                                    var allElements = document.getElementsByTagName('*');
-                                                    for (var i = 0, n = allElements.length; i < n; i++) {
-                                                        var attr = allElements[i].getAttribute('.tooltip-text span');
-                                                        if (attr) {
-                                                            allElements[i].addEventListener('mouseover', hoverEvent);
-                                                        }
-                                                    }
-                                                    function hoverEvent(event) {
-                                                        event.preventDefault();
-                                                        x = event.x - this.offsetLeft;
-                                                        y = event.y - this.offsetTop;
-                                                        y += 10;
-                                                        style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
-                                                    }
-                                                </script>
-                                            </html>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                            <button type="button" class="btn btn-success">Lưu</button>
-                                        </div>
-                                    </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-between">
+                                <p class="massage">
+                                </p>
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" formaction="/ProjectGroup6/product" 
+                                            class="btn btn-success">GO</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable" onclick="previewProduct()" data-toggle="modal" data-target=".bd-example-modal-xl">Xem trước</button>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </form>     
+                    <!-- Modal -->
+                    <div class="modal fade bd-example-modal-xl" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable  modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalScrollableTitle">Xem trước sản phẩm</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                                    <html>
+                                        <head>
+                                            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                                            <title>Product Detail</title>
+                                            <link href="../css/main.css" rel="stylesheet" type="text/css"/>
+                                        </head>
+                                        <body>
+                                            <div class="container" >
+                                                <div class="br-form">
+                                                    <div class="product__content">
+                                                        <div class="row">
+                                                            <div id="demo" class="carousel slide col-lg-6 col-md-6 col-sm-6" data-ride="carousel">
+                                                                <div class="bd-example">
+                                                                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                                                        <ol class="carousel-indicators-modal">
+
+                                                                        </ol>
+                                                                        <div class="carousel-inner-modal">
+
+                                                                        </div>
+                                                                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                            <span class="sr-only">Previous</span>
+                                                                        </a>
+                                                                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                            <span class="sr-only">Next</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                <h3 class="product-name-modal"></h3>
+
+                                                                <div style="display: flex;">
+                                                                    <p style="margin-right: 30%">Đã bán: <span class="font-bold">0</span></p>
+                                                                    <p>Đánh giá: <span class="font-bold">0</span></p>
+
+                                                                </div>
+                                                                <p>Số lượng sản phẩm: <span class="font-bold product-quantity"></span><p/>
+                                                                <h2 style="color: #E72425; text-align: right; margin-right: 20px;">
+                                                                    <fmt:setLocale value="vi_VN"/>
+                                                                    <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>
+                                                                <div class="buy d-flex justify-content-around" style="margin: 50px 0 20px 0;">
+                                                                    <button type="button" onclick="return false">Mua</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="br-form">
+                                                    <h5>Thông tin người bán</h5>
+                                                    <div style="display: flex">
+                                                        <div class="col-md-5 col-sm-5 font-a" style="display: flex">
+                                                            <a href="#" class="avatar">
+                                                                <img src="<c:url value="${sessionScope.user.avatarLink}"/>" alt="">
+                                                            </a>
+                                                            <p><a href="#">${sessionScope.user.firstName} ${sessionScope.user.lastName}</a></p>
+                                                        </div>
+                                                        <div class="col-md-7 col-sm-7">
+                                                            <p>Số điện thoại: <span>${sessionScope.user.phone}</span></p>
+                                                        </div>
+                                                    </div><p>Địa chỉ: <span>${sessionScope.user.address.houseNumber} ${sessionScope.user.address.wardName}
+                                                            ${sessionScope.user.address.districtName} ${sessionScope.user.address.cityName}</span></p>
+                                                </div>
+                                                <div class="br-form">
+                                                    <h5>Mô tả chi tiết: </h5>
+                                                    <p id="description-preview"style="padding: 10px 0 10px 0;">${product.description}</p>
+                                                </div>
+                                            </div>
+                                        </body>
+                                        <script>
+                                            const tooltips = document.querySelectorAll('.tooltip-text span');
+                                            //        window.onmousemove = function (e) {
+                                            //            var x = (e.clientX + 20) + 'px',
+                                            //                    y = (e.clientY + 20) + 'px';
+                                            //            for (var i = 0; i < tooltips.length; i++) {
+                                            //                tooltips[i].style.top = y;
+                                            //                tooltips[i].style.left = x;
+                                            //            }
+                                            //        };
+                                            var style = document.createElement('style');
+                                            document.head.appendChild(style);
+                                            var matchingElements = [];
+                                            var allElements = document.getElementsByTagName('*');
+                                            for (var i = 0, n = allElements.length; i < n; i++) {
+                                                var attr = allElements[i].getAttribute('.tooltip-text span');
+                                                if (attr) {
+                                                    allElements[i].addEventListener('mouseover', hoverEvent);
+                                                }
+                                            }
+                                            function hoverEvent(event) {
+                                                event.preventDefault();
+                                                x = event.x - this.offsetLeft;
+                                                y = event.y - this.offsetTop;
+                                                y += 10;
+                                                style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
+                                            }
+                                        </script>
+                                    </html>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-success">Lưu</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <script src="<c:url value="/ckeditor5/ckeditor_build/ckeditor.js" />" type="text/javascript"></script>
         <script>
-                                                    $(".select-category").select2()
-                                                    const currency = new AutoNumeric('#formattedMoneyField', {
-                                                        allowDecimalPadding: false,
-                                                        createLocalList: false,
-                                                        decimalPlaces: 0,
-                                                        maximumValue: "1000000000000",
-                                                        minimumValue: "0",
-                                                        onInvalidPaste: "replace"
-                                                    });
-                                                    const quantity = new AutoNumeric('#formattedNumberField', {
-                                                        allowDecimalPadding: false,
-                                                        createLocalList: false,
-                                                        decimalPlaces: 0,
-                                                        maximumValue: "1000000000000",
-                                                        minimumValue: "0",
-                                                        onInvalidPaste: "replace"
-                                                    })
+                                            $(".select-category").select2()
+                                            const currency = new AutoNumeric('#formattedMoneyField', {
+                                                allowDecimalPadding: false,
+                                                createLocalList: false,
+                                                decimalPlaces: 0,
+                                                maximumValue: "1000000000000",
+                                                minimumValue: "0",
+                                                onInvalidPaste: "replace"
+                                            });
+                                            const quantity = new AutoNumeric('#formattedNumberField', {
+                                                allowDecimalPadding: false,
+                                                createLocalList: false,
+                                                decimalPlaces: 0,
+                                                maximumValue: "1000000000000",
+                                                minimumValue: "0",
+                                                onInvalidPaste: "replace"
+                                            })
         </script>
         <script>
 
@@ -393,6 +399,43 @@
                     reader.readAsDataURL(file);
                 }
             }
+            const hindenIconDelete = () => {
+                document.querySelectorAll('.icon').forEach(i => {
+                    const checked = i.parentElement.querySelector('img').getAttribute('src') == '../images/plus.png';
+                    if (!checked) {
+                        i.style.display = "block";
+                        console.log("block");
+                    } else if (checked) {
+                        i.style.display = "none";
+                        console.log("none");
+                    }
+                })
+            }
+            const deleteImage = (el) => {
+                const input = el.parentElement.parentElement.querySelector('input');
+                clearInputFile(input);
+                el.parentElement.querySelector('img').src = '../images/plus.png';
+                hindenIconDelete();
+            }
+            const resetReviewImage = () => {
+                const reviewImg = document.querySelector('.review-image').querySelector("img");
+                reviewImg.src = '';
+                document.querySelector('.review-image').style.display = "none";
+            }
+            function clearInputFile(f) {
+                if (f.value) {
+                    try {
+                        f.value = ''; //for IE11, latest Chrome/Firefox/Opera...
+                    } catch (err) {
+                    }
+                    if (f.value) { //for IE5 ~ IE10
+                        var form = document.createElement('form'), ref = f.nextSibling;
+                        form.appendChild(f);
+                        form.reset();
+                        ref.parentNode.insertBefore(f, ref);
+                    }
+                }
+            }
             const togFile = (id) => {
                 const fi = document.querySelector(id);
                 fi.click()
@@ -400,47 +443,67 @@
             const showImage = (el) => {
                 const reviewImg = document.querySelector('.review-image').querySelector("img");
                 const img = el.querySelector("img");
-                console.log(img);
-                const reader = new FileReader();
-                reviewImg.src = img.src;
-                document.querySelector('.review-image').style.display = "block";
+                if (img.getAttribute('src') != '../images/plus.png') {
+                    const reader = new FileReader();
+                    reviewImg.src = img.src;
+                    document.querySelector('.review-image').style.display = "block";
+                } else {
+                    resetReviewImage();
+                }
+                hindenIconDelete();
             }
             const getImage = (el) => {
-                const file = el.querySelector('input[type=file]').files[0];
-                const img = el.querySelector("img");
-                const reader = new FileReader();
-                reader.addEventListener("load", () => {
-                    img.src = reader.result;
-                }, false);
-                if (file) {
-                    reader.readAsDataURL(file);
-                }
-            }
-            function previewImage(file, el) {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-            }
-            var arr = []
-            const handleFileChange = (el) => {
-                const fileCount = el.files.length;
-                const files = el.files;
-                if (fileCount > 0)
-                    document.querySelector(".bd-example").style.display = "block";
-                for (var i = 0; i < files.length; i++) {
-                    if (arr.length >= 5) {
-                        arr.shift()
+                const file = el.files[0];
+                const img = el.parentElement.querySelector("img");
+                if (file == null) {
+                    resetReviewImage();
+                    img.src = '../images/plus.png';
+                    hindenIconDelete();
+                } else {
+                    const reader = new FileReader();
+                    reader.addEventListener("load", () => {
+                        img.src = reader.result;
+                        const reviewImg = document.querySelector('.review-image').querySelector("img");
+                        if (reviewImg.getAttribute('src') != '') {
+                            reviewImg.src = img.src;
+                        }
+                        hindenIconDelete();
+                    }, false);
+                    if (file) {
+                        reader.readAsDataURL(file);
                     }
-                    const file = files[i]
-                    var path = (window.URL || window.webkitURL).createObjectURL(file);
-                    arr.push(file)
                 }
-                const indicatiors = document.querySelector(".carousel-indicators");
-                const carouselInners = document.querySelector(".carousel-inner");
-                readAndPreview(arr, indicatiors, carouselInners);
-
             }
-            const formData = new FormData()
             const form = document.querySelector(".product-form")
+            form.addEventListener("submit", (event) => {
+                if (document.querySelector('#img1').files[0] == null) {
+                    event.preventDefault();
+                    swal("Sản phẩm chưa có ảnh bìa !!!", {
+                        buttons: false,
+                        timer: 2000
+                    });
+                }
+            })
+//            var arr = []
+//            const handleFileChange = (el) => {
+//                const fileCount = el.files.length;
+//                const files = el.files;
+//                if (fileCount > 0)
+//                    document.querySelector(".bd-example").style.display = "block";
+//                for (var i = 0; i < files.length; i++) {
+//                    if (arr.length >= 5) {
+//                        arr.shift()
+//                    }
+//                    const file = files[i]
+//                    var path = (window.URL || window.webkitURL).createObjectURL(file);
+//                    arr.push(file)
+//                }
+//                const indicatiors = document.querySelector(".carousel-indicators");
+//                const carouselInners = document.querySelector(".carousel-inner");
+//                readAndPreview(arr, indicatiors, carouselInners);
+//            }
+//            const formData = new FormData()
+//            const form = document.querySelector(".product-form")
 //            form.addEventListener("submit", (event) => {
 //                event.preventDefault();
 //                let isEmpty = false;
@@ -484,10 +547,10 @@
 //                }
 //                console.log(formData.getAll("image"))
 //            })
-            const fileInput = document.querySelector('#file');
-            const toggleFile = () => {
-                fileInput.click()
-            }
+//            const fileInput = document.querySelector('#file');
+//            const toggleFile = () => {
+//                fileInput.click()
+//            }
 
         </script>
         <script>
@@ -500,8 +563,8 @@
                         .catch(error => {
                             console.error(error);
                         })
-            });
-
+            }
+            );
         </script>
         <script>
             function  previewProduct() {

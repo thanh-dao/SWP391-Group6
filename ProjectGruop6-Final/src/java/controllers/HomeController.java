@@ -58,6 +58,8 @@ public class HomeController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         System.out.println(action + " " + controller);
         HttpSession session = request.getSession();
+        session.setAttribute("user", new UserDTO("ThinhPQSE151077@fpt.edu.vn", 
+                "a", "TD", "DRAGON", null, null, null, 1));
         switch (action) {
             case "main": {
                 CategoryDAO cateDAO = new CategoryDAO();
@@ -190,19 +192,6 @@ public class HomeController extends HttpServlet {
                 }
                 break;
             }
-            case "uploadtest": {
-                if (request.getParameter("p") != null) {
-                    System.out.println("----------------");
-                    Collection<Part> part = request.getParts();
-//                    if (request.getPart("img1") == null) {
-//                        System.out.println("GAY");
-//                    }
-//                    System.out.println(part);
-//                handleImage(part, String.valueOf(pId));
-                    System.out.println("----------------");
-                }
-            }
-            break;
             default:
                 //chuyển đến trang thông báo lỗi
                 request.setAttribute("controller", "error");

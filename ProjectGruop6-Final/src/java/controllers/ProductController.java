@@ -19,7 +19,7 @@ import javax.servlet.http.Part;
 import utils.Constants;
 
 @MultipartConfig
-@WebServlet(name = "CreateProduct", urlPatterns = {"/create"})
+@WebServlet(name = "CreateProduct", urlPatterns = {"/product"})
 public class ProductController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
