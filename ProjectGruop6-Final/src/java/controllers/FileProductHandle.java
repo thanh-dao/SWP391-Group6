@@ -63,7 +63,7 @@ public class FileProductHandle extends HttpServlet {
                 String localFileDir = Constants.IMAGE_ABSOLUTE_DIRECTORY + "/" + localFileName;
                 File file = new File(Constants.IMAGE_ABSOLUTE_DIRECTORY + "/" + currentFileName);
                 file.renameTo(new File(localFileDir));
-                pImageDAO.addImage(Integer.toString(productId), localFileName, i == 0);
+                pImageDAO.addImage(productId, localFileName, i == 0);
 
             } catch (ClassNotFoundException | SQLException ex) {
                 Logger.getLogger(FileProductHandle.class

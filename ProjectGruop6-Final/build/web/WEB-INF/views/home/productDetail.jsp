@@ -89,39 +89,39 @@
                 color: #FFA500;
                 font-size:15px;
             }
-/*            .product__item {
-                background-color: #FFE5CC;
-                background-color: #ffefd5 ;
-                background-color: #F1F9FF;
-                background-color: #DCEDFC;
-                background-color: #EAF1FB;
-                background-color: #FFFFFF;
-                margin-bottom: 10px;
-                width: 100%;
-                transition: 0.5s;
-                border-radius: 2px;
-            }
-            .product__item a {
-                color: black;
-                font-size: 18px;
-            }
-
-            .product__item img {
-                width: 180px;
-                transition: 0.5s;
-                height: 70%;
-            }
-
-            .product__item a:hover {
-                color: #FDC632;
-                text-decoration: none;
-            }
-
-            .product__item div {
-                padding: 0 10px;
-                font-size: 18px;
-                color: red;
-            }*/
+            /*            .product__item {
+                            background-color: #FFE5CC;
+                            background-color: #ffefd5 ;
+                            background-color: #F1F9FF;
+                            background-color: #DCEDFC;
+                            background-color: #EAF1FB;
+                            background-color: #FFFFFF;
+                            margin-bottom: 10px;
+                            width: 100%;
+                            transition: 0.5s;
+                            border-radius: 2px;
+                        }
+                        .product__item a {
+                            color: black;
+                            font-size: 18px;
+                        }
+            
+                        .product__item img {
+                            width: 180px;
+                            transition: 0.5s;
+                            height: 70%;
+                        }
+            
+                        .product__item a:hover {
+                            color: #FDC632;
+                            text-decoration: none;
+                        }
+            
+                        .product__item div {
+                            padding: 0 10px;
+                            font-size: 18px;
+                            color: red;
+                        }*/
             .img-nav-btn{
                 width: 50px; 
                 height: 50px; 
@@ -135,7 +135,8 @@
             .carousel-control-next:hover, .carousel-control-prev:hover{
                 opacity: 1;
             }
-            
+            .carousel-item{width: 530px; height: 530px}
+            .carousel-item img{width: 100%; height: 100%}
         </style>
     </head>
     <body>
@@ -144,208 +145,208 @@
                 <h1 style="text-align: center; height: 600px;">Sản phẩm không tồn tại</h1>
             </c:if>
             <c:if test="${product != null}">
-            
-            <div class="br-form">
-                <div class="link font-a">
-                    <a href="<c:url value="/home/main.do"/>">Trang chủ</a> >>
-                    <c:forEach items="${sessionScope.cateList}" var="i">
-                        <c:if test ="${i.cateId == product.cateId}">
-                            <a href="<c:url value="/home/productList.do?cateId=${product.cateId}"/>">
-                                ${i.name}
-                            </a> >>
-                        </c:if>
-                    </c:forEach>
-                    <a href="<c:url value="/home/productDetail.do?productId=${product.productId}"/>">${product.name}</a>
-                </div>
-                <div class="product__content">
-                    <div class="row">
-                        <div id="demo" class="carousel slide col-lg-6 col-md-6 col-sm-6" data-ride="carousel">
-                            <!-- The slideshow -->
-                            <div class="carousel-inner">
-                                <c:forEach items="${product.imgList}" varStatus="count" var="i">
-                                    <c:if test ="${count.index == 0}">
-                                        <div class="carousel-item active">
-                                            <img class="img-fluid" src="<c:url value="${i.url}"/>">
-                                        </div>
-                                    </c:if>
-                                    <div class="carousel-item">
-                                        <img class="img-fluid" src="<c:url value="${i.url}"/>">
-                                    </div>
-                                </c:forEach>
-                                <ul class="carousel-indicators" style="bottom: 0; margin: 0;background-color: #FFA500;width: 100%;">
+
+                <div class="br-form">
+                    <div class="link font-a">
+                        <a href="<c:url value="/home/main.do"/>">Trang chủ</a> >>
+                        <c:forEach items="${sessionScope.cateList}" var="i">
+                            <c:if test ="${i.cateId == product.cateId}">
+                                <a href="<c:url value="/home/productList.do?cateId=${product.cateId}"/>">
+                                    ${i.name}
+                                </a> >>
+                            </c:if>
+                        </c:forEach>
+                        <a href="<c:url value="/home/productDetail.do?productId=${product.productId}"/>">${product.name}</a>
+                    </div>
+                    <div class="product__content">
+                        <div class="row">
+                            <div id="demo" class="carousel slide col-lg-6 col-md-6 col-sm-6" data-ride="carousel">
+                                <!-- The slideshow -->
+                                <div class="carousel-inner">
                                     <c:forEach items="${product.imgList}" varStatus="count" var="i">
-                                        <script>
-                                            console.log(${count.index})
-                                        </script>
-                                        <li data-target="#demo" data-slide-to="${count.index } " class="${count.index  == 0 ? "active" : ""}"></li>
-                                        </c:forEach>
-                                </ul>
-                                <!-- Left and right controls -->
-                                <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                                    <div class="d-flex justify-content-center align-items-center img-nav-btn">
-                                        <i class="m-0 fa-solid fa-chevron-left "></i>
-                                    </div>
-                                </a>
-                                <a class="carousel-control-next" href="#demo" data-slide="next">
-                                    <div class="d-flex justify-content-center align-items-center img-nav-btn" >
-                                        <i class="m-0 fa-solid fa-chevron-right "></i>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <h3>${product.name}</h3>
-                            <div style="margin: 10px 0; font-size: 20px; ">
-                                ${rating}
-                                <c:if test ="${rating == 0}"><span class="fa fa-star-o star"></span></c:if>
-                                <c:if test ="${rating > 0 && rating <= 0.5}"><span class="fa fa-star-half-o star"></span></c:if>
-                                <c:if test ="${rating > 0.5 }"><span class="fa fa-star star"></span></c:if>
-                                <c:if test ="${rating <= 1}"><span class="fa fa-star-o star"></span></c:if>
-                                <c:if test ="${rating > 1 && rating <= 1.5}"><span class="fa fa-star-half-o star"></span></c:if>
-                                <c:if test ="${rating > 1.5}"><span class="fa fa-star star"></span></c:if>
-                                <c:if test ="${rating <= 2}"><span class="fa fa-star-o star"></span></c:if>
-                                <c:if test ="${rating > 2 && rating <=2.5}"><span class="fa fa-star-half-o star"></span></c:if>
-                                <c:if test ="${rating > 2.5}"><span class="fa fa-star star"></span></c:if>
-                                <c:if test ="${rating <= 3}"><span class="fa fa-star-o star"></span></c:if>
-                                <c:if test ="${rating > 3 && rating <= 3.5}"><span class="fa fa-star-half-o star"></span></c:if>
-                                <c:if test ="${rating > 3.5}"><span class="fa fa-star star"></span></c:if>
-                                <c:if test ="${rating <= 4}"><span class="fa fa-star-o star"></span></c:if>
-                                <c:if test ="${rating > 4 && rating <= 4.5}"><span class="fa fa-star-half-o star"></span></c:if>
-                                <c:if test ="${rating > 4.5}"><span class="fa fa-star star"></span></c:if>
+                                        <c:if test ="${count.index == 0}">
+                                            <div class="carousel-item active">
+                                                <img class="img-fluid" src="${i.url}">
+                                            </div>
+                                        </c:if>
+                                        <div class="carousel-item">
+                                            <img class="img-fluid" src="${i.url}">
+                                        </div>
+                                    </c:forEach>
+                                    <ul class="carousel-indicators" style="bottom: 0; margin: 0;background-color: #FFA500;width: 100%;">
+                                        <c:forEach items="${product.imgList}" varStatus="count" var="i">
+                                            <script>
+                                                console.log(${count.index})
+                                            </script>
+                                            <li data-target="#demo" data-slide-to="${count.index} " class="${count.index  == 0 ? "active" : ""}"></li>
+                                            </c:forEach>
+                                    </ul>
+                                    <!-- Left and right controls -->
+                                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                                        <div class="d-flex justify-content-center align-items-center img-nav-btn">
+                                            <i class="m-0 fa-solid fa-chevron-left "></i>
+                                        </div>
+                                    </a>
+                                    <a class="carousel-control-next" href="#demo" data-slide="next">
+                                        <div class="d-flex justify-content-center align-items-center img-nav-btn" >
+                                            <i class="m-0 fa-solid fa-chevron-right "></i>
+                                        </div>
+                                    </a>
                                 </div>
-                                <div style="display: flex;">
-                                    <p style="margin-right: 30%">Đã bán: <span class="product_content">${product.soldCount}</span></p>
-                                <p>Đánh giá: <span class="product_content">${reviewer.size()}</span></p>
-
                             </div>
-                            <p>Sản phẩm có sẵn: <span class="product_content">${product.quantity}</span><p/>
-                            <h2 style="color: #E72425; text-align: right; margin-right: 20px;">
-                                <fmt:setLocale value="vi_VN"/>
-                                <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>
-                            <script>
-                                var isNullUser = true
-                                <c:if test="${user != null}">
-                                isNullUser = false
-                                </c:if>
-                            </script>
-                            <div class="buy d-flex justify-content-around" style="margin: 50px 0 20px 0;">
-                                <button onclick="addOrder(${product.productId})">Mua</button>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <h3>${product.name}</h3>
+                                <div style="margin: 10px 0; font-size: 20px; ">
+                                    ${rating}
+                                    <c:if test ="${rating == 0}"><span class="fa fa-star-o star"></span></c:if>
+                                    <c:if test ="${rating > 0 && rating <= 0.5}"><span class="fa fa-star-half-o star"></span></c:if>
+                                    <c:if test ="${rating > 0.5 }"><span class="fa fa-star star"></span></c:if>
+                                    <c:if test ="${rating <= 1}"><span class="fa fa-star-o star"></span></c:if>
+                                    <c:if test ="${rating > 1 && rating <= 1.5}"><span class="fa fa-star-half-o star"></span></c:if>
+                                    <c:if test ="${rating > 1.5}"><span class="fa fa-star star"></span></c:if>
+                                    <c:if test ="${rating <= 2}"><span class="fa fa-star-o star"></span></c:if>
+                                    <c:if test ="${rating > 2 && rating <=2.5}"><span class="fa fa-star-half-o star"></span></c:if>
+                                    <c:if test ="${rating > 2.5}"><span class="fa fa-star star"></span></c:if>
+                                    <c:if test ="${rating <= 3}"><span class="fa fa-star-o star"></span></c:if>
+                                    <c:if test ="${rating > 3 && rating <= 3.5}"><span class="fa fa-star-half-o star"></span></c:if>
+                                    <c:if test ="${rating > 3.5}"><span class="fa fa-star star"></span></c:if>
+                                    <c:if test ="${rating <= 4}"><span class="fa fa-star-o star"></span></c:if>
+                                    <c:if test ="${rating > 4 && rating <= 4.5}"><span class="fa fa-star-half-o star"></span></c:if>
+                                    <c:if test ="${rating > 4.5}"><span class="fa fa-star star"></span></c:if>
+                                    </div>
+                                    <div style="display: flex;">
+                                        <p style="margin-right: 30%">Đã bán: <span class="product_content">${product.soldCount}</span></p>
+                                    <p>Đánh giá: <span class="product_content">${reviewer.size()}</span></p>
+
+                                </div>
+                                <p>Sản phẩm có sẵn: <span class="product_content">${product.quantity}</span><p/>
+                                <h2 style="color: #E72425; text-align: right; margin-right: 20px;">
+                                    <fmt:setLocale value="vi_VN"/>
+                                    <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>
+                                <script>
+                                    var isNullUser = true
+                                    <c:if test="${user != null}">
+                                    isNullUser = false
+                                    </c:if>
+                                </script>
+                                <div class="buy d-flex justify-content-around" style="margin: 50px 0 20px 0;">
+                                    <button onclick="addOrder(${product.productId})">Mua</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="br-form">
-                <h5>Thông tin người bán</h5>
-                <div style="display: flex">
-                    <div class="col-md-5 col-sm-5 font-a" style="display: flex">
-                        <a href="<c:url value="/user/shopInformation.do?seller=${seller.email}"/>" class="avatar">
-                            <img src="<c:url value="${seller.avatarLink}"/>" alt="">
-                        </a>
-                        <p><a href="<c:url value="/user/shopInformation.do?seller=${seller.email}"/>">${seller.firstName} ${seller.lastName}</a></p>
-                    </div>
-                    <div class="col-md-7 col-sm-7">
-                        <p>Số điện thoại: <span>${seller.phone}</span></p>
-                    </div>
-
-                </div><p>Địa chỉ: <span>${seller.address.houseNumber} ${seller.address.wardName}
-                        ${seller.address.districtName} ${seller.address.cityName}</span></p>
-            </div>
-            <div class="br-form">
-                <h5>Mô tả chi tiết: </h5>
-                <p style="padding: 10px 0 10px 0;">${product.description}</p>
-            </div>
-            <div class="br-form">
-                <h5 style="margin-top: 5px;">Đánh giá sản phẩm</h5>
-                <div class="review">
-                    <c:if test="${empty reviewer}">
-                        <p style="text-align: center;">Hiện chưa có đánh giá nào</p>
-                    </c:if>
-                    <c:forEach items="${reviewer}" var="i">
-                        <div class="font-a" style="display: flex">
-                            <a href="<c:url value="/home/main.do"/>" class="reviewer">
-                                <img src="<c:url value="${i.avatarLink}"/>" alt="">
+                <div class="br-form">
+                    <h5>Thông tin người bán</h5>
+                    <div style="display: flex">
+                        <div class="col-md-5 col-sm-5 font-a" style="display: flex">
+                            <a href="<c:url value="/user/shopInformation.do?seller=${seller.email}"/>" class="avatar">
+                                <img src="<c:url value="${seller.avatarLink}"/>" alt="">
                             </a>
-                            <p>
-                                <a href="#" style="margin-right: 20px;">${i.name}</a>
-                                <c:if test ="${i.rating == 0}"><span class="fa fa-star-o star-s"></span></c:if>
-                                <c:if test ="${i.rating > 0 && i.rating <= 0.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
-                                <c:if test ="${i.rating > 0.5 }"><span class="fa fa-star star-s"></span></c:if>
-                                <c:if test ="${i.rating <= 1}"><span class="fa fa-star-o star-s"></span></c:if>
-                                <c:if test ="${i.rating > 1 && i.rating <= 1.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
-                                <c:if test ="${i.rating > 1.5}"><span class="fa fa-star star-s"></span></c:if>
-                                <c:if test ="${i.rating <= 2}"><span class="fa fa-star-o star-s"></span></c:if>
-                                <c:if test ="${i.rating > 2 && i.rating <=2.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
-                                <c:if test ="${i.rating > 2.5}"><span class="fa fa-star star-s"></span></c:if>
-                                <c:if test ="${i.rating <= 3}"><span class="fa fa-star-o star-s"></span></c:if>
-                                <c:if test ="${i.rating > 3 && i.rating <= 3.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
-                                <c:if test ="${i.rating > 3.5}"><span class="fa fa-star star-s"></span></c:if>
-                                <c:if test ="${i.rating <= 4}"><span class="fa fa-star-o star-s"></span></c:if>
-                                <c:if test ="${i.rating > 4 && i.rating <= 4.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
-                                <c:if test ="${i.rating > 4.5}"><span class="fa fa-star star-s"></span></c:if>
-                                </p>
-                            </div>
-                            <p>${i.comment}</p>
-                        <span style="display: flex; justify-content: flex-end;">${i.date}</span>
-                    </c:forEach>
+                            <p><a href="<c:url value="/user/shopInformation.do?seller=${seller.email}"/>">${seller.firstName} ${seller.lastName}</a></p>
+                        </div>
+                        <div class="col-md-7 col-sm-7">
+                            <p>Số điện thoại: <span>${seller.phone}</span></p>
+                        </div>
+
+                    </div><p>Địa chỉ: <span>${seller.address.houseNumber} ${seller.address.wardName}
+                            ${seller.address.districtName} ${seller.address.cityName}</span></p>
                 </div>
-            </div>
-            <c:if test="${!empty productList}">
-                <div class="produrct br-form">
-                    <div  class="d-flex justify-content-between">
-                        <h3 class="font-a">Các sản phẩm khác của 
-                            <a href="#">${seller.firstName} ${seller.lastName}</a>
-                        </h3>
-                        <a href="#">Xem thêm >></a>
-                    </div>
-                    <div class="product__content row" style="margin: 0 -5px;">
-                        <c:forEach items="${productList}" var="i">
-                            <div class=" col-lg-2 col-md-3 col-sm-4 col-4" 
-                                 style="padding: 5px; position: static;">
-                                <div class="product__item">
-                                    <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
-                                        <img class="img-fluid" src="${i.getMainImage().url}" alt="">
-                                        <p class="tooltip-text hinden-text">${i.name}
-                                            <span>${i.name}</span>
-                                        </p>
-                                        <fmt:setLocale value="vi_VN"/>
-                                        <div style="display: flex; justify-content: flex-end; padding-top: 5px;">
-                                            <fmt:formatNumber value="${i.price}" type="currency"/>
-                                        </div>
-                                    </a>
+                <div class="br-form">
+                    <h5>Mô tả chi tiết: </h5>
+                    <p style="padding: 10px 0 10px 0;">${product.description}</p>
+                </div>
+                <div class="br-form">
+                    <h5 style="margin-top: 5px;">Đánh giá sản phẩm</h5>
+                    <div class="review">
+                        <c:if test="${empty reviewer}">
+                            <p style="text-align: center;">Hiện chưa có đánh giá nào</p>
+                        </c:if>
+                        <c:forEach items="${reviewer}" var="i">
+                            <div class="font-a" style="display: flex">
+                                <a href="<c:url value="/home/main.do"/>" class="reviewer">
+                                    <img src="<c:url value="${i.avatarLink}"/>" alt="">
+                                </a>
+                                <p>
+                                    <a href="#" style="margin-right: 20px;">${i.name}</a>
+                                    <c:if test ="${i.rating == 0}"><span class="fa fa-star-o star-s"></span></c:if>
+                                    <c:if test ="${i.rating > 0 && i.rating <= 0.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
+                                    <c:if test ="${i.rating > 0.5 }"><span class="fa fa-star star-s"></span></c:if>
+                                    <c:if test ="${i.rating <= 1}"><span class="fa fa-star-o star-s"></span></c:if>
+                                    <c:if test ="${i.rating > 1 && i.rating <= 1.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
+                                    <c:if test ="${i.rating > 1.5}"><span class="fa fa-star star-s"></span></c:if>
+                                    <c:if test ="${i.rating <= 2}"><span class="fa fa-star-o star-s"></span></c:if>
+                                    <c:if test ="${i.rating > 2 && i.rating <=2.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
+                                    <c:if test ="${i.rating > 2.5}"><span class="fa fa-star star-s"></span></c:if>
+                                    <c:if test ="${i.rating <= 3}"><span class="fa fa-star-o star-s"></span></c:if>
+                                    <c:if test ="${i.rating > 3 && i.rating <= 3.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
+                                    <c:if test ="${i.rating > 3.5}"><span class="fa fa-star star-s"></span></c:if>
+                                    <c:if test ="${i.rating <= 4}"><span class="fa fa-star-o star-s"></span></c:if>
+                                    <c:if test ="${i.rating > 4 && i.rating <= 4.5}"><span class="fa fa-star-half-o star-s"></span></c:if>
+                                    <c:if test ="${i.rating > 4.5}"><span class="fa fa-star star-s"></span></c:if>
+                                    </p>
                                 </div>
-                            </div>
+                                <p>${i.comment}</p>
+                            <span style="display: flex; justify-content: flex-end;">${i.date}</span>
                         </c:forEach>
                     </div>
                 </div>
-            </c:if>
-            <c:if test="${!empty productListCategory}">
-                <div class="product br-form">
-                    <div style="display: flex; justify-content: space-between;">
-                        <h3 class="font-a">Các sản phẩm cùng loại khác </h3>
-                        <a href="#">Xem thêm >></a>
-                    </div>
-                    <div class="product__content row" style="margin: 0 -5px;">
-                        <c:forEach items="${productListCategory}" var="i">
-                            <div class=" col-lg-2 col-md-3 col-sm-4 col-4" 
-                                 style="padding: 5px; position: static;">
-                                <div class="product__item">
-                                    <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
-                                        <img class="img-fluid" src="${i.getMainImage().url}" alt="">
-                                        <p class="tooltip-text hinden-text">${i.name}
-                                            <span>${i.name}</span>
-                                        </p>
-                                        <fmt:setLocale value="vi_VN"/>
-                                        <div style="display: flex; justify-content: flex-end; padding-top: 5px;">
-                                            <fmt:formatNumber value="${i.price}" type="currency"/>
-                                        </div>
-                                    </a>
+                <c:if test="${!empty productList}">
+                    <div class="produrct br-form">
+                        <div  class="d-flex justify-content-between">
+                            <h3 class="font-a">Các sản phẩm khác của 
+                                <a href="#">${seller.firstName} ${seller.lastName}</a>
+                            </h3>
+                            <a href="#">Xem thêm >></a>
+                        </div>
+                        <div class="product__content row" style="margin: 0 -5px;">
+                            <c:forEach items="${productList}" var="i">
+                                <div class=" col-lg-2 col-md-3 col-sm-4 col-4" 
+                                     style="padding: 5px; position: static;">
+                                    <div class="product__item">
+                                        <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                            <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                            <p class="tooltip-text hinden-text">${i.name}
+                                                <span>${i.name}</span>
+                                            </p>
+                                            <fmt:setLocale value="vi_VN"/>
+                                            <div style="display: flex; justify-content: flex-end; padding-top: 5px;">
+                                                <fmt:formatNumber value="${i.price}" type="currency"/>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        </c:forEach>
+                            </c:forEach>
+                        </div>
                     </div>
-                </div>
-            </c:if>
+                </c:if>
+                <c:if test="${!empty productListCategory}">
+                    <div class="product br-form">
+                        <div style="display: flex; justify-content: space-between;">
+                            <h3 class="font-a">Các sản phẩm cùng loại khác </h3>
+                            <a href="#">Xem thêm >></a>
+                        </div>
+                        <div class="product__content row" style="margin: 0 -5px;">
+                            <c:forEach items="${productListCategory}" var="i">
+                                <div class=" col-lg-2 col-md-3 col-sm-4 col-4" 
+                                     style="padding: 5px; position: static;">
+                                    <div class="product__item">
+                                        <a href="<c:url value="/home/productDetail.do?productId=${i.productId}"/>">
+                                            <img class="img-fluid" src="${i.getMainImage().url}" alt="">
+                                            <p class="tooltip-text hinden-text">${i.name}
+                                                <span>${i.name}</span>
+                                            </p>
+                                            <fmt:setLocale value="vi_VN"/>
+                                            <div style="display: flex; justify-content: flex-end; padding-top: 5px;">
+                                                <fmt:formatNumber value="${i.price}" type="currency"/>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </c:if>
             </c:if>
         </div>
     </body>
@@ -399,10 +400,24 @@
         function hoverEvent(event) {
             event.preventDefault();
             x = event.x - this.offsetLeft;
-
             y = event.y - this.offsetTop;
             y += 10;
             style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
         }
+        const setBtn () => {
+            const btn = document.querySelector('.buy').querySelector('button')
+            if (${product.quantity} == 0) {
+                btn.setAttribute('disabled', true);
+                btn.stype.style.backgroundColor = '#F0F0F0';
+                btn.innerHTML = 'Hết hàng';
+            } else if (${product.status} == 0 || ${product.authen} == null) {
+                btn.setAttribute('disabled', true);
+                btn.stype.style.backgroundColor = '#F0F0F0';
+                btn.innerHTML = 'Ngưng bán';
+            }
+        }
+        $(document).ready(function () {
+            setBtn();
+        });
     </script>
 </html>

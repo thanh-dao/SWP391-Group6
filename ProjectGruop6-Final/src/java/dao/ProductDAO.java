@@ -129,31 +129,18 @@ public class ProductDAO {
         return -1;
     }
 
-    public boolean createProduct(
-            String name, String cateId,
-            String quantity, String price,
-            String description, String sellerEmail
-    ) throws SQLException, ClassNotFoundException {
+    public boolean createProduct(String sellerEmail, String name, String price,
+            String description, String cateId, String quantity) throws SQLException, ClassNotFoundException {
         Connection conn = DBUtil.getConnection();
-        PreparedStatement stm = conn.prepareStatement("INSERT INTO [dbo].[product]\n"
-                + "           ([email_seller]\n"
-                + "           ,[name]\n"
-                + "           ,[price]\n"
-                + "           ,[description]\n"
-                + "           ,[category_id]\n"
-                + "           ,[quantity]\n"
-                + "           ,[authen]\n"
-                + "           ,[create_at]\n"
-                + ")\n"
-                + "     VALUES "
-                + " ( ?, ?, ?, ?, ?, ?, 0, ?) ");
+        PreparedStatement stm = conn.prepareStatement("INSERT INTO product"
+                + "(email_seller, name, price, [description], category_id, "
+                + "quantity) VALUES( ?, ?, ?, ?, ?, ?) ");
         stm.setString(1, sellerEmail);
         stm.setString(2, name);
         stm.setString(3, price);
         stm.setString(4, description);
         stm.setString(5, cateId);
         stm.setString(6, quantity);
-        stm.setDate(7, new java.sql.Date(new Date().getTime()));
         return stm.executeUpdate() == 1;
     }
 
@@ -473,7 +460,8 @@ public class ProductDAO {
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
                 + "      ,[sold_count] FROM product "
-                + " WHERE product_id = ? AND email_admin is not null AND authen = 1");
+                + "WHERE product_id = ? "
+                + "AND authen = 1 AND status is not null");
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -599,7 +587,7 @@ public class ProductDAO {
                 + "      ,[quantity]\n"
                 + "      ,[create_at]\n"
                 + "      FROM product "
-                + " WHERE email_admin is null AND authen is null "
+                + " WHERE authen is null "
                 + getFilter(option, trend));
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -811,24 +799,28 @@ public class ProductDAO {
             stm.setInt(1, option.equalsIgnoreCase("ss") ? 0 : 1);
             stm.setInt(2, pId);
             return stm.executeUpdate() == 1;
-        } else if (option.equalsIgnoreCase("u") && p != null) {
-            PreparedStatement stm = conn.prepareStatement("UPDATE product "
-                    + "SET name = ?, price = ?, category_id = ?, [description] = ?, "
-                    + "quantity = ?  WHERE product_id = ? ");
-            stm.setString(1, p.getName());
-            stm.setLong(2, p.getPrice());
-            stm.setInt(3, p.getCateId());
-            stm.setString(4, p.getDescription());
-            stm.setInt(5, p.getQuantity());
-            stm.setInt(6, pId);
-            return stm.executeUpdate() == 1;
         } else if (option.equalsIgnoreCase("d")) {
-            PreparedStatement stm = conn.prepareStatement("DELETE FROM product "
-                    + "WHERE product_id = ? ");
+            PreparedStatement stm = conn.prepareStatement("UPDATE product "
+                    + "SET status = null WHERE product_id = ? ");
             stm.setInt(1, pId);
             return stm.executeUpdate() == 1;
         }
         return false;
+    }
+
+    public boolean updateProduct(int pId, String name, String price,
+            String description, String cateId, String quantity) throws SQLException, ClassNotFoundException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("UPDATE product "
+                + "SET name = ?, price = ?, category_id = ?, [description] = ?, "
+                + "quantity = ?, authen = null, approve_at = null WHERE product_id = ? ");
+        stm.setString(1, name);
+        stm.setString(2, price);
+        stm.setString(3, cateId);
+        stm.setString(4, description);
+        stm.setString(5, quantity);
+        stm.setInt(6, pId);
+        return stm.executeUpdate() == 1;
     }
 
     public String getProductListJson(List<ProductDTO> productList) throws ClassNotFoundException, SQLException {
@@ -864,8 +856,20 @@ public class ProductDAO {
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
         try {
-            String s = 1 + "_img";
+            String s = "../img/" + 1495 + "_img1.jpg";
+//            String pId = s.substring(0, s.lastIndexOf("../img/"));
             System.out.println(s);
+            if (s.split("/").length == 3) {
+                String pId = s.split("/")[2];
+//                        .split(".")[0];
+//                System.out.println(pId);
+                System.out.println(s.split("/")[2].substring(0, s.split("/")[2].lastIndexOf(".")));
+
+            }
+
+////            System.out.println(s.split("_img")[1].equals("1"));
+//            System.out.println(p.updateProduct(486, "test3", "200000",
+//                    "description~", "1", "200"));
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();

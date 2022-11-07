@@ -196,21 +196,22 @@ public class AdminController extends HttpServlet {
                 String acction = request.getParameter("acction");
                 try {
                     proDAO.approveProduct(user.getEmail(), productId, acction);
+                    return;
                 } catch (Exception e) {
                 }
 
                 System.out.println(productId);
                 System.out.println(user.getEmail());
                 System.out.println(acction);
-                try {
-
-                    List<ProductDTO> list = proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC);
-                    request.setAttribute("listProduct", list);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                request.setAttribute("controller", "admin");
-                request.setAttribute("action", "productAuthen");
+//                try {
+//
+//                    List<ProductDTO> list = proDAO.getProductAdmin(ProductDAO.CREATE_AT, ProductDAO.ASC);
+//                    request.setAttribute("listProduct", list);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                request.setAttribute("controller", "admin");
+//                request.setAttribute("action", "productAuthen");
             }
             break;
             case "reviewAuthen": {

@@ -73,17 +73,42 @@ public class ProductImageDAO {
         return -1;
     }
 
-    public boolean addImage(String productId, String url, boolean isMainImage) throws ClassNotFoundException, SQLException {
+    public boolean addImage(int productId, String url, boolean isMainImage) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("INSERT INTO [dbo].[image_product]\n"
                 + "           ([product_id]\n"
                 + "           ,[url]\n"
                 + "           ,[is_main_img] )\n"
                 + " VALUES (? , ? , ?)");
-        stm.setString(1, productId);
+        stm.setInt(1, productId);
         stm.setString(2, url);
         stm.setString(3, isMainImage ? "1" : "0");
         return stm.executeUpdate() == 1;
+    }
+
+    public boolean findImgUrl(int pId, String url) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement(" SELECT url FROM image_product "
+                + "WHERE product_id = ? AND url like ? ");
+        stm.setInt(1, pId);
+        stm.setString(2, url);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return true;
+        }
+        return false;
+    }
+
+    public String findImgUrl(int imgId) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement(" SELECT url FROM image_product "
+                + "WHERE image_id = ? ");
+        stm.setInt(1, imgId);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getString("url");
+        }
+        return null;
     }
 
     public int countImage(int pId) throws ClassNotFoundException, SQLException {
@@ -179,7 +204,7 @@ public class ProductImageDAO {
 //            p.findAll(384).forEach(i -> {
 //                System.out.println(i);
 //            });
-            System.out.println(p.handerImageProductSeller(472, "u", 5));
+            System.out.println(p.findImgUrl(909));
         } catch (SQLException ex) {
             Logger.getLogger(ProductImageDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

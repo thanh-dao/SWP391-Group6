@@ -214,16 +214,16 @@
                                 </div>
                                 <input class="description-hidden"
                                        name="descriptionHidden"
-                                       type="text" readonly hidden  >
-                                <input readonly
-                                       name="cateId"
-                                       hidden class="category-hidden">
+                                       type="text" readonly hidden >
+                                <input name="cateId" readonly hidden 
+                                       class="category-hidden">
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-between">
                                 <div>
                                     <a href="<c:url value="/order/stored.do?status=ar"/>" class="btn btn-secondary">Quay lại</a>
                                 </div>
                                 <div class="d-flex justify-content-end">
+                                    <input name="option" hidden readonly value="${product == null ? "create" : "update"}">
                                     <button type="submit" formaction="/ProjectGroup6/product" 
                                             class="btn btn-success">GO</button>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable" onclick="previewProduct()" data-toggle="modal" data-target=".bd-example-modal-xl">Xem trước</button>
@@ -483,10 +483,17 @@
                             listImg.delete(l.imageID);
                         }
                     }
+                    if (l.url.split('/').length == 3) {
+                        const index = l.url.split('/')[2].split('_img')[1].substring(0, 1);
+                        const img = document.querySelector('#img' + index).parentElement.querySelector("img");
+                        if (img.getAttribute('src') != '../images/plus.png') {
+                            listImg.delete(l.imageID);
+                        }
+                    }
                 })
                 return listImg;
             }
-            const form = document.querySelector(".product-form")
+            const form = document.querySelector(".product-form");
             form.addEventListener("submit", (event) => {
                 if (document.querySelector('#img0').files[0] == null
                         && document.querySelector('#img0').parentElement.
@@ -496,48 +503,60 @@
                         buttons: false,
                         timer: 2000
                     });
+                } else if (editor.getData() == '') {
+                    event.preventDefault();
+                    swal("Mô tả chi tiết còn còn trống !!!", {
+                        buttons: false,
+                        timer: 2000
+                    });
                 } else {
-                    $.ajax('<c:url value="/product"/>', {
-                        data: {
-                            pId: ${product.productId},
-                            listId: JSON.stringify(Array.from(createListImg())),
-                            func: 'delete'
-                        }
-                    })
+                    var categoryHidden = document.querySelector(".category-hidden");
+                    var descriptionHidden = document.querySelector(".description-hidden");
+                    categoryHidden.value = $(".select-category").val();
+                    descriptionHidden.value = editor.getData();
+                    if (${!empty product}) {
+                        $.ajax('<c:url value="/product"/>', {
+                            data: {
+                                pId: '${product.productId}',
+                                listId: JSON.stringify(Array.from(createListImg())),
+                                func: 'delete'
+                            }
+                        })
+                    }
                 }
             })
-            var list = ${imgList};
             const initImages = () => {
+                const listImg = new Set();
                 list.forEach(i => {
                     if (i.isMainImg) {
                         const img = document.querySelector('#img0').parentElement.querySelector("img");
                         img.src = i.url;
                     } else {
-                        const imgId = i.url.split('_');
-                        if (imgId[1] != null) {
-                            if (imgId[1].substring(0, 3) == img) {
-                                for (var j = 1; j < 5; j++) {
-                                    if (i.url.split('_img')[2] == j) {
-                                        const img = document.querySelector('#img' + j).parentElement.querySelector("img");
-                                        img.src = i.url;
-                                    }
-                                }
-                            }
+                        if (i.url.split('/').length == 3) {
+                            const index = i.url.split('/')[2].split('_img')[1].substring(0, 1);
+                            const img = document.querySelector('#img' + index).parentElement.querySelector("img");
+                            img.src = i.url;
                         } else {
-                            for (var j = 1; j < 5; j++) {
-                                const img = document.querySelector('#img' + j).parentElement.querySelector("img");
-                                if (img.getAttribute('src') == '../images/plus.png') {
-                                    img.src = i.url;
-                                    break;
-                                }
-                            }
+                            listImg.add(i.url);
+                        }
+                    }
+                })
+                listImg.forEach(i => {
+                    for (var j = 1; j < 5; j++) {
+                        const img = document.querySelector('#img' + j).parentElement.querySelector("img");
+                        if (img.getAttribute('src') == '../images/plus.png') {
+                            img.src = i;
+                            break;
                         }
                     }
                 })
                 hindenIconDelete();
             }
+            var list = ${imgList}
             $(document).ready(function () {
-                initImages();
+                if (${!empty imgList}) {
+                    initImages();
+                }
             });
 //            var arr = []
 //            const handleFileChange = (el) => {
@@ -584,7 +603,6 @@
 //                        formData.append("image", element)
 //                    }
 //                    form.submit();
-//
 //                    $.ajax('<c:url value="/GetProductAjax"/>', {
 //                        data: {
 //                            name: document.querySelector(".product-name").value,
