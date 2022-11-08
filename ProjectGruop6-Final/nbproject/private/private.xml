@@ -5,9 +5,13 @@
         <group>
             <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dao/ProductDAO.java</file>
             <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/HomeController.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/OrderController.java</file>
-            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/home/uploadProduct.jsp</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/GetProductAjax.java</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/home/productList.jsp</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/dto/ProductDTO.java</file>
             <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/home/productDetail.jsp</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/css/main.css</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/layouts/main.jsp</file>
+            <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/web/WEB-INF/views/home/main.jsp</file>
             <file>file:/D:/FPT/CN5/SWP/ProjectFEP/SWP391-Group6/ProjectGruop6-Final/src/java/controllers/ProductController.java</file>
         </group>
     </open-files>

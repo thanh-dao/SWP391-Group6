@@ -104,7 +104,7 @@
                 </div>
             </div>
             <c:if test="${!empty newProducts}">
-                <div class="br-form">
+                <div class="br-form" style="padding-bottom: 5px;">
                     <div class="d-flex justify-content-between">
                         <h3>SẢN PHẨM BÁN CHẠY</h3>
                         <a href="<c:url value="/home/top.do?top=soldCount"/>">Xem thêm</a>
@@ -131,7 +131,7 @@
                 </div>
             </c:if>
             <c:if test="${!empty newProducts}">
-                <div class="br-form">
+                <div class="br-form" style="padding-bottom: 5px;">
                     <div style="display: flex; justify-content: space-between;">
                         <h3>SẢN PHẨM MỚI NHẤT</h3>
                         <a href="<c:url value="/home/top.do?top=newest"/>">Xem thêm</a>

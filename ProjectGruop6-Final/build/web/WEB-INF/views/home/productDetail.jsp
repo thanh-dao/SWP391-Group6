@@ -1,6 +1,5 @@
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -50,12 +49,6 @@
                 color: none;
                 text-decoration: none;
             }
-            .br-form {
-                background: #FFFFFF;
-                padding: 10px;
-                border-radius: 3px;
-                margin-bottom: 10px;
-            }
             .avatar {
                 height: 50px;
                 width: 50px;
@@ -88,36 +81,6 @@
                 color: #FFA500;
                 font-size:15px;
             }
-            /*            .product__item {
-                            background-color: #FFE5CC;
-                            background-color: #ffefd5 ;
-                            background-color: #F1F9FF;
-                            background-color: #DCEDFC;
-                            background-color: #EAF1FB;
-                            background-color: #FFFFFF;
-                            margin-bottom: 10px;
-                            width: 100%;
-                            transition: 0.5s;
-                            border-radius: 2px;
-                        }
-                        .product__item a {
-                            color: black;
-                            font-size: 18px;
-                        }
-                        .product__item img {
-                            width: 180px;
-                            transition: 0.5s;
-                            height: 70%;
-                        }
-                        .product__item a:hover {
-                            color: #FDC632;
-                            text-decoration: none;
-                        }
-                        .product__item div {
-                            padding: 0 10px;
-                            font-size: 18px;
-                            color: red;
-                        }*/
             .img-nav-btn{
                 width: 50px; 
                 height: 50px; 
@@ -131,17 +94,17 @@
             .carousel-control-next:hover, .carousel-control-prev:hover{
                 opacity: 1;
             }
-
+            .carousel-item{width: 540px; height: 540px;}
+            .carousel-item img{width: 100%; height: 100%;}
         </style>
     </head>
     <body>
         <div class="container" >
-            ${product.status}
+            ${product.status == null ? "null" : "not null"}
             <c:if test="${product == null}">
                 <h1 style="text-align: center; height: 600px;">Sản phẩm không tồn tại</h1>
             </c:if>
             <c:if test="${product != null}">
-
                 <div class="br-form">
                     <div class="link font-a">
                         <a href="<c:url value="/home/main.do"/>">Trang chủ</a> >>
@@ -317,7 +280,7 @@
                     </div>
                 </c:if>
                 <c:if test="${!empty productListCategory}">
-                    <div class="br-form">
+                    <div class="br-form" style="padding-bottom: 5px;">
                         <div style="display: flex; justify-content: space-between;">
                             <h3 class="font-a">Các sản phẩm cùng loại khác </h3>
                             <a href="#">Xem thêm >></a>
@@ -400,20 +363,22 @@
             y += 10;
             style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
         }
-        const setBtn () => {
+        let setBtn = () => {
             const btn = document.querySelector('.buy').querySelector('button')
             if (${product.quantity} == 0) {
                 btn.setAttribute('disabled', true);
-                btn.stype.style.backgroundColor = '#F0F0F0';
                 btn.innerHTML = 'Hết hàng';
-            } else if (${product.status} == 0 || ${product.authen} == null) {
+                btn.style.backgroundColor = 'GRAY';
+            } else if (${product.status == 0} || ${empty product.authen}) {
                 btn.setAttribute('disabled', true);
-                btn.stype.style.backgroundColor = '#F0F0F0';
                 btn.innerHTML = 'Ngưng bán';
-            } else if (${product.status} == null) {
+                btn.style.color = 'black';
+                btn.style.backgroundColor = 'GRAY';
+            } else if (${empty product.status}) {
                 btn.setAttribute('disabled', true);
-                btn.stype.style.backgroundColor = '#F0F0F0';
                 btn.innerHTML = 'Đã xóa';
+                btn.style.color = 'black';
+                btn.style.backgroundColor = 'GRAY';
             }
         }
         $(document).ready(function () {

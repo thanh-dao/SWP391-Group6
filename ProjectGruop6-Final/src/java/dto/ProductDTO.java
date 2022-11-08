@@ -63,7 +63,9 @@ public class ProductDTO {
         this.approveAt = approveAt;
     }
 
-    public ProductDTO(int productId, String emailSeller, String name, long price, String description, int cateId, int quantity, int soldCount, String status, List<ProductImageDTO> imgList) {
+    public ProductDTO(int productId, String emailSeller, String name, long price, 
+            String description, int cateId, int quantity, int soldCount, String status, 
+            String authen, List<ProductImageDTO> imgList) {
         this.productId = productId;
         this.emailSeller = emailSeller;
         this.name = name;
@@ -73,6 +75,7 @@ public class ProductDTO {
         this.quantity = quantity;
         this.soldCount = soldCount;
         this.status = status;
+        this.authen = authen;
         this.imgList = imgList;
     }
 

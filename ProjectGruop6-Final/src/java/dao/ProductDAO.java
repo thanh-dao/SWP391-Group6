@@ -213,7 +213,7 @@ public class ProductDAO {
                 + "      ,[approve_at] "
                 + "      ,[status] "
                 + "      ,[sold_count] from product "
-                + "where authen = 1"
+                + "where authen = 1 AND quantity > 0 AND status = 1"
                 + getFilter(option, trend)
                 + " OFFSET " + itemSkipped + " ROWS \n"
                 + " FETCH NEXT " + Constants.ITEM_PER_PAGE + " ROWS ONLY;");
@@ -236,6 +236,7 @@ public class ProductDAO {
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
                             rs.getString("status"),
+                            rs.getString("authen"),
                             imageDAO.findAll(id)
                     )
             );
@@ -273,11 +274,11 @@ public class ProductDAO {
                 + "      ,[email_admin]\n"
                 + "      ,[authen]\n"
                 + "      ,[create_at]\n"
-                + "      ,[approve_at] "
-                + "      ,[status] "
+                + "      ,[approve_at]\n"
+                + "      ,[status]\n"
                 + "      ,[sold_count] from product "
-                + " where category_ID = ? "
-                + " and email_admin is not null"
+                + " where category_id = ? "
+                + "AND [status] = 1 AND authen = 1"
                 + getFilter(option, trend)
                 + " OFFSET " + itemSkipped + " ROWS \n"
                 + " FETCH NEXT " + Constants.ITEM_PER_PAGE + " ROWS ONLY;");
@@ -301,6 +302,7 @@ public class ProductDAO {
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
                             rs.getString("status"),
+                            rs.getString("authen"),
                             imageDAO.findAll(id)
                     )
             );
@@ -356,6 +358,7 @@ public class ProductDAO {
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
                             rs.getString("status"),
+                            rs.getString("authen"),
                             imageDAO.findAll(id)
                     )
             );
@@ -465,9 +468,10 @@ public class ProductDAO {
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
                 + "      ,[sold_count]\n"
+                + "      ,[authen]\n"
                 + "      ,[status] FROM product "
                 + "WHERE product_id = ? "
-                + "AND authen = 1 AND status is not null");
+                + "AND authen is not null");
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -482,6 +486,7 @@ public class ProductDAO {
                     rs.getInt("quantity"),
                     rs.getInt("sold_count"),
                     rs.getString("status"),
+                    rs.getString("authen"),
                     imageDAO.findAll(rs.getInt("product_id"))
             );
             return product;
@@ -575,6 +580,7 @@ public class ProductDAO {
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
                             rs.getString("status"),
+                            rs.getString("authen"),
                             imageDAO.findAll(id)
                     )
             );
@@ -631,6 +637,7 @@ public class ProductDAO {
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
                 + "      ,[sold_count]\n"
+                + "      ,[authen]\n"
                 + "      ,[status] FROM product "
                 + " WHERE product_id = ?");
         stm.setInt(1, productId);
@@ -648,6 +655,7 @@ public class ProductDAO {
                     rs.getInt("quantity"),
                     rs.getInt("sold_count"),
                     rs.getString("status"),
+                    rs.getString("authen"),
                     imageDAO.findAll(id)
             );
             return product;
@@ -686,7 +694,9 @@ public class ProductDAO {
     public List<ProductDTO> getProductApproved(int option, boolean trend) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<ProductDTO> list = new ArrayList();
-        PreparedStatement stm = conn.prepareStatement("select [product_id], [email_seller], [name], [price], [description], [category_id], [quantity], [email_admin], [authen], [create_at], [approve_at], [status], [sold_count] \n"
+        PreparedStatement stm = conn.prepareStatement("select [product_id], [email_seller], "
+                + "[name], [price], [description], [category_id], [quantity], "
+                + "[email_admin], [authen], [create_at], [approve_at], [status], [sold_count] \n"
                 + "from product \n"
                 + " WHERE authen = 1"
                 + getFilter(option, trend));
@@ -709,6 +719,7 @@ public class ProductDAO {
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
                             rs.getString("status"),
+                            rs.getString("authen"),
                             imageDAO.findAll(id)
                     )
             );
