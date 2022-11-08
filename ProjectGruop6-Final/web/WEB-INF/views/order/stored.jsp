@@ -13,6 +13,9 @@
                 <link rel="stylesheet" href="../vendors/owl-carousel/owl.carousel.min.css" />
                 <link rel="stylesheet" href="../vendors/nice-select/css/nice-select.css" />-->
         <!-- main css -->
+        <!--DataTables--> 
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
         <link href="../css/main.css" rel="stylesheet" type="text/css"/>
         <title>Document</title>
         <style>
@@ -30,7 +33,7 @@
                 margin-bottom: 40px;
             }
             h3 {
-               margin-top: 60px; 
+                margin-top: 60px; 
             }
         </style>
     </head>
@@ -144,7 +147,7 @@
                         <div class="col-md-6">
                             <h3 style="text-align: center">Top 10 người dùng chi nhiều nhất</h3>
                             <table class="table table-striped  table-hover" id="topBuyUserBySoldPrice">
-                                
+
                                 <thead>
                                     <tr>
                                         <th class="col-2" colspan="2" scope="col">Email người dùng</th>
@@ -450,11 +453,11 @@
                                                             }
                                                         },
                                                         plugins: {
-                                                                title: {
-                                                                    display: true,
-                                                                    text: 'Tỉ lệ các đơn hàng theo danh mục'
-                                                                }
+                                                            title: {
+                                                                display: true,
+                                                                text: 'Tỉ lệ các đơn hàng theo danh mục'
                                                             }
+                                                        }
                                                     }
                                                 });
                                                 const ordersByPriceChart = new Chart(getChartContext('ordersByPrice'), {
@@ -502,10 +505,10 @@
                                                             }
                                                         },
                                                         plugins: {
-                                                                title: {
-                                                                    display: true,
-                                                                    text: 'Tỉ lệ đơn hàng theo các mức giá'
-                                                                }
+                                                            title: {
+                                                                display: true,
+                                                                text: 'Tỉ lệ đơn hàng theo các mức giá'
+                                                            }
                                                         }
                                                     }
                                                 });
@@ -516,7 +519,7 @@
 
                                                 var top10ProductLeastSell = ${top10ProductLeastSell == null ? [] : top10ProductLeastSell}.map(filterArray)
                                                 var top10SoldPriceUser = ${top10SoldPriceUser == null ? [] : top10SoldPriceUser}
-                                                
+
                                                 var top10SoldCountUser = ${top10SoldCountUser == null ? [] : top10SoldCountUser}
                                                 console.log(top10SoldCountUser)
                                                 newProductList.forEach(i => {
@@ -539,9 +542,9 @@
                                                 var top10SoldPriceUserArr = []
                                                 var top10SoldCountUserArr = []
                                                 for (const [key, value] of Object.entries(top10SoldPriceUser)) {
-                                                    top10SoldPriceUserArr.push({email: key,count: value})
+                                                    top10SoldPriceUserArr.push({email: key, count: value})
                                                 }
-                                                top10SoldPriceUserArr.sort(function(a, b){
+                                                top10SoldPriceUserArr.sort(function (a, b) {
                                                     return  parseInt(b.count) - parseInt(a.count);
                                                 })
                                                 console.log(top10SoldPriceUserArr)
@@ -552,7 +555,7 @@
                                                             '<td colspan="2">' + formatPrice(i.count) + '</td>' +
                                                             '</tr>'
                                                 })
-                                                
+
                                                 for (const [key, value] of Object.entries(top10SoldCountUser)) {
                                                     top10SoldCountUserArr.push({key, value})
                                                     document.querySelector("#topBuyUserBySoldCount").innerHTML +=

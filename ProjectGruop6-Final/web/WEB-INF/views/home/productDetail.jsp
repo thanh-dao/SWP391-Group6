@@ -46,7 +46,6 @@
                 color: #FDC632;
                 text-decoration: none;
             }
-
             a:hover {
                 color: none;
                 text-decoration: none;
@@ -105,18 +104,15 @@
                             color: black;
                             font-size: 18px;
                         }
-            
                         .product__item img {
                             width: 180px;
                             transition: 0.5s;
                             height: 70%;
                         }
-            
                         .product__item a:hover {
                             color: #FDC632;
                             text-decoration: none;
                         }
-            
                         .product__item div {
                             padding: 0 10px;
                             font-size: 18px;
@@ -135,12 +131,12 @@
             .carousel-control-next:hover, .carousel-control-prev:hover{
                 opacity: 1;
             }
-            .carousel-item{width: 530px; height: 530px}
-            .carousel-item img{width: 100%; height: 100%}
+
         </style>
     </head>
     <body>
         <div class="container" >
+            ${product.status}
             <c:if test="${product == null}">
                 <h1 style="text-align: center; height: 600px;">Sản phẩm không tồn tại</h1>
             </c:if>
@@ -166,11 +162,11 @@
                                     <c:forEach items="${product.imgList}" varStatus="count" var="i">
                                         <c:if test ="${count.index == 0}">
                                             <div class="carousel-item active">
-                                                <img class="img-fluid" src="${i.url}">
+                                                <img class="img-fluid" src="<c:url value="${i.url}"/>">
                                             </div>
                                         </c:if>
                                         <div class="carousel-item">
-                                            <img class="img-fluid" src="${i.url}">
+                                            <img class="img-fluid" src="<c:url value="${i.url}"/>">
                                         </div>
                                     </c:forEach>
                                     <ul class="carousel-indicators" style="bottom: 0; margin: 0;background-color: #FFA500;width: 100%;">
@@ -178,7 +174,7 @@
                                             <script>
                                                 console.log(${count.index})
                                             </script>
-                                            <li data-target="#demo" data-slide-to="${count.index} " class="${count.index  == 0 ? "active" : ""}"></li>
+                                            <li data-target="#demo" data-slide-to="${count.index } " class="${count.index  == 0 ? "active" : ""}"></li>
                                             </c:forEach>
                                     </ul>
                                     <!-- Left and right controls -->
@@ -292,7 +288,7 @@
                     </div>
                 </div>
                 <c:if test="${!empty productList}">
-                    <div class="produrct br-form">
+                    <div class="br-form">
                         <div  class="d-flex justify-content-between">
                             <h3 class="font-a">Các sản phẩm khác của 
                                 <a href="#">${seller.firstName} ${seller.lastName}</a>
@@ -321,7 +317,7 @@
                     </div>
                 </c:if>
                 <c:if test="${!empty productListCategory}">
-                    <div class="product br-form">
+                    <div class="br-form">
                         <div style="display: flex; justify-content: space-between;">
                             <h3 class="font-a">Các sản phẩm cùng loại khác </h3>
                             <a href="#">Xem thêm >></a>
@@ -414,6 +410,10 @@
                 btn.setAttribute('disabled', true);
                 btn.stype.style.backgroundColor = '#F0F0F0';
                 btn.innerHTML = 'Ngưng bán';
+            } else if (${product.status} == null) {
+                btn.setAttribute('disabled', true);
+                btn.stype.style.backgroundColor = '#F0F0F0';
+                btn.innerHTML = 'Đã xóa';
             }
         }
         $(document).ready(function () {

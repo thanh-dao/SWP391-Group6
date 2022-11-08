@@ -14,6 +14,7 @@ import lombok.Setter;
 public class ReviewDTO {
 
     private int reviewId;
+    private String emailReviewer;
     private int orderDetailId;
     private String avatarLink;
     private String name;
@@ -26,8 +27,9 @@ public class ReviewDTO {
     private ProductDTO product;
     private int productId;
 
-    public ReviewDTO(int reviewId, String avatarLink, String name, double rating, String comment, Date date, List<ReviewImageDTO> image) {
+    public ReviewDTO(int reviewId, String emailReviewer, String avatarLink, String name, double rating, String comment, Date date, List<ReviewImageDTO> image) {
         this.reviewId = reviewId;
+        this.emailReviewer = emailReviewer;
         this.avatarLink = avatarLink;
         this.name = name;
         this.rating = rating;

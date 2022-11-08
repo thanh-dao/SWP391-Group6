@@ -73,6 +73,16 @@ public class ProductController extends HttpServlet {
                 arr.put(pId + "_img2", p2);
                 arr.put(pId + "_img3", p3);
                 arr.put(pId + "_img4", p4);
+                if (request.getParameter("option").equalsIgnoreCase("create")) {
+                    System.out.println("CREATE");
+                    HttpSession session = (HttpSession) request.getSession();
+                    UserDTO user = (UserDTO) session.getAttribute("user");
+                    p.createProduct(user.getEmail(), name, price, descripion, cateId, quantity);
+                    System.out.println("123");
+                } else {
+                    System.out.println("UPDATE");
+                    p.updateProduct(pId, name, price, descripion, cateId, quantity);
+                }
                 arr.forEach((key, value) -> {
                     System.out.println("MAP: " + key);
                     try {
@@ -85,18 +95,8 @@ public class ProductController extends HttpServlet {
                         Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
-                if (request.getParameter("option").equalsIgnoreCase("create")) {
-                    System.out.println("CREATE");
-                    HttpSession session = (HttpSession) request.getSession();
-                    UserDTO user = (UserDTO) session.getAttribute("user");
-                    p.createProduct(user.getEmail(), name, price, descripion, cateId, quantity);
-                } else {
-                    System.out.println("UPDATE");
-                    p.updateProduct(pId, name, price, descripion, cateId, quantity);
-                }
-                request.setAttribute("controller", "order");
-                request.setAttribute("action", "stored");
-                request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
+
+                response.sendRedirect("/ProjectGroup6/order/stored.do?status=nary");
             }
         } catch (Exception e) {
             e.printStackTrace();

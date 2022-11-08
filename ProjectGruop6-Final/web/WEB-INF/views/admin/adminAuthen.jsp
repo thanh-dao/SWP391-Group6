@@ -6,7 +6,9 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <!--DataTables--> 
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
         <!-- Bootstrap CSS -->
         <style>
             body{
@@ -92,63 +94,63 @@
 
     <body>
         <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
-                <a href="#" class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
-                    <svg class="bi me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap"></use>
-                    </svg>
-                    <span class="fs-4 text-align">Home</span>
-                </a>
-                <button class="navigate-button position-absolute" type="button">
-                    <ion-icon name="menu-outline"></ion-icon>
-                </button>
-                <hr>
-                <ul class="nav nav-pills flex-column overflow-hidden mb-auto ">
-                    <li class="nav-item" onclick="setActive(this)">
-                        <a href="<c:url value="/admin/productAuthen.do?status=nary"/>" class="nav-link text-white">
-                            <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#grid"></use>
-                            </svg>
-                            Sản phẩm
-                        </a>
-                    </li>
-                    <li class="nav-item" onclick="setActive(this)">
-                        <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link text-white">
-                            <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#table"></use>
-                            </svg>
-                            Dashboard
-                        </a>
-                    </li>
+            <a href="#" class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
+                <svg class="bi me-2" width="40" height="32">
+                <use xlink:href="#bootstrap"></use>
+                </svg>
+                <span class="fs-4 text-align">Home</span>
+            </a>
+            <button class="navigate-button position-absolute" type="button">
+                <ion-icon name="menu-outline"></ion-icon>
+            </button>
+            <hr>
+            <ul class="nav nav-pills flex-column overflow-hidden mb-auto ">
+                <li class="nav-item" onclick="setActive(this)">
+                    <a href="<c:url value="/admin/productAuthen.do?status=nary"/>" class="nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#grid"></use>
+                        </svg>
+                        Sản phẩm
+                    </a>
+                </li>
+                <li class="nav-item" onclick="setActive(this)">
+                    <a href="<c:url value="/admin/dashBroad.do"/>" class="nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#table"></use>
+                        </svg>
+                        Dashboard
+                    </a>
+                </li>
 
-                    <li class="nav-item">
-                        <a href="<c:url value="/admin/reviewAuthen.do?status=nary"/>" class="nav-link text-white">
-                            <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#people-circle"></use>
-                            </svg>
-                            Đánh giá
-                        </a>
-                    </li>
-                    <li class="nav-item" style="display: ${sessionScope.user.roleId == 1 ? "block":"none"}">
-                        <a href="<c:url value="/admin/adminAuthen.do?status=user"/>" class="active nav-link text-white">
-                            <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#people-circle"></use>
-                            </svg>
-                            Admin
-                        </a>
-                    </li>
-                </ul>
-                <hr>
-            </div>
+                <li class="nav-item">
+                    <a href="<c:url value="/admin/reviewAuthen.do?status=nary"/>" class="nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#people-circle"></use>
+                        </svg>
+                        Đánh giá
+                    </a>
+                </li>
+                <li class="nav-item" style="display: ${sessionScope.user.roleId == 1 ? "block":"none"}">
+                    <a href="<c:url value="/admin/adminAuthen.do?status=user"/>" class="active nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#people-circle"></use>
+                        </svg>
+                        Admin
+                    </a>
+                </li>
+            </ul>
+            <hr>
+        </div>
         <div class="col d-flex">
             <!--            Div that will hold the pie chart-->
-            
+
         </div>  
         <div class="container br-form">
 
             <c:choose>
                 <c:when test="${not empty userList}">
                     <div class="container-fluid br-form">
-                        <h3 style="text-align: center; ">Duyệt Admin</h3>
+                        <h3 style="text-align: center; ">Phân quyền tài khoản</h3>
                         <ul class="nav nav-tabs" style="margin-bottom: 20px;">               
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="<c:url value="/admin/adminAuthen.do?status=user"/>">User</a>

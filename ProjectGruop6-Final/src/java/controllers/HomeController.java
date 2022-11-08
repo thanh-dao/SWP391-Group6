@@ -94,13 +94,17 @@ public class HomeController extends HttpServlet {
                             proDAO.SOLD_COUNT, proDAO.DESC, user.getEmail());
                     List<ProductDTO> productListCategory = proDAO.getProductList(1, Constants.ITEM_PER_PAGE_PRODUCT_DETAIL,
                             proDAO.SOLD_COUNT, proDAO.DESC, product.getCateId());
-//                    System.out.println(user.toString());
-//                    System.out.println(productListCategory);
+                    System.out.println(user.toString());
+                    System.out.println(productListCategory);
                     request.setAttribute("rating", rating);
+                    System.out.println(rating);
                     request.setAttribute("product", product);
+                    System.out.println(product);
                     request.setAttribute("seller", user);
                     request.setAttribute("reviewer", reviewer);
+                    System.out.println(reviewer);
                     request.setAttribute("productList", productList);
+                    System.out.println(productList);
                     request.setAttribute("productListCategory", productListCategory);
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -181,7 +185,6 @@ public class HomeController extends HttpServlet {
                             break;
                         }
                     }
-
                     totalProduct = proDAO.countProductListByProductName("");
                     int pageNum = totalProduct / Constants.ITEM_PER_PAGE + (totalProduct % Constants.ITEM_PER_PAGE == 0 ? 0 : 1);
                     request.setAttribute("productList", productList);

@@ -12,6 +12,8 @@
         <!--<script src="https://cdn.jsdelivr.net/npm/autonumeric@4.5.4"></script>-->
         <script src="https://unpkg.com/autonumeric"></script>
         <link href="../css/main.css" rel="stylesheet" type="text/css"/>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <style>
             .product__details {
                 margin-bottom: 50px;
@@ -627,6 +629,7 @@
 
         </script>
         <script>
+//            editor.setData = ${product.description}
             window.addEventListener("DOMContentLoaded", () => {
                 ClassicEditor
                         .create(document.querySelector('#description'))

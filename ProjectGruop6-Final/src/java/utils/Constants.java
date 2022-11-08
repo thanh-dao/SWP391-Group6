@@ -24,7 +24,7 @@ public class Constants {
 
     public static final String GOOGLE_GRANT_TYPE = "authorization_code";
 
-    public static final int ITEM_PER_PAGE = 16;
+    public static final int ITEM_PER_PAGE = 24;
 
     public static final int ITEM_PER_PAGE_PRODUCT_DETAIL = 12;
 

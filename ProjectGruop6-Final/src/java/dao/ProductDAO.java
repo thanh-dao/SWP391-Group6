@@ -211,8 +211,9 @@ public class ProductDAO {
                 + "      ,[authen]\n"
                 + "      ,[create_at]\n"
                 + "      ,[approve_at] "
+                + "      ,[status] "
                 + "      ,[sold_count] from product "
-                + "where email_admin is not null  "
+                + "where authen = 1"
                 + getFilter(option, trend)
                 + " OFFSET " + itemSkipped + " ROWS \n"
                 + " FETCH NEXT " + Constants.ITEM_PER_PAGE + " ROWS ONLY;");
@@ -234,6 +235,7 @@ public class ProductDAO {
                             rs.getDate("create_at"),
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
+                            rs.getString("status"),
                             imageDAO.findAll(id)
                     )
             );
@@ -257,7 +259,8 @@ public class ProductDAO {
      * @throws SQLException
      */
     public List<ProductDTO> getProductList(int pageNum, int option, boolean trend, int cateID) throws ClassNotFoundException, SQLException {
-        int itemSkipped = (pageNum - 1) * Constants.ITEM_PER_PAGE;
+        int itemSkipped = (pageNum) * Constants.ITEM_PER_PAGE;
+        System.out.println("itemskipped: " + itemSkipped);
         Connection conn = DBUtil.getConnection();
         List<ProductDTO> list = new ArrayList();
         PreparedStatement stm = conn.prepareStatement("select [product_id]\n"
@@ -271,6 +274,7 @@ public class ProductDAO {
                 + "      ,[authen]\n"
                 + "      ,[create_at]\n"
                 + "      ,[approve_at] "
+                + "      ,[status] "
                 + "      ,[sold_count] from product "
                 + " where category_ID = ? "
                 + " and email_admin is not null"
@@ -280,8 +284,6 @@ public class ProductDAO {
         stm.setInt(1, cateID);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
-
-        ////////
         while (rs.next()) {
             int id = rs.getInt("product_id");
             list.add(
@@ -298,6 +300,7 @@ public class ProductDAO {
                             rs.getDate("create_at"),
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
+                            rs.getString("status"),
                             imageDAO.findAll(id)
                     )
             );
@@ -319,6 +322,7 @@ public class ProductDAO {
                 + "      ,[authen]\n"
                 + "      ,[create_at]\n"
                 + "      ,[approve_at]\n"
+                + "      ,[status]\n"
                 + "      ,[sold_count]"
                 + " from product "
                 + " where name like ? "
@@ -351,6 +355,7 @@ public class ProductDAO {
                             rs.getDate("create_at"),
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
+                            rs.getString("status"),
                             imageDAO.findAll(id)
                     )
             );
@@ -406,48 +411,48 @@ public class ProductDAO {
     }
 
     //chua su dung
-    public ProductDTO getProductById(int productId, int authen, int optionAdmin) throws ClassNotFoundException, SQLException {
-        String strStatus = "";
-        String strOptionAdmin = "";
-        if (optionAdmin == 1) {
-            strOptionAdmin = " AND email_admin is not null ";
-        } else if (optionAdmin == 0) {
-            strOptionAdmin = " AND email_admin is null ";
-        }
-        if (authen == 1) {
-            strStatus = "authen = 1";
-        } else if (authen == 0) {
-            strStatus = "authen = 0";
-        }
-        Connection conn = DBUtil.getConnection();
-        PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
-                + "      ,[email_seller]\n"
-                + "      ,[name]\n"
-                + "      ,[price]\n"
-                + "      ,[description]\n"
-                + "      ,[category_id]\n"
-                + "      ,[quantity]\n"
-                + "      ,[sold_count] FROM product "
-                + " WHERE product_id = ? " + strStatus + strOptionAdmin);
-        stm.setInt(1, productId);
-        ResultSet rs = stm.executeQuery();
-        ProductImageDAO imageDAO = new ProductImageDAO();
-        while (rs.next()) {
-            ProductDTO product = new ProductDTO(
-                    rs.getInt("product_id"),
-                    rs.getString("email_seller"),
-                    rs.getString("name"),
-                    rs.getLong("price"),
-                    rs.getString("description"),
-                    rs.getInt("category_id"),
-                    rs.getInt("quantity"),
-                    rs.getInt("sold_count"),
-                    imageDAO.findAll(rs.getInt("product_id"))
-            );
-            return product;
-        }
-        return null;
-    }
+//    public ProductDTO getProductById(int productId, int authen, int optionAdmin) throws ClassNotFoundException, SQLException {
+//        String strStatus = "";
+//        String strOptionAdmin = "";
+//        if (optionAdmin == 1) {
+//            strOptionAdmin = " AND email_admin is not null ";
+//        } else if (optionAdmin == 0) {
+//            strOptionAdmin = " AND email_admin is null ";
+//        }
+//        if (authen == 1) {
+//            strStatus = "authen = 1";
+//        } else if (authen == 0) {
+//            strStatus = "authen = 0";
+//        }
+//        Connection conn = DBUtil.getConnection();
+//        PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
+//                + "      ,[email_seller]\n"
+//                + "      ,[name]\n"
+//                + "      ,[price]\n"
+//                + "      ,[description]\n"
+//                + "      ,[category_id]\n"
+//                + "      ,[quantity]\n"
+//                + "      ,[sold_count] FROM product "
+//                + " WHERE product_id = ? " + strStatus + strOptionAdmin);
+//        stm.setInt(1, productId);
+//        ResultSet rs = stm.executeQuery();
+//        ProductImageDAO imageDAO = new ProductImageDAO();
+//        while (rs.next()) {
+//            ProductDTO product = new ProductDTO(
+//                    rs.getInt("product_id"),
+//                    rs.getString("email_seller"),
+//                    rs.getString("name"),
+//                    rs.getLong("price"),
+//                    rs.getString("description"),
+//                    rs.getInt("category_id"),
+//                    rs.getInt("quantity"),
+//                    rs.getInt("sold_count"),
+//                    imageDAO.findAll(rs.getInt("product_id"))
+//            );
+//            return product;
+//        }
+//        return null;
+//    }
 
     //productDetail khi đã đc duyệt
     public ProductDTO getProductById(int productId) throws ClassNotFoundException, SQLException {
@@ -459,7 +464,8 @@ public class ProductDAO {
                 + "      ,[description]\n"
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
-                + "      ,[sold_count] FROM product "
+                + "      ,[sold_count]\n"
+                + "      ,[status] FROM product "
                 + "WHERE product_id = ? "
                 + "AND authen = 1 AND status is not null");
         stm.setInt(1, productId);
@@ -475,6 +481,7 @@ public class ProductDAO {
                     rs.getInt("category_id"),
                     rs.getInt("quantity"),
                     rs.getInt("sold_count"),
+                    rs.getString("status"),
                     imageDAO.findAll(rs.getInt("product_id"))
             );
             return product;
@@ -541,6 +548,7 @@ public class ProductDAO {
                 + "      ,[authen]\n"
                 + "      ,[create_at]\n"
                 + "      ,[approve_at] "
+                + "      ,[status] "
                 + "      ,[sold_count] from product "
                 + " where category_ID = ?"
                 + " and email_admin  is not null "
@@ -566,6 +574,7 @@ public class ProductDAO {
                             rs.getDate("create_at"),
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
+                            rs.getString("status"),
                             imageDAO.findAll(id)
                     )
             );
@@ -621,7 +630,8 @@ public class ProductDAO {
                 + "      ,[description]\n"
                 + "      ,[category_id]\n"
                 + "      ,[quantity]\n"
-                + "      ,[sold_count] FROM product "
+                + "      ,[sold_count]\n"
+                + "      ,[status] FROM product "
                 + " WHERE product_id = ?");
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
@@ -637,6 +647,7 @@ public class ProductDAO {
                     rs.getInt("category_id"),
                     rs.getInt("quantity"),
                     rs.getInt("sold_count"),
+                    rs.getString("status"),
                     imageDAO.findAll(id)
             );
             return product;
@@ -675,7 +686,7 @@ public class ProductDAO {
     public List<ProductDTO> getProductApproved(int option, boolean trend) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         List<ProductDTO> list = new ArrayList();
-        PreparedStatement stm = conn.prepareStatement("select [product_id], [email_seller], [name], [price], [description], [category_id], [quantity], [email_admin], [authen], [create_at], [approve_at], [sold_count] \n"
+        PreparedStatement stm = conn.prepareStatement("select [product_id], [email_seller], [name], [price], [description], [category_id], [quantity], [email_admin], [authen], [create_at], [approve_at], [status], [sold_count] \n"
                 + "from product \n"
                 + " WHERE authen = 1"
                 + getFilter(option, trend));
@@ -697,6 +708,7 @@ public class ProductDAO {
                             rs.getDate("create_at"),
                             rs.getDate("approve_at"),
                             rs.getInt("sold_count"),
+                            rs.getString("status"),
                             imageDAO.findAll(id)
                     )
             );
@@ -856,20 +868,18 @@ public class ProductDAO {
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
         try {
-            String s = "../img/" + 1495 + "_img1.jpg";
-//            String pId = s.substring(0, s.lastIndexOf("../img/"));
-            System.out.println(s);
-            if (s.split("/").length == 3) {
-                String pId = s.split("/")[2];
-//                        .split(".")[0];
-//                System.out.println(pId);
-                System.out.println(s.split("/")[2].substring(0, s.split("/")[2].lastIndexOf(".")));
+//            String s = "../img/" + 1495 + "_img1.jpg";
+////            String pId = s.substring(0, s.lastIndexOf("../img/"));
+//            System.out.println(s);
+//            if (s.split("/").length == 3) {
+//                String pId = s.split("/")[2];
+////                        .split(".")[0];
+////                System.out.println(pId);
+//                System.out.println(s.split("/")[2].substring(0, s.split("/")[2].lastIndexOf(".")));
+//
+//            }
+System.out.println(p.getProductList(0, p.NAME, p.DESC, 9).size());
 
-            }
-
-////            System.out.println(s.split("_img")[1].equals("1"));
-//            System.out.println(p.updateProduct(486, "test3", "200000",
-//                    "description~", "1", "200"));
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();

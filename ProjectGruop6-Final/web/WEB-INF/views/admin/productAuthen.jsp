@@ -6,8 +6,9 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <!-- Bootstrap CSS -->
+        <!--DataTables--> 
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
         <style>
             a{text-decoration: none;}
             .navigate-button {
@@ -154,7 +155,7 @@
         </div>
         <c:if test="${not empty productList}">
             <div class="container br-form">
-                <h3 style="text-align: center; ">Duyệt sản phẩm</h3>
+                <h3 style="text-align: center; ">Kiểm duyệt sản phẩm</h3>
                 <ul class="nav nav-tabs" style="margin-bottom: 20px;">               
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="<c:url value="/admin/productAuthen.do?status=nary"/>">Chờ duyệt</a>
@@ -458,13 +459,13 @@
                                 const navBtn = document.querySelector(".navigate-button")
                                 let opened = false;
                                 const navMenu = document.querySelector(".nav-menu");
-                                
+
                                 $(document).ready(function () {
-                                    
+
                                     switch (params.status) {
-                                        case "nary": 
+                                        case "nary":
                                             document.querySelector('body > div > div.container.br-form > ul > li:nth-child(1) > a').classList.add("active");
-                                        break;
+                                            break;
                                         case "ar" :
                                             console.log(1)
                                             removeActiveClass('.nav.nav-tabs')

@@ -25,6 +25,8 @@ public class ProductDTO {
     private Date createAt;
     private Date approveAt;
     private int soldCount;
+    private String status;
+    private String authen;
     private List<ProductImageDTO> imgList;
 
     public ProductImageDTO getMainImage() {
@@ -61,7 +63,7 @@ public class ProductDTO {
         this.approveAt = approveAt;
     }
 
-    public ProductDTO(int productId, String emailSeller, String name, long price, String description, int cateId, int quantity, int soldCount, List<ProductImageDTO> imgList) {
+    public ProductDTO(int productId, String emailSeller, String name, long price, String description, int cateId, int quantity, int soldCount, String status, List<ProductImageDTO> imgList) {
         this.productId = productId;
         this.emailSeller = emailSeller;
         this.name = name;
@@ -70,6 +72,7 @@ public class ProductDTO {
         this.cateId = cateId;
         this.quantity = quantity;
         this.soldCount = soldCount;
+        this.status = status;
         this.imgList = imgList;
     }
 

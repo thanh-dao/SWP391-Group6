@@ -50,12 +50,14 @@ public class GetProductAjax extends HttpServlet {
                 case "getSortedProductList": {
                     String cateIdStr = request.getParameter("cateId");
                     System.out.println("cateId" + cateIdStr);
-                    int pageNumber = Integer.parseInt(request.getParameter("pageNum"));
+                    int pageNumber = Integer.parseInt(request.getParameter("pageNum")) - 1;
+                    System.out.println("pageNumber " + pageNumber);
                     if (cateIdStr.isEmpty()) {
                         productResult = getProductListByProductName(pageNumber, request);
                     } else {
                         productResult = getSortedProductList(0, pageNumber, request);
                     }
+                    System.out.println(gson.toJson(productResult));
                     out.print(gson.toJson(productResult));
                     break;
                 }
@@ -89,7 +91,7 @@ public class GetProductAjax extends HttpServlet {
                 default: {
                     throw new IllegalArgumentException("invalid function name in GetProductAjax");
                 }
-            }
+            }   
         } catch (NullPointerException ex) {
             System.out.println("123");
         } catch (Exception ex) {
@@ -101,10 +103,10 @@ public class GetProductAjax extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         String name = request.getParameter("name");
         ProductDAO proDAO = new ProductDAO();
-        int sortBy = 0;
-        boolean dataTrend = true;
+        int sortBy = ProductDAO.SOLD_COUNT;
+        boolean dataTrend = ProductDAO.DESC;
         String sortOption = request.getParameter("option");
-        if (sortOption != null) {
+        if (sortOption != null && !sortOption.isEmpty()) {
             switch (Integer.parseInt(sortOption)) {
                 case 1: {
                     sortBy = ProductDAO.PRICE;
@@ -145,8 +147,9 @@ public class GetProductAjax extends HttpServlet {
         String sortOption = request.getParameter("option");
         ProductDAO proDAO = new ProductDAO();
         int sortBy = 0;
+        System.out.println("function pageNumber" + pageNumber);
         boolean dataTrend = true;
-        if (sortOption != null) {
+        if (sortOption != null && !sortOption.isEmpty()) {
             switch (Integer.parseInt(sortOption)) {
                 case 1: {
                     sortBy = ProductDAO.PRICE;
@@ -179,6 +182,7 @@ public class GetProductAjax extends HttpServlet {
             sortBy = ProductDAO.NAME;
             dataTrend = ProductDAO.ASC;
         }
+        System.out.println(proDAO.getProductList(pageNumber, sortBy, dataTrend, cateId).size());
         return proDAO.getProductList(pageNumber, sortBy, dataTrend, cateId);
     }
 

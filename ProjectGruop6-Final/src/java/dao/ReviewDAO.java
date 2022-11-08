@@ -44,7 +44,7 @@ public class ReviewDAO {
     public List<ReviewDTO> getReview(int productId) throws ClassNotFoundException, SQLException {
         List<ReviewDTO> list = new ArrayList<>();
         Connection conn = DBUtil.getConnection();
-        PreparedStatement stm = conn.prepareStatement("SELECT u.avatar, u.first_name, "
+        PreparedStatement stm = conn.prepareStatement("SELECT u.email, u.avatar, u.first_name, "
                 + "u.last_name, r.comment, r.rating, r.date, r.review_id FROM [user] u\n"
                 + "RIGHT JOIN [order] od ON u.email = od.email_buyer\n"
                 + "RIGHT JOIN order_by_shop os ON od.order_id = os.order_id\n"
@@ -59,6 +59,7 @@ public class ReviewDAO {
         while (rs.next()) {
             list.add(new ReviewDTO(
                     rs.getInt("review_id"),
+                    rs.getString("email"),
                     rs.getString("avatar"),
                     rs.getString("first_name") + " "
                     + rs.getString("last_name"),
