@@ -154,7 +154,7 @@
                                             </div>
                                             <script>
                                                 ghnOrderCode = ${obs.shipId == null ? 1 : obs.shipId}
-                                                if(ghnOrderCode != 1)
+                                                if (ghnOrderCode != 1)
                                                     fetch('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/detail?', {
                                                         method: "POST",
                                                         headers: {
@@ -165,30 +165,33 @@
                                                             order_code: ghnOrderCode
                                                         })
                                                     })
-                                                    .then(res => res.json())
-                                                    .then(data => {
-                                                        const status = data.data.status;
-                                                        const noti = document.querySelector("#status${obs.orderByShopId}");
-                                                        console.log(noti)
-                                                        switch(status) {
-                                                            case "cancel": {
-                                                                noti.style.color = "red"
-                                                                noti.innerHTML = "Đã hủy"
-                                                                break;
-                                                            }case "finish": {
-                                                                noti.style.color = "green";
-                                                                noti.innerHTML = "Giao hàng thành công";
-                                                                break;
-                                                            }default :{
-                                                                noti.style.color = "blue";
-                                                                noti.innerHTML = "Đang giao hàng";
-                                                                break;
-                                                            }
-                                                        }
-                                                    })
-                                                    .catch(err => console.log(err))
+                                                            .then(res => res.json())
+                                                            .then(data => {
+                                                                const status = data.data.status;
+                                                                const noti = document.querySelector("#status${obs.orderByShopId}");
+                                                                console.log(noti)
+                                                                switch (status) {
+                                                                    case "cancel":
+                                                                    {
+                                                                        noti.style.color = "red"
+                                                                        noti.innerHTML = "Đã hủy"
+                                                                        break;
+                                                                    }case "finish":
+                                                                    {
+                                                                        noti.style.color = "green";
+                                                                        noti.innerHTML = "Giao hàng thành công";
+                                                                        break;
+                                                                    }default :
+                                                                    {
+                                                                        noti.style.color = "blue";
+                                                                        noti.innerHTML = "Đang giao hàng";
+                                                                        break;
+                                                                    }
+                                                                }
+                                                            })
+                                                            .catch(err => console.log(err))
                                             </script>
-                                            
+
                                         </c:otherwise>
                                     </c:choose>
                                 </div>                                    
@@ -208,32 +211,26 @@
                                             </p></a>
                                         x${od.quantity}
                                     </div>
-                                    <p class="text-right ml-auto p-2 price${od.productId}${od.orderDetailId}">
+                                    <p class="text-right ml-auto p-2 price${od.productId}${od.orderDetailId}"
+                                       style="color: red;">
                                         <script>
                                             document.querySelector(".price${od.productId}${od.orderDetailId}").innerHTML = formatPrice(${od.price})
                                         </script>
                                     </p>
                                 </div>
                             </c:forEach>
-                            <h3 class="d-flex justify-content-end total${obs.orderByShopId}" 
-                               style="padding: 20px 10px; margin: 0;">
+                            <h4 class="d-flex justify-content-end total${obs.orderByShopId}" 
+                                style="padding: 20px 10px; margin: 0; color: red;">
                                 Tổng số tiền: 
                                 <script>
                                     document.querySelector(".total${obs.orderByShopId}").innerHTML = formatPrice(${obs.total})
                                 </script>
-                            </h3>
+                            </h4>
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary">Mua lại</button>
-                                <c:choose>
-                                    <c:when test = "${obs.status == 0}">
-                                    </c:when>
-                                    <c:when test = "${obs.status == 1}">
-                                        <button type="button" class="btn btn-light">Đánh giá</button>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <button type="button" class="btn btn-danger">Hủy</button>
-                                    </c:otherwise>
-                                </c:choose>
+                                <c:if test = "${empty obs.status}">
+                                    <button type="button" class="btn btn-danger">Hủy</button>
+                                </c:if>
                             </div>
                         </div>
                     </c:forEach>
@@ -244,25 +241,25 @@
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
         <script>
-            const priceFormat = document.querySelectorAll(".text-right");
+                                    const priceFormat = document.querySelectorAll(".text-right");
 //            priceFormat.valueOf()
 //            document.getElementById("price").innerHTML = formatPrice();
-            const orderLinks = document.querySelectorAll(".order-link");
-            console.log(orderLinks)
-            orderLinks.forEach(i => {
+                                    const orderLinks = document.querySelectorAll(".order-link");
+                                    console.log(orderLinks)
+                                    orderLinks.forEach(i => {
 
-                i.addEventListener("mousedown", () => {
-                    clicked = true
-                })
-                i.addEventListener("mousemove", () => {
-                    clicked = false
-                })
-                i.addEventListener("mouseup", () => {
-                    if (clicked) {
-                        window.location.href = i.getAttribute("href");
-                    }
-                })
-            })
+                                        i.addEventListener("mousedown", () => {
+                                            clicked = true
+                                        })
+                                        i.addEventListener("mousemove", () => {
+                                            clicked = false
+                                        })
+                                        i.addEventListener("mouseup", () => {
+                                            if (clicked) {
+                                                window.location.href = i.getAttribute("href");
+                                            }
+                                        })
+                                    })
 //            var style = document.createElement('style');
 //            document.head.appendChild(style);
 //            var matchingElements = [];

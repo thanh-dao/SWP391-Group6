@@ -54,11 +54,14 @@ public class HomeController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         String action = (String) request.getAttribute("action");
         String controller = (String) request.getAttribute("controller");
         System.out.println(action + " " + controller);
         HttpSession session = request.getSession();
-        session.setAttribute("user", new UserDTO("ThinhPQSE151077@fpt.edu.vn", 
+        session.setAttribute("user", new UserDTO("ThinhPQSE151077@fpt.edu.vn",
                 "a", "TD", "DRAGON", null, null, null, 1));
         switch (action) {
             case "main": {

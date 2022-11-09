@@ -1,20 +1,13 @@
-<%-- 
-    Document   : billInformation
-    Created on : Sep 14, 2022, 6:48:42 AM
-    Author     : ADmin
---%>
 <%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <link href="../css/main.css" rel="stylesheet" type="text/css"/>
         <style>
-            /* CSS */
             .button-22 {
                 /* display: inline-block; */
                 align-items: center;
@@ -133,31 +126,31 @@
         <div class="container ">
             <h4 class="title_header">Thông tin đơn hàng</h4>
             <div class="row">
-<!--                <div class="col-md-3">
-                    <h6 class="d-flex justify-content-between">Thông tin khách hàng
-                        <a href="<c:url value="/user/userInformation.do"/>">Thay đổi</a>
-                    </h6>
-                    <div class="info_user">
-                        <div class="d-flex">
-                            <i class="fa-regular fa-user"></i>
-                            <p>${user.firstName} ${user.lastName}</p>
-                        </div>
-                        <div class="d-flex">
-                            <i class="fa-regular fa-envelope"></i>
-                            <p>${user.email}</p>
-                        </div>
-                        <div class="d-flex">
-                            <i class="fa-solid fa-mobile-screen-button"></i>
-                            <p>${user.phone}</p>
-                        </div>
-                        <div class="d-flex"><i class="fa-regular fa-address-book"></i><p>${user.address.houseNumber} -
-                                ${user.address.wardName} -
-                                ${user.address.districtName} -
-                                ${user.address.cityName}
-                            </p>
-                        </div>
-                    </div>
-                </div>-->
+                <!--                <div class="col-md-3">
+                                    <h6 class="d-flex justify-content-between">Thông tin khách hàng
+                                        <a href="<c:url value="/user/userInformation.do"/>">Thay đổi</a>
+                                    </h6>
+                                    <div class="info_user">
+                                        <div class="d-flex">
+                                            <i class="fa-regular fa-user"></i>
+                                            <p>${user.firstName} ${user.lastName}</p>
+                                        </div>
+                                        <div class="d-flex">
+                                            <i class="fa-regular fa-envelope"></i>
+                                            <p>${user.email}</p>
+                                        </div>
+                                        <div class="d-flex">
+                                            <i class="fa-solid fa-mobile-screen-button"></i>
+                                            <p>${user.phone}</p>
+                                        </div>
+                                        <div class="d-flex"><i class="fa-regular fa-address-book"></i><p>${user.address.houseNumber} -
+                ${user.address.wardName} -
+                ${user.address.districtName} -
+                ${user.address.cityName}
+            </p>
+        </div>
+    </div>
+</div>-->
                 <!-- san pham -->
                 <div class="col-md-9 col-sm-9 col-xs-12">
                     <c:forEach items="${order.orderByShopList}" var="obs">
@@ -260,17 +253,9 @@
                                 </p>
                                 <div class="d-flex justify-content-end">
                                     <button type="button" class="btn btn-primary">Mua lại</button>
-                                    <c:choose>
-                                        <c:when test = "${obs.status == 0}">
-
-                                        </c:when>
-                                        <c:when test = "${obs.status == 1}">
-
-                                        </c:when>
-                                        <c:otherwise>
-                                            <button type="button" class="btn btn-danger">Hủy</button>
-                                        </c:otherwise>
-                                    </c:choose>
+                                    <c:if test = "${empty obs.status}">
+                                        <button type="button" onclick="handleOrder()" class="btn btn-danger">Hủy</button>
+                                    </c:if>
                                 </div>
                             </div>
                         </c:if>
@@ -280,39 +265,69 @@
                     <div class="br-form" style="padding: 0;">
                         <h6 class="title-style">Chi tiết đơn hàng: </h6>
                         <div class="info_user">
-                        <div class="d-flex">
-                            <i class="fa-regular fa-user"></i>
-                            <p>${order.userName}</p>
-                        </div>
-                        <div class="d-flex">
-                            <i class="fa-regular fa-envelope"></i>
-                            <p>${user.email}</p>
-                        </div>
-                        <div class="d-flex">
-                            <i class="fa-solid fa-mobile-screen-button"></i>
-                            <p>${order.phone}</p>
-                        </div>
-                        <div class="d-flex"><i class="fa-regular fa-address-book"></i><p>${order.address.houseNumber} -
-                                ${order.address.wardName} -
-                                ${order.address.districtName} -
-                                ${order.address.cityName}
-                            </p>
-                        </div>
-                        <div class="txt-style">
-                            <i class="fa-solid fa-truck-fast"></i><span>Đơn vị vận chuyển</span><br>
-                            <i class="fa-regular fa-credit-card"></i><span>Phương thức thanh toán</span><br>
-                            <h6 style="color:green; text-align:center; font-weight: 700; padding-top: 5px;">Trạng thái đơn hàng
-                            </h6>
+                            <div class="d-flex">
+                                <i class="fa-regular fa-user"></i>
+                                <p>${order.userName}</p>
+                            </div>
+                            <div class="d-flex">
+                                <i class="fa-regular fa-envelope"></i>
+                                <p>${user.email}</p>
+                            </div>
+                            <div class="d-flex">
+                                <i class="fa-solid fa-mobile-screen-button"></i>
+                                <p>${order.phone}</p>
+                            </div>
+                            <div class="d-flex"><i class="fa-regular fa-address-book"></i><p>${order.address.houseNumber} -
+                                    ${order.address.wardName} -
+                                    ${order.address.districtName} -
+                                    ${order.address.cityName}
+                                </p>
+                            </div>
+                            <div class="txt-style">
+                                <i class="fa-solid fa-truck-fast"></i><span>Đơn vị vận chuyển</span><br>
+                                <i class="fa-regular fa-credit-card"></i><span>Phương thức thanh toán</span><br>
+                                <h6 style="color:green; text-align:center; font-weight: 700; padding-top: 5px;">Trạng thái đơn hàng
+                                </h6>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!--        <div type="button" style="margin:1%; display:block; text-align: center;">
-                    <button type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="/home/main.do"/>'">Trang chủ</button>
-                </div>-->
+            <!--        <div type="button" style="margin:1%; display:block; text-align: center;">
+                        <button type="button" class="btn btn-primary" onclick="window.location.href = '<c:url value="/home/main.do"/>'">Trang chủ</button>
+                    </div>-->
     </body>
     <script>
+//        const handleOrder = (el) => {
+//            swal({
+//                text: "Xác nhận hủy đơn hàng?",
+//                icon: "warning",
+//                buttons: true,
+//                dangerMode: true,
+//            })
+//                    .then((willDelete) => {
+//                        if (willDelete) {
+//                            $.ajax("<c:url value="/order/history"/>", {
+//                                data: {
+//                                    obsId: obsId,
+//                                    func: "cancel",
+//                                },
+//                                success: function (data, textStatus, jqXHR) {
+//                                    swal("Đã xóa thành công", {
+//                                        icon: "success",
+//                                    });
+//                                    const tableRow = el.parentElement.parentElement
+//                                    tableRow.remove()
+//                                },
+//                                error: function (jqXHR, textStatus, errorThrown) {
+//                                    swal("Xóa thất bại!!!", {
+//                                        icon: "error",
+//                                    });
+//                                }
+//                            })
+//                        }
+//                    });
+//        }
         function toggleFile() {
             document.querySelector("input[type=file]").click();
         }

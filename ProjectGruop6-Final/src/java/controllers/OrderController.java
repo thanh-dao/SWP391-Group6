@@ -2,6 +2,7 @@ package controllers;
 
 import com.google.gson.Gson;
 import config.Config;
+import dao.OrderByShopDAO;
 import dao.OrderDAO;
 import dao.ProductDAO;
 import dao.ReviewDAO;
@@ -48,6 +49,8 @@ public class OrderController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
         HttpSession session = (HttpSession) request.getSession();
@@ -60,8 +63,26 @@ public class OrderController extends HttpServlet {
             switch (action) {
                 case "history": {
                     try {
-                        request.setAttribute("orderList", new OrderDAO().getOrder(user.getEmail()));
-//                        System.out.println(request.getAttribute("orderList"));
+                        if (request.getParameter("func") != null) {
+                            String func = request.getParameter("func");
+                            int obsId = Integer.parseInt(request.getParameter("obsId"));
+                            switch (func) {
+                                case "buy": {
+                                    //
+                                }
+                                break;
+                                case "cancel": {
+                                    new OrderByShopDAO().cancelOrderByShop(obsId);
+                                    return;
+                                }
+                                default:
+                                    request.setAttribute("controller", "error");
+                                    request.setAttribute("action", "index");
+                                    request.setAttribute("message", "Error when processing the request");
+                            }
+                        } else {
+                            request.setAttribute("orderList", new OrderDAO().getOrder(user.getEmail()));
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -88,8 +109,7 @@ public class OrderController extends HttpServlet {
                                 }
                                 break;
                                 case "u": {
-                                    System.out.println("UPDATE");
-                                    ProductDTO product = p.getProductById(pId);
+                                    ProductDTO product = p.getProductByIdAd(pId);
                                     if (!product.getEmailSeller().equalsIgnoreCase(user.getEmail())) {
                                         request.setAttribute("controller", "error");
                                         request.setAttribute("action", "index");

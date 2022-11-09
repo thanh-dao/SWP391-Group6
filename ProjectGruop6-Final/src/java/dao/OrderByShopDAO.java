@@ -161,7 +161,6 @@ public class OrderByShopDAO {
     }
 
     public float getTotalRating(String emailSeller) throws ClassNotFoundException, SQLException {
-
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT CAST("
                 + "(SELECT SUM(r.rating)/COUNT(r.rating) FROM \n"
@@ -176,6 +175,15 @@ public class OrderByShopDAO {
             return rs.getFloat("rating");
         }
         return -1;
+    }
+
+    public boolean cancelOrderByShop(int obsId) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("UPDATE order_by_shop\n"
+                + "SET [status] = 0 \n"
+                + "WHERE order_by_shop_id = ? ");
+        stm.setInt(1, obsId);
+        return stm.executeUpdate() == 1;
     }
 
     public static void main(String[] args) {

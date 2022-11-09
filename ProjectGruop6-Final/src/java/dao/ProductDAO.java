@@ -456,7 +456,6 @@ public class ProductDAO {
 //        }
 //        return null;
 //    }
-
     //productDetail khi đã đc duyệt
     public ProductDTO getProductById(int productId) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
@@ -602,7 +601,7 @@ public class ProductDAO {
                 + "      ,[quantity]\n"
                 + "      ,[create_at]\n"
                 + "      FROM product "
-                + " WHERE authen is null "
+                + " WHERE authen is null AND status is not null"
                 + getFilter(option, trend));
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -639,7 +638,7 @@ public class ProductDAO {
                 + "      ,[sold_count]\n"
                 + "      ,[authen]\n"
                 + "      ,[status] FROM product "
-                + " WHERE product_id = ?");
+                + " WHERE product_id = ? AND status is not null");
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -696,9 +695,9 @@ public class ProductDAO {
         List<ProductDTO> list = new ArrayList();
         PreparedStatement stm = conn.prepareStatement("select [product_id], [email_seller], "
                 + "[name], [price], [description], [category_id], [quantity], "
-                + "[email_admin], [authen], [create_at], [approve_at], [status], [sold_count] \n"
-                + "from product \n"
-                + " WHERE authen = 1"
+                + "[email_admin], [authen], [create_at], [approve_at], [status], [sold_count] "
+                + "from product "
+                + "WHERE authen = 1 AND status is not null"
                 + getFilter(option, trend));
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -889,11 +888,12 @@ public class ProductDAO {
 //                System.out.println(s.split("/")[2].substring(0, s.split("/")[2].lastIndexOf(".")));
 //
 //            }
-System.out.println(p.getProductList(0, p.NAME, p.DESC, 9).size());
-
+//System.out.println(p.getProductList(0, p.NAME, p.DESC, 9).size());
+            System.out.println(p.getProductByIdAd(488));
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();
         }
     }
+
 }

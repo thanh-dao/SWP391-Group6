@@ -32,6 +32,8 @@ public class ProductController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         try {
             if (request.getParameter("func") != null
                     && request.getParameter("listId") != null) {
@@ -58,6 +60,7 @@ public class ProductController extends HttpServlet {
                         : Integer.parseInt(request.getParameter("pId"));
                 System.out.println(pId);
                 String name = (String) request.getParameter("name");
+                System.out.println(name);
                 String price = (String) request.getParameter("price").replace(",", "");
                 String quantity = (String) request.getParameter("quantity").replace(",", "");
                 String cateId = (String) request.getParameter("cateId");

@@ -442,16 +442,20 @@
                 fi.click()
             }
             const showImage = (el) => {
-                const reviewImg = document.querySelector('.review-image').querySelector("img");
-                const img = el.querySelector("img");
-                if (img.getAttribute('src') != '../images/plus.png') {
-                    const reader = new FileReader();
-                    reviewImg.src = img.src;
-                    document.querySelector('.review-image').style.display = "block";
+                if (el.querySelector("img").getAttribute('src') == '../images/plus.png') {
+                    togFile('#' + el.parentElement.querySelector('input').id);
                 } else {
-                    resetReviewImage();
+                    const reviewImg = document.querySelector('.review-image').querySelector("img");
+                    const img = el.querySelector("img");
+                    if (img.getAttribute('src') != '../images/plus.png') {
+                        const reader = new FileReader();
+                        reviewImg.src = img.src;
+                        document.querySelector('.review-image').style.display = "block";
+                    } else {
+                        resetReviewImage();
+                    }
+                    hindenIconDelete();
                 }
-                hindenIconDelete();
             }
             const getImage = (el) => {
                 const file = el.files[0];
