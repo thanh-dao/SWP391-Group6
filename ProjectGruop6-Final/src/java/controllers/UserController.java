@@ -59,9 +59,9 @@ public class UserController extends HttpServlet {
         String redirectUrl = "";
         switch (action) {
             case "login":
-                response.sendRedirect("");
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
-                break;
+//                response.sendRedirect("");
+//                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+//                break;
             case "userInformation": {
                 CategoryDAO cateDAO = new CategoryDAO();
                 ProductDAO proDAO = new ProductDAO();

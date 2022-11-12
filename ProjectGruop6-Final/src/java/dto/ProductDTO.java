@@ -47,11 +47,12 @@ public class ProductDTO {
         this.imgList = imgList;
     }
 
-    public ProductDTO(int productId, String name, long price, String description, Date createAt, List<ProductImageDTO> imgList) {
+    public ProductDTO(int productId, String name, long price, String description, int quantity, Date createAt, List<ProductImageDTO> imgList) {
         this.productId = productId;
         this.name = name;
         this.price = price;
         this.description = description;
+        this.quantity = quantity;
         this.createAt = createAt;
         this.imgList = imgList;
     }

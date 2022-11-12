@@ -136,7 +136,7 @@
                                         Xem shop >>
                                     </a>
                                 </div>
-                                <div class="p-2">
+                                <div class="p-2 txt-style">
                                     <c:choose>
                                         <c:when test = "${obs.status == 0}">
                                             <div style="color: red;">
@@ -191,13 +191,14 @@
                                                             })
                                                             .catch(err => console.log(err))
                                             </script>
-
                                         </c:otherwise>
                                     </c:choose>
                                 </div>                                    
                                 <a class="p-2" href="<c:url value="/cart/billInformation.do?oId=${o.orderId}&osId=${obs.orderByShopId}"/>">Xem chi tiết >></a>
                             </h6>
+                            <script>const list${obs.orderByShopId} = new Set();</script>
                             <c:forEach items="${obs.orderDetailList}" var="od">
+                                <script>list${obs.orderByShopId}.add(${od.productId});</script>
                                 <!--<tr class="order-link" href="<c:url value="/cart/billInformation.do"/>">-->
                                 <div class="d-flex br-od">
                                     <div class="product-img p-2">
@@ -227,9 +228,9 @@
                                 </script>
                             </h4>
                             <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary">Mua lại</button>
+                                <button type="button" onclick="handleOrder(list${obs.orderByShopId}, ${obs.orderByShopId}, 'buy', this)" class="btn btn-primary">Mua lại</button>
                                 <c:if test = "${empty obs.status}">
-                                    <button type="button" class="btn btn-danger">Hủy</button>
+                                    <button type="button" onclick="handleOrder(list${obs.orderByShopId}, ${obs.orderByShopId}, 'cancel', this)" class="btn btn-danger">Hủy</button>
                                 </c:if>
                             </div>
                         </div>
@@ -241,25 +242,83 @@
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
         <script>
-                                    const priceFormat = document.querySelectorAll(".text-right");
+                                        const handleOrder = (list, obsId, option, el) => {
+                                            if (option == 'cancel') {
+                                                swal({
+                                                    text: "Xác nhận hủy đơn hàng?",
+                                                    icon: "warning",
+                                                    buttons: true,
+                                                    dangerMode: true,
+                                                })
+                                                        .then((willDelete) => {
+                                                            if (willDelete) {
+                                                                $.ajax("<c:url value="/order/history.do"/>", {
+                                                                    data: {
+                                                                        obsId: obsId,
+                                                                        func: "cancel",
+                                                                    },
+                                                                    success: function (data, textStatus, jqXHR) {
+                                                                        swal("Đã xóa thành công", {
+                                                                            icon: "success",
+                                                                            buttons: false,
+                                                                            timer: 1000
+                                                                        });
+                                                                        el.parentElement.parentElement.querySelector('.txt-style').innerHTML = `<div style="color: red;">Đã hủy</div>`
+                                                                        el.style.display = 'none'
+                                                                    },
+                                                                    error: function (jqXHR, textStatus, errorThrown) {
+                                                                        swal("Xóa thất bại!!!", {
+                                                                            icon: "error",
+                                                                            buttons: false,
+                                                                            timer: 1000
+                                                                        });
+                                                                    }
+                                                                })
+                                                            }
+                                                        });
+                                            } else {
+                                                
+                                                $.ajax("<c:url value="/cart/cart.do"/>", {
+                                                    data: {
+                                                        pIdList: JSON.stringify(Array.from(list)),
+                                                        func: "buy",
+                                                    },
+                                                    success: function (data, textStatus, jqXHR) {
+                                                        swal("Thêm thành công", {
+                                                            icon: "success",
+                                                            buttons: false,
+                                                            timer: 1000
+                                                        });
+                                                    },
+                                                    error: function (jqXHR, textStatus, errorThrown) {
+                                                        swal("Thêm thất bại!!!", {
+                                                            icon: "error",
+                                                            buttons: false,
+                                                            timer: 1000
+                                                        });
+                                                    }
+                                                })
+                                            }
+                                        }
+                                        const priceFormat = document.querySelectorAll(".text-right");
 //            priceFormat.valueOf()
 //            document.getElementById("price").innerHTML = formatPrice();
-                                    const orderLinks = document.querySelectorAll(".order-link");
-                                    console.log(orderLinks)
-                                    orderLinks.forEach(i => {
+                                        const orderLinks = document.querySelectorAll(".order-link");
+                                        console.log(orderLinks)
+                                        orderLinks.forEach(i => {
 
-                                        i.addEventListener("mousedown", () => {
-                                            clicked = true
+                                            i.addEventListener("mousedown", () => {
+                                                clicked = true
+                                            })
+                                            i.addEventListener("mousemove", () => {
+                                                clicked = false
+                                            })
+                                            i.addEventListener("mouseup", () => {
+                                                if (clicked) {
+                                                    window.location.href = i.getAttribute("href");
+                                                }
+                                            })
                                         })
-                                        i.addEventListener("mousemove", () => {
-                                            clicked = false
-                                        })
-                                        i.addEventListener("mouseup", () => {
-                                            if (clicked) {
-                                                window.location.href = i.getAttribute("href");
-                                            }
-                                        })
-                                    })
 //            var style = document.createElement('style');
 //            document.head.appendChild(style);
 //            var matchingElements = [];

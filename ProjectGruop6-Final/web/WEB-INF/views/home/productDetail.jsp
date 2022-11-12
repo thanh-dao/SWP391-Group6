@@ -100,7 +100,6 @@
     </head>
     <body>
         <div class="container" >
-            ${product.status == null ? "null" : "not null"}
             <c:if test="${product == null}">
                 <h1 style="text-align: center; height: 600px;">Sản phẩm không tồn tại</h1>
             </c:if>
@@ -254,9 +253,9 @@
                     <div class="br-form">
                         <div  class="d-flex justify-content-between">
                             <h3 class="font-a">Các sản phẩm khác của 
-                                <a href="#">${seller.firstName} ${seller.lastName}</a>
+                                <a href="<c:url value="/user/shopInformation.do?seller=${seller.email}"/>">${seller.firstName} ${seller.lastName}</a>
                             </h3>
-                            <a href="#">Xem thêm >></a>
+                            <a href="<c:url value="/user/shopInformation.do?seller=${seller.email}"/>">Xem thêm >></a>
                         </div>
                         <div class="product__content row" style="margin: 0 -5px;">
                             <c:forEach items="${productList}" var="i">
@@ -283,7 +282,7 @@
                     <div class="br-form" style="padding-bottom: 5px;">
                         <div style="display: flex; justify-content: space-between;">
                             <h3 class="font-a">Các sản phẩm cùng loại khác </h3>
-                            <a href="#">Xem thêm >></a>
+                            <a href="<c:url value="/home/productList.do?cateId=${product.cateId}"/>">Xem thêm >></a>
                         </div>
                         <div class="product__content row" style="margin: 0 -5px;">
                             <c:forEach items="${productListCategory}" var="i">

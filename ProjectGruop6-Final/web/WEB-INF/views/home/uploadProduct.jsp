@@ -35,9 +35,6 @@
             .button_1{
                 margin-top: 20px;
             }
-            .bd-example {
-                display: none;
-            }
             .carousel-caption, .carousel-caption p {
                 padding: 0;
                 margin-bottom: 0;
@@ -52,28 +49,15 @@
                 margin: 5px;
                 /*padding: 0;*/
             }
-            .box-img img{
-                width: 100%;
-                height: 100%;
-            }
-            .box-img + a {
-                padding: 10px;
-                color: #FDC632 !important;
-            }
-            .review-image{
-                display: none;
-                width: 540px;
-                height: 540px;
-            }
-            .review-image img{
-                width: 100%;
-                height: 100%;
-            }
-            .icon {top:4px;right:0;font-size:20px;position:absolute;color:#CD5C05;display:none;}
+            .box-img img{width: 100%; height: 100%;}
+            .box-img + a {padding: 10px; color: #FDC632 !important;}
+            .review-image{display: none; width: 540px; height: 540px;}
+            .review-image img{width: 100%; height: 100%;}
+            .icon {top:4px;right:0; font-size:20px; position:absolute; color:#CD5C05; display:none;}
             .select2 {height: 100%;}
-            .select2{
-                height: 100% !important;
-            }
+            .select2{height: 100% !important;}
+            .carousel-item{width: 540px; height: 540px;}
+            .carousel-item img{width: 100%; height: 100%;}
         </style>
     </head>
     <body>
@@ -227,156 +211,125 @@
                                 <div class="d-flex justify-content-end">
                                     <input name="option" hidden readonly value="${product == null ? "create" : "update"}">
                                     <button type="submit" formaction="/ProjectGroup6/product" 
-                                            class="btn btn-success">GO</button>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable" onclick="previewProduct()" data-toggle="modal" data-target=".bd-example-modal-xl">Xem trước</button>
+                                            class="btn btn-success">Lưu</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable" onclick="previewProduct()" data-toggle="modal" data-target="#exampleModalScrollable">Xem trước</button>
                                 </div>
                             </div>
                         </div>
-                    </form>     
-                    <!-- Modal -->
-                    <div class="modal fade bd-example-modal-xl" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-scrollable  modal-xl" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalScrollableTitle">Xem trước sản phẩm</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                                    <html>
-                                        <head>
-                                            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-                                            <title>Product Detail</title>
-                                            <link href="../css/main.css" rel="stylesheet" type="text/css"/>
-                                        </head>
-                                        <body>
-                                            <div class="container" >
-                                                <div class="br-form">
-                                                    <div class="product__content">
-                                                        <div class="row">
-                                                            <div id="demo" class="carousel slide col-lg-6 col-md-6 col-sm-6" data-ride="carousel">
-                                                                <div class="bd-example">
-                                                                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                                                        <ol class="carousel-indicators-modal">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade bd-example-modal-xl" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">Chi tiết sản phẩm</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <html>
+                            <head>
+                                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                                <title>Product Detail</title>
+                                <link href="<c:url value="/css/productDetail.css"/>" rel="stylesheet" type="text/css"/>
+                            </head>
+                            <body>
+                                <div class="container" >
+                                    <div class="br-form">
+                                        <div class="product__content">
+                                            <div class="row">
+                                                <div id="demo" class="carousel slide col-lg-6 col-md-6 col-sm-6" data-ride="carousel">
+                                                    <div class="bd-example">
+                                                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                                            <ol class="carousel-indicators-modal">
 
-                                                                        </ol>
-                                                                        <div class="carousel-inner-modal">
+                                                            </ol>
+                                                            <div class="carousel-inner">
 
-                                                                        </div>
-                                                                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                            <span class="sr-only">Previous</span>
-                                                                        </a>
-                                                                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                            <span class="sr-only">Next</span>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
                                                             </div>
-
-                                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                                <h3 class="product-name-modal"></h3>
-
-                                                                <div style="display: flex;">
-                                                                    <p style="margin-right: 30%">Đã bán: <span class="font-bold">0</span></p>
-                                                                    <p>Đánh giá: <span class="font-bold">0</span></p>
-
-                                                                </div>
-                                                                <p>Số lượng sản phẩm: <span class="font-bold product-quantity"></span><p/>
-                                                                <h2 style="color: #E72425; text-align: right; margin-right: 20px;">
-                                                                    <fmt:setLocale value="vi_VN"/>
-                                                                    <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>
-                                                                <div class="buy d-flex justify-content-around" style="margin: 50px 0 20px 0;">
-                                                                    <button type="button" onclick="return false">Mua</button>
-                                                                </div>
-                                                            </div>
+                                                            <a style="background-color:  #4c1a1b;" class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                <span class="sr-only">Previous</span>
+                                                            </a>
+                                                            <a  style="background-color:  #4c1a1b;"  class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                <span class="sr-only">Next</span>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="br-form">
-                                                    <h5>Thông tin người bán</h5>
-                                                    <div style="display: flex">
-                                                        <div class="col-md-5 col-sm-5 font-a" style="display: flex">
-                                                            <a href="#" class="avatar">
-                                                                <img src="<c:url value="${sessionScope.user.avatarLink}"/>" alt="">
-                                                            </a>
-                                                            <p><a href="#">${sessionScope.user.firstName} ${sessionScope.user.lastName}</a></p>
-                                                        </div>
-                                                        <div class="col-md-7 col-sm-7">
-                                                            <p>Số điện thoại: <span>${sessionScope.user.phone}</span></p>
-                                                        </div>
-                                                    </div><p>Địa chỉ: <span>${sessionScope.user.address.houseNumber} ${sessionScope.user.address.wardName}
-                                                            ${sessionScope.user.address.districtName} ${sessionScope.user.address.cityName}</span></p>
-                                                </div>
-                                                <div class="br-form">
-                                                    <h5>Mô tả chi tiết: </h5>
-                                                    <p id="description-preview"style="padding: 10px 0 10px 0;">${product.description}</p>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <h3 class="product-name-modal"></h3>
+                                                    <div style="display: flex;">
+                                                        <p style="margin-right: 30%">Đã bán: <span class="font-bold">0</span></p>
+                                                        <p>Đánh giá: <span class="font-bold">0</span></p>
+                                                    </div>
+                                                    <p>Số lượng sản phẩm: <span class="font-bold product-quantity"></span><p/>
+                                                    <h2 style="color: #E72425; text-align: right; margin-right: 20px;">
+                                                        <fmt:setLocale value="vi_VN"/>
+                                                        <fmt:formatNumber  type = "currency" value="${product.price}"/></h2>
+                                                    <div class="buy d-flex justify-content-around" style="margin: 50px 0 20px 0;">
+                                                        <button type="button">Mua</button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </body>
-                                        <script>
-                                            const tooltips = document.querySelectorAll('.tooltip-text span');
-                                            //        window.onmousemove = function (e) {
-                                            //            var x = (e.clientX + 20) + 'px',
-                                            //                    y = (e.clientY + 20) + 'px';
-                                            //            for (var i = 0; i < tooltips.length; i++) {
-                                            //                tooltips[i].style.top = y;
-                                            //                tooltips[i].style.left = x;
-                                            //            }
-                                            //        };
-                                            var style = document.createElement('style');
-                                            document.head.appendChild(style);
-                                            var matchingElements = [];
-                                            var allElements = document.getElementsByTagName('*');
-                                            for (var i = 0, n = allElements.length; i < n; i++) {
-                                                var attr = allElements[i].getAttribute('.tooltip-text span');
-                                                if (attr) {
-                                                    allElements[i].addEventListener('mouseover', hoverEvent);
-                                                }
-                                            }
-                                            function hoverEvent(event) {
-                                                event.preventDefault();
-                                                x = event.x - this.offsetLeft;
-                                                y = event.y - this.offsetTop;
-                                                y += 10;
-                                                style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
-                                            }
-                                        </script>
-                                    </html>
+                                        </div>
+                                    </div>
+                                    <div class="br-form">
+                                        <h5>Thông tin người bán</h5>
+                                        <div style="display: flex">
+                                            <div class="col-md-5 col-sm-5 font-a" style="display: flex">
+                                                <a href="#" class="avatar">
+                                                    <img src="${sessionScope.user.avatarLink}" alt="">
+                                                </a>
+                                                <p><a href="#" class="seller-name">${sessionScope.user.firstName} ${sessionScope.user.lastName}</a></p>
+                                            </div>
+                                            <div class="col-md-7 col-sm-7">
+                                                <p>Số điện thoại: <span class="seller-phone">${sessionScope.user.phone}</span></p>
+                                            </div>
+                                        </div><p>Địa chỉ: <span class="seller-address">
+                                                ${user.address.houseNumber} ${user.address.wardName}
+                                                ${user.address.districtName} ${user.address.cityName}
+                                            </span></p>
+                                    </div>
+                                    <div class="br-form">
+                                        <h5>Mô tả chi tiết: </h5>
+                                        <p id="description-preview"style="padding: 10px 0 10px 0;">${product.description}</p>
+                                    </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                    <button type="button" class="btn btn-success">Lưu</button>
-                                </div>
-                            </div>
-                        </div>
+                            </body>
+                        </html>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Quay lại</button>
+                        <!--<button type="button" class="btn btn-success">Lưu</button>-->
                     </div>
                 </div>
             </div>
         </div>
-
         <script src="<c:url value="/ckeditor5/ckeditor_build/ckeditor.js" />" type="text/javascript"></script>
         <script>
-                                            $(".select-category").select2()
-                                            const currency = new AutoNumeric('#formattedMoneyField', {
-                                                allowDecimalPadding: false,
-                                                createLocalList: false,
-                                                decimalPlaces: 0,
-                                                maximumValue: "1000000000000",
-                                                minimumValue: "0",
-                                                onInvalidPaste: "replace"
-                                            });
-                                            const quantity = new AutoNumeric('#formattedNumberField', {
-                                                allowDecimalPadding: false,
-                                                createLocalList: false,
-                                                decimalPlaces: 0,
-                                                maximumValue: "1000000000000",
-                                                minimumValue: "0",
-                                                onInvalidPaste: "replace"
-                                            })
+                                        $(".select-category").select2()
+                                        const currency = new AutoNumeric('#formattedMoneyField', {
+                                            allowDecimalPadding: false,
+                                            createLocalList: false,
+                                            decimalPlaces: 0,
+                                            maximumValue: "1000000000000",
+                                            minimumValue: "0",
+                                            onInvalidPaste: "replace"
+                                        });
+                                        const quantity = new AutoNumeric('#formattedNumberField', {
+                                            allowDecimalPadding: false,
+                                            createLocalList: false,
+                                            decimalPlaces: 0,
+                                            maximumValue: "1000000000000",
+                                            minimumValue: "0",
+                                            onInvalidPaste: "replace"
+                                        })
         </script>
         <script>
 
@@ -457,6 +410,7 @@
                     hindenIconDelete();
                 }
             }
+            var imgList = []
             const getImage = (el) => {
                 const file = el.files[0];
                 const img = el.parentElement.querySelector("img");
@@ -472,6 +426,7 @@
                         if (reviewImg.getAttribute('src') != '') {
                             reviewImg.src = img.src;
                         }
+                        imgList[el.id.substring(3)] = reader.result;
                         hindenIconDelete();
                     }, false);
                     if (file) {
@@ -648,19 +603,23 @@
         </script>
         <script>
             function  previewProduct() {
+                const carouselInnerModal = document.querySelector(".carousel-inner");
+                for (var i = 0; i < 5; i++) {
+                    if (imgList[i] != null) {
+                        carouselInnerModal.innerHTML +=
+                                '<div class="carousel-item ' + (i == 0 ? 'active' : '') + '" >' +
+                                '<img src="' + imgList[i] + ' " class="d-block w-100" alt="">' +
+                                `</div>
+                                                </div>`
+                    }
+                }
                 const category = $(".select-category").find(':selected')[0].innerHTML;
                 document.querySelector("#description-preview").innerHTML = editor.getData();
                 const quantity = document.querySelector("#formattedNumberField").value
                 document.querySelector(".product-quantity").innerHTML = quantity
                 const productName = document.querySelector(".product-name").value
                 document.querySelector(".product-name-modal").innerHTML = productName
-                const indicatiorModal = document.querySelector(".carousel-indicators-modal");
-                const carouselInnerModal = document.querySelector(".carousel-inner-modal");
-                console.log(indicatiorModal)
-                console.log(carouselInnerModal)
-                readAndPreview(arr, indicatiorModal, carouselInnerModal);
             }
-
         </script>
     </body>
 </html>

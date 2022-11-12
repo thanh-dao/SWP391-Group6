@@ -35,9 +35,9 @@ public class ProductController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         try {
-            if (request.getParameter("func") != null
-                    && request.getParameter("listId") != null) {
-                if (request.getParameter("func").equalsIgnoreCase("delete")) {
+            if (request.getParameter("func") != null) {
+                if (request.getParameter("func").equalsIgnoreCase("delete")
+                        && request.getParameter("listId") != null) {
                     String[] pIdList = request.getParameter("listId")
                             .replace("[", "").replace("]", "").split(",");
                     int[] arrpId = new int[pIdList.length];
@@ -53,6 +53,10 @@ public class ProductController extends HttpServlet {
                             new ProductImageDAO().deleteImgProduct(arrpId[i]);
                         }
                     }
+                } else if (request.getParameter("func").equalsIgnoreCase("updateQuantity")) {
+                    System.out.println("//");
+                    new ProductDAO().updateQuantityById(Integer.parseInt(request.getParameter("pId")),
+                            Integer.parseInt(request.getParameter("quan")));
                 }
             } else {
                 ProductDAO p = new ProductDAO();

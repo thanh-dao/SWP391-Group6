@@ -7,10 +7,12 @@ package controllers;
 
 import java.nio.file.Paths;
 import config.Config;
+import dao.AddressDAO;
 import dao.CategoryDAO;
 import dao.ProductDAO;
 import dao.ReviewDAO;
 import dao.UserDAO;
+import dto.AddressDTO;
 import dto.BannerDTO;
 import dto.CategoryDTO;
 import dto.ProductDTO;
@@ -61,8 +63,14 @@ public class HomeController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         System.out.println(action + " " + controller);
         HttpSession session = request.getSession();
-        session.setAttribute("user", new UserDTO("ThinhPQSE151077@fpt.edu.vn",
-                "a", "TD", "DRAGON", null, null, null, 1));
+        AddressDAO r = new AddressDAO();
+//        try {
+//            session.setAttribute("user", new UserDTO("ThinhPQSE151077@fpt.edu.vn",
+//                    "a", "TD", "DRAGON", null, null, new AddressDTO("72899 Rosenbaum Road", "26767",
+//                            r.get("26767", r.WARD), "761", r.get("761", r.DISTRICT),
+//                            "79", r.get("79", r.CITY)), 1));
+//        } catch (Exception e) {
+//        }
         switch (action) {
             case "main": {
                 CategoryDAO cateDAO = new CategoryDAO();
@@ -142,7 +150,7 @@ public class HomeController extends HttpServlet {
                 int cateID = Integer.parseInt(cateIDStr);
                 ProductDAO proDAO = new ProductDAO();
                 try {
-                    List<ProductDTO> productList = proDAO.getProductList(1, ProductDAO.NAME, ProductDAO.ASC, cateID);
+                    List<ProductDTO> productList = proDAO.getProductList(0, ProductDAO.NAME, ProductDAO.ASC, cateID);
                     int totalProduct = proDAO.countProductByCateId(cateIDStr);
                     int pageNum = totalProduct / Constants.ITEM_PER_PAGE + (totalProduct % Constants.ITEM_PER_PAGE == 0 ? 0 : 1);
                     request.setAttribute("productList", productList);

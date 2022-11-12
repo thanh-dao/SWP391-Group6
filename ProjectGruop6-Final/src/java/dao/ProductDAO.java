@@ -328,7 +328,7 @@ public class ProductDAO {
                 + "      ,[sold_count]"
                 + " from product "
                 + " where name like ? "
-                + " and email_admin is not null "
+                + " AND authen = 1 AND status = 1"
                 + getFilter(option, trend)
                 + " offset ? rows "
                 + " fetch NEXT ? rows only";
@@ -470,7 +470,7 @@ public class ProductDAO {
                 + "      ,[authen]\n"
                 + "      ,[status] FROM product "
                 + "WHERE product_id = ? "
-                + "AND authen is not null");
+                + "AND authen = 1");
         stm.setInt(1, productId);
         ResultSet rs = stm.executeQuery();
         ProductImageDAO imageDAO = new ProductImageDAO();
@@ -791,6 +791,7 @@ public class ProductDAO {
         PreparedStatement stm = conn.prepareStatement("SELECT [product_id]\n"
                 + "      ,[name]\n"
                 + "      ,[price]\n"
+                + "      ,[quantity]\n"
                 + "      ,[description]\n"
                 + "      ,[create_at] FROM product\n"
                 + " WHERE email_seller = ? " + strStatus + strAuthen);
@@ -804,6 +805,7 @@ public class ProductDAO {
                             rs.getString("name"),
                             rs.getLong("price"),
                             rs.getString("description"),
+                            rs.getInt("quantity"),
                             rs.getDate("create_at"),
                             new ProductImageDAO().findAll(rs.getInt("product_id"))
                     )
@@ -828,6 +830,16 @@ public class ProductDAO {
             return stm.executeUpdate() == 1;
         }
         return false;
+    }
+
+    //--update quantity product
+    public boolean updateQuantityById(int pId, int quantity) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("UPDATE product "
+                + "SET quantity = ? WHERE product_id = ? ");
+        stm.setInt(1, quantity);
+        stm.setInt(2, pId);
+        return stm.executeUpdate() == 1;
     }
 
     public boolean updateProduct(int pId, String name, String price,
@@ -889,7 +901,6 @@ public class ProductDAO {
 //
 //            }
 //System.out.println(p.getProductList(0, p.NAME, p.DESC, 9).size());
-            System.out.println(p.getProductByIdAd(488));
         } catch (Exception e) {
 //            e.fillInStackTrace();
             e.printStackTrace();

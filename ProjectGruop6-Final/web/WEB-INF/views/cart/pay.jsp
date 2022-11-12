@@ -316,7 +316,6 @@
             }
         </style>
     </head>
-
     <body>
         <div class="style-margin">
             <div class="container">
@@ -396,7 +395,7 @@
                                 <h1></h1>
                                 <h1></h1>
                                 <div id="paypal-button-container">
-                                    <button type="submit" class="btn-buy">Thanh Toán</button>
+                                    <button type="submit" class="btn btn-primary">Thanh Toán</button>
                                 </div>
                             </div>
                         </div>

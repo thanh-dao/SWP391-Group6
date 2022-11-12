@@ -63,6 +63,7 @@ public class OrderController extends HttpServlet {
             switch (action) {
                 case "history": {
                     try {
+                        System.out.println("history");
                         if (request.getParameter("func") != null) {
                             String func = request.getParameter("func");
                             int obsId = Integer.parseInt(request.getParameter("obsId"));
@@ -134,27 +135,25 @@ public class OrderController extends HttpServlet {
                                 switch (status) {
                                     case "ar": {
                                         request.setAttribute("productList",
-                                                p.getProductListJson(p.getProductListSeller(user.getEmail(), 1, 1)));
+                                                new Gson().toJson(p.getProductListSeller(user.getEmail(), 1, 1)));
                                     }
                                     break;
                                     case "nar": {
                                         request.setAttribute("productList",
-                                                p.getProductListJson(p.getProductListSeller(user.getEmail(), 2, 0)));
+                                                new Gson().toJson(p.getProductListSeller(user.getEmail(), 2, 0)));
                                     }
                                     break;
-                                    case "nary": {
-                                        request.setAttribute("productList",
-                                                p.getProductListJson(p.getProductListSeller(user.getEmail(), 2, -1)));
+                                    case "nary": {request.setAttribute("productList",
+                                                new Gson().toJson(p.getProductListSeller(user.getEmail(), 2, -1)));
                                     }
                                     break;
                                     case "ss": {
                                         request.setAttribute("productList",
-                                                p.getProductListJson(p.getProductListSeller(user.getEmail(), 0, 1)));
+                                                new Gson().toJson(p.getProductListSeller(user.getEmail(), 0, 1)));
                                     }
                                     break;
-                                    case "oos": {
-                                        request.setAttribute("productList",
-                                                p.getProductListJson(p.getProductListSeller(user.getEmail(), -2, 1)));
+                                    case "oos": {request.setAttribute("productList",
+                                                new Gson().toJson(p.getProductListSeller(user.getEmail(), -2, 1)));
                                     }
                                     break;
                                     case "dashboard": {

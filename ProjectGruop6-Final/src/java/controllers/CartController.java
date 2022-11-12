@@ -2,9 +2,11 @@ package controllers;
 
 import config.Config;
 import dao.AddressDAO;
+import dao.DeliveryMethodDAO;
 import dao.OrderByShopDAO;
 import dao.OrderDAO;
 import dao.OrderDetailDAO;
+import dao.PaymentMethodDAO;
 import dao.ProductDAO;
 import dao.UserDAO;
 import dto.AddressDTO;
@@ -55,7 +57,6 @@ public class CartController extends HttpServlet {
                         session.setAttribute("cart", cart);
                         if (request.getParameter("func") != null) {
                             String func = request.getParameter("func");
-                            System.out.println(func);
                             if (func.equalsIgnoreCase("create")) {
                                 if (request.getParameter("pIdList") != null) {
                                     String[] pIdList = request.getParameter("pIdList").replace("[", "").replace("]", "").split(",");
@@ -69,6 +70,19 @@ public class CartController extends HttpServlet {
                                     handleOrder(cart, arrpId, order);
                                     System.out.println("CREATE");
                                     session.setAttribute("order", order);
+                                }
+                            } else if (func.equalsIgnoreCase("buy")) {
+                                System.out.println(request.getParameter("pIdList"));
+                                String[] pIdList = request.getParameter("pIdList").replace("[", "").replace("]", "").split(",");
+                                ProductDAO p = new ProductDAO();
+                                for (int i = 0; i < pIdList.length; i++) {
+                                    if (p.getProductById(Integer.parseInt(pIdList[i])) != null) {
+                                        handleCart(cart, Integer.parseInt(pIdList[i]), -1, "add");
+                                    } else {
+                                        if (pIdList.length == 1) {
+                                            return;
+                                        }
+                                    }
                                 }
                             } else {
                                 int productId = request.getParameter("pId") != null
@@ -124,6 +138,7 @@ public class CartController extends HttpServlet {
                             session.setAttribute("cart", cart);
                             request.setAttribute("controller", "cart");
                             request.setAttribute("action", "thanks");
+                            System.out.println("END");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -177,9 +192,11 @@ public class CartController extends HttpServlet {
                 case "billInformation": {
                     if (request.getParameter("osId") != null && request.getParameter("oId") != null) {
                         try {
+                            OrderDTO order = new OrderDAO().getOrder(Integer.parseInt(request.getParameter("oId")));
                             request.setAttribute("osId", Integer.parseInt(request.getParameter("osId")));
-                            request.setAttribute("order", new OrderDAO().
-                                    getOrder(Integer.parseInt(request.getParameter("oId"))));
+                            request.setAttribute("order", order);
+                            request.setAttribute("delivery", new DeliveryMethodDAO().getName(order.getDeliveryId()));
+                            request.setAttribute("payment", new PaymentMethodDAO().getName(order.getPaymentId()));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

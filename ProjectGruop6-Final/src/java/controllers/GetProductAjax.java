@@ -55,7 +55,7 @@ public class GetProductAjax extends HttpServlet {
                     if (cateIdStr.isEmpty()) {
                         productResult = getProductListByProductName(pageNumber, request);
                     } else {
-                        productResult = getSortedProductList(0, pageNumber, request);
+                        productResult = getSortedProductList(Integer.parseInt(cateIdStr), pageNumber, request);
                     }
                     System.out.println(gson.toJson(productResult));
                     out.print(gson.toJson(productResult));

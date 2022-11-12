@@ -9,6 +9,7 @@
         <!--DataTables--> 
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+        <link href="../css/main.css" rel="stylesheet" type="text/css"/>
         <style>
             a{text-decoration: none;}
             .navigate-button {
@@ -96,10 +97,11 @@
                 border-radius: 3px;
                 margin-bottom: 10px;
             }
+            .carousel-item{width: 540px; height: 540px;}
+            .carousel-item img{width: 100%; height: 100%;}
         </style>
         <title>Hello, world!</title>
     </head>
-
     <body>
         <div class="d-flex flex-column position-fixed text-white bg-dark pt-3 nav-menu">
             <a href="#" class="d-flex align-items-center mb-3 mb-md-0 overflow-hidden  text-white text-decoration-none">
@@ -129,7 +131,6 @@
                         Dashboard
                     </a>
                 </li>
-
                 <li class="nav-item">
                     <a href="<c:url value="/admin/reviewAuthen.do?status=nary"/>" class="nav-link text-white">
                         <svg class="bi me-2" width="16" height="16">
@@ -151,7 +152,6 @@
         </div>
         <div class="col d-flex">
             <!--            Div that will hold the pie chart-->
-
         </div>
         <c:if test="${not empty productList}">
             <div class="container br-form">
@@ -179,9 +179,6 @@
                 </table>
             </div>
         </c:if>
-
-
-
         <!-- Modal -->
         <div class="modal fade bd-example-modal-xl" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
@@ -193,18 +190,15 @@
                         </button>
                     </div>
                     <div class="modal-body">
-
                         <html>
                             <head>
                                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
                                 <title>Product Detail</title>
                                 <link href="<c:url value="/css/productDetail.css"/>" rel="stylesheet" type="text/css"/>
-
                             </head>
                             <body>
                                 <div class="container" >
                                     <div class="br-form">
-
                                         <div class="product__content">
                                             <div class="row">
                                                 <div id="demo" class="carousel slide col-lg-6 col-md-6 col-sm-6" data-ride="carousel">
@@ -227,14 +221,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <h3 class="product-name-modal"></h3>
-
                                                     <div style="display: flex;">
                                                         <p style="margin-right: 30%">Đã bán: <span class="font-bold">0</span></p>
                                                         <p>Đánh giá: <span class="font-bold">0</span></p>
-
                                                     </div>
                                                     <p>Số lượng sản phẩm: <span class="font-bold product-quantity"></span><p/>
                                                     <h2 style="color: #E72425; text-align: right; margin-right: 20px;">
@@ -263,11 +254,11 @@
 
                                         </div><p>Địa chỉ: <span class="seller-address"></span></p>
                                     </div>
-
                                     <div class="br-form">
                                         <h5>Mô tả chi tiết: </h5>
                                         <p id="description-preview"style="padding: 10px 0 10px 0;">${product.description}</p>
                                     </div>
+                                </div>
                             </body>
                             <script>
                                 const tooltips = document.querySelectorAll('.tooltip-text span');
@@ -305,7 +296,7 @@
                     </div>
                 </div>
             </div>
-        </div>                    
+        </div>
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -326,9 +317,7 @@
                                     return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(parseInt(price));
                                 }
                                 var modifiedUsers = []
-
                                 function  previewProduct(index) {
-
                                     const product = modifiedUsers[index];
                                     console.log(product)
                                     $.ajax("<c:url value="/GetsellerAjax"/>", {
@@ -346,6 +335,7 @@
                                     })
                                     document.querySelector("#description-preview").innerHTML = product.description;
                                     document.querySelector(".product-name-modal").innerHTML = product.name;
+                                    document.querySelector(".product-quantity").innerHTML = product.quantity;
                                     const indicatiorModal = document.querySelector(".carousel-indicators-modal");
                                     const carouselInnerModal = document.querySelector(".carousel-inner");
                                     for (var i = 0; i < product.image.length; i++) {
@@ -363,7 +353,6 @@
                                             data: {
                                                 productId: product.id,
                                                 acction: "No"
-
                                             },
                                             success: function (data, textStatus, jqXHR) {
                                                 tableRow.remove()
@@ -371,7 +360,6 @@
                                             }
                                         })
                                     }
-
                                     document.querySelector(".modal-footer > .btn-success").onclick = function () {
                                         $.ajax('<c:url value="/admin/approvingProduct.do"/>', {
                                             data: {
@@ -381,14 +369,12 @@
                                             success: function (data, textStatus, jqXHR) {
                                                 tableRow.remove()
                                                 document.querySelector('.close').click()
-
                                             }, error: function (jqXHR, textStatus, errorThrown) {
                                                 console.log(errorThrown)
                                             }
                                         })
                                     }
                                 }
-
                                 function formatDate(date) {
                                     const today = new Date(date);
                                     const yyyy = today.getFullYear();
@@ -406,7 +392,7 @@
                                     modifiedUsers = productList.map((p, index) => {
                                         if (String('${status}') == 'nary') {
                                             option = '<button type="button" class="btn btn-primary" onclick="previewProduct(' + index + ')" data-toggle="modal" data-target="#exampleModalScrollable">Chi tiết</button>';
-//                        option += ``
+                                            //                        option += ``
                                         } else if (String('${status}') == 'ar') {
                                             option = `<button type="button" onclick="deleteProduct(` + p.productId + `, this)" class="btn btn-danger mb-3">Xóa</button>`;
                                         }
@@ -419,6 +405,7 @@
                                             price: `<div style="display: flex; justify-content: flex-end; padding-top: 5px; color: red;">` + formatPrice(p.price) +
                                                     `</div>`,
                                             option: option,
+                                            quantity: p.quantity,
                                             description: p.description
                                         };
                                     });
@@ -461,7 +448,6 @@
                                 const navMenu = document.querySelector(".nav-menu");
 
                                 $(document).ready(function () {
-
                                     switch (params.status) {
                                         case "nary":
                                             document.querySelector('body > div > div.container.br-form > ul > li:nth-child(1) > a').classList.add("active");
@@ -510,7 +496,6 @@
                                     opened = !opened;
                                     const navMenuStyle = navMenu.style
                                     if (opened) {
-
                                         navBtn.innerHTML = '<ion-icon name="close-outline"></ion-icon>'
                                         document.addEventListener("click", (e) => {
                                             const classList = e.target.classList
