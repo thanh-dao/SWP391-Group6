@@ -314,6 +314,7 @@
                 margin-right: 12px; 
                 padding: 6px;
             }
+            .btn{width: 100%;}
         </style>
     </head>
     <body>
@@ -443,7 +444,7 @@
                                                         }
                                                     }).render('#paypal-button-container');
                                                 } else {
-                                                    buttonContainer.innerHTML = '<button type="submit" class="btn-buy">Thanh Toán</button>'
+                                                    buttonContainer.innerHTML = '<button type="submit" class="btn btn-primary">Thanh Toán</button>'
                                                 }
 
                                             }

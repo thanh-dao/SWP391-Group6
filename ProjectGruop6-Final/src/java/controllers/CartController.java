@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -300,13 +301,14 @@ public class CartController extends HttpServlet {
         return -1;
     }
 
-    public static OrderDTO clearCart(OrderDTO cart) {
+    public static void clearCart(OrderDTO cart) {
+        List<OrderByShopDTO> obs = new ArrayList<>();
         for (OrderByShopDTO o : cart.getOrderByShopList()) {
             if (o.getOrderDetailList() == null || o.getOrderDetailList().isEmpty()) {
-                cart.getOrderByShopList().remove(o);
+                obs.add(o);
             }
         }
-        return cart;
+        cart.getOrderByShopList().removeAll(obs);
     }
 
     public static List<OrderDetailDTO> handleOrderDetail(List<OrderDetailDTO> odList,
