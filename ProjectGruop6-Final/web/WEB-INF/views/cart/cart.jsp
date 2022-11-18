@@ -182,7 +182,6 @@
             }
         </style>
     </head>
-
     <body>
         <div class="container">
             <div class="cart-content">
@@ -210,6 +209,7 @@
                                     </tr>
                                 </thead>
                             </table>
+                            <script>var listOfObjects = [];</script>
                             <c:forEach items="${cart.getOrderByShopList()}" var="i">
                                 <table class="table table-striped cart-table" style="padding: -5px; margin: 0;">
                                     <thead style="background-color: #EAF1FB;">                                  
@@ -224,13 +224,17 @@
                                                 Phí vận chuyển
                                                 <c:if test="${sessionScope.user.address != null}">
                                                     <%--<%=GhnApi ghn = new GhnApi() %>--%>
-                                                    <div price="${GhnApi.getShipingFee(
+                                                    <div price="${i.transportFee = GhnApi.getShipingFee(
                                                                   i.getAddress().cityName, cart.address.cityName, 
                                                                   i.getAddress().districtName,cart.address.districtName,
                                                                   cart.address.wardName, "2")}" class="shipping-price">
-
-
                                                     </div>
+                                                    <script>
+                                                        var obj = {}
+                                                        obj['emailSeller'] = '${i.emailSeller}';
+                                                        obj['transportFee'] = ${i.transportFee};
+                                                        listOfObjects.push(obj);
+                                                    </script>
                                                 </c:if>
                                             </th>
                                         </tr>
@@ -384,9 +388,16 @@
 //                window.location.href = '<c:url value="/cart/pay.do"/>
             }
             const test = () => {
+
+                var obj = new Object();
+                obj.name = "Raj";
+                obj.age = 32;
+                obj.married = false;
+                var jsonString = JSON.stringify(obj);
                 $.ajax("<c:url value="/cart/cart.do"/>", {
                     data: {
                         pIdList: JSON.stringify(Array.from(createOrder())),
+                        transportFees: JSON.stringify(listOfObjects),
                         func: "create",
                     }
                 })

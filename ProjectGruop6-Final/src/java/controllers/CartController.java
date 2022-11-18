@@ -29,11 +29,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import services.GhnApi;
 
 @WebServlet(name = "CartController", urlPatterns = {"/cart"})
 public class CartController extends HttpServlet {
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
@@ -69,6 +71,15 @@ public class CartController extends HttpServlet {
                                             cart.getAddress(), new ArrayList<>(),
                                             cart.getUserName(), cart.getPhone());
                                     handleOrder(cart, arrpId, order);
+                                    JSONArray jsonArr = new JSONArray(request.getParameter("transportFees"));
+                                    for (int i = 0; i < jsonArr.length(); i++) {
+                                        JSONObject jsonObj = jsonArr.getJSONObject(i);
+                                        for (OrderByShopDTO o : order.getOrderByShopList()) {
+                                            if (o.getEmailSeller().equalsIgnoreCase(jsonObj.getString("emailSeller"))) {
+                                                o.setTransportFee(jsonObj.getDouble("transportFee"));
+                                            }
+                                        }
+                                    }
                                     System.out.println("CREATE");
                                     session.setAttribute("order", order);
                                 }
@@ -128,6 +139,11 @@ public class CartController extends HttpServlet {
                                         ex.printStackTrace();
                                     }
                                 });
+                                
+                            } else {
+                                for (OrderByShopDTO o : order.getOrderByShopList()) {
+                                    o.setTransportFee(0);
+                                }
                             }
                             new OrderDAO().createOrder(order);
                             OrderDTO cart = (OrderDTO) session.getAttribute("cart");
@@ -152,8 +168,6 @@ public class CartController extends HttpServlet {
                         if (session.getAttribute("cart") != null) {
                             OrderDTO order = session.getAttribute("order") == null ? (OrderDTO) session.getAttribute("cart")
                                     : (OrderDTO) session.getAttribute("order");
-                            System.out.println(session.getAttribute("order") == null ? "---null---"
-                                    : "---not null---");
                             if (request.getParameter("wardId") != null
                                     && request.getParameter("districtId") != null
                                     && request.getParameter("cityId") != null
@@ -217,7 +231,7 @@ public class CartController extends HttpServlet {
         }
         request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
     }
-
+    
     public static void handleOrder(OrderDTO cart, int[] pIdList, OrderDTO order) throws ClassNotFoundException, SQLException, Exception {
         for (int i : pIdList) {
             for (OrderByShopDTO obs : cart.getOrderByShopList()) {
@@ -239,7 +253,7 @@ public class CartController extends HttpServlet {
             }
         }
     }
-
+    
     public static OrderDTO handleCart(OrderDTO cart, int productId, int quantity,
             String option) throws ClassNotFoundException, SQLException, Exception {
         ProductDAO p = new ProductDAO();
@@ -282,7 +296,7 @@ public class CartController extends HttpServlet {
         }
         return null;
     }
-
+    
     public static int checkOrderDetail(List<OrderDetailDTO> odList, int productId) {
         for (int i = 0; i < odList.size(); i++) {
             if (odList.get(i).getProductId() == productId) {
@@ -291,7 +305,7 @@ public class CartController extends HttpServlet {
         }
         return -1;
     }
-
+    
     public static int checkOrderByShop(List<OrderByShopDTO> obsList, String sellerEmail) {
         for (int i = 0; i < obsList.size(); i++) {
             if (obsList.get(i).getEmailSeller().equalsIgnoreCase(sellerEmail)) {
@@ -300,7 +314,7 @@ public class CartController extends HttpServlet {
         }
         return -1;
     }
-
+    
     public static void clearCart(OrderDTO cart) {
         List<OrderByShopDTO> obs = new ArrayList<>();
         for (OrderByShopDTO o : cart.getOrderByShopList()) {
@@ -310,7 +324,7 @@ public class CartController extends HttpServlet {
         }
         cart.getOrderByShopList().removeAll(obs);
     }
-
+    
     public static List<OrderDetailDTO> handleOrderDetail(List<OrderDetailDTO> odList,
             int productId, int quantity, String option, int indexOD) throws ClassNotFoundException, SQLException {
         switch (option) {
@@ -333,7 +347,7 @@ public class CartController extends HttpServlet {
         }
         return odList;
     }
-
+    
     public static void main(String[] args) throws SQLException, Exception {
 //        List<OrderByShopDTO> obsList = new ArrayList<>();
 //        OrderByShopDTO os = new OrderByShopDTO();
