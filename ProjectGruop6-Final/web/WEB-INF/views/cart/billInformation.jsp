@@ -120,6 +120,7 @@
                 color: RGB(51, 79, 108);
                 cursor: pointer;
             }
+            .price-content{color: red;}
         </style>
     </head>
     <body>
@@ -133,10 +134,10 @@
             <h4 class="title_header">Thông tin đơn hàng</h4>
             <div class="row">
                 <!-- san pham -->
+                <script>var list = []</script>
                 <c:forEach items="${order.orderByShopList}" var="obs">
                     <c:if test="${obs.orderByShopId == osId}">
                         <div class="col-md-9 col-sm-9 col-xs-12">
-
                             <div class="br-form">
                                 <h6 class="d-flex">
                                     <div class="mr-auto ">
@@ -145,7 +146,13 @@
                                             Xem shop >>
                                         </a>
                                     </div>
+                                    <div>
+                                        <span>Phí vận chuyển: 
+                                            <span id="fee" price="${obs.transportFee}" class="price-content"></span>
+                                        </span>
+                                    </div>        
                                 </h6>
+                                <div></div>
                                 <c:forEach items="${obs.orderDetailList}" var="od">
                                     <!--<tr class="order-link" href="<c:url value="/cart/billInformation.do"/>">-->
                                     <div id="${od.productId}" class="d-flex br-od">
@@ -153,6 +160,12 @@
                                             <img src="<c:url value="${od.product.getMainImage().url}"/>" alt="">
                                         </div>
                                         <div class="d-flex flex-column p-2">
+                                            <script>var product${od.orderDetailId} = new Object();
+                                                product${od.orderDetailId}.productId = ${od.productId};
+                                                product${od.orderDetailId}.quantity = ${od.product.quantity};
+                                                product${od.orderDetailId}.status = ${od.product.status};
+                                                list.push(product${od.orderDetailId});
+                                            </script>
                                             <a href="<c:url value="/home/productDetail.do?productId=${od.productId}"/>">
                                                 <p class="tooltip-text hinden-text">
                                                     ${od.product.name}
@@ -207,67 +220,11 @@
                                             </c:if>
                                         </div>
                                     </div>
-                                    <!--                                    <div class="d-flex br-od justify-content-between">
-                                                                            <div class="d-flex">
-                                                                                <div class="product-img ">
-                                                                                    <img src="<c:url value="${od.product.getMainImage().url}"/>" alt="">
-                                                                                </div>
-                                                                                <div class="d-flex flex-column ">
-                                                                                    <a href="<c:url value="/home/productDetail.do?productId=${od.product.productId}"/>">
-                                                                                        <p class="tooltip-text hinden-text">
-                                    ${od.product.name}
-                                    <span>${od.product.name}</span>
-                                </p></a>
-                            x${od.quantity}
-                        </div>
-                    </div>
-                    <div>
-                        <p class=" d-flex justify-content-center align-items-center text-right ml-auto ">${od.price}</p>  
-                                    <c:if test="${obs.status == 1}">
-                                        <div class="d-flex justify-content-center align-items-center m0-auto">
-                                             Button trigger modal 
-                                            <button type="button" onclick="toggleModal('${od.product.name}', this, '${od.product.productId}', '${od.orderDetailId}')" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
-                                                Đánh giá
-                                            </button>
-                                             Modal 
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel"></h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="d-flex align-items-center justify-content-center">
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                                <i class="fa-regular fa-star"></i>
-                                                            </div>
-                                                            <textarea id="comment" class="form-control" style="width: 100%;" ></textarea>
-                                                            <div class="images"></div>
-                                                        </div>
-                                                        <input type="text" id="productId" hidden>
-                                                        <input type="file" accept="image/*" onchange="handleFileChange(this)" hidden multiple>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" onclick="toggleFile()">Thêm ảnh</button>
-                                                            <button type="button" onclick="handleSubmit(this)" class="btn btn-primary">Gửi đánh giá</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </c:if>
-                                </div>
-                            </div>-->
                                 </c:forEach>
                                 <input type="text" hidden id="odid">
                                 <p class="d-flex justify-content-end" 
                                    style="padding: 20px 10px; margin: 0; color: red; font-weight: bold;">
-                                    Tổng tiền: ${obs.total}
+                                    <span>Tổng tiền: <span id="total" price="${obs.total}"></span></span>
                                 </p>
                                 <div class="d-flex justify-content-end">
                                     <button type="button" onclick="handleOrder('buy', this)" class="btn btn-primary">Mua lại</button>
@@ -276,7 +233,6 @@
                                     </c:if>
                                 </div>
                             </div>
-
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-2" style="padding-left: 0;">
                             <div class="br-form" style="padding: 0;">
@@ -375,6 +331,18 @@
                             }
                         });
             } else {
+//                var checked = false;
+//                list.forEach(i => {
+//                    if (i.status == 1 && i.quantity != 0) {
+//                        checked = true;
+//                    }
+//                })
+//                if (!checked) {
+//                    swal("Sản phẩm tạm ngưng hoạt động!!!", {
+//                        buttons: false,
+//                        timer: 1000
+//                    });
+//                } else {
                 var list = document.querySelectorAll('.br-od')
                 for (var i = 0; i < list.length; i++) {
                     products.add(parseInt(list[i].id))
@@ -399,6 +367,7 @@
                         });
                     }
                 })
+//                }
             }
         }
         function toggleFile() {
@@ -417,7 +386,6 @@
             for (var i = 0; i <= index; i++) {
                 stars[i].style.color = "red";
             }
-
         }
         stars.forEach(i => {
             i.addEventListener("mouseover", handleStarHover)
@@ -426,7 +394,6 @@
                 console.log("index")
             })
         })
-
         function toggleModal(productName, el, productId, odid) {
             console.log(document.querySelector("#exampleModalLabel"))
             document.querySelector("#exampleModalLabel").innerHTML = productName;
@@ -438,13 +405,11 @@
             document.querySelector(".close").click();
             imgComtainer.innerHTML = "";
         }
-
         $('.modal').on('hidden.bs.modal', function (e) {
             closeModal()
         })
         function handleFileChange(el) {
             const files = el.files;
-
             imgComtainer.innerHTML = "";
             if (files.length > 4) {
                 arr = []
@@ -457,9 +422,7 @@
                     arr.push(file)
                     imgComtainer.innerHTML += '<img style="width:50px;height:50px;" src="' + URL.createObjectURL(file) + '" alt="..." class="img-thumbnail">'
                 }
-
             }
-
         }
         function handleSubmit(el) {
             console.log(arr)
@@ -480,12 +443,38 @@
                     body: formData,
                 }).then(res => {
                     swal("", "Đánh giá thành công", "success").then((value) => {
-
                     });
                 })
             })
-
-
         }
+        function  formatDate(date) {
+            const today = new Date(date);
+            const yyyy = today.getFullYear();
+            let mm = today.getMonth() + 1; // Months start at 0!
+            let dd = today.getDate();
+            if (dd < 10)
+                dd = '0' + dd;
+            if (mm < 10)
+                mm = '0' + mm;
+            return dd + '/' + mm + '/' + yyyy;
+        }
+        const formatter = new Intl.NumberFormat('vn-VN', {
+            style: 'currency',
+            currency: 'VND',
+            minimumFractionDigits: 0
+        })
+        total = () => {
+            const total = document.querySelector('#total')
+            total.innerHTML = formatter.format(total.getAttribute('price'));
+        }
+        transportFee = () => {
+            const total = document.querySelector('#fee')
+            total.innerHTML = formatter.format(total.getAttribute('price'));
+        }
+        $(document).ready(function () {
+            total();
+            transportFee();
+            document.querySelector('.br-form').querySelectorAll('div')[2].innerHTML = formatDate('${order.orderDate}');
+        });
     </script>
 </html>

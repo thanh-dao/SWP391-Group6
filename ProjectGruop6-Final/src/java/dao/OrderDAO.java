@@ -40,6 +40,18 @@ public class OrderDAO {
 //        }
 //        return null;
 //    }
+    public String getShip(String obsId) throws ClassNotFoundException, SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement stm = conn.prepareStatement("SELECT delivery_id FROM [order] "
+                + "o RIGHT JOIN order_by_shop os ON o.order_id = os.order_id\n" 
+                + "WHERE os.order_by_shop_id = ?");
+        stm.setString(1, obsId);
+        ResultSet rs = stm.executeQuery();
+        rs.next();
+        return rs.getInt(1) == 1 ? "GHN" : "COD";
+    }
+    
+    
     public float getTotal(String emailBuyer) throws ClassNotFoundException, SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT SUM(p.price) as total FROM\n"
@@ -157,7 +169,7 @@ public class OrderDAO {
         PreparedStatement stm = conn.prepareStatement("SELECT order_id, delivery_id, "
                 + "payment_id, email_buyer, order_date, address, ward_id, district_id, "
                 + "city_id, pay_id, user_name, phone FROM [order] "
-                + "WHERE email_buyer = ? ORDER BY order_date DESC");
+                + "WHERE email_buyer = ? ORDER BY order_id DESC");
         stm.setString(1, emailBuyer);
         ResultSet rs = stm.executeQuery();
         List<OrderDTO> list = new ArrayList<>();
@@ -322,7 +334,15 @@ public class OrderDAO {
 
         String currentPath;
         try {
-            System.out.println(new OrderDAO().getOrderByCategory("LinhTKSS170602@fpt.edu.vn", 1));
+            List<OrderDTO> order = new OrderDAO().getOrder("ThinhPQSE151077@fpt.edu.vn");
+            System.out.println(new OrderDAO().getShip("22"));
+            for (OrderDTO o : order) {
+                if (o.getOrderId() == 53) {
+                    System.out.println("OK");
+                }
+            }
+//            System.out.println(new OrderDAO().getOrder("ThinhPQSE151077@fpt.edu.vn").get(0));
+//System.out.println(new OrderDAO().getOrder(53));
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

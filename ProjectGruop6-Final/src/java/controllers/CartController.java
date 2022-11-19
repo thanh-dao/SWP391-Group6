@@ -16,6 +16,8 @@ import dto.OrderDetailDTO;
 import dto.UserDTO;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -105,6 +107,9 @@ public class CartController extends HttpServlet {
                                     throw new Exception();
                                 }
                                 session.setAttribute("cart", cart);
+                                PrintWriter out = response.getWriter();
+                                out.print(cart.toJson());
+                                return;
                             }
                         }
                     } catch (Exception ex) {
@@ -134,6 +139,7 @@ public class CartController extends HttpServlet {
                                 order.getOrderByShopList().forEach(i -> {
                                     try {
                                         String ghnOrderCode = GhnApi.createOrder(user, uDAO.findUser(i.getEmailSeller()), i.getOrderDetailList(), payId.equals("1") ? "0" : Integer.toString(i.getTotal()));
+                                        System.out.println(ghnOrderCode);
                                         i.setShipId(ghnOrderCode);
                                     } catch (ClassNotFoundException | SQLException | IOException ex) {
                                         ex.printStackTrace();

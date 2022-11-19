@@ -4,12 +4,16 @@ import dto.OrderByShopDTO;
 import dto.OrderDTO;
 import dto.OrderDetailDTO;
 import dto.UserDTO;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import services.GhnApi;
 import utils.DBUtil;
 
 public class OrderByShopDAO {
@@ -183,13 +187,22 @@ public class OrderByShopDAO {
                 + "SET [status] = 0 \n"
                 + "WHERE order_by_shop_id = ? ");
         stm.setInt(1, obsId);
+        String ship = new OrderDAO().getShip(Integer.toString(obsId));
+        System.out.println(new OrderByShopDAO().getAOrderByShop(obsId));
+        if(ship.equals("GHN")){
+            try {
+                GhnApi.cancelOrder(new OrderByShopDAO().getAOrderByShop(obsId).getShipId());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
         return stm.executeUpdate() == 1;
     }
 
     public static void main(String[] args) {
         try {
             OrderByShopDAO obs = new OrderByShopDAO();
-            System.out.println(obs.totalOrderByShop(15));
+            System.out.println(obs.totalOrderByShop(57));
             ;
         } catch (Exception e) {
         }

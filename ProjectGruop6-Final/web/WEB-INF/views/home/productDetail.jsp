@@ -11,6 +11,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="../css/main.css" rel="stylesheet" type="text/css"/>
         <style>
+            ol {
+                padding-left: 20px;
+            }
             .link {padding-top: 10px;margin-bottom: 10px;}
             .link a {font-size: 18px;}
             .buy button {
@@ -124,11 +127,11 @@
                                     <c:forEach items="${product.imgList}" varStatus="count" var="i">
                                         <c:if test ="${count.index == 0}">
                                             <div class="carousel-item active">
-                                                <img class="img-fluid" src="<c:url value="${i.url}"/>">
+                                                <img class="img-fluid" src="${i.url}">
                                             </div>
                                         </c:if>
                                         <div class="carousel-item">
-                                            <img class="img-fluid" src="<c:url value="${i.url}"/>">
+                                            <img class="img-fluid" src="${i.url}">
                                         </div>
                                     </c:forEach>
                                     <ul class="carousel-indicators" style="bottom: 0; margin: 0;background-color: #FFA500;width: 100%;">
@@ -309,31 +312,56 @@
         </div>
     </body>
     <script>
-        const addOrder = (pId) => {
-            if (isNullUser == true) {
-                localStorage.setItem("previousUrl", window.location.href)
-                window.location.href = '/ProjectGroup6/user/login.do'
+        var cart = ${cart == null ? 1  : cart.toJson()}
+        const check = () => {
+            var checked = true;
+            if (cart != 1) {
+                cart.orderByShopList.forEach(i => {
+                    i.orderDetailList.forEach(o => {
+                        if (o.productId == ${product.productId}) {
+                            if (o.quantity + 1 > ${product.quantity}) {
+                                checked = false;
+                            }
+                        }
+                    })
+                })
             }
-            $.ajax("<c:url value="/cart/cart.do"/>", {
-                data: {
-                    func: 'add',
-                    pId: pId,
-                },
-                success: function (data, textStatus, jqXHR) {
-                    swal("Đã thêm vào giỏ hàng", {
-                        icon: "success",
-                        buttons: false,
-                        timer: 1000
-                    });
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    swal("Thêm vào giỏ hàng thất bại!!!", {
-                        icon: "error",
-                        buttons: false,
-                        timer: 1000
-                    });
+            return checked;
+        }
+        const addOrder = (pId) => {
+            if (check()) {
+                if (isNullUser == true) {
+                    localStorage.setItem("previousUrl", window.location.href)
+                    window.location.href = '/ProjectGroup6/user/login.do'
                 }
-            })
+                $.ajax("<c:url value="/cart/cart.do"/>", {
+                    data: {
+                        func: 'add',
+                        pId: pId,
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        cart = data;
+                        swal("Đã thêm vào giỏ hàng", {
+                            icon: "success",
+                            buttons: false,
+                            timer: 1000
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        cart = jqXHR.responseText;
+//                        swal("Thêm vào giỏ hàng thất bại!!!", {
+//                            icon: "error",
+//                            buttons: false,
+//                            timer: 1000
+//                        });
+                    }
+                })
+            } else {
+                swal("Số lượng còn lại của sản phẩm là ${product.quantity}!!!", {
+                    buttons: false,
+                    timer: 1000
+                });
+            }
         }
         const tooltips = document.querySelectorAll('.tooltip-text span');
         //        window.onmousemove = function (e) {

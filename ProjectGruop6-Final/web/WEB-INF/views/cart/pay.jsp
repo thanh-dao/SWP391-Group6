@@ -218,12 +218,12 @@
                             <h3 style="padding: 10px;">Chọn phương thức giao hàng</h3>
                             <div class="row">
                                 <label class="shipper-item col-md-6 col-sm-6">
-                                    <input id="dmt1" name="deliId" value="0" type="radio" required="">
+                                    <input onclick="setShipPrice()" checked id="dmt1" name="deliId" value="0" type="radio" required="">
                                     <i class="fab fa-shopify"></i>
                                     <label for="dmt1">Nhận hàng trực tiếp</label><br>
                                 </label>
                                 <label class="shipper-item  col-md-6 col-sm-6">
-                                    <input id="dmt2" name="deliId" value="1" type="radio" required="">
+                                    <input onclick="setShipPrice()" id="dmt2" name="deliId" value="1" type="radio" required="">
                                     <i class="fas fa-shipping-fast"></i>
                                     <label for="dmt2" >Giao hàng tận nhà</label><br>
                                 </label>
@@ -233,7 +233,7 @@
                             <h3 style="padding: 10px;">Chọn phương thức thanh toán </h3>
                             <div class="CardAddingForm">
                                 <div class="card-item">
-                                    <input id="cod" value="0" onchange="renderPaymentButton(this)" name="payId" type="radio" required="">
+                                    <input id="cod" value="0" checked onchange="renderPaymentButton(this)" name="payId" type="radio" required="">
                                     <i class="fas fa-hand-holding-usd"></i>
                                     <label for="cod">Thanh toán trực tiếp khi nhận hàng</label><br>
                                 </div>
@@ -271,30 +271,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--                                <div class="address-container">
-                                                                <div class="block-header" style="padding: 10px;">
-                                                                    <h3>Giao đến</h3>
-                                                                    <a href="<c:url value="/cart/shipInformation.do"/>">Thay đổi</a>
-                                                                </div>
-                                                                <div class="info_user">
-                                                                    <div class="d-flex">
-                                                                        <i class="fa-regular fa-user"></i>
-                                                                        <p>${order.userName}</p>
-                                                                    </div>
-                                                                    <div class="d-flex">
-                                                                        <i class="fa-solid fa-mobile-screen-button"></i>
-                                                                        <p>${order.phone}</p>
-                                                                    </div>
-                                                                    <div class="d-flex">
-                                                                        <i class="fa-regular fa-address-book"></i>
-                                                                        <p>${order.address.houseNumber} -
-                            ${order.address.wardName} -
-                            ${order.address.districtName} -
-                            ${order.address.cityName}
-                        </p>
-                    </div>
-                </div>
-            </div>-->
                             <!-- thanh toán -->
                             <span class="title-style">Đơn giá</span>
                             <div class="price-content txt-style">
@@ -305,8 +281,7 @@
                                 </span>
                                 <span class="d-flex justify-content-between"
                                       style="font-weight: normal; color: black;">Giá sản phẩm: 
-                                    <span id="price" class="price-content">
-                                    </span>
+                                    <span id="price" class="price-content"></span>
                                 </span>
                                 <span class="d-flex justify-content-between" style="font-weight: bold;">Thành tiền: 
                                     <span id="price-total" class="price-content">
@@ -324,24 +299,57 @@
         </div>
         <script src="https://www.paypal.com/sdk/js?client-id=AcSATbC34qNTc0kDCzZGDxWFgnsdQpuWt8HMIPQwHfGU2UBgNx6lAPkoOtczUGEpWuHK0dm-ZOupi3iY" data-namespace="paypal_sdk"></script>
         <script>
-                                        const total = () => {
-                                            var price = totalProductPrice() + totalShipPrice();
-                                            document.getElementById("price-total").innerHTML = formatter.format(price);
+                                        var order = ${order.toJson()};
+                                        let totalMoney = 0;
+                                        const setShipPrice = () => {
+                                            totalShipPrice();
+                                            total();
                                         }
+                                        const totalShipPrice = () => {
+                                            var total = 0;
+                                            if (document.querySelector('#dmt2').checked) {
+                                                order.orderByShopList.forEach(i => {
+                                                    total += i.transportFee;
+                                                })
+                                            }
+                                            document.querySelector('#price-ship').innerHTML = formatter.format(total);
+                                            return total;
+                                        }
+                                        const totalProductPrice = () => {
+                                            let total = 0;
+                                            order.orderByShopList.forEach(i => {
+                                                i.orderDetailList.forEach(o => {
+                                                    total += o.product.price;
+                                                })
+                                                total += i.transportFee;
+                                            })
+                                            document.querySelector('#price').innerHTML = formatter.format(total);
+                                            return total;
+                                        }
+                                        const total = () => {
+                                            const total = totalProductPrice() + totalShipPrice();
+                                            document.getElementById("price-total").innerHTML = formatter.format(total);
+                                            return total;
+                                        }
+                                        $(document).ready(function () {
+                                            totalProductPrice();
+                                            totalMoney = total();
+                                        });
                                         const formatter = new Intl.NumberFormat('vn-VN', {
                                             style: 'currency',
                                             currency: 'VND',
                                             minimumFractionDigits: 0
                                         })
-                                        function renderPaymentButton(el) {
+                                        async function renderPaymentButton(el) {
                                             const buttonContainer = document.querySelector("#paypal-button-container");
                                             const radioValue = el.value;
                                             if (radioValue === "1") {
                                                 buttonContainer.innerHTML = "";
-                                                const price = localStorage.getItem("usdPrice");
+                                                const price = await getUsdPrice(totalMoney);
+                                                console.log(totalMoney)
                                                 console.log(price)
                                                 if (price == null) {
-                                                    window.location.href = "/ProjectGroup6/user/login.do"
+//                                                    window.location.href = "/ProjectGroup6/user/login.do"
                                                 }
                                                 paypal_sdk.Buttons({
                                                     createOrder: function (data, actions) {
@@ -371,6 +379,25 @@
                                             } else {
                                                 buttonContainer.innerHTML = '<button type="submit" class="btn btn-primary">Thanh Toán</button>'
                                             }
+                                        }
+
+                                        const getUsdPrice = async (vnd) => {
+                                            var myHeaders = new Headers();
+                                            myHeaders.append("apikey", "Egj2knbKqmkBva9q7FsIrUWpEqQ32Dpa");
+                                            var requestOptions = {
+                                                method: 'GET',
+                                                redirect: 'follow',
+                                                headers: myHeaders
+                                            };
+                                            await fetch("https://api.apilayer.com/exchangerates_data/convert?to=USD&from=VND&amount=" + vnd.toString(), requestOptions)
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        localStorage.setItem("usdPrice", data.result);
+                                                    })
+                                                    .catch(error => console.log('error', error));
+                                            let price = localStorage.getItem("usdPrice");
+                                            localStorage.removeItem("usdPrice");
+                                            return price;
                                         }
         </script>
     </body>

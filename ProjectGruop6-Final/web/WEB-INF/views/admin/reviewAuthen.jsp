@@ -151,7 +151,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="<c:url value="/admin/reviewAuthen.do?status=nary"/>" class=" active nav-link text-white">
+                    <a href="<c:url value="/admin/reviewAuthen.do?status=nary"/>" class="nav-link text-white">
                         <svg class="bi me-2" width="16" height="16">
                         <use xlink:href="#people-circle"></use>
                         </svg>
@@ -355,6 +355,19 @@
 //                })
 //            }
             $(document).ready(function () {
+                removeActiveClass(document.querySelectorAll('.nav-item'))
+                switch (params.status) {
+                    case "nary":
+                        
+                        document.querySelector('body > div > div.container.br-form > ul > li:nth-child(1) > a').classList.add("active");
+                        break;
+                    case "ar" :
+                        document.querySelector('body > div > div.container.br-form > ul > li:nth-child(2) > a').classList.add("active");
+                        break;
+                    case "nar": 
+                        document.querySelector('body > div > div.container.br-form > ul > li:nth-child(3) > a').classList.add("active");
+                        break;
+                }
                 initTableData();
 
                 //                $("#btnReloadData").on("click", function () {
@@ -389,6 +402,9 @@
                 style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
             }
             const navElements = document.querySelectorAll(".nav-item");
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
             const removeActiveClass = (elements) => {
                 elements.forEach(item => {
                     console.log("childNodes: ");
@@ -396,12 +412,7 @@
                     item.childNodes[1].classList.remove("active");
                 })
             }
-            navElements.forEach(i => {
-                i.addEventListener("click", () => {
-                    removeActiveClass(navElements)
-                    i.childNodes[1].classList.add("active");
-                })
-            })
+            
             const navBtn = document.querySelector(".navigate-button")
             let opened = false;
             const navMenu = document.querySelector(".nav-menu");

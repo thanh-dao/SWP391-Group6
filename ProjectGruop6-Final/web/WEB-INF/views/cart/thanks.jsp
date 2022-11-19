@@ -1,55 +1,43 @@
-<%-- 
-    Document   : thanks
-    Created on : Oct 30, 2022, 5:03:41 PM
-    Author     : Admin
---%>
-
+<%@taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!doctype html>
 <html lang="en">
-
     <head>
         <title>Title</title>
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="./index.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+              integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+              crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
             .letter {
                 background-color: #f48221;
             }
-
             .thank__left {
                 width: 70%;
             }
-
             .thank__left img {
-                width: 30%;
+                width: 100%;
                 border-radius: 50%;
             }
-
             .thank__left h1 {
                 font-family: 'Brush Script MT';
                 font-size: 55px;
             }
-
             .thank__right img {
                 width: 100%;
             }
-
             .thank__right {
                 width: 30%;
             }
-
             .thank__right img {
                 width: 100%;
             }
-
             .letter p {
                 margin-top: 20px;
                 background-color: white;
@@ -58,41 +46,36 @@
                 padding-right: 20px;
                 font-size: 20px;
             }
-
             .gift {
                 width: 40%;
             }
+            .content .logo {
+                display: flex;
+            }
+            .content img {
+                color: rgb(67, 223, 0);
+                /*height: 250px;*/
+                align-items: center;
+                text-align: center;
+                margin: 0 auto;
+            }
+            .btn{margin: 5px 5px 0 0;}
         </style>
     </head>
-
     <body>
-        <div class="thank">
+        <div class="content">
             <div class="container">
-                <div class="thank__content row">
-                    <div class="col-lg-3"></div>
-                    <div class="letter col-lg-6 ">
-                        <div class="thank__img d-flex">
-                            <div class="thank__left">
-                                <img src="/img/FBT.jpg" alt="">
-                                <h1>Quý Khách Hàng thân mến</h1>
-                            </div>
-                            <div class="thank__right">
-                                <img src="/img/bear5.png" alt="">
-                            </div>
-                        </div>
-                        <p>Lời đầu tiên xin được thay mặt toàn bộ đội ngũ nhân viên gửi lời cảm ơn chân thành và sâu sắc
-                            nhất tới Qúy khách hàng đã đồng hành, hợp tác cũng như ủng hộ cửa hàng trong thời gian qua.<br>
-                            F.E.P kính chúc bạn luôn may mắn và bình an. Cảm ơn bạn đã tin tưởng chọn mua sản phẩm của shop.
-                        </p>
-                        <img class="gift" src="/img/gift.png" alt="">
-                    </div>
-                    <div class="col-lg-3"></div>
+                <div class="logo">
+                    <!-- <i class="fa-solid fa-circle-check"></i> -->
+                    <img src="https://cdn.dribbble.com/users/1751799/screenshots/5512482/media/1cbd3594bb5e8d90924a105d4aae924c.gif" alt="">
+                </div>
+                <h1 class="text-center text-success">Đặt hàng thành công</h1>
+                <div class="d-flex justify-content-center" style="margin-top: 20px;">
+                    <a href="<c:url value="/home/main.do"/>" class="btn btn-primary">Trang chủ</a>
+                    <a href="<c:url value="/order/history.do"/>" class="btn btn-secondary">Lịch sử đơn hàng</a>
                 </div>
             </div>
         </div>
-
-        <!--<p>https://pngtree.com/</p>-->
-
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -105,5 +88,4 @@
                 integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     </body>
-
 </html>

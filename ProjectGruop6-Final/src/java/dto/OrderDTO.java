@@ -1,5 +1,6 @@
 package dto;
 
+import com.google.gson.Gson;
 import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -74,5 +75,10 @@ public class OrderDTO {
     public String toString() {
         return "OrderDTO{" + "orderId=" + orderId + ", deliveryId=" + deliveryId + ", paymentId=" + paymentId + ", emailBuyer=" + emailBuyer + ", orderDate=" + orderDate + ", address=" + address + ", orderByShopList=" + orderByShopList + ", payId=" + payId + ", userName=" + userName + ", phone=" + phone + '}';
     }
-
+    public String toJson(){
+        return new Gson().toJson(this);
+    }
+    public static void main(String[] args) {
+        System.out.println(new OrderDTO(0, "adadsada").toJson());
+    }
 }

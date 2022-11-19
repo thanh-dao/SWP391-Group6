@@ -2,12 +2,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
         <style>
             body{
                 background: #FFFEFB;
@@ -58,20 +56,17 @@
                 cursor: pointer;
             }
             a{text-decoration: none;}
-
             .br-form {
                 background: #F1F9FF;
                 padding: 10px;
                 border-radius: 3px;
                 margin-bottom: 20px;
             }
-
             .br-od{
                 padding-bottom: 20px;
-                margin-top: 15px;
+                margin-top: 10px;
                 border-bottom: 1.5px solid rgba(0,0,0,.09);
             }
-
             .hinden-text {
                 margin: 0;
                 font-size: 16px;
@@ -87,7 +82,6 @@
                 display: inline-block;
                 border-bottom: 1px dotted black;
             }
-
             .tooltip .tooltiptext {
                 visibility: hidden;
                 width: 120px;
@@ -96,7 +90,6 @@
                 text-align: center;
                 border-radius: 6px;
                 padding: 5px 0;
-
                 /* Position the tooltip */
                 position: absolute;
                 z-index: 1;
@@ -104,7 +97,6 @@
                 left: 50%;
                 margin-left: -60px;
             }
-
             .tooltip:hover .tooltiptext {
                 visibility: visible;
             }
@@ -112,7 +104,6 @@
                 width: 100px;
                 margin-left: 10px;
             }
-
         </style>
         <title>＃</title>
     </head>
@@ -129,7 +120,7 @@
                 <c:forEach items="${orderList}" var="o">
                     <c:forEach items="${o.orderByShopList}" var="obs">
                         <div class="br-form">
-                            <h6 class="d-flex">
+                            <h6 class="d-flex" style="margin: 0">
                                 <div class="mr-auto p-2">
                                     <span style="margin-right: 10px;">${obs.name}</span>
                                     <a href="<c:url value="/user/shopInformation.do?seller=${obs.emailSeller}"/>">
@@ -196,6 +187,22 @@
                                 </div>                                    
                                 <a class="p-2" href="<c:url value="/cart/billInformation.do?oId=${o.orderId}&osId=${obs.orderByShopId}"/>">Xem chi tiết >></a>
                             </h6>
+                            <div style="padding-left: 10px;" class="date${o.orderId}">
+                                <script>
+                                    function  formatDate(date) {
+                                        const today = new Date(date);
+                                        const yyyy = today.getFullYear();
+                                        let mm = today.getMonth() + 1; // Months start at 0!
+                                        let dd = today.getDate();
+                                        if (dd < 10)
+                                            dd = '0' + dd;
+                                        if (mm < 10)
+                                            mm = '0' + mm;
+                                        return dd + '/' + mm + '/' + yyyy;
+                                    }
+                                    document.querySelector(".date${o.orderId}").innerHTML = formatDate('${o.orderDate}');
+                                </script>
+                            </div>
                             <script>const list${obs.orderByShopId} = new Set();</script>
                             <c:forEach items="${obs.orderDetailList}" var="od">
                                 <script>list${obs.orderByShopId}.add(${od.productId});</script>
@@ -277,7 +284,6 @@
                                                             }
                                                         });
                                             } else {
-                                                
                                                 $.ajax("<c:url value="/cart/cart.do"/>", {
                                                     data: {
                                                         pIdList: JSON.stringify(Array.from(list)),
@@ -338,6 +344,24 @@
 //                y += 10;
 //                style.innerHTML = '*[data-tooltip]::after { left: ' + x + 'px; top: ' + y + 'px  }'
 //            }
+                                        const formatter = new Intl.NumberFormat('vn-VN', {
+                                            style: 'currency',
+                                            currency: 'VND',
+                                            minimumFractionDigits: 0
+                                        })
+                                        total = () => {
+                                            const total = document.querySelector('#total')
+                                            total.innerHTML = formatter.format(total.getAttribute('price'));
+                                        }
+                                        transportFee = () => {
+                                            const total = document.querySelector('#fee')
+                                            total.innerHTML = formatter.format(total.getAttribute('price'));
+                                        }
+//                                        $(document).ready(function () {
+//                                            total();
+//                                            transportFee();
+//                                            document.querySelector('.br-form').querySelectorAll('div')[2].innerHTML = formatDate('${order.orderDate}');
+//                                        });
         </script>
     </body>
 </html>

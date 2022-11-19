@@ -366,29 +366,10 @@
                     });
                     event.preventDefault();
                 }
-                const price = parseInt(document.querySelector("#price").innerHTML.substring(1).replaceAll(",", ""));
-                localStorage.removeItem("vndPrice");
-                localStorage.setItem("vndPrice", price);
-                var myHeaders = new Headers();
-                myHeaders.append("apikey", "Egj2knbKqmkBva9q7FsIrUWpEqQ32Dpa");
-
-                var requestOptions = {
-                    method: 'GET',
-                    redirect: 'follow',
-                    headers: myHeaders
-                };
-
-                fetch("https://api.apilayer.com/exchangerates_data/convert?to=USD&from=VND&amount=" + price.toString(), requestOptions)
-                        .then(response => response.json())
-                        .then(data => {
-                            localStorage.setItem("usdPrice", data.result);
-                        })
-                        .catch(error => console.log('error', error));
                 test();
 //                window.location.href = '<c:url value="/cart/pay.do"/>
             }
             const test = () => {
-
                 var obj = new Object();
                 obj.name = "Raj";
                 obj.age = 32;
@@ -414,7 +395,6 @@
                 return products;
             }
             const checkQuantity = (quantity, max) => {
-                console.log(quantity);
                 if (quantity > max) {
                     swal({
                         text: "Số lượng còn lại của sản phẩm này là " + max,
@@ -547,20 +527,20 @@
             }
             const handleCart = (pId, osId, option, el, max) => {
                 let quantity = parseInt(el.parentElement.querySelector(".ip-qua-style").value)
+                if (option == 'minus') {
+                    quantity -= 1;
+                    if (quantity < 1) {
+                        quantity = 1;
+                        deleteOrderDetail(pId, osId, el);
+                    }
+                } else if (option == 'sum') {
+                    quantity += 1;
+//                    console.log(quantity);
+                }
                 if (checkQuantity(quantity, max)) {
                     console.log(quantity);
                     console.log(max);
                     console.log(checkQuantity(quantity, max));
-                    if (option == 'minus') {
-                        quantity -= 1;
-                        if (quantity < 1) {
-                            quantity = 1;
-                            deleteOrderDetail(pId, osId, el);
-                        }
-                    } else if (option == 'sum') {
-                        quantity += 1;
-//                    console.log(quantity);
-                    }
                     el.parentElement.querySelector(".ip-qua-style").value = quantity;
                     $.ajax("<c:url value="/cart/cart.do"/>", {
                         data: {

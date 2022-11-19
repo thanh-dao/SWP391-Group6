@@ -173,19 +173,22 @@ public class GhnApi {
         return jobj.getAsJsonObject("data").toString();
     }
     public static void cancelOrder(String orderCode) throws IOException{
-        String body = "{\"order_codes\":[\"" + orderCode + "\"]}";
+        System.out.println(orderCode.trim());
+        String body = "{\"order_codes\":[\"" + orderCode.trim() + "\"]}";
         Header[] headers = new Header[3];
         Header[] basicHeaders = getBasicHeaders();
         headers[0] = basicHeaders[0];
         headers[1] = basicHeaders[1];
         headers[2] = new BasicHeader("ShopId", shopId);
-        String response = Request.Post("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel")
+        System.out.println(body);
+        String response = Request.Post("https://online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel")
                 .setHeaders(basicHeaders)
                 .bodyString(body, ContentType.APPLICATION_JSON)
                 .execute()
                 .returnContent()
                 .asString();
         JsonObject jobj = gson.fromJson(response, JsonObject.class);
+        System.out.println("OK");
     }
     public static String createOrder(UserDTO user, UserDTO seller, List<OrderDetailDTO> orderDetails, String cod) throws IOException, SQLException, ClassNotFoundException {
         AddressDTO userAddress = user.getAddress();
@@ -252,7 +255,7 @@ public class GhnApi {
                 .returnContent()
                 .asString();
         JsonObject jobj = gson.fromJson(response, JsonObject.class);
-        return jobj.getAsJsonObject("data").get("order_code").toString();
+        return jobj.getAsJsonObject("data").get("order_code").toString().replaceAll("\"", "").trim();
 
     }
 
@@ -262,10 +265,7 @@ public class GhnApi {
 //            System.out.println(getCityId("Hồ Chí Minh"));
 //            System.out.println(getDistrictId("202", "Quận 12"));
 //            System.out.println(getWardId("1454", "Thạnh Lộc"));
-            System.out.println(GhnApi.getShipingFee(
-                    "Hồ Chí Minh", "Hồ Chí Minh",
-                    "Quận 12", "Quận " + "12",
-                    "Thạnh Lộc", "2"));
+            GhnApi.cancelOrder("GAHVACRK");
             //        } catch (IOException ex) {
             //            Logger.getLogger(GhnApi.class.getName()).log(Level.SEVERE, null, ex);
             //        }

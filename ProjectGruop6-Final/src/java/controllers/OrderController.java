@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import services.GhnApi;
 import utils.Constants;
 
 @MultipartConfig
@@ -74,6 +75,7 @@ public class OrderController extends HttpServlet {
                                 break;
                                 case "cancel": {
                                     new OrderByShopDAO().cancelOrderByShop(obsId);
+                                    
                                     return;
                                 }
                                 default:
@@ -140,16 +142,16 @@ public class OrderController extends HttpServlet {
                                     break;
                                     case "nar": {
                                         request.setAttribute("productList",
-                                                new Gson().toJson(p.getProductListSeller(user.getEmail(), 2, 0)));
+                                                new Gson().toJson(p.getProductListSeller(user.getEmail(), 1, 0)));
                                     }
                                     break;
                                     case "nary": {request.setAttribute("productList",
-                                                new Gson().toJson(p.getProductListSeller(user.getEmail(), 2, -1)));
+                                                new Gson().toJson(p.getProductListSeller(user.getEmail(), 1, -1)));
                                     }
                                     break;
                                     case "ss": {
                                         request.setAttribute("productList",
-                                                new Gson().toJson(p.getProductListSeller(user.getEmail(), 0, 1)));
+                                                new Gson().toJson(p.getProductListSeller(user.getEmail(), 1, 1)));
                                     }
                                     break;
                                     case "oos": {request.setAttribute("productList",
