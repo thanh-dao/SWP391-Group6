@@ -1,17 +1,14 @@
 package controllers;
 
-import config.Config;
 import dao.ProductDAO;
 import dao.ProductImageDAO;
 import dto.UserDTO;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,8 +81,8 @@ public class ProductController extends HttpServlet {
                     System.out.println("CREATE");
                     HttpSession session = (HttpSession) request.getSession();
                     UserDTO user = (UserDTO) session.getAttribute("user");
+                    System.out.println(name);
                     p.createProduct(user.getEmail(), name, price, descripion, cateId, quantity);
-                    System.out.println("123");
                 } else {
                     System.out.println("UPDATE");
                     p.updateProduct(pId, name, price, descripion, cateId, quantity);
